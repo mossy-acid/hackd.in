@@ -1,0 +1,20 @@
+{
+  "name": "hackd.in",
+  "version": "1.0.0",
+  "description": "to do later",
+  "private": true,
+  "main": "server/server.js",
+  "engines": {
+    "node": "6.0.0"
+  },
+  "scripts": {},
+  "dependencies": {
+    "bookshelf": "^0.9.5",
+    "express": "^4.13.4",
+    "knex": "^0.11.5",
+    "nodemon": "^1.9.2",
+    "pg": "^4.5.5",
+    "request": "^2.72.0"
+  },
+  "devDependencies": {}
+}

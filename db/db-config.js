@@ -1,7 +1,9 @@
 const path = require('path');
 const knex = require('knex')({
-  client: 'postgres???',
-  connection: {},
+  client: 'postgresql',
+  connection: {
+    database: 'hackdin'
+  },
 });
 
 const db = require('bookshelf')(knex);
