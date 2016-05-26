@@ -13,6 +13,7 @@ db.knex.schema.hasTable('projects').then(exists => {
     db.knex.schema.createTable('projects', project => {
       project.increments('id').primary();
       project.string('title').unique();
+      project.string('description');
       project.integer('visits');
       project.timestamps();
     }).then(table => {
@@ -27,6 +28,11 @@ db.knex.schema.hasTable('engineers').then(exists => {
       engineer.increments('id').primary();
       engineer.string('username').unique();
       engineer.string('password');
+      engineer.string('firstname');
+      engineer.string('lastname');
+      engineer.string('bio');
+      engineer.integer('project_id');
+      engineer.integer('school_id');
       engineer.integer('visits');
       engineer.timestamps();
     }).then(table => {
