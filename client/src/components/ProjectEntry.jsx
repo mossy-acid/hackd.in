@@ -1,14 +1,16 @@
 const ProjectEntry = ({project}) => (
   <div className="project-entry">
-    <div className="col-xs-12 col-md-8">
+    <div className="screenshot">
       <img src={project.image} />
     </div>
-    <div className="col-xs-6 col-md-4 information"> 
+
+    <div className="information"> 
       <p>Title: {project.title}</p>
       <p>Engineers: {project.engineers}</p>
       <p>Description: {project.description}</p>
       <p>Technologies: {project.technologies}</p>
     </div>
+
   </div>
 );
 
