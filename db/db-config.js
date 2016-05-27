@@ -15,6 +15,7 @@ db.knex.schema.hasTable('projects').then(exists => {
       project.string('title').unique();
       project.string('description');
       project.string('technologies');
+      project.integer('school_id').unsigned().inTable('schools').references('id');
       // project.integer('visits');
       // project.timestamps();
     }).then(table => {
@@ -27,15 +28,17 @@ db.knex.schema.hasTable('engineers').then(exists => {
   if (!exists) {
     db.knex.schema.createTable('engineers', engineer => {
       engineer.increments('id').primary();
-      engineer.string('username').unique();
-      engineer.string('password');
+      // engineer.string('username').unique();
+      // engineer.string('password');
       engineer.string('firstname');
       engineer.string('lastname');
       engineer.string('bio');
-      engineer.integer('project_id');
-      engineer.integer('school_id');
-      engineer.integer('visits');
-      engineer.timestamps();
+      // engineer.string('github');
+      // engineer.string('linkedin');
+      engineer.integer('project_id').unsigned().inTable('projects').references('id');
+      engineer.integer('school_id').unsigned().inTable('schools').references('id');
+      // engineer.integer('visits');
+      // engineer.timestamps();
     }).then(table => {
       console.log('Created Table', table);
     });
@@ -47,7 +50,8 @@ db.knex.schema.hasTable('schools').then(exists => {
     db.knex.schema.createTable('schools', school => {
       school.increments('id').primary();
       school.string('name').unique();
-      school.timestamps();
+      // school.string('url');
+      // school.timestamps();
     }).then(table => {
       console.log('Created Table', table);
     });

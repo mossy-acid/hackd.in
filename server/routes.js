@@ -7,13 +7,10 @@ const Project  = require('./models/project');
 module.exports = (server, express) => {
 
   server.get('/',
-    (req, res) => res.render('index') );
-
-  server.get('/create',
-    (req, res) => res.render('create') );
+    (req, res) => res.render('projects') );
 
   server.get('/projects',
-    (req, res) => res.render('index') );
+    (req, res) => res.render('projects') );
 
   // server.get('/logout', (req, res) => {
   //   req.session.destroy();
@@ -35,23 +32,18 @@ module.exports = (server, express) => {
   // server.post('/signup', 'submit new user signup');
 
 
-/*
-title
-description
-technologies
-engineers
- */
 
-  server.post('/create',
+
+  server.post('/newproject',
   function(req, res) {
-    console.log('*************** inside create post:', req.body);
     let title = req.body.title;
     let description = req.body.description;
     let technologies = req.body.technologies;
 
     new Project({ title: title }).fetch().then(found => {
       if (found) {
-        // what is this doing?
+        // the found.attributes proptery is an object containing the existing project's properties
+        // need to return a message to the user that a project by this name already exists
         res.status(200).send(found.attributes);
       } else {
         Projects.create({
@@ -72,9 +64,9 @@ engineers
   //   var username = req.body.username;
   //   var password = req.body.password;
 
-  //   new User({ username: username }).fetch().then(function(user) {
-  //     if (user) {
-  //       bcrypt.compare(password, user.get('password'), function(err, match) {
+  //   new Engineer({ username: username }).fetch().then(engineer => {
+  //     if (engineer) {
+  //       bcrypt.compare(password, engineer.get('password'), (err, match) => {
   //         if (match) {
   //           console.log('Logging in...');
   //           req.session.username = username;
@@ -98,22 +90,22 @@ engineers
   //   var username = req.body.username;
   //   var password = req.body.password;
 
-  //   new User({ username: username }).fetch().then(function(found) {
+  //   new Engineer({ username: username }).fetch().then(found => {
   //     if (found) {
   //       res.status(200);
   //       res.redirect('/signup');
   //     } else {
-  //       bcrypt.hash(req.body.password, null, null, function(err, hash) {
+  //       bcrypt.hash(req.body.password, null, null, (err, hash) => {
   //         if (err) {
   //           console.log('BCRYPT HASH ERROR:', err);
   //           res.status(200);
   //           res.redirect('/signup');
   //         } else {
-  //           Users.create({
+  //           Engineers.create({
   //             username: username,
   //             password: hash
   //           })
-  //           .then(function(user) {
+  //           .then(engineer => {
   //             req.session.username = username;
   //             res.status(200);
   //             res.redirect('/');
@@ -124,7 +116,7 @@ engineers
   //   });
   // });
 
-  // server.get('/*', function(req, res) {
+  // server.get('/*', (req, res) => {
   //   new Link({ code: req.params[0] }).fetch().then(function(link) {
   //     if (!link) {
   //       res.redirect('/');
