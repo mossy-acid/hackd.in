@@ -1,4 +1,4 @@
-/*/*/*/*/*/*/*/*/*/*---------Navigation Bar-------*/
+/*---------Navigation Bar-------*/
 
 html {
   font-family: "Oswald"; 
@@ -63,7 +63,7 @@ nav ul li a:hover {
   color: #00acee;
 }
 img {
-  width: 100%;
+  width: 500px;
   height: auto;
 }
 
@@ -146,7 +146,7 @@ form {
   padding-bottom:50px;
   width: 450px;
   margin: auto;
-  margin-top: 20px;
+  margin-top: 200px;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
 }
@@ -231,3 +231,13 @@ textarea {
   background-color: rgba(0,0,0,0);
   color: #1dabb8;
 }
+
+/*------Projects Page------------*/
+.project-entry {
+  display: inline-block;
+  margin-bottom: 50px;
+}
+
+/*.information{
+  margin-left: 20px;
+}*/

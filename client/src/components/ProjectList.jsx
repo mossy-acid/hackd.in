@@ -1,9 +1,8 @@
 const ProjectList = ({projects}) => (
   <div className="actual-content">
-    {projects.map((project, index) => 
+    { projects.map( (project, index) => 
       <ProjectEntry key={index} project={project} />
     )}
-  
   </div>
 
 );
