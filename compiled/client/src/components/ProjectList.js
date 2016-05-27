@@ -1,0 +1,19 @@
+"use strict";
+
+var ProjectList = function ProjectList(_ref) {
+  var projects = _ref.projects;
+  return React.createElement(
+    "div",
+    { className: "project_list" },
+    projects.map(function (project, index) {
+      return React.createElement(ProjectEntry, { key: index, project: project });
+    })
+  );
+};
+
+ProjectList.propTypes = {
+  projects: React.PropTypes.array.isRequired
+};
+
+window.ProjectList = ProjectList;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9zcmMvY29tcG9uZW50cy9Qcm9qZWN0TGlzdC5qc3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFNLGNBQWMsU0FBZCxXQUFjO01BQUU7U0FDcEI7O01BQUssV0FBVSxjQUFWLEVBQUw7SUFDRyxTQUFTLEdBQVQsQ0FBYSxVQUFDLE9BQUQsRUFBVSxLQUFWO2FBQ1osb0JBQUMsWUFBRCxJQUFjLEtBQUssS0FBTCxFQUFZLFNBQVMsT0FBVCxFQUExQjtLQURZLENBRGhCOztDQURrQjs7QUFVcEIsWUFBWSxTQUFaLEdBQXdCO0FBQ3RCLFlBQVUsTUFBTSxTQUFOLENBQWdCLEtBQWhCLENBQXNCLFVBQXRCO0NBRFo7O0FBSUEsT0FBTyxXQUFQLEdBQXFCLFdBQXJCIiwiZmlsZSI6IlByb2plY3RMaXN0LmpzIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgUHJvamVjdExpc3QgPSAoe3Byb2plY3RzfSkgPT4gKFxuICA8ZGl2IGNsYXNzTmFtZT1cInByb2plY3RfbGlzdFwiPlxuICAgIHtwcm9qZWN0cy5tYXAoKHByb2plY3QsIGluZGV4KSA9PiBcbiAgICAgIDxQcm9qZWN0RW50cnkga2V5PXtpbmRleH0gcHJvamVjdD17cHJvamVjdH0gLz5cbiAgICApfVxuICBcbiAgPC9kaXY+XG5cbik7XG5cblByb2plY3RMaXN0LnByb3BUeXBlcyA9IHtcbiAgcHJvamVjdHM6IFJlYWN0LlByb3BUeXBlcy5hcnJheS5pc1JlcXVpcmVkXG59O1xuXG53aW5kb3cuUHJvamVjdExpc3QgPSBQcm9qZWN0TGlzdDtcblxuIl19

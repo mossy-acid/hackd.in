@@ -13,7 +13,7 @@ require('./routes.js')(server, express);
 
 let port = process.env.PORT || 3000;
 
-server.set('view engine', 'ejs');
+// server.set('view engine', 'ejs');
 
 server.use(express.static(__dirname + '../client'));
 

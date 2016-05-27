@@ -1,0 +1,227 @@
+/*---------Navigation Bar-------*/
+
+html {
+  font-family: "Oswald"; 
+  margin: 1em 20%;
+  background-color: #fafafa;
+}
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  border-bottom: 1px solid #e3e3e8;
+  background-color: white;
+}
+#logo {
+  float: left;
+  font-size: 3em;
+  margin: 0;
+  padding: .4em;
+  text-decoration: none;
+  color: #333;
+  border-right: 1px solid #e3e3e8;
+  transition: .5s all;
+}
+#logo:hover {
+  color: #fafafa;
+  background-color: #333;
+}
+nav {
+  float: left;
+}
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 2.2em 2em;
+  display:;
+}
+nav ul li {
+  display: inline;
+  padding: 0 .4em;
+}
+nav ul li a {
+  color: #333;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 1.6em;
+  padding-bottom: 1.3em;
+  transition: .5s color;
+}
+nav ul li a:hover {
+  border-bottom: 3px solid #333;
+}
+#current {
+  color: #ff4629;
+  border-bottom: 3px solid #333;
+}
+#fb:hover {
+  color: #3b5998;
+}
+#twitter:hover {
+  color: #00acee;
+}
+img {
+  width: 100%;
+  height: auto;
+}
+
+#projects {
+  margin-top: 100px;
+}
+
+/*-------Search Bar---------*/
+
+body {
+  margin: 5%;
+}
+
+form {
+  display: inline;
+}
+
+.search-box {
+  -webkit-transition: width 0.6s, border-radius 0.6s, background 0.6s, box-shadow 0.6s;
+  transition: width 0.6s, border-radius 0.6s, background 0.6s, box-shadow 0.6s;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: #ebebeb;
+}
+.search-box + label .search-icon {
+  color: black;
+}
+.search-box:hover {
+  color: white;
+  background: #c8c8c8;
+  box-shadow: 0 0 0 5px #3d4752;
+}
+.search-box:hover + label .search-icon {
+  color: white;
+}
+.search-box:focus {
+  -webkit-transition: width 0.6s cubic-bezier(0, 1.22, 0.66, 1.39), border-radius 0.6s, background 0.6s;
+  transition: width 0.6s cubic-bezier(0, 1.22, 0.66, 1.39), border-radius 0.6s, background 0.6s;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  padding-left: 15px;
+  cursor: text;
+  width: 300px;
+  border-radius: auto;
+  background: #ebebeb;
+  color: black;
+}
+.search-box:focus + label .search-icon {
+  color: black;
+}
+.search-box:not(:focus) {
+  text-indent: -5000px;
+}
+
+#search-submit {
+  position: relative;
+  left: -5000px;
+}
+
+.search-icon {
+  position: relative;
+  left: -30px;
+  color: white;
+  cursor: pointer;
+}
+
+/*----Create Page----------*/
+/*@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+
+#form-input {
+  background-color:rgba(72,72,72,0.4);
+  padding-left:35px;
+  padding-right:35px;
+  padding-top:35px;
+  padding-bottom:50px;
+  width: 450px;
+  margin: auto;
+  margin-top: 20px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+}
+
+.formInput {
+  color:#3c3c3c;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight:500;
+  font-size: 18px;
+  border-radius: 0;
+  line-height: 22px;
+  background-color: #eff4f4;
+  padding: 13px 13px 13px 54px;
+  margin-bottom: 10px;
+  width:100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 3px solid rgba(0,0,0,0);
+}
+
+.formInput:focus{
+  background: #eff4f4;
+  box-shadow: 0;
+  border: 3px solid #1dabb8;
+  color: #1dabb8;
+  outline: none;
+  padding: 13px 13px 13px 54px;
+}
+
+#name{
+  background-image: url(http://icons.iconarchive.com/icons/custom-icon-design/silky-line-user/512/user-2-icon.png);
+  background-size: 25px 25px;
+  background-position: 11px 8px;
+  background-repeat: no-repeat;
+}
+
+#email{
+  background-image: url(https://cdn1.iconfinder.com/data/icons/e-mail-2/512/YPS__email_mail_letter_envelope_postal-128.png);
+  background-size: 30px 30px;
+  background-position: 11px 8px;
+  background-repeat: no-repeat;
+}
+
+#comment{
+  background-image: url(http://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/512/edit-icon.png);
+  background-size: 25px 25px;
+  background-position: 11px 8px;
+  background-repeat: no-repeat;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    line-height: 150%;
+    resize:vertical;
+}
+
+#button-blue{
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+  width: 100%;
+  border: #1dabb8 solid 4px;
+  cursor:pointer;
+  background-color: #1dabb8;
+  color: #eff4f4;
+  font-size:24px;
+  padding-top:22px;
+  padding-bottom:22px;
+  margin-top:-4px;
+  font-weight:700;
+}
+
+#button-blue:hover{
+  background-color: rgba(0,0,0,0);
+  color: #1dabb8;
+}
+
+*/
