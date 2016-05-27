@@ -1,11 +1,15 @@
 // var utils = require('./utilties.js');
+const server   = require('./server.js');
+const Projects = require('./collections/projects');
+const Project  = require('./models/project');
 
-module.exports = server => {
+
+module.exports = (server, express) => {
 
   server.get('/',
-    (res, res) => res.render('index') );
+    (req, res) => res.render('index') );
 
-  server.get('/create', utils.validateUser,
+  server.get('/create',
     (req, res) => res.render('create') );
 
   server.get('/projects',
@@ -28,118 +32,116 @@ module.exports = server => {
 
   // server.get('/engineers', 'list all engineers');
 
-  server.post('/signup', 'submit new user signup');
+  // server.post('/signup', 'submit new user signup');
 
 
-/*   */
+/*
+title
+description
+technologies
+engineers
+ */
 
-  app.post('/create', utils.validateUser,
+  server.post('/create',
   function(req, res) {
-    var uri = req.body.url;
+    console.log('*************** inside create post:', req.body);
+    let title = req.body.title;
+    let description = req.body.description;
+    let technologies = req.body.technologies;
 
-    if (!util.isValidUrl(uri)) {
-      console.log('Not a valid url: ', uri);
-      return res.sendStatus(404);
-    }
-
-    new Link({ url: uri }).fetch().then(function(found) {
+    new Project({ title: title }).fetch().then(found => {
       if (found) {
+        // what is this doing?
         res.status(200).send(found.attributes);
       } else {
-        util.getUrlTitle(uri, function(err, title) {
-          if (err) {
-            console.log('Error reading URL heading: ', err);
-            return res.sendStatus(404);
-          }
-
-          Links.create({
-            url: uri,
-            title: title,
-            baseUrl: req.headers.origin
-          })
-          .then(function(newLink) {
-            res.status(200).send(newLink);
-          });
+        Projects.create({
+          title: title,
+          description: description,
+          technologies: technologies
+          // engineers: engineers
+        })
+        .then(newProject => {
+          res.status(200).send(newProject);
         });
       }
     });
   });
 
-  app.post('/login',
-  function(req, res) {
-    var username = req.body.username;
-    var password = req.body.password;
+  // server.post('/login',
+  // function(req, res) {
+  //   var username = req.body.username;
+  //   var password = req.body.password;
 
-    new User({ username: username }).fetch().then(function(user) {
-      if (user) {
-        bcrypt.compare(password, user.get('password'), function(err, match) {
-          if (match) {
-            console.log('Logging in...');
-            req.session.username = username;
-            res.status(200);
-            res.redirect('/');
-          } else {
-            console.log('Invalid password');
-            res.redirect('/login');
-          }
-        });
-      } else {
-        res.status(200);
-        res.redirect('/login');
-      }
-    });
-  });
+  //   new User({ username: username }).fetch().then(function(user) {
+  //     if (user) {
+  //       bcrypt.compare(password, user.get('password'), function(err, match) {
+  //         if (match) {
+  //           console.log('Logging in...');
+  //           req.session.username = username;
+  //           res.status(200);
+  //           res.redirect('/');
+  //         } else {
+  //           console.log('Invalid password');
+  //           res.redirect('/login');
+  //         }
+  //       });
+  //     } else {
+  //       res.status(200);
+  //       res.redirect('/login');
+  //     }
+  //   });
+  // });
 
 
-  app.post('/signup',
-  function(req, res) {
-    var username = req.body.username;
-    var password = req.body.password;
+  // server.post('/signup',
+  // function(req, res) {
+  //   var username = req.body.username;
+  //   var password = req.body.password;
 
-    new User({ username: username }).fetch().then(function(found) {
-      if (found) {
-        res.status(200);
-        res.redirect('/signup');
-      } else {
-        bcrypt.hash(req.body.password, null, null, function(err, hash) {
-          if (err) {
-            console.log('BCRYPT HASH ERROR:', err);
-            res.status(200);
-            res.redirect('/signup');
-          } else {
-            Users.create({
-              username: username,
-              password: hash
-            })
-            .then(function(user) {
-              req.session.username = username;
-              res.status(200);
-              res.redirect('/');
-            });
-          }
-        });
-      }
-    });
-  });
+  //   new User({ username: username }).fetch().then(function(found) {
+  //     if (found) {
+  //       res.status(200);
+  //       res.redirect('/signup');
+  //     } else {
+  //       bcrypt.hash(req.body.password, null, null, function(err, hash) {
+  //         if (err) {
+  //           console.log('BCRYPT HASH ERROR:', err);
+  //           res.status(200);
+  //           res.redirect('/signup');
+  //         } else {
+  //           Users.create({
+  //             username: username,
+  //             password: hash
+  //           })
+  //           .then(function(user) {
+  //             req.session.username = username;
+  //             res.status(200);
+  //             res.redirect('/');
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // });
 
-  app.get('/*', function(req, res) {
-    new Link({ code: req.params[0] }).fetch().then(function(link) {
-      if (!link) {
-        res.redirect('/');
-      } else {
-        var click = new Click({
-          linkId: link.get('id')
-        });
+  // server.get('/*', function(req, res) {
+  //   new Link({ code: req.params[0] }).fetch().then(function(link) {
+  //     if (!link) {
+  //       res.redirect('/');
+  //     } else {
+  //       var click = new Click({
+  //         linkId: link.get('id')
+  //       });
 
-        click.save().then(function() {
-          link.set('visits', link.get('visits') + 1);
-          link.save().then(function() {
-            return res.redirect(link.get('url'));
-          });
-        });
-      }
-    });
-  });
+  //       click.save().then(function() {
+  //         link.set('visits', link.get('visits') + 1);
+  //         link.save().then(function() {
+  //           return res.redirect(link.get('url'));
+  //         });
+  //       });
+  //     }
+  //   });
+  // });
 
 
 

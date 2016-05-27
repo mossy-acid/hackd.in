@@ -14,8 +14,9 @@ db.knex.schema.hasTable('projects').then(exists => {
       project.increments('id').primary();
       project.string('title').unique();
       project.string('description');
-      project.integer('visits');
-      project.timestamps();
+      project.string('technologies');
+      // project.integer('visits');
+      // project.timestamps();
     }).then(table => {
       console.log('Created Table', table);
     });
