@@ -10,6 +10,14 @@ class Projects extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.getProjectsFromDatabase();
+  }
+
+  getProjectsFromDatabase() {
+    this.props.getProjects();
+  }
+
   render() {
     return (
       <div>
