@@ -15,7 +15,7 @@ db.knex.schema.hasTable('projects').then(exists => {
       project.string('title').unique();
       project.string('description');
       project.string('technologies');
-      project.integer('school_id').unsigned().inTable('schools').references('id');
+      // project.integer('school_id').unsigned().inTable('schools').references('id');
       // project.integer('visits');
       // project.timestamps();
     }).then(table => {
@@ -35,8 +35,8 @@ db.knex.schema.hasTable('engineers').then(exists => {
       engineer.string('bio');
       // engineer.string('github');
       // engineer.string('linkedin');
-      engineer.integer('project_id').unsigned().inTable('projects').references('id');
-      engineer.integer('school_id').unsigned().inTable('schools').references('id');
+      // engineer.integer('project_id').unsigned().inTable('projects').references('id');
+      // engineer.integer('school_id').unsigned().inTable('schools').references('id');
       // engineer.integer('visits');
       // engineer.timestamps();
     }).then(table => {

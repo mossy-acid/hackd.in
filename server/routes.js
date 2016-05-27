@@ -2,16 +2,19 @@
 const server   = require('./server.js');
 const Projects = require('./collections/projects');
 const Project  = require('./models/project');
+const path = require('path');
 
 
 module.exports = (server, express) => {
 
   server.get('/',
-    (req, res) => res.render('projects') );
+    (req, res) => res.sendFile(path.resolve('client/projects.html')) );
 
   server.get('/projects',
-    (req, res) => res.render('projects') );
+    (req, res) => res.sendFile(path.resolve('client/projects.html')) );
 
+  server.get('/newproject',
+    (req, res) => res.sendFile(path.resolve('client/newProject.html')) );
   // server.get('/logout', (req, res) => {
   //   req.session.destroy();
   //   res.render('index');
@@ -36,6 +39,7 @@ module.exports = (server, express) => {
 
   server.post('/newproject',
   function(req, res) {
+    console.log(req.body);
     let title = req.body.title;
     let description = req.body.description;
     let technologies = req.body.technologies;
