@@ -1,9 +1,9 @@
 const ProjectEntry = ({project}) => (
-  <div className="project_entry">
-    <div className="col-xs-12 col-sm-6 col-lg-8">
+  <div className="project-entry">
+    <div className="col-xs-12 col-md-8">
       <img src={project.image} />
     </div>
-    <div className="col-xs-6 col-lg-4"> 
+    <div className="col-xs-6 col-md-4 information"> 
       <p>Title: {project.title}</p>
       <p>Engineers: {project.engineers}</p>
       <p>Description: {project.description}</p>
@@ -11,5 +11,9 @@ const ProjectEntry = ({project}) => (
     </div>
   </div>
 );
+
+ProjectEntry.propTypes = {
+  project: React.PropTypes.object.isRequired
+};
 
 window.ProjectEntry = ProjectEntry;

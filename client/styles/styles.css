@@ -12,6 +12,7 @@ header {
   left: 0;
   border-bottom: 1px solid #e3e3e8;
   background-color: white;
+  z-index: 1000;
 }
 #logo {
   float: left;
@@ -62,11 +63,11 @@ nav ul li a:hover {
   color: #00acee;
 }
 img {
-  width: 100%;
+  width: 500px;
   height: auto;
 }
 
-#projects {
+.actual-content {
   margin-top: 100px;
 }
 
@@ -134,7 +135,7 @@ form {
 }
 
 /*----Create Page----------*/
-/*@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 
 
 #form-input {
@@ -145,7 +146,7 @@ form {
   padding-bottom:50px;
   width: 450px;
   margin: auto;
-  margin-top: 20px;
+  margin-top: 200px;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
 }
@@ -177,21 +178,28 @@ form {
   padding: 13px 13px 13px 54px;
 }
 
-#name{
-  background-image: url(http://icons.iconarchive.com/icons/custom-icon-design/silky-line-user/512/user-2-icon.png);
+#contributors{
+  background-image: url(https://cdn0.iconfinder.com/data/icons/users-icon/100/User_Group-128.png);
   background-size: 25px 25px;
   background-position: 11px 8px;
   background-repeat: no-repeat;
 }
 
-#email{
-  background-image: url(https://cdn1.iconfinder.com/data/icons/e-mail-2/512/YPS__email_mail_letter_envelope_postal-128.png);
+#projectTitle{
+  background-image: url(https://cdn2.iconfinder.com/data/icons/files-folders-3/24/files-folders-37-128.png);
   background-size: 30px 30px;
   background-position: 11px 8px;
   background-repeat: no-repeat;
 }
 
-#comment{
+#technologies{
+  background-image: url(https://cdn3.iconfinder.com/data/icons/social-productivity-line-art-3/128/keyboard-128.png);
+  background-size: 25px 25px;
+  background-position: 11px 8px;
+  background-repeat: no-repeat;
+}
+
+#projectDescription{
   background-image: url(http://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/512/edit-icon.png);
   background-size: 25px 25px;
   background-position: 11px 8px;
@@ -224,4 +232,12 @@ textarea {
   color: #1dabb8;
 }
 
-*/
+/*------Projects Page------------*/
+.project-entry {
+  display: inline-block;
+  margin-bottom: 50px;
+}
+
+/*.information{
+  margin-left: 20px;
+}*/

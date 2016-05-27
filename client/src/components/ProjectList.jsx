@@ -1,9 +1,8 @@
 const ProjectList = ({projects}) => (
-  <div className="project_list">
-    {projects.map((project, index) => 
+  <div className="actual-content">
+    { projects.map( (project, index) => 
       <ProjectEntry key={index} project={project} />
     )}
-  
   </div>
 
 );
