@@ -2,8 +2,7 @@
 const server   = require('./server.js');
 const Projects = require('./collections/projects');
 const Project  = require('./models/project');
-const path = require('path');
-
+const path     = require('path');
 
 module.exports = (server, express) => {
 
