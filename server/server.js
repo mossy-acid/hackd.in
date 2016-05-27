@@ -4,6 +4,13 @@ const express = require('express');
 
 const server = express();
 const db = require('../db/db-config.js');
+const bodyParser = require('body-parser');
+
+server.use(bodyParser.urlencoded({extended: true}));
+server.use(bodyParser.json());
+
+require('./routes.js')(server, express);
+
 let port = process.env.PORT || 3000;
 
 server.set('view engine', 'ejs');
