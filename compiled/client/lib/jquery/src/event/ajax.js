@@ -1,0 +1,12 @@
+"use strict";
+
+define(["../core", "../event"], function (jQuery) {
+
+	// Attach a bunch of functions for handling common AJAX events
+	jQuery.each(["ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend"], function (i, type) {
+		jQuery.fn[type] = function (fn) {
+			return this.on(type, fn);
+		};
+	});
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy9ldmVudC9hamF4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsT0FBUSxDQUNQLFNBRE8sRUFFUCxVQUZPLENBQVIsRUFHRyxVQUFVLE1BQVYsRUFBbUI7OztBQUd0QixRQUFPLElBQVAsQ0FBYSxDQUNaLFdBRFksRUFFWixVQUZZLEVBR1osY0FIWSxFQUlaLFdBSlksRUFLWixhQUxZLEVBTVosVUFOWSxDQUFiLEVBT0csVUFBVSxDQUFWLEVBQWEsSUFBYixFQUFvQjtBQUN0QixTQUFPLEVBQVAsQ0FBVyxJQUFYLElBQW9CLFVBQVUsRUFBVixFQUFlO0FBQ2xDLFVBQU8sS0FBSyxFQUFMLENBQVMsSUFBVCxFQUFlLEVBQWYsQ0FBUCxDQURrQztHQUFmLENBREU7RUFBcEIsQ0FQSCxDQUhzQjtDQUFuQixDQUhIIiwiZmlsZSI6ImFqYXguanMiLCJzb3VyY2VzQ29udGVudCI6WyJkZWZpbmUoIFtcblx0XCIuLi9jb3JlXCIsXG5cdFwiLi4vZXZlbnRcIlxuXSwgZnVuY3Rpb24oIGpRdWVyeSApIHtcblxuLy8gQXR0YWNoIGEgYnVuY2ggb2YgZnVuY3Rpb25zIGZvciBoYW5kbGluZyBjb21tb24gQUpBWCBldmVudHNcbmpRdWVyeS5lYWNoKCBbXG5cdFwiYWpheFN0YXJ0XCIsXG5cdFwiYWpheFN0b3BcIixcblx0XCJhamF4Q29tcGxldGVcIixcblx0XCJhamF4RXJyb3JcIixcblx0XCJhamF4U3VjY2Vzc1wiLFxuXHRcImFqYXhTZW5kXCJcbl0sIGZ1bmN0aW9uKCBpLCB0eXBlICkge1xuXHRqUXVlcnkuZm5bIHR5cGUgXSA9IGZ1bmN0aW9uKCBmbiApIHtcblx0XHRyZXR1cm4gdGhpcy5vbiggdHlwZSwgZm4gKTtcblx0fTtcbn0gKTtcblxufSApO1xuIl19

@@ -1,0 +1,202 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule SelectEventPlugin
+ */
+
+'use strict';
+
+var EventConstants = require('./EventConstants');
+var EventPropagators = require('./EventPropagators');
+var ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
+var ReactInputSelection = require('./ReactInputSelection');
+var SyntheticEvent = require('./SyntheticEvent');
+
+var getActiveElement = require('fbjs/lib/getActiveElement');
+var isTextInputElement = require('./isTextInputElement');
+var keyOf = require('fbjs/lib/keyOf');
+var shallowEqual = require('fbjs/lib/shallowEqual');
+
+var topLevelTypes = EventConstants.topLevelTypes;
+
+var skipSelectionChangeEvent = ExecutionEnvironment.canUseDOM && 'documentMode' in document && document.documentMode <= 11;
+
+var eventTypes = {
+  select: {
+    phasedRegistrationNames: {
+      bubbled: keyOf({ onSelect: null }),
+      captured: keyOf({ onSelectCapture: null })
+    },
+    dependencies: [topLevelTypes.topBlur, topLevelTypes.topContextMenu, topLevelTypes.topFocus, topLevelTypes.topKeyDown, topLevelTypes.topMouseDown, topLevelTypes.topMouseUp, topLevelTypes.topSelectionChange]
+  }
+};
+
+var activeElement = null;
+var activeElementID = null;
+var lastSelection = null;
+var mouseDown = false;
+
+// Track whether a listener exists for this plugin. If none exist, we do
+// not extract events.
+var hasListener = false;
+var ON_SELECT_KEY = keyOf({ onSelect: null });
+
+/**
+ * Get an object which is a unique representation of the current selection.
+ *
+ * The return value will not be consistent across nodes or browsers, but
+ * two identical selections on the same node will return identical objects.
+ *
+ * @param {DOMElement} node
+ * @return {object}
+ */
+function getSelection(node) {
+  if ('selectionStart' in node && ReactInputSelection.hasSelectionCapabilities(node)) {
+    return {
+      start: node.selectionStart,
+      end: node.selectionEnd
+    };
+  } else if (window.getSelection) {
+    var selection = window.getSelection();
+    return {
+      anchorNode: selection.anchorNode,
+      anchorOffset: selection.anchorOffset,
+      focusNode: selection.focusNode,
+      focusOffset: selection.focusOffset
+    };
+  } else if (document.selection) {
+    var range = document.selection.createRange();
+    return {
+      parentElement: range.parentElement(),
+      text: range.text,
+      top: range.boundingTop,
+      left: range.boundingLeft
+    };
+  }
+}
+
+/**
+ * Poll selection to see whether it's changed.
+ *
+ * @param {object} nativeEvent
+ * @return {?SyntheticEvent}
+ */
+function constructSelectEvent(nativeEvent, nativeEventTarget) {
+  // Ensure we have the right element, and that the user is not dragging a
+  // selection (this matches native `select` event behavior). In HTML5, select
+  // fires only on input and textarea thus if there's no focused element we
+  // won't dispatch.
+  if (mouseDown || activeElement == null || activeElement !== getActiveElement()) {
+    return null;
+  }
+
+  // Only fire when selection has actually changed.
+  var currentSelection = getSelection(activeElement);
+  if (!lastSelection || !shallowEqual(lastSelection, currentSelection)) {
+    lastSelection = currentSelection;
+
+    var syntheticEvent = SyntheticEvent.getPooled(eventTypes.select, activeElementID, nativeEvent, nativeEventTarget);
+
+    syntheticEvent.type = 'select';
+    syntheticEvent.target = activeElement;
+
+    EventPropagators.accumulateTwoPhaseDispatches(syntheticEvent);
+
+    return syntheticEvent;
+  }
+
+  return null;
+}
+
+/**
+ * This plugin creates an `onSelect` event that normalizes select events
+ * across form elements.
+ *
+ * Supported elements are:
+ * - input (see `isTextInputElement`)
+ * - textarea
+ * - contentEditable
+ *
+ * This differs from native browser implementations in the following ways:
+ * - Fires on contentEditable fields as well as inputs.
+ * - Fires for collapsed selection.
+ * - Fires after user input.
+ */
+var SelectEventPlugin = {
+
+  eventTypes: eventTypes,
+
+  /**
+   * @param {string} topLevelType Record from `EventConstants`.
+   * @param {DOMEventTarget} topLevelTarget The listening component root node.
+   * @param {string} topLevelTargetID ID of `topLevelTarget`.
+   * @param {object} nativeEvent Native browser event.
+   * @return {*} An accumulation of synthetic events.
+   * @see {EventPluginHub.extractEvents}
+   */
+  extractEvents: function extractEvents(topLevelType, topLevelTarget, topLevelTargetID, nativeEvent, nativeEventTarget) {
+    if (!hasListener) {
+      return null;
+    }
+
+    switch (topLevelType) {
+      // Track the input node that has focus.
+      case topLevelTypes.topFocus:
+        if (isTextInputElement(topLevelTarget) || topLevelTarget.contentEditable === 'true') {
+          activeElement = topLevelTarget;
+          activeElementID = topLevelTargetID;
+          lastSelection = null;
+        }
+        break;
+      case topLevelTypes.topBlur:
+        activeElement = null;
+        activeElementID = null;
+        lastSelection = null;
+        break;
+
+      // Don't fire the event while the user is dragging. This matches the
+      // semantics of the native select event.
+      case topLevelTypes.topMouseDown:
+        mouseDown = true;
+        break;
+      case topLevelTypes.topContextMenu:
+      case topLevelTypes.topMouseUp:
+        mouseDown = false;
+        return constructSelectEvent(nativeEvent, nativeEventTarget);
+
+      // Chrome and IE fire non-standard event when selection is changed (and
+      // sometimes when it hasn't). IE's event fires out of order with respect
+      // to key and input events on deletion, so we discard it.
+      //
+      // Firefox doesn't support selectionchange, so check selection status
+      // after each key entry. The selection changes after keydown and before
+      // keyup, but we check on keydown as well in the case of holding down a
+      // key, when multiple keydown events are fired but only one keyup is.
+      // This is also our approach for IE handling, for the reason above.
+      case topLevelTypes.topSelectionChange:
+        if (skipSelectionChangeEvent) {
+          break;
+        }
+      // falls through
+      case topLevelTypes.topKeyDown:
+      case topLevelTypes.topKeyUp:
+        return constructSelectEvent(nativeEvent, nativeEventTarget);
+    }
+
+    return null;
+  },
+
+  didPutListener: function didPutListener(id, registrationName, listener) {
+    if (registrationName === ON_SELECT_KEY) {
+      hasListener = true;
+    }
+  }
+};
+
+module.exports = SelectEventPlugin;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1NlbGVjdEV2ZW50UGx1Z2luLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBV0E7O0FBRUEsSUFBSSxpQkFBaUIsUUFBUSxrQkFBUixDQUFqQjtBQUNKLElBQUksbUJBQW1CLFFBQVEsb0JBQVIsQ0FBbkI7QUFDSixJQUFJLHVCQUF1QixRQUFRLCtCQUFSLENBQXZCO0FBQ0osSUFBSSxzQkFBc0IsUUFBUSx1QkFBUixDQUF0QjtBQUNKLElBQUksaUJBQWlCLFFBQVEsa0JBQVIsQ0FBakI7O0FBRUosSUFBSSxtQkFBbUIsUUFBUSwyQkFBUixDQUFuQjtBQUNKLElBQUkscUJBQXFCLFFBQVEsc0JBQVIsQ0FBckI7QUFDSixJQUFJLFFBQVEsUUFBUSxnQkFBUixDQUFSO0FBQ0osSUFBSSxlQUFlLFFBQVEsdUJBQVIsQ0FBZjs7QUFFSixJQUFJLGdCQUFnQixlQUFlLGFBQWY7O0FBRXBCLElBQUksMkJBQTJCLHFCQUFxQixTQUFyQixJQUFrQyxrQkFBa0IsUUFBbEIsSUFBOEIsU0FBUyxZQUFULElBQXlCLEVBQXpCOztBQUUvRixJQUFJLGFBQWE7QUFDZixVQUFRO0FBQ04sNkJBQXlCO0FBQ3ZCLGVBQVMsTUFBTSxFQUFFLFVBQVUsSUFBVixFQUFSLENBQVQ7QUFDQSxnQkFBVSxNQUFNLEVBQUUsaUJBQWlCLElBQWpCLEVBQVIsQ0FBVjtLQUZGO0FBSUEsa0JBQWMsQ0FBQyxjQUFjLE9BQWQsRUFBdUIsY0FBYyxjQUFkLEVBQThCLGNBQWMsUUFBZCxFQUF3QixjQUFjLFVBQWQsRUFBMEIsY0FBYyxZQUFkLEVBQTRCLGNBQWMsVUFBZCxFQUEwQixjQUFjLGtCQUFkLENBQTVLO0dBTEY7Q0FERTs7QUFVSixJQUFJLGdCQUFnQixJQUFoQjtBQUNKLElBQUksa0JBQWtCLElBQWxCO0FBQ0osSUFBSSxnQkFBZ0IsSUFBaEI7QUFDSixJQUFJLFlBQVksS0FBWjs7OztBQUlKLElBQUks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OztBQXJCRixXQWtDTyxjQUFjLGtCQUFkO0FBQ0gsWUFBSSx3QkFBSixFQUE4QjtBQUM1QixnQkFENEI7U0FBOUI7O0FBbkNKLFdBdUNPLGNBQWMsVUFBZCxDQXZDUDtBQXdDRSxXQUFLLGNBQWMsUUFBZDtBQUNILGVBQU8scUJBQXFCLFdBQXJCLEVBQWtDLGlCQUFsQyxDQUFQLENBREY7QUF4Q0YsS0FMdUc7O0FBaUR2RyxXQUFPLElBQVAsQ0FqRHVHO0dBQTFGOztBQW9EZixrQkFBZ0Isd0JBQVUsRUFBVixFQUFjLGdCQUFkLEVBQWdDLFFBQWhDLEVBQTBDO0FBQ3hELFFBQUkscUJBQXFCLGFBQXJCLEVBQW9DO0FBQ3RDLG9CQUFjLElBQWQsQ0FEc0M7S0FBeEM7R0FEYztDQWhFZDs7QUF1RUosT0FBTyxPQUFQLEdBQWlCLGlCQUFqQiIsImZpbGUiOiJTZWxlY3RFdmVudFBsdWdpbi5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29weXJpZ2h0IDIwMTMtMjAxNSwgRmFjZWJvb2ssIEluYy5cbiAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuXG4gKlxuICogVGhpcyBzb3VyY2UgY29kZSBpcyBsaWNlbnNlZCB1bmRlciB0aGUgQlNELXN0eWxlIGxpY2Vuc2UgZm91bmQgaW4gdGhlXG4gKiBMSUNFTlNFIGZpbGUgaW4gdGhlIHJvb3QgZGlyZWN0b3J5IG9mIHRoaXMgc291cmNlIHRyZWUuIEFuIGFkZGl0aW9uYWwgZ3JhbnRcbiAqIG9mIHBhdGVudCByaWdodHMgY2FuIGJlIGZvdW5kIGluIHRoZSBQQVRFTlRTIGZpbGUgaW4gdGhlIHNhbWUgZGlyZWN0b3J5LlxuICpcbiAqIEBwcm92aWRlc01vZHVsZSBTZWxlY3RFdmVudFBsdWdpblxuICovXG5cbid1c2Ugc3RyaWN0JztcblxudmFyIEV2ZW50Q29uc3RhbnRzID0gcmVxdWlyZSgnLi9FdmVudENvbnN0YW50cycpO1xudmFyIEV2ZW50UHJvcGFnYXRvcnMgPSByZXF1aXJlKCcuL0V2ZW50UHJvcGFnYXRvcnMnKTtcbnZhciBFeGVjdXRpb25FbnZpcm9ubWVudCA9IHJlcXVpcmUoJ2ZianMvbGliL0V4ZWN1dGlvbkVudmlyb25tZW50Jyk7XG52YXIgUmVhY3RJbnB1dFNlbGVjdGlvbiA9IHJlcXVpcmUoJy4vUmVhY3RJbnB1dFNlbGVjdGlvbicpO1xudmFyIFN5bnRoZXRpY0V2ZW50ID0gcmVxdWlyZSgnLi9TeW50aGV0aWNFdmVudCcpO1xuXG52YXIgZ2V0QWN0aXZlRWxlbWVudCA9IHJlcXVpcmUoJ2ZianMvbGliL2dldEFjdGl2ZUVsZW1lbnQnKTtcbnZhciBpc1RleHRJbnB1dEVsZW1lbnQgPSByZXF1aXJlKCcuL2lzVGV4dElucHV0RWxlbWVudCcpO1xudmFyIGtleU9mID0gcmVxdWlyZSgnZmJqcy9saWIva2V5T2YnKTtcbnZhciBzaGFsbG93RXF1YWwgPSByZXF1aXJlKCdmYmpzL2xpYi9zaGFsbG93RXF1YWwnKTtcblxudmFyIHRvcExldmVsVHlwZXMgPSBFdmVudENvbnN0YW50cy50b3BMZXZlbFR5cGVzO1xuXG52YXIgc2tpcFNlbGVjdGlvbkNoYW5nZUV2ZW50ID0gRXhlY3V0aW9uRW52aXJvbm1lbnQuY2FuVXNlRE9NICYmICdkb2N1bWVudE1vZGUnIGluIGRvY3VtZW50ICYmIGRvY3VtZW50LmRvY3VtZW50TW9kZSA8PSAxMTtcblxudmFyIGV2ZW50VHlwZXMgPSB7XG4gIHNlbGVjdDoge1xuICAgIHBoYXNlZFJlZ2lzdHJhdGlvbk5hbWVzOiB7XG4gICAgICBidWJibGVkOiBrZXlPZih7IG9uU2VsZWN0OiBudWxsIH0pLFxuICAgICAgY2FwdHVyZWQ6IGtleU9mKHsgb25TZWxlY3RDYXB0dXJlOiBudWxsIH0pXG4gICAgfSxcbiAgICBkZXBlbmRlbmNpZXM6IFt0b3BMZXZlbFR5cGVzLnRvcEJsdXIsIHRvcExldmVsVHlwZXMudG9wQ29udGV4dE1lbnUsIHRvcExldmVsVHlwZXMudG9wRm9jdXMsIHRvcExldmVsVHlwZXMudG9wS2V5RG93biwgdG9wTGV2ZWxUeXBlcy50b3BNb3VzZURvd24sIHRvcExldmVsVHlwZXMudG9wTW91c2VVcCwgdG9wTGV2ZWxUeXBlcy50b3BTZWxlY3Rpb25DaGFuZ2VdXG4gIH1cbn07XG5cbnZhciBhY3RpdmVFbGVtZW50ID0gbnVsbDtcbnZhciBhY3RpdmVFbGVtZW50SUQgPSBudWxsO1xudmFyIGxhc3RTZWxlY3Rpb24gPSBudWxsO1xudmFyIG1vdXNlRG93biA9IGZhbHNlO1xuXG4vLyBUcmFjayB3aGV0aGVyIGEgbGlzdGVuZXIgZXhpc3RzIGZvciB0aGlzIHBsdWdpbi4gSWYgbm9uZSBleGlzdCwgd2UgZG9cbi8vIG5vdCBleHRyYWN0IGV2ZW50cy5cbnZhciBoYXNMaXN0ZW5lciA9IGZhbHNlO1xudmFyIE9OX1NFTEVDVF9LRVkgPSBrZXlPZih7IG9uU2VsZWN0OiBudWxsIH0pO1xuXG4vKipcbiAqIEdldCBhbiBvYmplY3Qgd2hpY2ggaXMgYSB1bmlxdWUgcmVwcmVzZW50YXRpb24gb2YgdGhlIGN1cnJlbnQgc2VsZWN0aW9uLlxuICpcbiAqIFRoZSByZXR1cm4gdmFsdWUgd2lsbCBub3QgYmUgY29uc2lzdGVudCBhY3Jvc3Mgbm9kZXMgb3IgYnJvd3NlcnMsIGJ1dFxuICogdHdvIGlkZW50aWNhbCBzZWxlY3Rpb25zIG9uIHRoZSBzYW1lIG5vZGUgd2lsbCByZXR1cm4gaWRlbnRpY2FsIG9iamVjdHMuXG4gKlxuICogQHBhcmFtIHtET01FbGVtZW50fSBub2RlXG4gKiBAcmV0dXJuIHtvYmplY3R9XG4gKi9cbmZ1bmN0aW9uIGdldFNlbGVjdGlvbihub2RlKSB7XG4gIGlmICgnc2VsZWN0aW9uU3RhcnQnIGluIG5vZGUgJiYgUmVhY3RJbnB1dFNlbGVjdGlvbi5oYXNTZWxlY3Rpb25DYXBhYmlsaXRpZXMobm9kZSkpIHtcbiAgICByZXR1cm4ge1xuICAgICAgc3RhcnQ6IG5vZGUuc2VsZWN0aW9uU3RhcnQsXG4gICAgICBlbmQ6IG5vZGUuc2VsZWN0aW9uRW5kXG4gICAgfTtcbiAgfSBlbHNlIGlmICh3aW5kb3cuZ2V0U2VsZWN0aW9uKSB7XG4gICAgdmFyIHNlbGVjdGlvbiA9IHdpbmRvdy5nZXRTZWxlY3Rpb24oKTtcbiAgICByZXR1cm4ge1xuICAgICAgYW5jaG9yTm9kZTogc2VsZWN0aW9uLmFuY2hvck5vZGUsXG4gICAgICBhbmNob3JPZmZzZXQ6IHNlbGVjdGlvbi5hbmNob3JPZmZzZXQsXG4gICAgICBmb2N1c05vZGU6IHNlbGVjdGlvbi5mb2N1c05vZGUsXG4gICAgICBmb2N1c09mZnNldDogc2VsZWN0aW9uLmZvY3VzT2Zmc2V0XG4gICAgfTtcbiAgfSBlbHNlIGlmIChkb2N1bWVudC5zZWxlY3Rpb24pIHtcbiAgICB2YXIgcmFuZ2UgPSBkb2N1bWVudC5zZWxlY3Rpb24uY3JlYXRlUmFuZ2UoKTtcbiAgICByZXR1cm4ge1xuICAgICAgcGFyZW50RWxlbWVudDogcmFuZ2UucGFyZW50RWxlbWVudCgpLFxuICAgICAgdGV4dDogcmFuZ2UudGV4dCxcbiAgICAgIHRvcDogcmFuZ2UuYm91bmRpbmdUb3AsXG4gICAgICBsZWZ0OiByYW5nZS5ib3VuZGluZ0xlZnRcbiAgICB9O1xuICB9XG59XG5cbi8qKlxuICogUG9sbCBzZWxlY3Rpb24gdG8gc2VlIHdoZXRoZXIgaXQncyBjaGFuZ2VkLlxuICpcbiAqIEBwYXJhbSB7b2JqZWN0fSBuYXRpdmVFdmVudFxuICogQHJldHVybiB7P1N5bnRoZXRpY0V2ZW50fVxuICovXG5mdW5jdGlvbiBjb25zdHJ1Y3RTZWxlY3RFdmVudChuYXRpdmVFdmVudCwgbmF0aXZlRXZlbnRUYXJnZXQpIHtcbiAgLy8gRW5zdXJlIHdlIGhhdmUgdGhlIHJpZ2h0IGVsZW1lbnQsIGFuZCB0aGF0IHRoZSB1c2VyIGlzIG5vdCBkcmFnZ2luZyBhXG4gIC8vIHNlbGVjdGlvbiAodGhpcyBtYXRjaGVzIG5hdGl2ZSBgc2VsZWN0YCBldmVudCBiZWhhdmlvcikuIEluIEhUTUw1LCBzZWxlY3RcbiAgLy8gZmlyZXMgb25seSBvbiBpbnB1dCBhbmQgdGV4dGFyZWEgdGh1cyBpZiB0aGVyZSdzIG5vIGZvY3VzZWQgZWxlbWVudCB3ZVxuICAvLyB3b24ndCBkaXNwYXRjaC5cbiAgaWYgKG1vdXNlRG93biB8fCBhY3RpdmVFbGVtZW50ID09IG51bGwgfHwgYWN0aXZlRWxlbWVudCAhPT0gZ2V0QWN0aXZlRWxlbWVudCgpKSB7XG4gICAgcmV0dXJuIG51bGw7XG4gIH1cblxuICAvLyBPbmx5IGZpcmUgd2hlbiBzZWxlY3Rpb24gaGFzIGFjdHVhbGx5IGNoYW5nZWQuXG4gIHZhciBjdXJyZW50U2VsZWN0aW9uID0gZ2V0U2VsZWN0aW9uKGFjdGl2ZUVsZW1lbnQpO1xuICBpZiAoIWxhc3RTZWxlY3Rpb24gfHwgIXNoYWxsb3dFcXVhbChsYXN0U2VsZWN0aW9uLCBjdXJyZW50U2VsZWN0aW9uKSkge1xuICAgIGxhc3RTZWxlY3Rpb24gPSBjdXJyZW50U2VsZWN0aW9uO1xuXG4gICAgdmFyIHN5bnRoZXRpY0V2ZW50ID0gU3ludGhldGljRXZlbnQuZ2V0UG9vbGVkKGV2ZW50VHlwZXMuc2VsZWN0LCBhY3RpdmVFbGVtZW50SUQsIG5hdGl2ZUV2ZW50LCBuYXRpdmVFdmVudFRhcmdldCk7XG5cbiAgICBzeW50aGV0aWNFdmVudC50eXBlID0gJ3NlbGVjdCc7XG4gICAgc3ludGhldGljRXZlbnQudGFyZ2V0ID0gYWN0aXZlRWxlbWVudDtcblxuICAgIEV2ZW50UHJvcGFnYXRvcnMuYWNjdW11bGF0ZVR3b1BoYXNlRGlzcGF0Y2hlcyhzeW50aGV0aWNFdmVudCk7XG5cbiAgICByZXR1cm4gc3ludGhldGljRXZlbnQ7XG4gIH1cblxuICByZXR1cm4gbnVsbDtcbn1cblxuLyoqXG4gKiBUaGlzIHBsdWdpbiBjcmVhdGVzIGFuIGBvblNlbGVjdGAgZXZlbnQgdGhhdCBub3JtYWxpemVzIHNlbGVjdCBldmVudHNcbiAqIGFjcm9zcyBmb3JtIGVsZW1lbnRzLlxuICpcbiAqIFN1cHBvcnRlZCBlbGVtZW50cyBhcmU6XG4gKiAtIGlucHV0IChzZWUgYGlzVGV4dElucHV0RWxlbWVudGApXG4gKiAtIHRleHRhcmVhXG4gKiAtIGNvbnRlbnRFZGl0YWJsZVxuICpcbiAqIFRoaXMgZGlmZmVycyBmcm9tIG5hdGl2ZSBicm93c2VyIGltcGxlbWVudGF0aW9ucyBpbiB0aGUgZm9sbG93aW5nIHdheXM6XG4gKiAtIEZpcmVzIG9uIGNvbnRlbnRFZGl0YWJsZSBmaWVsZHMgYXMgd2VsbCBhcyBpbnB1dHMuXG4gKiAtIEZpcmVzIGZvciBjb2xsYXBzZWQgc2VsZWN0aW9uLlxuICogLSBGaXJlcyBhZnRlciB1c2VyIGlucHV0LlxuICovXG52YXIgU2VsZWN0RXZlbnRQbHVnaW4gPSB7XG5cbiAgZXZlbnRUeXBlczogZXZlbnRUeXBlcyxcblxuICAvKipcbiAgICogQHBhcmFtIHtzdHJpbmd9IHRvcExldmVsVHlwZSBSZWNvcmQgZnJvbSBgRXZlbnRDb25zdGFudHNgLlxuICAgKiBAcGFyYW0ge0RPTUV2ZW50VGFyZ2V0fSB0b3BMZXZlbFRhcmdldCBUaGUgbGlzdGVuaW5nIGNvbXBvbmVudCByb290IG5vZGUuXG4gICAqIEBwYXJhbSB7c3RyaW5nfSB0b3BMZXZlbFRhcmdldElEIElEIG9mIGB0b3BMZXZlbFRhcmdldGAuXG4gICAqIEBwYXJhbSB7b2JqZWN0fSBuYXRpdmVFdmVudCBOYXRpdmUgYnJvd3NlciBldmVudC5cbiAgICogQHJldHVybiB7Kn0gQW4gYWNjdW11bGF0aW9uIG9mIHN5bnRoZXRpYyBldmVudHMuXG4gICAqIEBzZWUge0V2ZW50UGx1Z2luSHViLmV4dHJhY3RFdmVudHN9XG4gICAqL1xuICBleHRyYWN0RXZlbnRzOiBmdW5jdGlvbiAodG9wTGV2ZWxUeXBlLCB0b3BMZXZlbFRhcmdldCwgdG9wTGV2ZWxUYXJnZXRJRCwgbmF0aXZlRXZlbnQsIG5hdGl2ZUV2ZW50VGFyZ2V0KSB7XG4gICAgaWYgKCFoYXNMaXN0ZW5lcikge1xuICAgICAgcmV0dXJuIG51bGw7XG4gICAgfVxuXG4gICAgc3dpdGNoICh0b3BMZXZlbFR5cGUpIHtcbiAgICAgIC8vIFRyYWNrIHRoZSBpbnB1dCBub2RlIHRoYXQgaGFzIGZvY3VzLlxuICAgICAgY2FzZSB0b3BMZXZlbFR5cGVzLnRvcEZvY3VzOlxuICAgICAgICBpZiAoaXNUZXh0SW5wdXRFbGVtZW50KHRvcExldmVsVGFyZ2V0KSB8fCB0b3BMZXZlbFRhcmdldC5jb250ZW50RWRpdGFibGUgPT09ICd0cnVlJykge1xuICAgICAgICAgIGFjdGl2ZUVsZW1lbnQgPSB0b3BMZXZlbFRhcmdldDtcbiAgICAgICAgICBhY3RpdmVFbGVtZW50SUQgPSB0b3BMZXZlbFRhcmdldElEO1xuICAgICAgICAgIGxhc3RTZWxlY3Rpb24gPSBudWxsO1xuICAgICAgICB9XG4gICAgICAgIGJyZWFrO1xuICAgICAgY2FzZSB0b3BMZXZlbFR5cGVzLnRvcEJsdXI6XG4gICAgICAgIGFjdGl2ZUVsZW1lbnQgPSBudWxsO1xuICAgICAgICBhY3RpdmVFbGVtZW50SUQgPSBudWxsO1xuICAgICAgICBsYXN0U2VsZWN0aW9uID0gbnVsbDtcbiAgICAgICAgYnJlYWs7XG5cbiAgICAgIC8vIERvbid0IGZpcmUgdGhlIGV2ZW50IHdoaWxlIHRoZSB1c2VyIGlzIGRyYWdnaW5nLiBUaGlzIG1hdGNoZXMgdGhlXG4gICAgICAvLyBzZW1hbnRpY3Mgb2YgdGhlIG5hdGl2ZSBzZWxlY3QgZXZlbnQuXG4gICAgICBjYXNlIHRvcExldmVsVHlwZXMudG9wTW91c2VEb3duOlxuICAgICAgICBtb3VzZURvd24gPSB0cnVlO1xuICAgICAgICBicmVhaztcbiAgICAgIGNhc2UgdG9wTGV2ZWxUeXBlcy50b3BDb250ZXh0TWVudTpcbiAgICAgIGNhc2UgdG9wTGV2ZWxUeXBlcy50b3BNb3VzZVVwOlxuICAgICAgICBtb3VzZURvd24gPSBmYWxzZTtcbiAgICAgICAgcmV0dXJuIGNvbnN0cnVjdFNlbGVjdEV2ZW50KG5hdGl2ZUV2ZW50LCBuYXRpdmVFdmVudFRhcmdldCk7XG5cbiAgICAgIC8vIENocm9tZSBhbmQgSUUgZmlyZSBub24tc3RhbmRhcmQgZXZlbnQgd2hlbiBzZWxlY3Rpb24gaXMgY2hhbmdlZCAoYW5kXG4gICAgICAvLyBzb21ldGltZXMgd2hlbiBpdCBoYXNuJ3QpLiBJRSdzIGV2ZW50IGZpcmVzIG91dCBvZiBvcmRlciB3aXRoIHJlc3BlY3RcbiAgICAgIC8vIHRvIGtleSBhbmQgaW5wdXQgZXZlbnRzIG9uIGRlbGV0aW9uLCBzbyB3ZSBkaXNjYXJkIGl0LlxuICAgICAgLy9cbiAgICAgIC8vIEZpcmVmb3ggZG9lc24ndCBzdXBwb3J0IHNlbGVjdGlvbmNoYW5nZSwgc28gY2hlY2sgc2VsZWN0aW9uIHN0YXR1c1xuICAgICAgLy8gYWZ0ZXIgZWFjaCBrZXkgZW50cnkuIFRoZSBzZWxlY3Rpb24gY2hhbmdlcyBhZnRlciBrZXlkb3duIGFuZCBiZWZvcmVcbiAgICAgIC8vIGtleXVwLCBidXQgd2UgY2hlY2sgb24ga2V5ZG93biBhcyB3ZWxsIGluIHRoZSBjYXNlIG9mIGhvbGRpbmcgZG93biBhXG4gICAgICAvLyBrZXksIHdoZW4gbXVsdGlwbGUga2V5ZG93biBldmVudHMgYXJlIGZpcmVkIGJ1dCBvbmx5IG9uZSBrZXl1cCBpcy5cbiAgICAgIC8vIFRoaXMgaXMgYWxzbyBvdXIgYXBwcm9hY2ggZm9yIElFIGhhbmRsaW5nLCBmb3IgdGhlIHJlYXNvbiBhYm92ZS5cbiAgICAgIGNhc2UgdG9wTGV2ZWxUeXBlcy50b3BTZWxlY3Rpb25DaGFuZ2U6XG4gICAgICAgIGlmIChza2lwU2VsZWN0aW9uQ2hhbmdlRXZlbnQpIHtcbiAgICAgICAgICBicmVhaztcbiAgICAgICAgfVxuICAgICAgLy8gZmFsbHMgdGhyb3VnaFxuICAgICAgY2FzZSB0b3BMZXZlbFR5cGVzLnRvcEtleURvd246XG4gICAgICBjYXNlIHRvcExldmVsVHlwZXMudG9wS2V5VXA6XG4gICAgICAgIHJldHVybiBjb25zdHJ1Y3RTZWxlY3RFdmVudChuYXRpdmVFdmVudCwgbmF0aXZlRXZlbnRUYXJnZXQpO1xuICAgIH1cblxuICAgIHJldHVybiBudWxsO1xuICB9LFxuXG4gIGRpZFB1dExpc3RlbmVyOiBmdW5jdGlvbiAoaWQsIHJlZ2lzdHJhdGlvbk5hbWUsIGxpc3RlbmVyKSB7XG4gICAgaWYgKHJlZ2lzdHJhdGlvbk5hbWUgPT09IE9OX1NFTEVDVF9LRVkpIHtcbiAgICAgIGhhc0xpc3RlbmVyID0gdHJ1ZTtcbiAgICB9XG4gIH1cbn07XG5cbm1vZHVsZS5leHBvcnRzID0gU2VsZWN0RXZlbnRQbHVnaW47Il19

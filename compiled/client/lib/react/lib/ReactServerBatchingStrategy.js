@@ -1,0 +1,24 @@
+/**
+ * Copyright 2014-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactServerBatchingStrategy
+ * @typechecks
+ */
+
+'use strict';
+
+var ReactServerBatchingStrategy = {
+  isBatchingUpdates: false,
+  batchedUpdates: function batchedUpdates(callback) {
+    // Don't do anything here. During the server rendering we don't want to
+    // schedule any updates. We will simply ignore them.
+  }
+};
+
+module.exports = ReactServerBatchingStrategy;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1JlYWN0U2VydmVyQmF0Y2hpbmdTdHJhdGVneS5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFZQTs7QUFFQSxJQUFJLDhCQUE4QjtBQUNoQyxxQkFBbUIsS0FBbkI7QUFDQSxrQkFBZ0Isd0JBQVUsUUFBVixFQUFvQjs7O0dBQXBCO0NBRmQ7O0FBUUosT0FBTyxPQUFQLEdBQWlCLDJCQUFqQiIsImZpbGUiOiJSZWFjdFNlcnZlckJhdGNoaW5nU3RyYXRlZ3kuanMiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIENvcHlyaWdodCAyMDE0LTIwMTUsIEZhY2Vib29rLCBJbmMuXG4gKiBBbGwgcmlnaHRzIHJlc2VydmVkLlxuICpcbiAqIFRoaXMgc291cmNlIGNvZGUgaXMgbGljZW5zZWQgdW5kZXIgdGhlIEJTRC1zdHlsZSBsaWNlbnNlIGZvdW5kIGluIHRoZVxuICogTElDRU5TRSBmaWxlIGluIHRoZSByb290IGRpcmVjdG9yeSBvZiB0aGlzIHNvdXJjZSB0cmVlLiBBbiBhZGRpdGlvbmFsIGdyYW50XG4gKiBvZiBwYXRlbnQgcmlnaHRzIGNhbiBiZSBmb3VuZCBpbiB0aGUgUEFURU5UUyBmaWxlIGluIHRoZSBzYW1lIGRpcmVjdG9yeS5cbiAqXG4gKiBAcHJvdmlkZXNNb2R1bGUgUmVhY3RTZXJ2ZXJCYXRjaGluZ1N0cmF0ZWd5XG4gKiBAdHlwZWNoZWNrc1xuICovXG5cbid1c2Ugc3RyaWN0JztcblxudmFyIFJlYWN0U2VydmVyQmF0Y2hpbmdTdHJhdGVneSA9IHtcbiAgaXNCYXRjaGluZ1VwZGF0ZXM6IGZhbHNlLFxuICBiYXRjaGVkVXBkYXRlczogZnVuY3Rpb24gKGNhbGxiYWNrKSB7XG4gICAgLy8gRG9uJ3QgZG8gYW55dGhpbmcgaGVyZS4gRHVyaW5nIHRoZSBzZXJ2ZXIgcmVuZGVyaW5nIHdlIGRvbid0IHdhbnQgdG9cbiAgICAvLyBzY2hlZHVsZSBhbnkgdXBkYXRlcy4gV2Ugd2lsbCBzaW1wbHkgaWdub3JlIHRoZW0uXG4gIH1cbn07XG5cbm1vZHVsZS5leHBvcnRzID0gUmVhY3RTZXJ2ZXJCYXRjaGluZ1N0cmF0ZWd5OyJdfQ==

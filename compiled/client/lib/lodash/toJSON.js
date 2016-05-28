@@ -1,0 +1,4 @@
+'use strict';
+
+module.exports = require('./wrapperValue');
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL3RvSlNPTi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLE9BQU8sT0FBUCxHQUFpQixRQUFRLGdCQUFSLENBQWpCIiwiZmlsZSI6InRvSlNPTi5qcyIsInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0gcmVxdWlyZSgnLi93cmFwcGVyVmFsdWUnKTtcbiJdfQ==

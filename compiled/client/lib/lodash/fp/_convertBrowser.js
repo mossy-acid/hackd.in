@@ -1,0 +1,21 @@
+'use strict';
+
+var baseConvert = require('./_baseConvert');
+
+/**
+ * Converts `lodash` to an immutable auto-curried iteratee-first data-last
+ * version with conversion `options` applied.
+ *
+ * @param {Function} lodash The lodash function to convert.
+ * @param {Object} [options] The options object. See `baseConvert` for more details.
+ * @returns {Function} Returns the converted `lodash`.
+ */
+function browserConvert(lodash, options) {
+  return baseConvert(lodash, lodash, options);
+}
+
+if (typeof _ == 'function') {
+  _ = browserConvert(_.runInContext());
+}
+module.exports = browserConvert;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL19jb252ZXJ0QnJvd3Nlci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksY0FBYyxRQUFRLGdCQUFSLENBQWQ7Ozs7Ozs7Ozs7QUFVSixTQUFTLGNBQVQsQ0FBd0IsTUFBeEIsRUFBZ0MsT0FBaEMsRUFBeUM7QUFDdkMsU0FBTyxZQUFZLE1BQVosRUFBb0IsTUFBcEIsRUFBNEIsT0FBNUIsQ0FBUCxDQUR1QztDQUF6Qzs7QUFJQSxJQUFJLE9BQU8sQ0FBUCxJQUFZLFVBQVosRUFBd0I7QUFDMUIsTUFBSSxlQUFlLEVBQUUsWUFBRixFQUFmLENBQUosQ0FEMEI7Q0FBNUI7QUFHQSxPQUFPLE9BQVAsR0FBaUIsY0FBakIiLCJmaWxlIjoiX2NvbnZlcnRCcm93c2VyLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIGJhc2VDb252ZXJ0ID0gcmVxdWlyZSgnLi9fYmFzZUNvbnZlcnQnKTtcblxuLyoqXG4gKiBDb252ZXJ0cyBgbG9kYXNoYCB0byBhbiBpbW11dGFibGUgYXV0by1jdXJyaWVkIGl0ZXJhdGVlLWZpcnN0IGRhdGEtbGFzdFxuICogdmVyc2lvbiB3aXRoIGNvbnZlcnNpb24gYG9wdGlvbnNgIGFwcGxpZWQuXG4gKlxuICogQHBhcmFtIHtGdW5jdGlvbn0gbG9kYXNoIFRoZSBsb2Rhc2ggZnVuY3Rpb24gdG8gY29udmVydC5cbiAqIEBwYXJhbSB7T2JqZWN0fSBbb3B0aW9uc10gVGhlIG9wdGlvbnMgb2JqZWN0LiBTZWUgYGJhc2VDb252ZXJ0YCBmb3IgbW9yZSBkZXRhaWxzLlxuICogQHJldHVybnMge0Z1bmN0aW9ufSBSZXR1cm5zIHRoZSBjb252ZXJ0ZWQgYGxvZGFzaGAuXG4gKi9cbmZ1bmN0aW9uIGJyb3dzZXJDb252ZXJ0KGxvZGFzaCwgb3B0aW9ucykge1xuICByZXR1cm4gYmFzZUNvbnZlcnQobG9kYXNoLCBsb2Rhc2gsIG9wdGlvbnMpO1xufVxuXG5pZiAodHlwZW9mIF8gPT0gJ2Z1bmN0aW9uJykge1xuICBfID0gYnJvd3NlckNvbnZlcnQoXy5ydW5JbkNvbnRleHQoKSk7XG59XG5tb2R1bGUuZXhwb3J0cyA9IGJyb3dzZXJDb252ZXJ0O1xuIl19

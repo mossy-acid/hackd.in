@@ -11,17 +11,18 @@ class Projects extends React.Component {
   }
 
   componentDidMount() {
+    console.log('componentMounted')
     this.getProjectsFromDatabase();
   }
 
   getProjectsFromDatabase() {
+    console.log('getProjects function called');
     this.props.getProjects();
   }
 
   render() {
     return (
       <div>
-        <ProjectList projects={this.props.data}/>
       </div>
     );
   }

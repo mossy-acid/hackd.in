@@ -1,0 +1,28 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ViewportMetrics
+ */
+
+'use strict';
+
+var ViewportMetrics = {
+
+  currentScrollLeft: 0,
+
+  currentScrollTop: 0,
+
+  refreshScrollValues: function refreshScrollValues(scrollPosition) {
+    ViewportMetrics.currentScrollLeft = scrollPosition.x;
+    ViewportMetrics.currentScrollTop = scrollPosition.y;
+  }
+
+};
+
+module.exports = ViewportMetrics;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1ZpZXdwb3J0TWV0cmljcy5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztBQVdBOztBQUVBLElBQUksa0JBQWtCOztBQUVwQixxQkFBbUIsQ0FBbkI7O0FBRUEsb0JBQWtCLENBQWxCOztBQUVBLHVCQUFxQiw2QkFBVSxjQUFWLEVBQTBCO0FBQzdDLG9CQUFnQixpQkFBaEIsR0FBb0MsZUFBZSxDQUFmLENBRFM7QUFFN0Msb0JBQWdCLGdCQUFoQixHQUFtQyxlQUFlLENBQWYsQ0FGVTtHQUExQjs7Q0FObkI7O0FBYUosT0FBTyxPQUFQLEdBQWlCLGVBQWpCIiwiZmlsZSI6IlZpZXdwb3J0TWV0cmljcy5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29weXJpZ2h0IDIwMTMtMjAxNSwgRmFjZWJvb2ssIEluYy5cbiAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuXG4gKlxuICogVGhpcyBzb3VyY2UgY29kZSBpcyBsaWNlbnNlZCB1bmRlciB0aGUgQlNELXN0eWxlIGxpY2Vuc2UgZm91bmQgaW4gdGhlXG4gKiBMSUNFTlNFIGZpbGUgaW4gdGhlIHJvb3QgZGlyZWN0b3J5IG9mIHRoaXMgc291cmNlIHRyZWUuIEFuIGFkZGl0aW9uYWwgZ3JhbnRcbiAqIG9mIHBhdGVudCByaWdodHMgY2FuIGJlIGZvdW5kIGluIHRoZSBQQVRFTlRTIGZpbGUgaW4gdGhlIHNhbWUgZGlyZWN0b3J5LlxuICpcbiAqIEBwcm92aWRlc01vZHVsZSBWaWV3cG9ydE1ldHJpY3NcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbnZhciBWaWV3cG9ydE1ldHJpY3MgPSB7XG5cbiAgY3VycmVudFNjcm9sbExlZnQ6IDAsXG5cbiAgY3VycmVudFNjcm9sbFRvcDogMCxcblxuICByZWZyZXNoU2Nyb2xsVmFsdWVzOiBmdW5jdGlvbiAoc2Nyb2xsUG9zaXRpb24pIHtcbiAgICBWaWV3cG9ydE1ldHJpY3MuY3VycmVudFNjcm9sbExlZnQgPSBzY3JvbGxQb3NpdGlvbi54O1xuICAgIFZpZXdwb3J0TWV0cmljcy5jdXJyZW50U2Nyb2xsVG9wID0gc2Nyb2xsUG9zaXRpb24ueTtcbiAgfVxuXG59O1xuXG5tb2R1bGUuZXhwb3J0cyA9IFZpZXdwb3J0TWV0cmljczsiXX0=

@@ -1,0 +1,11 @@
+"use strict";
+
+define(["../core", "../selector", "../effects"], function (jQuery) {
+
+	jQuery.expr.filters.animated = function (elem) {
+		return jQuery.grep(jQuery.timers, function (fn) {
+			return elem === fn.elem;
+		}).length;
+	};
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy9lZmZlY3RzL2FuaW1hdGVkU2VsZWN0b3IuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxPQUFRLENBQ1AsU0FETyxFQUVQLGFBRk8sRUFHUCxZQUhPLENBQVIsRUFJRyxVQUFVLE1BQVYsRUFBbUI7O0FBRXRCLFFBQU8sSUFBUCxDQUFZLE9BQVosQ0FBb0IsUUFBcEIsR0FBK0IsVUFBVSxJQUFWLEVBQWlCO0FBQy9DLFNBQU8sT0FBTyxJQUFQLENBQWEsT0FBTyxNQUFQLEVBQWUsVUFBVSxFQUFWLEVBQWU7QUFDakQsVUFBTyxTQUFTLEdBQUcsSUFBSCxDQURpQztHQUFmLENBQTVCLENBRUgsTUFGRyxDQUR3QztFQUFqQixDQUZUO0NBQW5CLENBSkgiLCJmaWxlIjoiYW5pbWF0ZWRTZWxlY3Rvci5qcyIsInNvdXJjZXNDb250ZW50IjpbImRlZmluZSggW1xuXHRcIi4uL2NvcmVcIixcblx0XCIuLi9zZWxlY3RvclwiLFxuXHRcIi4uL2VmZmVjdHNcIlxuXSwgZnVuY3Rpb24oIGpRdWVyeSApIHtcblxualF1ZXJ5LmV4cHIuZmlsdGVycy5hbmltYXRlZCA9IGZ1bmN0aW9uKCBlbGVtICkge1xuXHRyZXR1cm4galF1ZXJ5LmdyZXAoIGpRdWVyeS50aW1lcnMsIGZ1bmN0aW9uKCBmbiApIHtcblx0XHRyZXR1cm4gZWxlbSA9PT0gZm4uZWxlbTtcblx0fSApLmxlbmd0aDtcbn07XG5cbn0gKTtcbiJdfQ==

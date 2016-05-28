@@ -1,0 +1,5 @@
+'use strict';
+
+var convert = require('./convert');
+module.exports = convert(require('../number'));
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL251bWJlci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksVUFBVSxRQUFRLFdBQVIsQ0FBVjtBQUNKLE9BQU8sT0FBUCxHQUFpQixRQUFRLFFBQVEsV0FBUixDQUFSLENBQWpCIiwiZmlsZSI6Im51bWJlci5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBjb252ZXJ0ID0gcmVxdWlyZSgnLi9jb252ZXJ0Jyk7XG5tb2R1bGUuZXhwb3J0cyA9IGNvbnZlcnQocmVxdWlyZSgnLi4vbnVtYmVyJykpO1xuIl19

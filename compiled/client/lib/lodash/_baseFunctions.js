@@ -1,0 +1,22 @@
+'use strict';
+
+var arrayFilter = require('./_arrayFilter'),
+    isFunction = require('./isFunction');
+
+/**
+ * The base implementation of `_.functions` which creates an array of
+ * `object` function property names filtered from `props`.
+ *
+ * @private
+ * @param {Object} object The object to inspect.
+ * @param {Array} props The property names to filter.
+ * @returns {Array} Returns the function names.
+ */
+function baseFunctions(object, props) {
+  return arrayFilter(props, function (key) {
+    return isFunction(object[key]);
+  });
+}
+
+module.exports = baseFunctions;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlRnVuY3Rpb25zLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxjQUFjLFFBQVEsZ0JBQVIsQ0FBZDtJQUNBLGFBQWEsUUFBUSxjQUFSLENBQWI7Ozs7Ozs7Ozs7O0FBV0osU0FBUyxhQUFULENBQXVCLE1BQXZCLEVBQStCLEtBQS9CLEVBQXNDO0FBQ3BDLFNBQU8sWUFBWSxLQUFaLEVBQW1CLFVBQVMsR0FBVCxFQUFjO0FBQ3RDLFdBQU8sV0FBVyxPQUFPLEdBQVAsQ0FBWCxDQUFQLENBRHNDO0dBQWQsQ0FBMUIsQ0FEb0M7Q0FBdEM7O0FBTUEsT0FBTyxPQUFQLEdBQWlCLGFBQWpCIiwiZmlsZSI6Il9iYXNlRnVuY3Rpb25zLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIGFycmF5RmlsdGVyID0gcmVxdWlyZSgnLi9fYXJyYXlGaWx0ZXInKSxcbiAgICBpc0Z1bmN0aW9uID0gcmVxdWlyZSgnLi9pc0Z1bmN0aW9uJyk7XG5cbi8qKlxuICogVGhlIGJhc2UgaW1wbGVtZW50YXRpb24gb2YgYF8uZnVuY3Rpb25zYCB3aGljaCBjcmVhdGVzIGFuIGFycmF5IG9mXG4gKiBgb2JqZWN0YCBmdW5jdGlvbiBwcm9wZXJ0eSBuYW1lcyBmaWx0ZXJlZCBmcm9tIGBwcm9wc2AuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7T2JqZWN0fSBvYmplY3QgVGhlIG9iamVjdCB0byBpbnNwZWN0LlxuICogQHBhcmFtIHtBcnJheX0gcHJvcHMgVGhlIHByb3BlcnR5IG5hbWVzIHRvIGZpbHRlci5cbiAqIEByZXR1cm5zIHtBcnJheX0gUmV0dXJucyB0aGUgZnVuY3Rpb24gbmFtZXMuXG4gKi9cbmZ1bmN0aW9uIGJhc2VGdW5jdGlvbnMob2JqZWN0LCBwcm9wcykge1xuICByZXR1cm4gYXJyYXlGaWx0ZXIocHJvcHMsIGZ1bmN0aW9uKGtleSkge1xuICAgIHJldHVybiBpc0Z1bmN0aW9uKG9iamVjdFtrZXldKTtcbiAgfSk7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gYmFzZUZ1bmN0aW9ucztcbiJdfQ==

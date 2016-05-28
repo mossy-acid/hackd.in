@@ -1,0 +1,6 @@
+'use strict';
+
+module.exports = {
+  'now': require('./now')
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2RhdGUuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxPQUFPLE9BQVAsR0FBaUI7QUFDZixTQUFPLFFBQVEsT0FBUixDQUFQO0NBREYiLCJmaWxlIjoiZGF0ZS5qcyIsInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0ge1xuICAnbm93JzogcmVxdWlyZSgnLi9ub3cnKVxufTtcbiJdfQ==

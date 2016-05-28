@@ -1,0 +1,22 @@
+"use strict";
+
+define(["../core", "../queue", "../effects" // Delay is optional because of this dependency
+], function (jQuery) {
+
+	// Based off of the plugin by Clint Helfers, with permission.
+	// http://web.archive.org/web/20100324014747/http://blindsignals.com/index.php/2009/07/jquery-delay/
+	jQuery.fn.delay = function (time, type) {
+		time = jQuery.fx ? jQuery.fx.speeds[time] || time : time;
+		type = type || "fx";
+
+		return this.queue(type, function (next, hooks) {
+			var timeout = window.setTimeout(next, time);
+			hooks.stop = function () {
+				window.clearTimeout(timeout);
+			};
+		});
+	};
+
+	return jQuery.fn.delay;
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy9xdWV1ZS9kZWxheS5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLE9BQVEsQ0FDUCxTQURPLEVBRVAsVUFGTyxFQUdQO0FBSE8sQ0FBUixFQUlHLFVBQVUsTUFBVixFQUFtQjs7OztBQUl0QixRQUFPLEVBQVAsQ0FBVSxLQUFWLEdBQWtCLFVBQVUsSUFBVixFQUFnQixJQUFoQixFQUF1QjtBQUN4QyxTQUFPLE9BQU8sRUFBUCxHQUFZLE9BQU8sRUFBUCxDQUFVLE1BQVYsQ0FBa0IsSUFBbEIsS0FBNEIsSUFBNUIsR0FBbUMsSUFBL0MsQ0FEaUM7QUFFeEMsU0FBTyxRQUFRLElBQVIsQ0FGaUM7O0FBSXhDLFNBQU8sS0FBSyxLQUFMLENBQVksSUFBWixFQUFrQixVQUFVLElBQVYsRUFBZ0IsS0FBaEIsRUFBd0I7QUFDaEQsT0FBSSxVQUFVLE9BQU8sVUFBUCxDQUFtQixJQUFuQixFQUF5QixJQUF6QixDQUFWLENBRDRDO0FBRWhELFNBQU0sSUFBTixHQUFhLFlBQVc7QUFDdkIsV0FBTyxZQUFQLENBQXFCLE9BQXJCLEVBRHVCO0lBQVgsQ0FGbUM7R0FBeEIsQ0FBekIsQ0FKd0M7RUFBdkIsQ0FKSTs7QUFnQnRCLFFBQU8sT0FBTyxFQUFQLENBQVUsS0FBVixDQWhCZTtDQUFuQixDQUpIIiwiZmlsZSI6ImRlbGF5LmpzIiwic291cmNlc0NvbnRlbnQiOlsiZGVmaW5lKCBbXG5cdFwiLi4vY29yZVwiLFxuXHRcIi4uL3F1ZXVlXCIsXG5cdFwiLi4vZWZmZWN0c1wiIC8vIERlbGF5IGlzIG9wdGlvbmFsIGJlY2F1c2Ugb2YgdGhpcyBkZXBlbmRlbmN5XG5dLCBmdW5jdGlvbiggalF1ZXJ5ICkge1xuXG4vLyBCYXNlZCBvZmYgb2YgdGhlIHBsdWdpbiBieSBDbGludCBIZWxmZXJzLCB3aXRoIHBlcm1pc3Npb24uXG4vLyBodHRwOi8vd2ViLmFyY2hpdmUub3JnL3dlYi8yMDEwMDMyNDAxNDc0Ny9odHRwOi8vYmxpbmRzaWduYWxzLmNvbS9pbmRleC5waHAvMjAwOS8wNy9qcXVlcnktZGVsYXkvXG5qUXVlcnkuZm4uZGVsYXkgPSBmdW5jdGlvbiggdGltZSwgdHlwZSApIHtcblx0dGltZSA9IGpRdWVyeS5meCA/IGpRdWVyeS5meC5zcGVlZHNbIHRpbWUgXSB8fCB0aW1lIDogdGltZTtcblx0dHlwZSA9IHR5cGUgfHwgXCJmeFwiO1xuXG5cdHJldHVybiB0aGlzLnF1ZXVlKCB0eXBlLCBmdW5jdGlvbiggbmV4dCwgaG9va3MgKSB7XG5cdFx0dmFyIHRpbWVvdXQgPSB3aW5kb3cuc2V0VGltZW91dCggbmV4dCwgdGltZSApO1xuXHRcdGhvb2tzLnN0b3AgPSBmdW5jdGlvbigpIHtcblx0XHRcdHdpbmRvdy5jbGVhclRpbWVvdXQoIHRpbWVvdXQgKTtcblx0XHR9O1xuXHR9ICk7XG59O1xuXG5yZXR1cm4galF1ZXJ5LmZuLmRlbGF5O1xufSApO1xuIl19

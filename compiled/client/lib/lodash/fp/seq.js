@@ -1,0 +1,5 @@
+'use strict';
+
+var convert = require('./convert');
+module.exports = convert(require('../seq'));
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL3NlcS5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksVUFBVSxRQUFRLFdBQVIsQ0FBVjtBQUNKLE9BQU8sT0FBUCxHQUFpQixRQUFRLFFBQVEsUUFBUixDQUFSLENBQWpCIiwiZmlsZSI6InNlcS5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBjb252ZXJ0ID0gcmVxdWlyZSgnLi9jb252ZXJ0Jyk7XG5tb2R1bGUuZXhwb3J0cyA9IGNvbnZlcnQocmVxdWlyZSgnLi4vc2VxJykpO1xuIl19

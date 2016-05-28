@@ -1,0 +1,24 @@
+'use strict';
+
+var baseForOwn = require('./_baseForOwn');
+
+/**
+ * The base implementation of `_.invert` and `_.invertBy` which inverts
+ * `object` with values transformed by `iteratee` and set by `setter`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} setter The function to set `accumulator` values.
+ * @param {Function} iteratee The iteratee to transform values.
+ * @param {Object} accumulator The initial inverted object.
+ * @returns {Function} Returns `accumulator`.
+ */
+function baseInverter(object, setter, iteratee, accumulator) {
+  baseForOwn(object, function (value, key, object) {
+    setter(accumulator, iteratee(value), key, object);
+  });
+  return accumulator;
+}
+
+module.exports = baseInverter;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlSW52ZXJ0ZXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLGFBQWEsUUFBUSxlQUFSLENBQWI7Ozs7Ozs7Ozs7Ozs7QUFhSixTQUFTLFlBQVQsQ0FBc0IsTUFBdEIsRUFBOEIsTUFBOUIsRUFBc0MsUUFBdEMsRUFBZ0QsV0FBaEQsRUFBNkQ7QUFDM0QsYUFBVyxNQUFYLEVBQW1CLFVBQVMsS0FBVCxFQUFnQixHQUFoQixFQUFxQixNQUFyQixFQUE2QjtBQUM5QyxXQUFPLFdBQVAsRUFBb0IsU0FBUyxLQUFULENBQXBCLEVBQXFDLEdBQXJDLEVBQTBDLE1BQTFDLEVBRDhDO0dBQTdCLENBQW5CLENBRDJEO0FBSTNELFNBQU8sV0FBUCxDQUoyRDtDQUE3RDs7QUFPQSxPQUFPLE9BQVAsR0FBaUIsWUFBakIiLCJmaWxlIjoiX2Jhc2VJbnZlcnRlci5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBiYXNlRm9yT3duID0gcmVxdWlyZSgnLi9fYmFzZUZvck93bicpO1xuXG4vKipcbiAqIFRoZSBiYXNlIGltcGxlbWVudGF0aW9uIG9mIGBfLmludmVydGAgYW5kIGBfLmludmVydEJ5YCB3aGljaCBpbnZlcnRzXG4gKiBgb2JqZWN0YCB3aXRoIHZhbHVlcyB0cmFuc2Zvcm1lZCBieSBgaXRlcmF0ZWVgIGFuZCBzZXQgYnkgYHNldHRlcmAuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7T2JqZWN0fSBvYmplY3QgVGhlIG9iamVjdCB0byBpdGVyYXRlIG92ZXIuXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBzZXR0ZXIgVGhlIGZ1bmN0aW9uIHRvIHNldCBgYWNjdW11bGF0b3JgIHZhbHVlcy5cbiAqIEBwYXJhbSB7RnVuY3Rpb259IGl0ZXJhdGVlIFRoZSBpdGVyYXRlZSB0byB0cmFuc2Zvcm0gdmFsdWVzLlxuICogQHBhcmFtIHtPYmplY3R9IGFjY3VtdWxhdG9yIFRoZSBpbml0aWFsIGludmVydGVkIG9iamVjdC5cbiAqIEByZXR1cm5zIHtGdW5jdGlvbn0gUmV0dXJucyBgYWNjdW11bGF0b3JgLlxuICovXG5mdW5jdGlvbiBiYXNlSW52ZXJ0ZXIob2JqZWN0LCBzZXR0ZXIsIGl0ZXJhdGVlLCBhY2N1bXVsYXRvcikge1xuICBiYXNlRm9yT3duKG9iamVjdCwgZnVuY3Rpb24odmFsdWUsIGtleSwgb2JqZWN0KSB7XG4gICAgc2V0dGVyKGFjY3VtdWxhdG9yLCBpdGVyYXRlZSh2YWx1ZSksIGtleSwgb2JqZWN0KTtcbiAgfSk7XG4gIHJldHVybiBhY2N1bXVsYXRvcjtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBiYXNlSW52ZXJ0ZXI7XG4iXX0=

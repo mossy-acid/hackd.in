@@ -1,0 +1,30 @@
+'use strict';
+
+var castSlice = require('./_castSlice'),
+    reHasComplexSymbol = require('./_reHasComplexSymbol'),
+    stringToArray = require('./_stringToArray'),
+    toString = require('./toString');
+
+/**
+ * Creates a function like `_.lowerFirst`.
+ *
+ * @private
+ * @param {string} methodName The name of the `String` case method to use.
+ * @returns {Function} Returns the new case function.
+ */
+function createCaseFirst(methodName) {
+  return function (string) {
+    string = toString(string);
+
+    var strSymbols = reHasComplexSymbol.test(string) ? stringToArray(string) : undefined;
+
+    var chr = strSymbols ? strSymbols[0] : string.charAt(0);
+
+    var trailing = strSymbols ? castSlice(strSymbols, 1).join('') : string.slice(1);
+
+    return chr[methodName]() + trailing;
+  };
+}
+
+module.exports = createCaseFirst;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jcmVhdGVDYXNlRmlyc3QuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLFlBQVksUUFBUSxjQUFSLENBQVo7SUFDQSxxQkFBcUIsUUFBUSx1QkFBUixDQUFyQjtJQUNBLGdCQUFnQixRQUFRLGtCQUFSLENBQWhCO0lBQ0EsV0FBVyxRQUFRLFlBQVIsQ0FBWDs7Ozs7Ozs7O0FBU0osU0FBUyxlQUFULENBQXlCLFVBQXpCLEVBQXFDO0FBQ25DLFNBQU8sVUFBUyxNQUFULEVBQWlCO0FBQ3RCLGFBQVMsU0FBUyxNQUFULENBQVQsQ0FEc0I7O0FBR3RCLFFBQUksYUFBYSxtQkFBbUIsSUFBbkIsQ0FBd0IsTUFBeEIsSUFDYixjQUFjLE1BQWQsQ0FEYSxHQUViLFNBRmEsQ0FISzs7QUFPdEIsUUFBSSxNQUFNLGFBQ04sV0FBVyxDQUFYLENBRE0sR0FFTixPQUFPLE1BQVAsQ0FBYyxDQUFkLENBRk0sQ0FQWTs7QUFXdEIsUUFBSSxXQUFXLGFBQ1gsVUFBVSxVQUFWLEVBQXNCLENBQXRCLEVBQXlCLElBQXpCLENBQThCLEVBQTlCLENBRFcsR0FFWCxPQUFPLEtBQVAsQ0FBYSxDQUFiLENBRlcsQ0FYTzs7QUFldEIsV0FBTyxJQUFJLFVBQUosTUFBb0IsUUFBcEIsQ0FmZTtHQUFqQixDQUQ0QjtDQUFyQzs7QUFvQkEsT0FBTyxPQUFQLEdBQWlCLGVBQWpCIiwiZmlsZSI6Il9jcmVhdGVDYXNlRmlyc3QuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgY2FzdFNsaWNlID0gcmVxdWlyZSgnLi9fY2FzdFNsaWNlJyksXG4gICAgcmVIYXNDb21wbGV4U3ltYm9sID0gcmVxdWlyZSgnLi9fcmVIYXNDb21wbGV4U3ltYm9sJyksXG4gICAgc3RyaW5nVG9BcnJheSA9IHJlcXVpcmUoJy4vX3N0cmluZ1RvQXJyYXknKSxcbiAgICB0b1N0cmluZyA9IHJlcXVpcmUoJy4vdG9TdHJpbmcnKTtcblxuLyoqXG4gKiBDcmVhdGVzIGEgZnVuY3Rpb24gbGlrZSBgXy5sb3dlckZpcnN0YC5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHtzdHJpbmd9IG1ldGhvZE5hbWUgVGhlIG5hbWUgb2YgdGhlIGBTdHJpbmdgIGNhc2UgbWV0aG9kIHRvIHVzZS5cbiAqIEByZXR1cm5zIHtGdW5jdGlvbn0gUmV0dXJucyB0aGUgbmV3IGNhc2UgZnVuY3Rpb24uXG4gKi9cbmZ1bmN0aW9uIGNyZWF0ZUNhc2VGaXJzdChtZXRob2ROYW1lKSB7XG4gIHJldHVybiBmdW5jdGlvbihzdHJpbmcpIHtcbiAgICBzdHJpbmcgPSB0b1N0cmluZyhzdHJpbmcpO1xuXG4gICAgdmFyIHN0clN5bWJvbHMgPSByZUhhc0NvbXBsZXhTeW1ib2wudGVzdChzdHJpbmcpXG4gICAgICA/IHN0cmluZ1RvQXJyYXkoc3RyaW5nKVxuICAgICAgOiB1bmRlZmluZWQ7XG5cbiAgICB2YXIgY2hyID0gc3RyU3ltYm9sc1xuICAgICAgPyBzdHJTeW1ib2xzWzBdXG4gICAgICA6IHN0cmluZy5jaGFyQXQoMCk7XG5cbiAgICB2YXIgdHJhaWxpbmcgPSBzdHJTeW1ib2xzXG4gICAgICA/IGNhc3RTbGljZShzdHJTeW1ib2xzLCAxKS5qb2luKCcnKVxuICAgICAgOiBzdHJpbmcuc2xpY2UoMSk7XG5cbiAgICByZXR1cm4gY2hyW21ldGhvZE5hbWVdKCkgKyB0cmFpbGluZztcbiAgfTtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBjcmVhdGVDYXNlRmlyc3Q7XG4iXX0=

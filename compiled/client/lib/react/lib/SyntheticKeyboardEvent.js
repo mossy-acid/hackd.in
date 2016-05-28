@@ -1,0 +1,86 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule SyntheticKeyboardEvent
+ * @typechecks static-only
+ */
+
+'use strict';
+
+var SyntheticUIEvent = require('./SyntheticUIEvent');
+
+var getEventCharCode = require('./getEventCharCode');
+var getEventKey = require('./getEventKey');
+var getEventModifierState = require('./getEventModifierState');
+
+/**
+ * @interface KeyboardEvent
+ * @see http://www.w3.org/TR/DOM-Level-3-Events/
+ */
+var KeyboardEventInterface = {
+  key: getEventKey,
+  location: null,
+  ctrlKey: null,
+  shiftKey: null,
+  altKey: null,
+  metaKey: null,
+  repeat: null,
+  locale: null,
+  getModifierState: getEventModifierState,
+  // Legacy Interface
+  charCode: function charCode(event) {
+    // `charCode` is the result of a KeyPress event and represents the value of
+    // the actual printable character.
+
+    // KeyPress is deprecated, but its replacement is not yet final and not
+    // implemented in any major browser. Only KeyPress has charCode.
+    if (event.type === 'keypress') {
+      return getEventCharCode(event);
+    }
+    return 0;
+  },
+  keyCode: function keyCode(event) {
+    // `keyCode` is the result of a KeyDown/Up event and represents the value of
+    // physical keyboard key.
+
+    // The actual meaning of the value depends on the users' keyboard layout
+    // which cannot be detected. Assuming that it is a US keyboard layout
+    // provides a surprisingly accurate mapping for US and European users.
+    // Due to this, it is left to the user to implement at this time.
+    if (event.type === 'keydown' || event.type === 'keyup') {
+      return event.keyCode;
+    }
+    return 0;
+  },
+  which: function which(event) {
+    // `which` is an alias for either `keyCode` or `charCode` depending on the
+    // type of the event.
+    if (event.type === 'keypress') {
+      return getEventCharCode(event);
+    }
+    if (event.type === 'keydown' || event.type === 'keyup') {
+      return event.keyCode;
+    }
+    return 0;
+  }
+};
+
+/**
+ * @param {object} dispatchConfig Configuration used to dispatch this event.
+ * @param {string} dispatchMarker Marker identifying the event target.
+ * @param {object} nativeEvent Native browser event.
+ * @extends {SyntheticUIEvent}
+ */
+function SyntheticKeyboardEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEventTarget) {
+  SyntheticUIEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent, nativeEventTarget);
+}
+
+SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
+
+module.exports = SyntheticKeyboardEvent;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1N5bnRoZXRpY0tleWJvYXJkRXZlbnQuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBWUE7O0FBRUEsSUFBSSxtQkFBbUIsUUFBUSxvQkFBUixDQUFuQjs7QUFFSixJQUFJLG1CQUFtQixRQUFRLG9CQUFSLENBQW5CO0FBQ0osSUFBSSxjQUFjLFFBQVEsZUFBUixDQUFkO0FBQ0osSUFBSSx3QkFBd0IsUUFBUSx5QkFBUixDQUF4Qjs7Ozs7O0FBTUosSUFBSSx5QkFBeUI7QUFDM0IsT0FBSyxXQUFMO0FBQ0EsWUFBVSxJQUFWO0FBQ0EsV0FBUyxJQUFUO0FBQ0EsWUFBVSxJQUFWO0FBQ0EsVUFBUSxJQUFSO0FBQ0EsV0FBUyxJQUFUO0FBQ0EsVUFBUSxJQUFSO0FBQ0EsVUFBUSxJQUFSO0FBQ0Esb0JBQWtCLHFCQUFsQjs7QUFFQSxZQUFVLGtCQUFVLEtBQVYsRUFBaUI7Ozs7OztBQU16QixRQUFJLE1BQU0sSUFBTixLQUFlLFVBQWYsRUFBMkI7QUFDN0IsYUFBTyxpQkFBaUIsS0FBakIsQ0FBUCxDQUQ2QjtLQUEvQjtBQUdBLFdBQU8sQ0FBUCxDQVR5QjtHQUFqQjtBQVdWLFdBQVMsaUJBQVUsS0FBVixFQUFpQjs7Ozs7Ozs7QUFReEIsUUFBSSxNQUFNLElBQU4sS0FBZSxTQUFmLElBQTRCLE1BQU0sSUFBTixLQUFlLE9BQWYsRUFBd0I7QUFDdEQsYUFBTyxNQUFNLE9BQU4sQ0FEK0M7S0FBeEQ7QUFHQSxXQUFPLENBQVAsQ0FYd0I7R0FBakI7QUFhVCxTQUFPLGVBQVUsS0FBVixFQUFpQjs7O0FBR3RCLFFBQUksTUFBTSxJQUFOLEtBQWUsVUFBZixFQUEyQjtBQUM3QixhQUFPLGlCQUFpQixLQUFqQixDQUFQLENBRDZCO0tBQS9CO0FBR0EsUUFBSSxNQUFNLElBQU4sS0FBZSxTQUFmLElBQTRCLE1BQU0sSUFBTixLQUFlLE9BQWYsRUFBd0I7QUFDdEQsYUFBTyxNQUFNLE9BQU4sQ0FEK0M7S0FBeEQ7QUFHQSxXQUFPLENBQVAsQ0FUc0I7R0FBakI7Q0FuQ0w7Ozs7Ozs7O0FBc0RKLFNBQVMsc0JBQVQsQ0FBZ0MsY0FBaEMsRUFBZ0QsY0FBaEQsRUFBZ0UsV0FBaEUsRUFBNkUsaUJBQTdFLEVBQWdHO0FBQzlGLG1CQUFpQixJQUFqQixDQUFzQixJQUF0QixFQUE0QixjQUE1QixFQUE0QyxjQUE1QyxFQUE0RCxXQUE1RCxFQUF5RSxpQkFBekUsRUFEOEY7Q0FBaEc7O0FBSUEsaUJBQWlCLFlBQWpCLENBQThCLHNCQUE5QixFQUFzRCxzQkFBdEQ7O0FBRUEsT0FBTyxPQUFQLEdBQWlCLHNCQUFqQiIsImZpbGUiOiJTeW50aGV0aWNLZXlib2FyZEV2ZW50LmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBDb3B5cmlnaHQgMjAxMy0yMDE1LCBGYWNlYm9vaywgSW5jLlxuICogQWxsIHJpZ2h0cyByZXNlcnZlZC5cbiAqXG4gKiBUaGlzIHNvdXJjZSBjb2RlIGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBCU0Qtc3R5bGUgbGljZW5zZSBmb3VuZCBpbiB0aGVcbiAqIExJQ0VOU0UgZmlsZSBpbiB0aGUgcm9vdCBkaXJlY3Rvcnkgb2YgdGhpcyBzb3VyY2UgdHJlZS4gQW4gYWRkaXRpb25hbCBncmFudFxuICogb2YgcGF0ZW50IHJpZ2h0cyBjYW4gYmUgZm91bmQgaW4gdGhlIFBBVEVOVFMgZmlsZSBpbiB0aGUgc2FtZSBkaXJlY3RvcnkuXG4gKlxuICogQHByb3ZpZGVzTW9kdWxlIFN5bnRoZXRpY0tleWJvYXJkRXZlbnRcbiAqIEB0eXBlY2hlY2tzIHN0YXRpYy1vbmx5XG4gKi9cblxuJ3VzZSBzdHJpY3QnO1xuXG52YXIgU3ludGhldGljVUlFdmVudCA9IHJlcXVpcmUoJy4vU3ludGhldGljVUlFdmVudCcpO1xuXG52YXIgZ2V0RXZlbnRDaGFyQ29kZSA9IHJlcXVpcmUoJy4vZ2V0RXZlbnRDaGFyQ29kZScpO1xudmFyIGdldEV2ZW50S2V5ID0gcmVxdWlyZSgnLi9nZXRFdmVudEtleScpO1xudmFyIGdldEV2ZW50TW9kaWZpZXJTdGF0ZSA9IHJlcXVpcmUoJy4vZ2V0RXZlbnRNb2RpZmllclN0YXRlJyk7XG5cbi8qKlxuICogQGludGVyZmFjZSBLZXlib2FyZEV2ZW50XG4gKiBAc2VlIGh0dHA6Ly93d3cudzMub3JnL1RSL0RPTS1MZXZlbC0zLUV2ZW50cy9cbiAqL1xudmFyIEtleWJvYXJkRXZlbnRJbnRlcmZhY2UgPSB7XG4gIGtleTogZ2V0RXZlbnRLZXksXG4gIGxvY2F0aW9uOiBudWxsLFxuICBjdHJsS2V5OiBudWxsLFxuICBzaGlmdEtleTogbnVsbCxcbiAgYWx0S2V5OiBudWxsLFxuICBtZXRhS2V5OiBudWxsLFxuICByZXBlYXQ6IG51bGwsXG4gIGxvY2FsZTogbnVsbCxcbiAgZ2V0TW9kaWZpZXJTdGF0ZTogZ2V0RXZlbnRNb2RpZmllclN0YXRlLFxuICAvLyBMZWdhY3kgSW50ZXJmYWNlXG4gIGNoYXJDb2RlOiBmdW5jdGlvbiAoZXZlbnQpIHtcbiAgICAvLyBgY2hhckNvZGVgIGlzIHRoZSByZXN1bHQgb2YgYSBLZXlQcmVzcyBldmVudCBhbmQgcmVwcmVzZW50cyB0aGUgdmFsdWUgb2ZcbiAgICAvLyB0aGUgYWN0dWFsIHByaW50YWJsZSBjaGFyYWN0ZXIuXG5cbiAgICAvLyBLZXlQcmVzcyBpcyBkZXByZWNhdGVkLCBidXQgaXRzIHJlcGxhY2VtZW50IGlzIG5vdCB5ZXQgZmluYWwgYW5kIG5vdFxuICAgIC8vIGltcGxlbWVudGVkIGluIGFueSBtYWpvciBicm93c2VyLiBPbmx5IEtleVByZXNzIGhhcyBjaGFyQ29kZS5cbiAgICBpZiAoZXZlbnQudHlwZSA9PT0gJ2tleXByZXNzJykge1xuICAgICAgcmV0dXJuIGdldEV2ZW50Q2hhckNvZGUoZXZlbnQpO1xuICAgIH1cbiAgICByZXR1cm4gMDtcbiAgfSxcbiAga2V5Q29kZTogZnVuY3Rpb24gKGV2ZW50KSB7XG4gICAgLy8gYGtleUNvZGVgIGlzIHRoZSByZXN1bHQgb2YgYSBLZXlEb3duL1VwIGV2ZW50IGFuZCByZXByZXNlbnRzIHRoZSB2YWx1ZSBvZlxuICAgIC8vIHBoeXNpY2FsIGtleWJvYXJkIGtleS5cblxuICAgIC8vIFRoZSBhY3R1YWwgbWVhbmluZyBvZiB0aGUgdmFsdWUgZGVwZW5kcyBvbiB0aGUgdXNlcnMnIGtleWJvYXJkIGxheW91dFxuICAgIC8vIHdoaWNoIGNhbm5vdCBiZSBkZXRlY3RlZC4gQXNzdW1pbmcgdGhhdCBpdCBpcyBhIFVTIGtleWJvYXJkIGxheW91dFxuICAgIC8vIHByb3ZpZGVzIGEgc3VycHJpc2luZ2x5IGFjY3VyYXRlIG1hcHBpbmcgZm9yIFVTIGFuZCBFdXJvcGVhbiB1c2Vycy5cbiAgICAvLyBEdWUgdG8gdGhpcywgaXQgaXMgbGVmdCB0byB0aGUgdXNlciB0byBpbXBsZW1lbnQgYXQgdGhpcyB0aW1lLlxuICAgIGlmIChldmVudC50eXBlID09PSAna2V5ZG93bicgfHwgZXZlbnQudHlwZSA9PT0gJ2tleXVwJykge1xuICAgICAgcmV0dXJuIGV2ZW50LmtleUNvZGU7XG4gICAgfVxuICAgIHJldHVybiAwO1xuICB9LFxuICB3aGljaDogZnVuY3Rpb24gKGV2ZW50KSB7XG4gICAgLy8gYHdoaWNoYCBpcyBhbiBhbGlhcyBmb3IgZWl0aGVyIGBrZXlDb2RlYCBvciBgY2hhckNvZGVgIGRlcGVuZGluZyBvbiB0aGVcbiAgICAvLyB0eXBlIG9mIHRoZSBldmVudC5cbiAgICBpZiAoZXZlbnQudHlwZSA9PT0gJ2tleXByZXNzJykge1xuICAgICAgcmV0dXJuIGdldEV2ZW50Q2hhckNvZGUoZXZlbnQpO1xuICAgIH1cbiAgICBpZiAoZXZlbnQudHlwZSA9PT0gJ2tleWRvd24nIHx8IGV2ZW50LnR5cGUgPT09ICdrZXl1cCcpIHtcbiAgICAgIHJldHVybiBldmVudC5rZXlDb2RlO1xuICAgIH1cbiAgICByZXR1cm4gMDtcbiAgfVxufTtcblxuLyoqXG4gKiBAcGFyYW0ge29iamVjdH0gZGlzcGF0Y2hDb25maWcgQ29uZmlndXJhdGlvbiB1c2VkIHRvIGRpc3BhdGNoIHRoaXMgZXZlbnQuXG4gKiBAcGFyYW0ge3N0cmluZ30gZGlzcGF0Y2hNYXJrZXIgTWFya2VyIGlkZW50aWZ5aW5nIHRoZSBldmVudCB0YXJnZXQuXG4gKiBAcGFyYW0ge29iamVjdH0gbmF0aXZlRXZlbnQgTmF0aXZlIGJyb3dzZXIgZXZlbnQuXG4gKiBAZXh0ZW5kcyB7U3ludGhldGljVUlFdmVudH1cbiAqL1xuZnVuY3Rpb24gU3ludGhldGljS2V5Ym9hcmRFdmVudChkaXNwYXRjaENvbmZpZywgZGlzcGF0Y2hNYXJrZXIsIG5hdGl2ZUV2ZW50LCBuYXRpdmVFdmVudFRhcmdldCkge1xuICBTeW50aGV0aWNVSUV2ZW50LmNhbGwodGhpcywgZGlzcGF0Y2hDb25maWcsIGRpc3BhdGNoTWFya2VyLCBuYXRpdmVFdmVudCwgbmF0aXZlRXZlbnRUYXJnZXQpO1xufVxuXG5TeW50aGV0aWNVSUV2ZW50LmF1Z21lbnRDbGFzcyhTeW50aGV0aWNLZXlib2FyZEV2ZW50LCBLZXlib2FyZEV2ZW50SW50ZXJmYWNlKTtcblxubW9kdWxlLmV4cG9ydHMgPSBTeW50aGV0aWNLZXlib2FyZEV2ZW50OyJdfQ==

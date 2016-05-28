@@ -1,0 +1,36 @@
+'use strict';
+
+/** Used to map latin-1 supplementary letters to basic latin letters. */
+var deburredLetters = {
+  '\xc0': 'A', '\xc1': 'A', '\xc2': 'A', '\xc3': 'A', '\xc4': 'A', '\xc5': 'A',
+  '\xe0': 'a', '\xe1': 'a', '\xe2': 'a', '\xe3': 'a', '\xe4': 'a', '\xe5': 'a',
+  '\xc7': 'C', '\xe7': 'c',
+  '\xd0': 'D', '\xf0': 'd',
+  '\xc8': 'E', '\xc9': 'E', '\xca': 'E', '\xcb': 'E',
+  '\xe8': 'e', '\xe9': 'e', '\xea': 'e', '\xeb': 'e',
+  '\xcC': 'I', '\xcd': 'I', '\xce': 'I', '\xcf': 'I',
+  '\xeC': 'i', '\xed': 'i', '\xee': 'i', '\xef': 'i',
+  '\xd1': 'N', '\xf1': 'n',
+  '\xd2': 'O', '\xd3': 'O', '\xd4': 'O', '\xd5': 'O', '\xd6': 'O', '\xd8': 'O',
+  '\xf2': 'o', '\xf3': 'o', '\xf4': 'o', '\xf5': 'o', '\xf6': 'o', '\xf8': 'o',
+  '\xd9': 'U', '\xda': 'U', '\xdb': 'U', '\xdc': 'U',
+  '\xf9': 'u', '\xfa': 'u', '\xfb': 'u', '\xfc': 'u',
+  '\xdd': 'Y', '\xfd': 'y', '\xff': 'y',
+  '\xc6': 'Ae', '\xe6': 'ae',
+  '\xde': 'Th', '\xfe': 'th',
+  '\xdf': 'ss'
+};
+
+/**
+ * Used by `_.deburr` to convert latin-1 supplementary letters to basic latin letters.
+ *
+ * @private
+ * @param {string} letter The matched letter to deburr.
+ * @returns {string} Returns the deburred letter.
+ */
+function deburrLetter(letter) {
+  return deburredLetters[letter];
+}
+
+module.exports = deburrLetter;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19kZWJ1cnJMZXR0ZXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQ0EsSUFBSSxrQkFBa0I7QUFDcEIsVUFBUSxHQUFSLEVBQWMsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSO0FBQ2xFLFVBQVEsR0FBUixFQUFjLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUjtBQUNsRSxVQUFRLEdBQVIsRUFBYyxRQUFRLEdBQVI7QUFDZCxVQUFRLEdBQVIsRUFBYyxRQUFRLEdBQVI7QUFDZCxVQUFRLEdBQVIsRUFBYyxRQUFRLEdBQVIsRUFBYSxRQUFRLEdBQVIsRUFBYSxRQUFRLEdBQVI7QUFDeEMsVUFBUSxHQUFSLEVBQWMsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSO0FBQ3hDLFVBQVEsR0FBUixFQUFjLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUjtBQUN4QyxVQUFRLEdBQVIsRUFBYyxRQUFRLEdBQVIsRUFBYSxRQUFRLEdBQVIsRUFBYSxRQUFRLEdBQVI7QUFDeEMsVUFBUSxHQUFSLEVBQWMsUUFBUSxHQUFSO0FBQ2QsVUFBUSxHQUFSLEVBQWMsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSO0FBQ2xFLFVBQVEsR0FBUixFQUFjLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUjtBQUNsRSxVQUFRLEdBQVIsRUFBYyxRQUFRLEdBQVIsRUFBYSxRQUFRLEdBQVIsRUFBYSxRQUFRLEdBQVI7QUFDeEMsVUFBUSxHQUFSLEVBQWMsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSLEVBQWEsUUFBUSxHQUFSO0FBQ3hDLFVBQVEsR0FBUixFQUFjLFFBQVEsR0FBUixFQUFhLFFBQVEsR0FBUjtBQUMzQixVQUFRLElBQVIsRUFBYyxRQUFRLElBQVI7QUFDZCxVQUFRLElBQVIsRUFBYyxRQUFRLElBQVI7QUFDZCxVQUFRLElBQVI7Q0FqQkU7Ozs7Ozs7OztBQTJCSixTQUFTLFlBQVQsQ0FBc0IsTUFBdEIsRUFBOEI7QUFDNUIsU0FBTyxnQkFBZ0IsTUFBaEIsQ0FBUCxDQUQ0QjtDQUE5Qjs7QUFJQSxPQUFPLE9BQVAsR0FBaUIsWUFBakIiLCJmaWxlIjoiX2RlYnVyckxldHRlci5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKiBVc2VkIHRvIG1hcCBsYXRpbi0xIHN1cHBsZW1lbnRhcnkgbGV0dGVycyB0byBiYXNpYyBsYXRpbiBsZXR0ZXJzLiAqL1xudmFyIGRlYnVycmVkTGV0dGVycyA9IHtcbiAgJ1xceGMwJzogJ0EnLCAgJ1xceGMxJzogJ0EnLCAnXFx4YzInOiAnQScsICdcXHhjMyc6ICdBJywgJ1xceGM0JzogJ0EnLCAnXFx4YzUnOiAnQScsXG4gICdcXHhlMCc6ICdhJywgICdcXHhlMSc6ICdhJywgJ1xceGUyJzogJ2EnLCAnXFx4ZTMnOiAnYScsICdcXHhlNCc6ICdhJywgJ1xceGU1JzogJ2EnLFxuICAnXFx4YzcnOiAnQycsICAnXFx4ZTcnOiAnYycsXG4gICdcXHhkMCc6ICdEJywgICdcXHhmMCc6ICdkJyxcbiAgJ1xceGM4JzogJ0UnLCAgJ1xceGM5JzogJ0UnLCAnXFx4Y2EnOiAnRScsICdcXHhjYic6ICdFJyxcbiAgJ1xceGU4JzogJ2UnLCAgJ1xceGU5JzogJ2UnLCAnXFx4ZWEnOiAnZScsICdcXHhlYic6ICdlJyxcbiAgJ1xceGNDJzogJ0knLCAgJ1xceGNkJzogJ0knLCAnXFx4Y2UnOiAnSScsICdcXHhjZic6ICdJJyxcbiAgJ1xceGVDJzogJ2knLCAgJ1xceGVkJzogJ2knLCAnXFx4ZWUnOiAnaScsICdcXHhlZic6ICdpJyxcbiAgJ1xceGQxJzogJ04nLCAgJ1xceGYxJzogJ24nLFxuICAnXFx4ZDInOiAnTycsICAnXFx4ZDMnOiAnTycsICdcXHhkNCc6ICdPJywgJ1xceGQ1JzogJ08nLCAnXFx4ZDYnOiAnTycsICdcXHhkOCc6ICdPJyxcbiAgJ1xceGYyJzogJ28nLCAgJ1xceGYzJzogJ28nLCAnXFx4ZjQnOiAnbycsICdcXHhmNSc6ICdvJywgJ1xceGY2JzogJ28nLCAnXFx4ZjgnOiAnbycsXG4gICdcXHhkOSc6ICdVJywgICdcXHhkYSc6ICdVJywgJ1xceGRiJzogJ1UnLCAnXFx4ZGMnOiAnVScsXG4gICdcXHhmOSc6ICd1JywgICdcXHhmYSc6ICd1JywgJ1xceGZiJzogJ3UnLCAnXFx4ZmMnOiAndScsXG4gICdcXHhkZCc6ICdZJywgICdcXHhmZCc6ICd5JywgJ1xceGZmJzogJ3knLFxuICAnXFx4YzYnOiAnQWUnLCAnXFx4ZTYnOiAnYWUnLFxuICAnXFx4ZGUnOiAnVGgnLCAnXFx4ZmUnOiAndGgnLFxuICAnXFx4ZGYnOiAnc3MnXG59O1xuXG4vKipcbiAqIFVzZWQgYnkgYF8uZGVidXJyYCB0byBjb252ZXJ0IGxhdGluLTEgc3VwcGxlbWVudGFyeSBsZXR0ZXJzIHRvIGJhc2ljIGxhdGluIGxldHRlcnMuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7c3RyaW5nfSBsZXR0ZXIgVGhlIG1hdGNoZWQgbGV0dGVyIHRvIGRlYnVyci5cbiAqIEByZXR1cm5zIHtzdHJpbmd9IFJldHVybnMgdGhlIGRlYnVycmVkIGxldHRlci5cbiAqL1xuZnVuY3Rpb24gZGVidXJyTGV0dGVyKGxldHRlcikge1xuICByZXR1cm4gZGVidXJyZWRMZXR0ZXJzW2xldHRlcl07XG59XG5cbm1vZHVsZS5leHBvcnRzID0gZGVidXJyTGV0dGVyO1xuIl19

@@ -1,0 +1,11 @@
+'use strict';
+
+var warning = require('fbjs/lib/warning');
+warning(false,
+// Require examples in this string must be split to prevent React's
+// build tools from mistaking them for real requires.
+// Otherwise the build tools will attempt to build a 'react-addons-{addon}' module.
+'require' + "('react/addons') is deprecated. " + 'Access using require' + "('react-addons-{addon}') instead.");
+
+module.exports = require('./lib/ReactWithAddons');
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvYWRkb25zLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOztBQUVBLElBQUksVUFBVSxRQUFRLGtCQUFSLENBQVY7QUFDSixRQUNFLEtBREY7Ozs7QUFLRSxZQUFZLGtDQUFaLEdBQ0Esc0JBREEsR0FDeUIsbUNBRHpCLENBTEY7O0FBU0EsT0FBTyxPQUFQLEdBQWlCLFFBQVEsdUJBQVIsQ0FBakIiLCJmaWxlIjoiYWRkb25zLmpzIiwic291cmNlc0NvbnRlbnQiOlsiJ3VzZSBzdHJpY3QnO1xuXG52YXIgd2FybmluZyA9IHJlcXVpcmUoJ2ZianMvbGliL3dhcm5pbmcnKTtcbndhcm5pbmcoXG4gIGZhbHNlLFxuICAvLyBSZXF1aXJlIGV4YW1wbGVzIGluIHRoaXMgc3RyaW5nIG11c3QgYmUgc3BsaXQgdG8gcHJldmVudCBSZWFjdCdzXG4gIC8vIGJ1aWxkIHRvb2xzIGZyb20gbWlzdGFraW5nIHRoZW0gZm9yIHJlYWwgcmVxdWlyZXMuXG4gIC8vIE90aGVyd2lzZSB0aGUgYnVpbGQgdG9vbHMgd2lsbCBhdHRlbXB0IHRvIGJ1aWxkIGEgJ3JlYWN0LWFkZG9ucy17YWRkb259JyBtb2R1bGUuXG4gICdyZXF1aXJlJyArIFwiKCdyZWFjdC9hZGRvbnMnKSBpcyBkZXByZWNhdGVkLiBcIiArXG4gICdBY2Nlc3MgdXNpbmcgcmVxdWlyZScgKyBcIigncmVhY3QtYWRkb25zLXthZGRvbn0nKSBpbnN0ZWFkLlwiXG4pO1xuXG5tb2R1bGUuZXhwb3J0cyA9IHJlcXVpcmUoJy4vbGliL1JlYWN0V2l0aEFkZG9ucycpO1xuIl19

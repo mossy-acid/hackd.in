@@ -1,0 +1,21 @@
+'use strict';
+
+var baseGet = require('./_baseGet'),
+    baseSet = require('./_baseSet');
+
+/**
+ * The base implementation of `_.update`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path of the property to update.
+ * @param {Function} updater The function to produce the updated value.
+ * @param {Function} [customizer] The function to customize path creation.
+ * @returns {Object} Returns `object`.
+ */
+function baseUpdate(object, path, updater, customizer) {
+  return baseSet(object, path, updater(baseGet(object, path)), customizer);
+}
+
+module.exports = baseUpdate;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlVXBkYXRlLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxVQUFVLFFBQVEsWUFBUixDQUFWO0lBQ0EsVUFBVSxRQUFRLFlBQVIsQ0FBVjs7Ozs7Ozs7Ozs7O0FBWUosU0FBUyxVQUFULENBQW9CLE1BQXBCLEVBQTRCLElBQTVCLEVBQWtDLE9BQWxDLEVBQTJDLFVBQTNDLEVBQXVEO0FBQ3JELFNBQU8sUUFBUSxNQUFSLEVBQWdCLElBQWhCLEVBQXNCLFFBQVEsUUFBUSxNQUFSLEVBQWdCLElBQWhCLENBQVIsQ0FBdEIsRUFBc0QsVUFBdEQsQ0FBUCxDQURxRDtDQUF2RDs7QUFJQSxPQUFPLE9BQVAsR0FBaUIsVUFBakIiLCJmaWxlIjoiX2Jhc2VVcGRhdGUuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgYmFzZUdldCA9IHJlcXVpcmUoJy4vX2Jhc2VHZXQnKSxcbiAgICBiYXNlU2V0ID0gcmVxdWlyZSgnLi9fYmFzZVNldCcpO1xuXG4vKipcbiAqIFRoZSBiYXNlIGltcGxlbWVudGF0aW9uIG9mIGBfLnVwZGF0ZWAuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7T2JqZWN0fSBvYmplY3QgVGhlIG9iamVjdCB0byBxdWVyeS5cbiAqIEBwYXJhbSB7QXJyYXl8c3RyaW5nfSBwYXRoIFRoZSBwYXRoIG9mIHRoZSBwcm9wZXJ0eSB0byB1cGRhdGUuXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSB1cGRhdGVyIFRoZSBmdW5jdGlvbiB0byBwcm9kdWNlIHRoZSB1cGRhdGVkIHZhbHVlLlxuICogQHBhcmFtIHtGdW5jdGlvbn0gW2N1c3RvbWl6ZXJdIFRoZSBmdW5jdGlvbiB0byBjdXN0b21pemUgcGF0aCBjcmVhdGlvbi5cbiAqIEByZXR1cm5zIHtPYmplY3R9IFJldHVybnMgYG9iamVjdGAuXG4gKi9cbmZ1bmN0aW9uIGJhc2VVcGRhdGUob2JqZWN0LCBwYXRoLCB1cGRhdGVyLCBjdXN0b21pemVyKSB7XG4gIHJldHVybiBiYXNlU2V0KG9iamVjdCwgcGF0aCwgdXBkYXRlcihiYXNlR2V0KG9iamVjdCwgcGF0aCkpLCBjdXN0b21pemVyKTtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBiYXNlVXBkYXRlO1xuIl19

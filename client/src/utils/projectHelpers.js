@@ -1,5 +1,5 @@
 var getProjects = () => {
-  $.get('/projects', () => {
+  $.get('/projects/data', () => {
     console.log('get request made to projects')
   })
   .done( data => {
@@ -8,9 +8,9 @@ var getProjects = () => {
   .fail( (err) => {
     console.log(err);
   });  
-}
+};
 
-window.getProjects = getProjects
+window.getProjects = getProjects;
 
 
 

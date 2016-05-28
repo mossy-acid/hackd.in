@@ -1,0 +1,26 @@
+'use strict';
+
+var baseSlice = require('./_baseSlice');
+
+/**
+ * The base implementation of methods like `_.dropWhile` and `_.takeWhile`
+ * without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to query.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {boolean} [isDrop] Specify dropping elements instead of taking them.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Array} Returns the slice of `array`.
+ */
+function baseWhile(array, predicate, isDrop, fromRight) {
+  var length = array.length,
+      index = fromRight ? length : -1;
+
+  while ((fromRight ? index-- : ++index < length) && predicate(array[index], index, array)) {}
+
+  return isDrop ? baseSlice(array, fromRight ? 0 : index, fromRight ? index + 1 : length) : baseSlice(array, fromRight ? index + 1 : 0, fromRight ? length : index);
+}
+
+module.exports = baseWhile;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlV2hpbGUuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLFlBQVksUUFBUSxjQUFSLENBQVo7Ozs7Ozs7Ozs7Ozs7QUFhSixTQUFTLFNBQVQsQ0FBbUIsS0FBbkIsRUFBMEIsU0FBMUIsRUFBcUMsTUFBckMsRUFBNkMsU0FBN0MsRUFBd0Q7QUFDdEQsTUFBSSxTQUFTLE1BQU0sTUFBTjtNQUNULFFBQVEsWUFBWSxNQUFaLEdBQXFCLENBQUMsQ0FBRCxDQUZxQjs7QUFJdEQsU0FBTyxDQUFDLFlBQVksT0FBWixHQUFzQixFQUFFLEtBQUYsR0FBVSxNQUFWLENBQXZCLElBQ0wsVUFBVSxNQUFNLEtBQU4sQ0FBVixFQUF3QixLQUF4QixFQUErQixLQUEvQixDQURLLEVBQ2tDLEVBRHpDOztBQUdBLFNBQU8sU0FDSCxVQUFVLEtBQVYsRUFBa0IsWUFBWSxDQUFaLEdBQWdCLEtBQWhCLEVBQXlCLFlBQVksUUFBUSxDQUFSLEdBQVksTUFBeEIsQ0FEeEMsR0FFSCxVQUFVLEtBQVYsRUFBa0IsWUFBWSxRQUFRLENBQVIsR0FBWSxDQUF4QixFQUE2QixZQUFZLE1BQVosR0FBcUIsS0FBckIsQ0FGNUMsQ0FQK0M7Q0FBeEQ7O0FBWUEsT0FBTyxPQUFQLEdBQWlCLFNBQWpCIiwiZmlsZSI6Il9iYXNlV2hpbGUuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgYmFzZVNsaWNlID0gcmVxdWlyZSgnLi9fYmFzZVNsaWNlJyk7XG5cbi8qKlxuICogVGhlIGJhc2UgaW1wbGVtZW50YXRpb24gb2YgbWV0aG9kcyBsaWtlIGBfLmRyb3BXaGlsZWAgYW5kIGBfLnRha2VXaGlsZWBcbiAqIHdpdGhvdXQgc3VwcG9ydCBmb3IgaXRlcmF0ZWUgc2hvcnRoYW5kcy5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHtBcnJheX0gYXJyYXkgVGhlIGFycmF5IHRvIHF1ZXJ5LlxuICogQHBhcmFtIHtGdW5jdGlvbn0gcHJlZGljYXRlIFRoZSBmdW5jdGlvbiBpbnZva2VkIHBlciBpdGVyYXRpb24uXG4gKiBAcGFyYW0ge2Jvb2xlYW59IFtpc0Ryb3BdIFNwZWNpZnkgZHJvcHBpbmcgZWxlbWVudHMgaW5zdGVhZCBvZiB0YWtpbmcgdGhlbS5cbiAqIEBwYXJhbSB7Ym9vbGVhbn0gW2Zyb21SaWdodF0gU3BlY2lmeSBpdGVyYXRpbmcgZnJvbSByaWdodCB0byBsZWZ0LlxuICogQHJldHVybnMge0FycmF5fSBSZXR1cm5zIHRoZSBzbGljZSBvZiBgYXJyYXlgLlxuICovXG5mdW5jdGlvbiBiYXNlV2hpbGUoYXJyYXksIHByZWRpY2F0ZSwgaXNEcm9wLCBmcm9tUmlnaHQpIHtcbiAgdmFyIGxlbmd0aCA9IGFycmF5Lmxlbmd0aCxcbiAgICAgIGluZGV4ID0gZnJvbVJpZ2h0ID8gbGVuZ3RoIDogLTE7XG5cbiAgd2hpbGUgKChmcm9tUmlnaHQgPyBpbmRleC0tIDogKytpbmRleCA8IGxlbmd0aCkgJiZcbiAgICBwcmVkaWNhdGUoYXJyYXlbaW5kZXhdLCBpbmRleCwgYXJyYXkpKSB7fVxuXG4gIHJldHVybiBpc0Ryb3BcbiAgICA/IGJhc2VTbGljZShhcnJheSwgKGZyb21SaWdodCA/IDAgOiBpbmRleCksIChmcm9tUmlnaHQgPyBpbmRleCArIDEgOiBsZW5ndGgpKVxuICAgIDogYmFzZVNsaWNlKGFycmF5LCAoZnJvbVJpZ2h0ID8gaW5kZXggKyAxIDogMCksIChmcm9tUmlnaHQgPyBsZW5ndGggOiBpbmRleCkpO1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGJhc2VXaGlsZTtcbiJdfQ==

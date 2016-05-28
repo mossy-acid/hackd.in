@@ -1,0 +1,95 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactDOMIDOperations
+ * @typechecks static-only
+ */
+
+'use strict';
+
+var DOMChildrenOperations = require('./DOMChildrenOperations');
+var DOMPropertyOperations = require('./DOMPropertyOperations');
+var ReactMount = require('./ReactMount');
+var ReactPerf = require('./ReactPerf');
+
+var invariant = require('fbjs/lib/invariant');
+
+/**
+ * Errors for properties that should not be updated with `updatePropertyByID()`.
+ *
+ * @type {object}
+ * @private
+ */
+var INVALID_PROPERTY_ERRORS = {
+  dangerouslySetInnerHTML: '`dangerouslySetInnerHTML` must be set using `updateInnerHTMLByID()`.',
+  style: '`style` must be set using `updateStylesByID()`.'
+};
+
+/**
+ * Operations used to process updates to DOM nodes.
+ */
+var ReactDOMIDOperations = {
+
+  /**
+   * Updates a DOM node with new property values. This should only be used to
+   * update DOM properties in `DOMProperty`.
+   *
+   * @param {string} id ID of the node to update.
+   * @param {string} name A valid property name, see `DOMProperty`.
+   * @param {*} value New value of the property.
+   * @internal
+   */
+  updatePropertyByID: function updatePropertyByID(id, name, value) {
+    var node = ReactMount.getNode(id);
+    !!INVALID_PROPERTY_ERRORS.hasOwnProperty(name) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'updatePropertyByID(...): %s', INVALID_PROPERTY_ERRORS[name]) : invariant(false) : undefined;
+
+    // If we're updating to null or undefined, we should remove the property
+    // from the DOM node instead of inadvertantly setting to a string. This
+    // brings us in line with the same behavior we have on initial render.
+    if (value != null) {
+      DOMPropertyOperations.setValueForProperty(node, name, value);
+    } else {
+      DOMPropertyOperations.deleteValueForProperty(node, name);
+    }
+  },
+
+  /**
+   * Replaces a DOM node that exists in the document with markup.
+   *
+   * @param {string} id ID of child to be replaced.
+   * @param {string} markup Dangerous markup to inject in place of child.
+   * @internal
+   * @see {Danger.dangerouslyReplaceNodeWithMarkup}
+   */
+  dangerouslyReplaceNodeWithMarkupByID: function dangerouslyReplaceNodeWithMarkupByID(id, markup) {
+    var node = ReactMount.getNode(id);
+    DOMChildrenOperations.dangerouslyReplaceNodeWithMarkup(node, markup);
+  },
+
+  /**
+   * Updates a component's children by processing a series of updates.
+   *
+   * @param {array<object>} updates List of update configurations.
+   * @param {array<string>} markup List of markup strings.
+   * @internal
+   */
+  dangerouslyProcessChildrenUpdates: function dangerouslyProcessChildrenUpdates(updates, markup) {
+    for (var i = 0; i < updates.length; i++) {
+      updates[i].parentNode = ReactMount.getNode(updates[i].parentID);
+    }
+    DOMChildrenOperations.processUpdates(updates, markup);
+  }
+};
+
+ReactPerf.measureMethods(ReactDOMIDOperations, 'ReactDOMIDOperations', {
+  dangerouslyReplaceNodeWithMarkupByID: 'dangerouslyReplaceNodeWithMarkupByID',
+  dangerouslyProcessChildrenUpdates: 'dangerouslyProcessChildrenUpdates'
+});
+
+module.exports = ReactDOMIDOperations;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1JlYWN0RE9NSURPcGVyYXRpb25zLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQVlBOztBQUVBLElBQUksd0JBQXdCLFFBQVEseUJBQVIsQ0FBeEI7QUFDSixJQUFJLHdCQUF3QixRQUFRLHlCQUFSLENBQXhCO0FBQ0osSUFBSSxhQUFhLFFBQVEsY0FBUixDQUFiO0FBQ0osSUFBSSxZQUFZLFFBQVEsYUFBUixDQUFaOztBQUVKLElBQUksWUFBWSxRQUFRLG9CQUFSLENBQVo7Ozs7Ozs7O0FBUUosSUFBSSwwQkFBMEI7QUFDNUIsMkJBQXlCLHNFQUF6QjtBQUNBLFNBQU8saURBQVA7Q0FGRTs7Ozs7QUFRSixJQUFJLHVCQUF1Qjs7Ozs7Ozs7Ozs7QUFXekIsc0JBQW9CLDRCQUFVLEVBQVYsRUFBYyxJQUFkLEVBQW9CLEtBQXBCLEVBQTJCO0FBQzdDLFFBQUksT0FBTyxXQUFXLE9BQVgsQ0FBbUIsRUFBbkIsQ0FBUCxDQUR5QztBQUU3QyxLQUFDLENBQUMsd0JBQXdCLGNBQXhCLENBQXVDLElBQXZDLENBQUQsR0FBZ0QsUUFBUSxHQUFSLENBQVksUUFBWixLQUF5QixZQUF6QixHQUF3QyxVQUFVLEtBQVYsRUFBaUIsNkJBQWpCLEVBQWdELHdCQUF3QixJQUF4QixDQUFoRCxDQUF4QyxHQUF5SCxVQUFVLEtBQVYsQ0FBekgsR0FBNEksU0FBN0w7Ozs7O0FBRjZDLFFBT3pDLFNBQVMsSUFBVCxFQUFlO0FBQ2pCLDRCQUFzQixtQkFBdEIsQ0FBMEMsSUFBMUMsRUFBZ0QsSUFBaEQsRUFBc0QsS0FBdEQsRUFEaUI7S0FBbkIsTUFFTztBQUNMLDRCQUFzQixzQkFBdEIsQ0FBNkMsSUFBN0MsRUFBbUQsSUFBbkQsRUFESztLQUZQO0dBUGtCOzs7Ozs7Ozs7O0FBc0JwQix3Q0FBc0MsOENBQVUsRUFBVixFQUFjLE1BQWQsRUFBc0I7QUFDMUQsUUFBSSxPQUFPLFdBQVcsT0FBWCxDQUFtQixFQUFuQixDQUFQLENBRHNEO0FBRTFELDBCQUFzQixnQ0FBdEIsQ0FBdUQsSUFBdkQsRUFBNkQsTUFBN0QsRUFGMEQ7R0FBdEI7Ozs7Ozs7OztBQVl0QyxxQ0FBbUMsMkNBQVUsT0FBVixFQUFtQixNQUFuQixFQUEyQjtBQUM1RCxTQUFLLElBQUksSUFBSSxDQUFKLEVBQU8sSUFBSSxRQUFRLE1BQVIsRUFBZ0IsR0FBcEMsRUFBeUM7QUFDdkMsY0FBUSxDQUFSLEVBQVcsVUFBWCxHQUF3QixXQUFXLE9BQVgsQ0FBbUIsUUFBUSxDQUFSLEVBQVcsUUFBWCxDQUEzQyxDQUR1QztLQUF6QztBQUdBLDBCQUFzQixjQUF0QixDQUFxQyxPQUFyQyxFQUE4QyxNQUE5QyxFQUo0RDtHQUEzQjtDQTdDakM7O0FBcURKLFVBQVUsY0FBVixDQUF5QixvQkFBekIsRUFBK0Msc0JBQS9DLEVBQXVFO0FBQ3JFLHdDQUFzQyxzQ0FBdEM7QUFDQSxxQ0FBbUMsbUNBQW5DO0NBRkY7O0FBS0EsT0FBTyxPQUFQLEdBQWlCLG9CQUFqQiIsImZpbGUiOiJSZWFjdERPTUlET3BlcmF0aW9ucy5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29weXJpZ2h0IDIwMTMtMjAxNSwgRmFjZWJvb2ssIEluYy5cbiAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuXG4gKlxuICogVGhpcyBzb3VyY2UgY29kZSBpcyBsaWNlbnNlZCB1bmRlciB0aGUgQlNELXN0eWxlIGxpY2Vuc2UgZm91bmQgaW4gdGhlXG4gKiBMSUNFTlNFIGZpbGUgaW4gdGhlIHJvb3QgZGlyZWN0b3J5IG9mIHRoaXMgc291cmNlIHRyZWUuIEFuIGFkZGl0aW9uYWwgZ3JhbnRcbiAqIG9mIHBhdGVudCByaWdodHMgY2FuIGJlIGZvdW5kIGluIHRoZSBQQVRFTlRTIGZpbGUgaW4gdGhlIHNhbWUgZGlyZWN0b3J5LlxuICpcbiAqIEBwcm92aWRlc01vZHVsZSBSZWFjdERPTUlET3BlcmF0aW9uc1xuICogQHR5cGVjaGVja3Mgc3RhdGljLW9ubHlcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbnZhciBET01DaGlsZHJlbk9wZXJhdGlvbnMgPSByZXF1aXJlKCcuL0RPTUNoaWxkcmVuT3BlcmF0aW9ucycpO1xudmFyIERPTVByb3BlcnR5T3BlcmF0aW9ucyA9IHJlcXVpcmUoJy4vRE9NUHJvcGVydHlPcGVyYXRpb25zJyk7XG52YXIgUmVhY3RNb3VudCA9IHJlcXVpcmUoJy4vUmVhY3RNb3VudCcpO1xudmFyIFJlYWN0UGVyZiA9IHJlcXVpcmUoJy4vUmVhY3RQZXJmJyk7XG5cbnZhciBpbnZhcmlhbnQgPSByZXF1aXJlKCdmYmpzL2xpYi9pbnZhcmlhbnQnKTtcblxuLyoqXG4gKiBFcnJvcnMgZm9yIHByb3BlcnRpZXMgdGhhdCBzaG91bGQgbm90IGJlIHVwZGF0ZWQgd2l0aCBgdXBkYXRlUHJvcGVydHlCeUlEKClgLlxuICpcbiAqIEB0eXBlIHtvYmplY3R9XG4gKiBAcHJpdmF0ZVxuICovXG52YXIgSU5WQUxJRF9QUk9QRVJUWV9FUlJPUlMgPSB7XG4gIGRhbmdlcm91c2x5U2V0SW5uZXJIVE1MOiAnYGRhbmdlcm91c2x5U2V0SW5uZXJIVE1MYCBtdXN0IGJlIHNldCB1c2luZyBgdXBkYXRlSW5uZXJIVE1MQnlJRCgpYC4nLFxuICBzdHlsZTogJ2BzdHlsZWAgbXVzdCBiZSBzZXQgdXNpbmcgYHVwZGF0ZVN0eWxlc0J5SUQoKWAuJ1xufTtcblxuLyoqXG4gKiBPcGVyYXRpb25zIHVzZWQgdG8gcHJvY2VzcyB1cGRhdGVzIHRvIERPTSBub2Rlcy5cbiAqL1xudmFyIFJlYWN0RE9NSURPcGVyYXRpb25zID0ge1xuXG4gIC8qKlxuICAgKiBVcGRhdGVzIGEgRE9NIG5vZGUgd2l0aCBuZXcgcHJvcGVydHkgdmFsdWVzLiBUaGlzIHNob3VsZCBvbmx5IGJlIHVzZWQgdG9cbiAgICogdXBkYXRlIERPTSBwcm9wZXJ0aWVzIGluIGBET01Qcm9wZXJ0eWAuXG4gICAqXG4gICAqIEBwYXJhbSB7c3RyaW5nfSBpZCBJRCBvZiB0aGUgbm9kZSB0byB1cGRhdGUuXG4gICAqIEBwYXJhbSB7c3RyaW5nfSBuYW1lIEEgdmFsaWQgcHJvcGVydHkgbmFtZSwgc2VlIGBET01Qcm9wZXJ0eWAuXG4gICAqIEBwYXJhbSB7Kn0gdmFsdWUgTmV3IHZhbHVlIG9mIHRoZSBwcm9wZXJ0eS5cbiAgICogQGludGVybmFsXG4gICAqL1xuICB1cGRhdGVQcm9wZXJ0eUJ5SUQ6IGZ1bmN0aW9uIChpZCwgbmFtZSwgdmFsdWUpIHtcbiAgICB2YXIgbm9kZSA9IFJlYWN0TW91bnQuZ2V0Tm9kZShpZCk7XG4gICAgISFJTlZBTElEX1BST1BFUlRZX0VSUk9SUy5oYXNPd25Qcm9wZXJ0eShuYW1lKSA/IHByb2Nlc3MuZW52Lk5PREVfRU5WICE9PSAncHJvZHVjdGlvbicgPyBpbnZhcmlhbnQoZmFsc2UsICd1cGRhdGVQcm9wZXJ0eUJ5SUQoLi4uKTogJXMnLCBJTlZBTElEX1BST1BFUlRZX0VSUk9SU1tuYW1lXSkgOiBpbnZhcmlhbnQoZmFsc2UpIDogdW5kZWZpbmVkO1xuXG4gICAgLy8gSWYgd2UncmUgdXBkYXRpbmcgdG8gbnVsbCBvciB1bmRlZmluZWQsIHdlIHNob3VsZCByZW1vdmUgdGhlIHByb3BlcnR5XG4gICAgLy8gZnJvbSB0aGUgRE9NIG5vZGUgaW5zdGVhZCBvZiBpbmFkdmVydGFudGx5IHNldHRpbmcgdG8gYSBzdHJpbmcuIFRoaXNcbiAgICAvLyBicmluZ3MgdXMgaW4gbGluZSB3aXRoIHRoZSBzYW1lIGJlaGF2aW9yIHdlIGhhdmUgb24gaW5pdGlhbCByZW5kZXIuXG4gICAgaWYgKHZhbHVlICE9IG51bGwpIHtcbiAgICAgIERPTVByb3BlcnR5T3BlcmF0aW9ucy5zZXRWYWx1ZUZvclByb3BlcnR5KG5vZGUsIG5hbWUsIHZhbHVlKTtcbiAgICB9IGVsc2Uge1xuICAgICAgRE9NUHJvcGVydHlPcGVyYXRpb25zLmRlbGV0ZVZhbHVlRm9yUHJvcGVydHkobm9kZSwgbmFtZSk7XG4gICAgfVxuICB9LFxuXG4gIC8qKlxuICAgKiBSZXBsYWNlcyBhIERPTSBub2RlIHRoYXQgZXhpc3RzIGluIHRoZSBkb2N1bWVudCB3aXRoIG1hcmt1cC5cbiAgICpcbiAgICogQHBhcmFtIHtzdHJpbmd9IGlkIElEIG9mIGNoaWxkIHRvIGJlIHJlcGxhY2VkLlxuICAgKiBAcGFyYW0ge3N0cmluZ30gbWFya3VwIERhbmdlcm91cyBtYXJrdXAgdG8gaW5qZWN0IGluIHBsYWNlIG9mIGNoaWxkLlxuICAgKiBAaW50ZXJuYWxcbiAgICogQHNlZSB7RGFuZ2VyLmRhbmdlcm91c2x5UmVwbGFjZU5vZGVXaXRoTWFya3VwfVxuICAgKi9cbiAgZGFuZ2Vyb3VzbHlSZXBsYWNlTm9kZVdpdGhNYXJrdXBCeUlEOiBmdW5jdGlvbiAoaWQsIG1hcmt1cCkge1xuICAgIHZhciBub2RlID0gUmVhY3RNb3VudC5nZXROb2RlKGlkKTtcbiAgICBET01DaGlsZHJlbk9wZXJhdGlvbnMuZGFuZ2Vyb3VzbHlSZXBsYWNlTm9kZVdpdGhNYXJrdXAobm9kZSwgbWFya3VwKTtcbiAgfSxcblxuICAvKipcbiAgICogVXBkYXRlcyBhIGNvbXBvbmVudCdzIGNoaWxkcmVuIGJ5IHByb2Nlc3NpbmcgYSBzZXJpZXMgb2YgdXBkYXRlcy5cbiAgICpcbiAgICogQHBhcmFtIHthcnJheTxvYmplY3Q+fSB1cGRhdGVzIExpc3Qgb2YgdXBkYXRlIGNvbmZpZ3VyYXRpb25zLlxuICAgKiBAcGFyYW0ge2FycmF5PHN0cmluZz59IG1hcmt1cCBMaXN0IG9mIG1hcmt1cCBzdHJpbmdzLlxuICAgKiBAaW50ZXJuYWxcbiAgICovXG4gIGRhbmdlcm91c2x5UHJvY2Vzc0NoaWxkcmVuVXBkYXRlczogZnVuY3Rpb24gKHVwZGF0ZXMsIG1hcmt1cCkge1xuICAgIGZvciAodmFyIGkgPSAwOyBpIDwgdXBkYXRlcy5sZW5ndGg7IGkrKykge1xuICAgICAgdXBkYXRlc1tpXS5wYXJlbnROb2RlID0gUmVhY3RNb3VudC5nZXROb2RlKHVwZGF0ZXNbaV0ucGFyZW50SUQpO1xuICAgIH1cbiAgICBET01DaGlsZHJlbk9wZXJhdGlvbnMucHJvY2Vzc1VwZGF0ZXModXBkYXRlcywgbWFya3VwKTtcbiAgfVxufTtcblxuUmVhY3RQZXJmLm1lYXN1cmVNZXRob2RzKFJlYWN0RE9NSURPcGVyYXRpb25zLCAnUmVhY3RET01JRE9wZXJhdGlvbnMnLCB7XG4gIGRhbmdlcm91c2x5UmVwbGFjZU5vZGVXaXRoTWFya3VwQnlJRDogJ2Rhbmdlcm91c2x5UmVwbGFjZU5vZGVXaXRoTWFya3VwQnlJRCcsXG4gIGRhbmdlcm91c2x5UHJvY2Vzc0NoaWxkcmVuVXBkYXRlczogJ2Rhbmdlcm91c2x5UHJvY2Vzc0NoaWxkcmVuVXBkYXRlcydcbn0pO1xuXG5tb2R1bGUuZXhwb3J0cyA9IFJlYWN0RE9NSURPcGVyYXRpb25zOyJdfQ==

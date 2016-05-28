@@ -1,0 +1,6 @@
+"use strict";
+
+define(["./arr"], function (arr) {
+	return arr.concat;
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy92YXIvY29uY2F0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsT0FBUSxDQUNQLE9BRE8sQ0FBUixFQUVHLFVBQVUsR0FBVixFQUFnQjtBQUNsQixRQUFPLElBQUksTUFBSixDQURXO0NBQWhCLENBRkgiLCJmaWxlIjoiY29uY2F0LmpzIiwic291cmNlc0NvbnRlbnQiOlsiZGVmaW5lKCBbXG5cdFwiLi9hcnJcIlxuXSwgZnVuY3Rpb24oIGFyciApIHtcblx0cmV0dXJuIGFyci5jb25jYXQ7XG59ICk7XG4iXX0=

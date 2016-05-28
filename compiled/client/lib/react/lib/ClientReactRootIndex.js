@@ -1,0 +1,24 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ClientReactRootIndex
+ * @typechecks
+ */
+
+'use strict';
+
+var nextReactRootIndex = 0;
+
+var ClientReactRootIndex = {
+  createReactRootIndex: function createReactRootIndex() {
+    return nextReactRootIndex++;
+  }
+};
+
+module.exports = ClientReactRootIndex;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL0NsaWVudFJlYWN0Um9vdEluZGV4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQVlBOztBQUVBLElBQUkscUJBQXFCLENBQXJCOztBQUVKLElBQUksdUJBQXVCO0FBQ3pCLHdCQUFzQixnQ0FBWTtBQUNoQyxXQUFPLG9CQUFQLENBRGdDO0dBQVo7Q0FEcEI7O0FBTUosT0FBTyxPQUFQLEdBQWlCLG9CQUFqQiIsImZpbGUiOiJDbGllbnRSZWFjdFJvb3RJbmRleC5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29weXJpZ2h0IDIwMTMtMjAxNSwgRmFjZWJvb2ssIEluYy5cbiAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuXG4gKlxuICogVGhpcyBzb3VyY2UgY29kZSBpcyBsaWNlbnNlZCB1bmRlciB0aGUgQlNELXN0eWxlIGxpY2Vuc2UgZm91bmQgaW4gdGhlXG4gKiBMSUNFTlNFIGZpbGUgaW4gdGhlIHJvb3QgZGlyZWN0b3J5IG9mIHRoaXMgc291cmNlIHRyZWUuIEFuIGFkZGl0aW9uYWwgZ3JhbnRcbiAqIG9mIHBhdGVudCByaWdodHMgY2FuIGJlIGZvdW5kIGluIHRoZSBQQVRFTlRTIGZpbGUgaW4gdGhlIHNhbWUgZGlyZWN0b3J5LlxuICpcbiAqIEBwcm92aWRlc01vZHVsZSBDbGllbnRSZWFjdFJvb3RJbmRleFxuICogQHR5cGVjaGVja3NcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbnZhciBuZXh0UmVhY3RSb290SW5kZXggPSAwO1xuXG52YXIgQ2xpZW50UmVhY3RSb290SW5kZXggPSB7XG4gIGNyZWF0ZVJlYWN0Um9vdEluZGV4OiBmdW5jdGlvbiAoKSB7XG4gICAgcmV0dXJuIG5leHRSZWFjdFJvb3RJbmRleCsrO1xuICB9XG59O1xuXG5tb2R1bGUuZXhwb3J0cyA9IENsaWVudFJlYWN0Um9vdEluZGV4OyJdfQ==

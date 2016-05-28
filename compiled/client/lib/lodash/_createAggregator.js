@@ -1,0 +1,26 @@
+'use strict';
+
+var arrayAggregator = require('./_arrayAggregator'),
+    baseAggregator = require('./_baseAggregator'),
+    baseIteratee = require('./_baseIteratee'),
+    isArray = require('./isArray');
+
+/**
+ * Creates a function like `_.groupBy`.
+ *
+ * @private
+ * @param {Function} setter The function to set accumulator values.
+ * @param {Function} [initializer] The accumulator object initializer.
+ * @returns {Function} Returns the new aggregator function.
+ */
+function createAggregator(setter, initializer) {
+    return function (collection, iteratee) {
+        var func = isArray(collection) ? arrayAggregator : baseAggregator,
+            accumulator = initializer ? initializer() : {};
+
+        return func(collection, setter, baseIteratee(iteratee), accumulator);
+    };
+}
+
+module.exports = createAggregator;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jcmVhdGVBZ2dyZWdhdG9yLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxrQkFBa0IsUUFBUSxvQkFBUixDQUFsQjtJQUNBLGlCQUFpQixRQUFRLG1CQUFSLENBQWpCO0lBQ0EsZUFBZSxRQUFRLGlCQUFSLENBQWY7SUFDQSxVQUFVLFFBQVEsV0FBUixDQUFWOzs7Ozs7Ozs7O0FBVUosU0FBUyxnQkFBVCxDQUEwQixNQUExQixFQUFrQyxXQUFsQyxFQUErQztBQUM3QyxXQUFPLFVBQVMsVUFBVCxFQUFxQixRQUFyQixFQUErQjtBQUNwQyxZQUFJLE9BQU8sUUFBUSxVQUFSLElBQXNCLGVBQXRCLEdBQXdDLGNBQXhDO1lBQ1AsY0FBYyxjQUFjLGFBQWQsR0FBOEIsRUFBOUIsQ0FGa0I7O0FBSXBDLGVBQU8sS0FBSyxVQUFMLEVBQWlCLE1BQWpCLEVBQXlCLGFBQWEsUUFBYixDQUF6QixFQUFpRCxXQUFqRCxDQUFQLENBSm9DO0tBQS9CLENBRHNDO0NBQS9DOztBQVNBLE9BQU8sT0FBUCxHQUFpQixnQkFBakIiLCJmaWxlIjoiX2NyZWF0ZUFnZ3JlZ2F0b3IuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgYXJyYXlBZ2dyZWdhdG9yID0gcmVxdWlyZSgnLi9fYXJyYXlBZ2dyZWdhdG9yJyksXG4gICAgYmFzZUFnZ3JlZ2F0b3IgPSByZXF1aXJlKCcuL19iYXNlQWdncmVnYXRvcicpLFxuICAgIGJhc2VJdGVyYXRlZSA9IHJlcXVpcmUoJy4vX2Jhc2VJdGVyYXRlZScpLFxuICAgIGlzQXJyYXkgPSByZXF1aXJlKCcuL2lzQXJyYXknKTtcblxuLyoqXG4gKiBDcmVhdGVzIGEgZnVuY3Rpb24gbGlrZSBgXy5ncm91cEJ5YC5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHtGdW5jdGlvbn0gc2V0dGVyIFRoZSBmdW5jdGlvbiB0byBzZXQgYWNjdW11bGF0b3IgdmFsdWVzLlxuICogQHBhcmFtIHtGdW5jdGlvbn0gW2luaXRpYWxpemVyXSBUaGUgYWNjdW11bGF0b3Igb2JqZWN0IGluaXRpYWxpemVyLlxuICogQHJldHVybnMge0Z1bmN0aW9ufSBSZXR1cm5zIHRoZSBuZXcgYWdncmVnYXRvciBmdW5jdGlvbi5cbiAqL1xuZnVuY3Rpb24gY3JlYXRlQWdncmVnYXRvcihzZXR0ZXIsIGluaXRpYWxpemVyKSB7XG4gIHJldHVybiBmdW5jdGlvbihjb2xsZWN0aW9uLCBpdGVyYXRlZSkge1xuICAgIHZhciBmdW5jID0gaXNBcnJheShjb2xsZWN0aW9uKSA/IGFycmF5QWdncmVnYXRvciA6IGJhc2VBZ2dyZWdhdG9yLFxuICAgICAgICBhY2N1bXVsYXRvciA9IGluaXRpYWxpemVyID8gaW5pdGlhbGl6ZXIoKSA6IHt9O1xuXG4gICAgcmV0dXJuIGZ1bmMoY29sbGVjdGlvbiwgc2V0dGVyLCBiYXNlSXRlcmF0ZWUoaXRlcmF0ZWUpLCBhY2N1bXVsYXRvcik7XG4gIH07XG59XG5cbm1vZHVsZS5leHBvcnRzID0gY3JlYXRlQWdncmVnYXRvcjtcbiJdfQ==

@@ -1,0 +1,28 @@
+'use strict';
+
+var arrayPush = require('./_arrayPush'),
+    getPrototype = require('./_getPrototype'),
+    getSymbols = require('./_getSymbols');
+
+/** Built-in value references. */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+
+/**
+ * Creates an array of the own and inherited enumerable symbol properties
+ * of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of symbols.
+ */
+var getSymbolsIn = !getOwnPropertySymbols ? getSymbols : function (object) {
+  var result = [];
+  while (object) {
+    arrayPush(result, getSymbols(object));
+    object = getPrototype(object);
+  }
+  return result;
+};
+
+module.exports = getSymbolsIn;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19nZXRTeW1ib2xzSW4uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLFlBQVksUUFBUSxjQUFSLENBQVo7SUFDQSxlQUFlLFFBQVEsaUJBQVIsQ0FBZjtJQUNBLGFBQWEsUUFBUSxlQUFSLENBQWI7OztBQUdKLElBQUksd0JBQXdCLE9BQU8scUJBQVA7Ozs7Ozs7Ozs7QUFVNUIsSUFBSSxlQUFlLENBQUMscUJBQUQsR0FBeUIsVUFBekIsR0FBc0MsVUFBUyxNQUFULEVBQWlCO0FBQ3hFLE1BQUksU0FBUyxFQUFULENBRG9FO0FBRXhFLFNBQU8sTUFBUCxFQUFlO0FBQ2IsY0FBVSxNQUFWLEVBQWtCLFdBQVcsTUFBWCxDQUFsQixFQURhO0FBRWIsYUFBUyxhQUFhLE1BQWIsQ0FBVCxDQUZhO0dBQWY7QUFJQSxTQUFPLE1BQVAsQ0FOd0U7Q0FBakI7O0FBU3pELE9BQU8sT0FBUCxHQUFpQixZQUFqQiIsImZpbGUiOiJfZ2V0U3ltYm9sc0luLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIGFycmF5UHVzaCA9IHJlcXVpcmUoJy4vX2FycmF5UHVzaCcpLFxuICAgIGdldFByb3RvdHlwZSA9IHJlcXVpcmUoJy4vX2dldFByb3RvdHlwZScpLFxuICAgIGdldFN5bWJvbHMgPSByZXF1aXJlKCcuL19nZXRTeW1ib2xzJyk7XG5cbi8qKiBCdWlsdC1pbiB2YWx1ZSByZWZlcmVuY2VzLiAqL1xudmFyIGdldE93blByb3BlcnR5U3ltYm9scyA9IE9iamVjdC5nZXRPd25Qcm9wZXJ0eVN5bWJvbHM7XG5cbi8qKlxuICogQ3JlYXRlcyBhbiBhcnJheSBvZiB0aGUgb3duIGFuZCBpbmhlcml0ZWQgZW51bWVyYWJsZSBzeW1ib2wgcHJvcGVydGllc1xuICogb2YgYG9iamVjdGAuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7T2JqZWN0fSBvYmplY3QgVGhlIG9iamVjdCB0byBxdWVyeS5cbiAqIEByZXR1cm5zIHtBcnJheX0gUmV0dXJucyB0aGUgYXJyYXkgb2Ygc3ltYm9scy5cbiAqL1xudmFyIGdldFN5bWJvbHNJbiA9ICFnZXRPd25Qcm9wZXJ0eVN5bWJvbHMgPyBnZXRTeW1ib2xzIDogZnVuY3Rpb24ob2JqZWN0KSB7XG4gIHZhciByZXN1bHQgPSBbXTtcbiAgd2hpbGUgKG9iamVjdCkge1xuICAgIGFycmF5UHVzaChyZXN1bHQsIGdldFN5bWJvbHMob2JqZWN0KSk7XG4gICAgb2JqZWN0ID0gZ2V0UHJvdG90eXBlKG9iamVjdCk7XG4gIH1cbiAgcmV0dXJuIHJlc3VsdDtcbn07XG5cbm1vZHVsZS5leHBvcnRzID0gZ2V0U3ltYm9sc0luO1xuIl19

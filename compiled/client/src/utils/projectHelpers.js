@@ -1,0 +1,14 @@
+'use strict';
+
+var getProjects = function getProjects() {
+  $.get('/projects/data', function () {
+    console.log('get request made to projects');
+  }).done(function (data) {
+    console.log(data);
+  }).fail(function (err) {
+    console.log(err);
+  });
+};
+
+window.getProjects = getProjects;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9zcmMvdXRpbHMvcHJvamVjdEhlbHBlcnMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLGNBQWMsU0FBZCxXQUFjLEdBQU07QUFDdEIsSUFBRSxHQUFGLENBQU0sZ0JBQU4sRUFBd0IsWUFBTTtBQUM1QixZQUFRLEdBQVIsQ0FBWSw4QkFBWixFQUQ0QjtHQUFOLENBQXhCLENBR0MsSUFIRCxDQUdPLGdCQUFRO0FBQ2IsWUFBUSxHQUFSLENBQVksSUFBWixFQURhO0dBQVIsQ0FIUCxDQU1DLElBTkQsQ0FNTyxVQUFDLEdBQUQsRUFBUztBQUNkLFlBQVEsR0FBUixDQUFZLEdBQVosRUFEYztHQUFULENBTlAsQ0FEc0I7Q0FBTjs7QUFZbEIsT0FBTyxXQUFQLEdBQXFCLFdBQXJCIiwiZmlsZSI6InByb2plY3RIZWxwZXJzLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIGdldFByb2plY3RzID0gKCkgPT4ge1xuICAkLmdldCgnL3Byb2plY3RzL2RhdGEnLCAoKSA9PiB7XG4gICAgY29uc29sZS5sb2coJ2dldCByZXF1ZXN0IG1hZGUgdG8gcHJvamVjdHMnKVxuICB9KVxuICAuZG9uZSggZGF0YSA9PiB7XG4gICAgY29uc29sZS5sb2coZGF0YSkgICAgXG4gIH0pXG4gIC5mYWlsKCAoZXJyKSA9PiB7XG4gICAgY29uc29sZS5sb2coZXJyKTtcbiAgfSk7ICBcbn07XG5cbndpbmRvdy5nZXRQcm9qZWN0cyA9IGdldFByb2plY3RzO1xuXG5cblxuIl19

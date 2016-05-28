@@ -1,0 +1,27 @@
+'use strict';
+
+var stubArray = require('./stubArray');
+
+/** Built-in value references. */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+
+/**
+ * Creates an array of the own enumerable symbol properties of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of symbols.
+ */
+function getSymbols(object) {
+  // Coerce `object` to an object to avoid non-object errors in V8.
+  // See https://bugs.chromium.org/p/v8/issues/detail?id=3443 for more details.
+  return getOwnPropertySymbols(Object(object));
+}
+
+// Fallback for IE < 11.
+if (!getOwnPropertySymbols) {
+  getSymbols = stubArray;
+}
+
+module.exports = getSymbols;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19nZXRTeW1ib2xzLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxZQUFZLFFBQVEsYUFBUixDQUFaOzs7QUFHSixJQUFJLHdCQUF3QixPQUFPLHFCQUFQOzs7Ozs7Ozs7QUFTNUIsU0FBUyxVQUFULENBQW9CLE1BQXBCLEVBQTRCOzs7QUFHMUIsU0FBTyxzQkFBc0IsT0FBTyxNQUFQLENBQXRCLENBQVAsQ0FIMEI7Q0FBNUI7OztBQU9BLElBQUksQ0FBQyxxQkFBRCxFQUF3QjtBQUMxQixlQUFhLFNBQWIsQ0FEMEI7Q0FBNUI7O0FBSUEsT0FBTyxPQUFQLEdBQWlCLFVBQWpCIiwiZmlsZSI6Il9nZXRTeW1ib2xzLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIHN0dWJBcnJheSA9IHJlcXVpcmUoJy4vc3R1YkFycmF5Jyk7XG5cbi8qKiBCdWlsdC1pbiB2YWx1ZSByZWZlcmVuY2VzLiAqL1xudmFyIGdldE93blByb3BlcnR5U3ltYm9scyA9IE9iamVjdC5nZXRPd25Qcm9wZXJ0eVN5bWJvbHM7XG5cbi8qKlxuICogQ3JlYXRlcyBhbiBhcnJheSBvZiB0aGUgb3duIGVudW1lcmFibGUgc3ltYm9sIHByb3BlcnRpZXMgb2YgYG9iamVjdGAuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7T2JqZWN0fSBvYmplY3QgVGhlIG9iamVjdCB0byBxdWVyeS5cbiAqIEByZXR1cm5zIHtBcnJheX0gUmV0dXJucyB0aGUgYXJyYXkgb2Ygc3ltYm9scy5cbiAqL1xuZnVuY3Rpb24gZ2V0U3ltYm9scyhvYmplY3QpIHtcbiAgLy8gQ29lcmNlIGBvYmplY3RgIHRvIGFuIG9iamVjdCB0byBhdm9pZCBub24tb2JqZWN0IGVycm9ycyBpbiBWOC5cbiAgLy8gU2VlIGh0dHBzOi8vYnVncy5jaHJvbWl1bS5vcmcvcC92OC9pc3N1ZXMvZGV0YWlsP2lkPTM0NDMgZm9yIG1vcmUgZGV0YWlscy5cbiAgcmV0dXJuIGdldE93blByb3BlcnR5U3ltYm9scyhPYmplY3Qob2JqZWN0KSk7XG59XG5cbi8vIEZhbGxiYWNrIGZvciBJRSA8IDExLlxuaWYgKCFnZXRPd25Qcm9wZXJ0eVN5bWJvbHMpIHtcbiAgZ2V0U3ltYm9scyA9IHN0dWJBcnJheTtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBnZXRTeW1ib2xzO1xuIl19

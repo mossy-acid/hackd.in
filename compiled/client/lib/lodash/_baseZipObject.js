@@ -1,0 +1,26 @@
+"use strict";
+
+/**
+ * This base implementation of `_.zipObject` which assigns values using `assignFunc`.
+ *
+ * @private
+ * @param {Array} props The property identifiers.
+ * @param {Array} values The property values.
+ * @param {Function} assignFunc The function to assign values.
+ * @returns {Object} Returns the new object.
+ */
+function baseZipObject(props, values, assignFunc) {
+  var index = -1,
+      length = props.length,
+      valsLength = values.length,
+      result = {};
+
+  while (++index < length) {
+    var value = index < valsLength ? values[index] : undefined;
+    assignFunc(result, props[index], value);
+  }
+  return result;
+}
+
+module.exports = baseZipObject;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlWmlwT2JqZWN0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBU0EsU0FBUyxhQUFULENBQXVCLEtBQXZCLEVBQThCLE1BQTlCLEVBQXNDLFVBQXRDLEVBQWtEO0FBQ2hELE1BQUksUUFBUSxDQUFDLENBQUQ7TUFDUixTQUFTLE1BQU0sTUFBTjtNQUNULGFBQWEsT0FBTyxNQUFQO01BQ2IsU0FBUyxFQUFULENBSjRDOztBQU1oRCxTQUFPLEVBQUUsS0FBRixHQUFVLE1BQVYsRUFBa0I7QUFDdkIsUUFBSSxRQUFRLFFBQVEsVUFBUixHQUFxQixPQUFPLEtBQVAsQ0FBckIsR0FBcUMsU0FBckMsQ0FEVztBQUV2QixlQUFXLE1BQVgsRUFBbUIsTUFBTSxLQUFOLENBQW5CLEVBQWlDLEtBQWpDLEVBRnVCO0dBQXpCO0FBSUEsU0FBTyxNQUFQLENBVmdEO0NBQWxEOztBQWFBLE9BQU8sT0FBUCxHQUFpQixhQUFqQiIsImZpbGUiOiJfYmFzZVppcE9iamVjdC5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogVGhpcyBiYXNlIGltcGxlbWVudGF0aW9uIG9mIGBfLnppcE9iamVjdGAgd2hpY2ggYXNzaWducyB2YWx1ZXMgdXNpbmcgYGFzc2lnbkZ1bmNgLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge0FycmF5fSBwcm9wcyBUaGUgcHJvcGVydHkgaWRlbnRpZmllcnMuXG4gKiBAcGFyYW0ge0FycmF5fSB2YWx1ZXMgVGhlIHByb3BlcnR5IHZhbHVlcy5cbiAqIEBwYXJhbSB7RnVuY3Rpb259IGFzc2lnbkZ1bmMgVGhlIGZ1bmN0aW9uIHRvIGFzc2lnbiB2YWx1ZXMuXG4gKiBAcmV0dXJucyB7T2JqZWN0fSBSZXR1cm5zIHRoZSBuZXcgb2JqZWN0LlxuICovXG5mdW5jdGlvbiBiYXNlWmlwT2JqZWN0KHByb3BzLCB2YWx1ZXMsIGFzc2lnbkZ1bmMpIHtcbiAgdmFyIGluZGV4ID0gLTEsXG4gICAgICBsZW5ndGggPSBwcm9wcy5sZW5ndGgsXG4gICAgICB2YWxzTGVuZ3RoID0gdmFsdWVzLmxlbmd0aCxcbiAgICAgIHJlc3VsdCA9IHt9O1xuXG4gIHdoaWxlICgrK2luZGV4IDwgbGVuZ3RoKSB7XG4gICAgdmFyIHZhbHVlID0gaW5kZXggPCB2YWxzTGVuZ3RoID8gdmFsdWVzW2luZGV4XSA6IHVuZGVmaW5lZDtcbiAgICBhc3NpZ25GdW5jKHJlc3VsdCwgcHJvcHNbaW5kZXhdLCB2YWx1ZSk7XG4gIH1cbiAgcmV0dXJuIHJlc3VsdDtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBiYXNlWmlwT2JqZWN0O1xuIl19

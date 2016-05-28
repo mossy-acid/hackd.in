@@ -1,0 +1,8 @@
+'use strict';
+
+module.exports = {
+  'clamp': require('./clamp'),
+  'inRange': require('./inRange'),
+  'random': require('./random')
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL251bWJlci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLE9BQU8sT0FBUCxHQUFpQjtBQUNmLFdBQVMsUUFBUSxTQUFSLENBQVQ7QUFDQSxhQUFXLFFBQVEsV0FBUixDQUFYO0FBQ0EsWUFBVSxRQUFRLFVBQVIsQ0FBVjtDQUhGIiwiZmlsZSI6Im51bWJlci5qcyIsInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0ge1xuICAnY2xhbXAnOiByZXF1aXJlKCcuL2NsYW1wJyksXG4gICdpblJhbmdlJzogcmVxdWlyZSgnLi9pblJhbmdlJyksXG4gICdyYW5kb20nOiByZXF1aXJlKCcuL3JhbmRvbScpXG59O1xuIl19

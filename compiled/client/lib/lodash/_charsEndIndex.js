@@ -1,0 +1,22 @@
+'use strict';
+
+var baseIndexOf = require('./_baseIndexOf');
+
+/**
+ * Used by `_.trim` and `_.trimEnd` to get the index of the last string symbol
+ * that is not found in the character symbols.
+ *
+ * @private
+ * @param {Array} strSymbols The string symbols to inspect.
+ * @param {Array} chrSymbols The character symbols to find.
+ * @returns {number} Returns the index of the last unmatched string symbol.
+ */
+function charsEndIndex(strSymbols, chrSymbols) {
+  var index = strSymbols.length;
+
+  while (index-- && baseIndexOf(chrSymbols, strSymbols[index], 0) > -1) {}
+  return index;
+}
+
+module.exports = charsEndIndex;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jaGFyc0VuZEluZGV4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxjQUFjLFFBQVEsZ0JBQVIsQ0FBZDs7Ozs7Ozs7Ozs7QUFXSixTQUFTLGFBQVQsQ0FBdUIsVUFBdkIsRUFBbUMsVUFBbkMsRUFBK0M7QUFDN0MsTUFBSSxRQUFRLFdBQVcsTUFBWCxDQURpQzs7QUFHN0MsU0FBTyxXQUFXLFlBQVksVUFBWixFQUF3QixXQUFXLEtBQVgsQ0FBeEIsRUFBMkMsQ0FBM0MsSUFBZ0QsQ0FBQyxDQUFELEVBQUksRUFBdEU7QUFDQSxTQUFPLEtBQVAsQ0FKNkM7Q0FBL0M7O0FBT0EsT0FBTyxPQUFQLEdBQWlCLGFBQWpCIiwiZmlsZSI6Il9jaGFyc0VuZEluZGV4LmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIGJhc2VJbmRleE9mID0gcmVxdWlyZSgnLi9fYmFzZUluZGV4T2YnKTtcblxuLyoqXG4gKiBVc2VkIGJ5IGBfLnRyaW1gIGFuZCBgXy50cmltRW5kYCB0byBnZXQgdGhlIGluZGV4IG9mIHRoZSBsYXN0IHN0cmluZyBzeW1ib2xcbiAqIHRoYXQgaXMgbm90IGZvdW5kIGluIHRoZSBjaGFyYWN0ZXIgc3ltYm9scy5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHtBcnJheX0gc3RyU3ltYm9scyBUaGUgc3RyaW5nIHN5bWJvbHMgdG8gaW5zcGVjdC5cbiAqIEBwYXJhbSB7QXJyYXl9IGNoclN5bWJvbHMgVGhlIGNoYXJhY3RlciBzeW1ib2xzIHRvIGZpbmQuXG4gKiBAcmV0dXJucyB7bnVtYmVyfSBSZXR1cm5zIHRoZSBpbmRleCBvZiB0aGUgbGFzdCB1bm1hdGNoZWQgc3RyaW5nIHN5bWJvbC5cbiAqL1xuZnVuY3Rpb24gY2hhcnNFbmRJbmRleChzdHJTeW1ib2xzLCBjaHJTeW1ib2xzKSB7XG4gIHZhciBpbmRleCA9IHN0clN5bWJvbHMubGVuZ3RoO1xuXG4gIHdoaWxlIChpbmRleC0tICYmIGJhc2VJbmRleE9mKGNoclN5bWJvbHMsIHN0clN5bWJvbHNbaW5kZXhdLCAwKSA+IC0xKSB7fVxuICByZXR1cm4gaW5kZXg7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gY2hhcnNFbmRJbmRleDtcbiJdfQ==

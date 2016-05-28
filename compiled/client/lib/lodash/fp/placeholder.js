@@ -1,0 +1,9 @@
+"use strict";
+
+/**
+ * The default argument placeholder value for methods.
+ *
+ * @type {Object}
+ */
+module.exports = {};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL3BsYWNlaG9sZGVyLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFLQSxPQUFPLE9BQVAsR0FBaUIsRUFBakIiLCJmaWxlIjoicGxhY2Vob2xkZXIuanMiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIFRoZSBkZWZhdWx0IGFyZ3VtZW50IHBsYWNlaG9sZGVyIHZhbHVlIGZvciBtZXRob2RzLlxuICpcbiAqIEB0eXBlIHtPYmplY3R9XG4gKi9cbm1vZHVsZS5leHBvcnRzID0ge307XG4iXX0=

@@ -1,0 +1,37 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactBrowserComponentMixin
+ */
+
+'use strict';
+
+var ReactInstanceMap = require('./ReactInstanceMap');
+
+var findDOMNode = require('./findDOMNode');
+var warning = require('fbjs/lib/warning');
+
+var didWarnKey = '_getDOMNodeDidWarn';
+
+var ReactBrowserComponentMixin = {
+  /**
+   * Returns the DOM node rendered by this component.
+   *
+   * @return {DOMElement} The root node of this component.
+   * @final
+   * @protected
+   */
+  getDOMNode: function getDOMNode() {
+    process.env.NODE_ENV !== 'production' ? warning(this.constructor[didWarnKey], '%s.getDOMNode(...) is deprecated. Please use ' + 'ReactDOM.findDOMNode(instance) instead.', ReactInstanceMap.get(this).getName() || this.tagName || 'Unknown') : undefined;
+    this.constructor[didWarnKey] = true;
+    return findDOMNode(this);
+  }
+};
+
+module.exports = ReactBrowserComponentMixin;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1JlYWN0QnJvd3NlckNvbXBvbmVudE1peGluLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBV0E7O0FBRUEsSUFBSSxtQkFBbUIsUUFBUSxvQkFBUixDQUFuQjs7QUFFSixJQUFJLGNBQWMsUUFBUSxlQUFSLENBQWQ7QUFDSixJQUFJLFVBQVUsUUFBUSxrQkFBUixDQUFWOztBQUVKLElBQUksYUFBYSxvQkFBYjs7QUFFSixJQUFJLDZCQUE2Qjs7Ozs7Ozs7QUFRL0IsY0FBWSxzQkFBWTtBQUN0QixZQUFRLEdBQVIsQ0FBWSxRQUFaLEtBQXlCLFlBQXpCLEdBQXdDLFFBQVEsS0FBSyxXQUFMLENBQWlCLFVBQWpCLENBQVIsRUFBc0Msa0RBQWtELHlDQUFsRCxFQUE2RixpQkFBaUIsR0FBakIsQ0FBcUIsSUFBckIsRUFBMkIsT0FBM0IsTUFBd0MsS0FBSyxPQUFMLElBQWdCLFNBQXhELENBQTNLLEdBQWdQLFNBQWhQLENBRHNCO0FBRXRCLFNBQUssV0FBTCxDQUFpQixVQUFqQixJQUErQixJQUEvQixDQUZzQjtBQUd0QixXQUFPLFlBQVksSUFBWixDQUFQLENBSHNCO0dBQVo7Q0FSVjs7QUFlSixPQUFPLE9BQVAsR0FBaUIsMEJBQWpCIiwiZmlsZSI6IlJlYWN0QnJvd3NlckNvbXBvbmVudE1peGluLmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBDb3B5cmlnaHQgMjAxMy0yMDE1LCBGYWNlYm9vaywgSW5jLlxuICogQWxsIHJpZ2h0cyByZXNlcnZlZC5cbiAqXG4gKiBUaGlzIHNvdXJjZSBjb2RlIGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBCU0Qtc3R5bGUgbGljZW5zZSBmb3VuZCBpbiB0aGVcbiAqIExJQ0VOU0UgZmlsZSBpbiB0aGUgcm9vdCBkaXJlY3Rvcnkgb2YgdGhpcyBzb3VyY2UgdHJlZS4gQW4gYWRkaXRpb25hbCBncmFudFxuICogb2YgcGF0ZW50IHJpZ2h0cyBjYW4gYmUgZm91bmQgaW4gdGhlIFBBVEVOVFMgZmlsZSBpbiB0aGUgc2FtZSBkaXJlY3RvcnkuXG4gKlxuICogQHByb3ZpZGVzTW9kdWxlIFJlYWN0QnJvd3NlckNvbXBvbmVudE1peGluXG4gKi9cblxuJ3VzZSBzdHJpY3QnO1xuXG52YXIgUmVhY3RJbnN0YW5jZU1hcCA9IHJlcXVpcmUoJy4vUmVhY3RJbnN0YW5jZU1hcCcpO1xuXG52YXIgZmluZERPTU5vZGUgPSByZXF1aXJlKCcuL2ZpbmRET01Ob2RlJyk7XG52YXIgd2FybmluZyA9IHJlcXVpcmUoJ2ZianMvbGliL3dhcm5pbmcnKTtcblxudmFyIGRpZFdhcm5LZXkgPSAnX2dldERPTU5vZGVEaWRXYXJuJztcblxudmFyIFJlYWN0QnJvd3NlckNvbXBvbmVudE1peGluID0ge1xuICAvKipcbiAgICogUmV0dXJucyB0aGUgRE9NIG5vZGUgcmVuZGVyZWQgYnkgdGhpcyBjb21wb25lbnQuXG4gICAqXG4gICAqIEByZXR1cm4ge0RPTUVsZW1lbnR9IFRoZSByb290IG5vZGUgb2YgdGhpcyBjb21wb25lbnQuXG4gICAqIEBmaW5hbFxuICAgKiBAcHJvdGVjdGVkXG4gICAqL1xuICBnZXRET01Ob2RlOiBmdW5jdGlvbiAoKSB7XG4gICAgcHJvY2Vzcy5lbnYuTk9ERV9FTlYgIT09ICdwcm9kdWN0aW9uJyA/IHdhcm5pbmcodGhpcy5jb25zdHJ1Y3RvcltkaWRXYXJuS2V5XSwgJyVzLmdldERPTU5vZGUoLi4uKSBpcyBkZXByZWNhdGVkLiBQbGVhc2UgdXNlICcgKyAnUmVhY3RET00uZmluZERPTU5vZGUoaW5zdGFuY2UpIGluc3RlYWQuJywgUmVhY3RJbnN0YW5jZU1hcC5nZXQodGhpcykuZ2V0TmFtZSgpIHx8IHRoaXMudGFnTmFtZSB8fCAnVW5rbm93bicpIDogdW5kZWZpbmVkO1xuICAgIHRoaXMuY29uc3RydWN0b3JbZGlkV2FybktleV0gPSB0cnVlO1xuICAgIHJldHVybiBmaW5kRE9NTm9kZSh0aGlzKTtcbiAgfVxufTtcblxubW9kdWxlLmV4cG9ydHMgPSBSZWFjdEJyb3dzZXJDb21wb25lbnRNaXhpbjsiXX0=
