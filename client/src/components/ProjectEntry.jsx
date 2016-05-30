@@ -1,7 +1,8 @@
 const ProjectEntry = ({project}) => (
   <div className="project-entry">
     <div className="screenshot">
-      {/*<img src={project.image} />*/}
+      {/*return from cloudinary upload function}*/}
+      <img src={project.image}/>
     </div>
 
     <div className="information"> 

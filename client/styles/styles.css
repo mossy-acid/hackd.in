@@ -248,6 +248,9 @@ a:hover {
   background-color: white;
 }
 
+.screenshot {
+  float: left;
+}
 .information{
   /*float: right;*/
 }

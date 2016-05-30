@@ -12,7 +12,7 @@ var getProjects = (cb) => {
 };
 
 var postProject = (data) => {
-  $.post('projects/data', data, () => {
+  $.post('/projects/data', data, () => {
     console.log('post request made to projects');
   })
   .done( data => {
