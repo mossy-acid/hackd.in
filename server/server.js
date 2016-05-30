@@ -1,18 +1,29 @@
-const express = require('express');
-const session = require('express-session');
-// const bcrypt = require('bcrypt-nodejs');
+const express    = require('express');
+// const session    = require('express-session');
+// const bcrypt     = require('bcrypt-nodejs');
 
 const server = express();
-var port = process.env.PORT || 3000;
+const db = require('../db/db-config.js');
+const bodyParser = require('body-parser');
 
-server.set('view engine', 'ejs');
+server.use(bodyParser.urlencoded({extended: true}));
+server.use(bodyParser.json());
 
-server.use(express.static(__dirname + '../client'));
+// server.set('view engine', 'ejs');
+// server.set('views', './views');
+// server.set('view engine', 'jsx');
 
-server.use(session({
-  secret: 'this is not a secret',
-  cookie: { maxAge: 60000 }
-}));
+require('./routes.js')(server, express);
+
+let port = process.env.PORT || 3000;
+
+server.use(express.static('./client'));
+server.use(express.static('./compiled'));
+
+// server.use(session({
+//   secret: 'this is not a secret',
+//   cookie: { maxAge: 60000 }
+// }));
 
 server.listen(port);
 module.exports = server;

@@ -1,0 +1,34 @@
+'use strict';
+
+var baseIsEqual = require('./_baseIsEqual'),
+    get = require('./get'),
+    hasIn = require('./hasIn'),
+    isKey = require('./_isKey'),
+    isStrictComparable = require('./_isStrictComparable'),
+    matchesStrictComparable = require('./_matchesStrictComparable'),
+    toKey = require('./_toKey');
+
+/** Used to compose bitmasks for comparison styles. */
+var UNORDERED_COMPARE_FLAG = 1,
+    PARTIAL_COMPARE_FLAG = 2;
+
+/**
+ * The base implementation of `_.matchesProperty` which doesn't clone `srcValue`.
+ *
+ * @private
+ * @param {string} path The path of the property to get.
+ * @param {*} srcValue The value to match.
+ * @returns {Function} Returns the new spec function.
+ */
+function baseMatchesProperty(path, srcValue) {
+  if (isKey(path) && isStrictComparable(srcValue)) {
+    return matchesStrictComparable(toKey(path), srcValue);
+  }
+  return function (object) {
+    var objValue = get(object, path);
+    return objValue === undefined && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, undefined, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG);
+  };
+}
+
+module.exports = baseMatchesProperty;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlTWF0Y2hlc1Byb3BlcnR5LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxjQUFjLFFBQVEsZ0JBQVIsQ0FBbEI7SUFDSSxNQUFNLFFBQVEsT0FBUixDQURWO0lBRUksUUFBUSxRQUFRLFNBQVIsQ0FGWjtJQUdJLFFBQVEsUUFBUSxVQUFSLENBSFo7SUFJSSxxQkFBcUIsUUFBUSx1QkFBUixDQUp6QjtJQUtJLDBCQUEwQixRQUFRLDRCQUFSLENBTDlCO0lBTUksUUFBUSxRQUFRLFVBQVIsQ0FOWjs7O0FBU0EsSUFBSSx5QkFBeUIsQ0FBN0I7SUFDSSx1QkFBdUIsQ0FEM0I7Ozs7Ozs7Ozs7QUFXQSxTQUFTLG1CQUFULENBQTZCLElBQTdCLEVBQW1DLFFBQW5DLEVBQTZDO0FBQzNDLE1BQUksTUFBTSxJQUFOLEtBQWUsbUJBQW1CLFFBQW5CLENBQW5CLEVBQWlEO0FBQy9DLFdBQU8sd0JBQXdCLE1BQU0sSUFBTixDQUF4QixFQUFxQyxRQUFyQyxDQUFQO0FBQ0Q7QUFDRCxTQUFPLFVBQVMsTUFBVCxFQUFpQjtBQUN0QixRQUFJLFdBQVcsSUFBSSxNQUFKLEVBQVksSUFBWixDQUFmO0FBQ0EsV0FBUSxhQUFhLFNBQWIsSUFBMEIsYUFBYSxRQUF4QyxHQUNILE1BQU0sTUFBTixFQUFjLElBQWQsQ0FERyxHQUVILFlBQVksUUFBWixFQUFzQixRQUF0QixFQUFnQyxTQUFoQyxFQUEyQyx5QkFBeUIsb0JBQXBFLENBRko7QUFHRCxHQUxEO0FBTUQ7O0FBRUQsT0FBTyxPQUFQLEdBQWlCLG1CQUFqQiIsImZpbGUiOiJfYmFzZU1hdGNoZXNQcm9wZXJ0eS5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBiYXNlSXNFcXVhbCA9IHJlcXVpcmUoJy4vX2Jhc2VJc0VxdWFsJyksXG4gICAgZ2V0ID0gcmVxdWlyZSgnLi9nZXQnKSxcbiAgICBoYXNJbiA9IHJlcXVpcmUoJy4vaGFzSW4nKSxcbiAgICBpc0tleSA9IHJlcXVpcmUoJy4vX2lzS2V5JyksXG4gICAgaXNTdHJpY3RDb21wYXJhYmxlID0gcmVxdWlyZSgnLi9faXNTdHJpY3RDb21wYXJhYmxlJyksXG4gICAgbWF0Y2hlc1N0cmljdENvbXBhcmFibGUgPSByZXF1aXJlKCcuL19tYXRjaGVzU3RyaWN0Q29tcGFyYWJsZScpLFxuICAgIHRvS2V5ID0gcmVxdWlyZSgnLi9fdG9LZXknKTtcblxuLyoqIFVzZWQgdG8gY29tcG9zZSBiaXRtYXNrcyBmb3IgY29tcGFyaXNvbiBzdHlsZXMuICovXG52YXIgVU5PUkRFUkVEX0NPTVBBUkVfRkxBRyA9IDEsXG4gICAgUEFSVElBTF9DT01QQVJFX0ZMQUcgPSAyO1xuXG4vKipcbiAqIFRoZSBiYXNlIGltcGxlbWVudGF0aW9uIG9mIGBfLm1hdGNoZXNQcm9wZXJ0eWAgd2hpY2ggZG9lc24ndCBjbG9uZSBgc3JjVmFsdWVgLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge3N0cmluZ30gcGF0aCBUaGUgcGF0aCBvZiB0aGUgcHJvcGVydHkgdG8gZ2V0LlxuICogQHBhcmFtIHsqfSBzcmNWYWx1ZSBUaGUgdmFsdWUgdG8gbWF0Y2guXG4gKiBAcmV0dXJucyB7RnVuY3Rpb259IFJldHVybnMgdGhlIG5ldyBzcGVjIGZ1bmN0aW9uLlxuICovXG5mdW5jdGlvbiBiYXNlTWF0Y2hlc1Byb3BlcnR5KHBhdGgsIHNyY1ZhbHVlKSB7XG4gIGlmIChpc0tleShwYXRoKSAmJiBpc1N0cmljdENvbXBhcmFibGUoc3JjVmFsdWUpKSB7XG4gICAgcmV0dXJuIG1hdGNoZXNTdHJpY3RDb21wYXJhYmxlKHRvS2V5KHBhdGgpLCBzcmNWYWx1ZSk7XG4gIH1cbiAgcmV0dXJuIGZ1bmN0aW9uKG9iamVjdCkge1xuICAgIHZhciBvYmpWYWx1ZSA9IGdldChvYmplY3QsIHBhdGgpO1xuICAgIHJldHVybiAob2JqVmFsdWUgPT09IHVuZGVmaW5lZCAmJiBvYmpWYWx1ZSA9PT0gc3JjVmFsdWUpXG4gICAgICA/IGhhc0luKG9iamVjdCwgcGF0aClcbiAgICAgIDogYmFzZUlzRXF1YWwoc3JjVmFsdWUsIG9ialZhbHVlLCB1bmRlZmluZWQsIFVOT1JERVJFRF9DT01QQVJFX0ZMQUcgfCBQQVJUSUFMX0NPTVBBUkVfRkxBRyk7XG4gIH07XG59XG5cbm1vZHVsZS5leHBvcnRzID0gYmFzZU1hdGNoZXNQcm9wZXJ0eTtcbiJdfQ==

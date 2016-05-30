@@ -1,0 +1,23 @@
+'use strict';
+
+var baseSum = require('./_baseSum');
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/**
+ * The base implementation of `_.mean` and `_.meanBy` without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {number} Returns the mean.
+ */
+function baseMean(array, iteratee) {
+  var length = array ? array.length : 0;
+  return length ? baseSum(array, iteratee) / length : NAN;
+}
+
+module.exports = baseMean;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlTWVhbi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksVUFBVSxRQUFRLFlBQVIsQ0FBZDs7O0FBR0EsSUFBSSxNQUFNLElBQUksQ0FBZDs7Ozs7Ozs7Ozs7QUFXQSxTQUFTLFFBQVQsQ0FBa0IsS0FBbEIsRUFBeUIsUUFBekIsRUFBbUM7QUFDakMsTUFBSSxTQUFTLFFBQVEsTUFBTSxNQUFkLEdBQXVCLENBQXBDO0FBQ0EsU0FBTyxTQUFVLFFBQVEsS0FBUixFQUFlLFFBQWYsSUFBMkIsTUFBckMsR0FBK0MsR0FBdEQ7QUFDRDs7QUFFRCxPQUFPLE9BQVAsR0FBaUIsUUFBakIiLCJmaWxlIjoiX2Jhc2VNZWFuLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIGJhc2VTdW0gPSByZXF1aXJlKCcuL19iYXNlU3VtJyk7XG5cbi8qKiBVc2VkIGFzIHJlZmVyZW5jZXMgZm9yIHZhcmlvdXMgYE51bWJlcmAgY29uc3RhbnRzLiAqL1xudmFyIE5BTiA9IDAgLyAwO1xuXG4vKipcbiAqIFRoZSBiYXNlIGltcGxlbWVudGF0aW9uIG9mIGBfLm1lYW5gIGFuZCBgXy5tZWFuQnlgIHdpdGhvdXQgc3VwcG9ydCBmb3JcbiAqIGl0ZXJhdGVlIHNob3J0aGFuZHMuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7QXJyYXl9IGFycmF5IFRoZSBhcnJheSB0byBpdGVyYXRlIG92ZXIuXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBpdGVyYXRlZSBUaGUgZnVuY3Rpb24gaW52b2tlZCBwZXIgaXRlcmF0aW9uLlxuICogQHJldHVybnMge251bWJlcn0gUmV0dXJucyB0aGUgbWVhbi5cbiAqL1xuZnVuY3Rpb24gYmFzZU1lYW4oYXJyYXksIGl0ZXJhdGVlKSB7XG4gIHZhciBsZW5ndGggPSBhcnJheSA/IGFycmF5Lmxlbmd0aCA6IDA7XG4gIHJldHVybiBsZW5ndGggPyAoYmFzZVN1bShhcnJheSwgaXRlcmF0ZWUpIC8gbGVuZ3RoKSA6IE5BTjtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBiYXNlTWVhbjtcbiJdfQ==

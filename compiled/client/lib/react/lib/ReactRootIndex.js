@@ -1,0 +1,30 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactRootIndex
+ * @typechecks
+ */
+
+'use strict';
+
+var ReactRootIndexInjection = {
+  /**
+   * @param {function} _createReactRootIndex
+   */
+  injectCreateReactRootIndex: function injectCreateReactRootIndex(_createReactRootIndex) {
+    ReactRootIndex.createReactRootIndex = _createReactRootIndex;
+  }
+};
+
+var ReactRootIndex = {
+  createReactRootIndex: null,
+  injection: ReactRootIndexInjection
+};
+
+module.exports = ReactRootIndex;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1JlYWN0Um9vdEluZGV4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQVlBOztBQUVBLElBQUksMEJBQTBCOzs7O0FBSTVCLDhCQUE0QixvQ0FBVSxxQkFBVixFQUFpQztBQUMzRCxtQkFBZSxvQkFBZixHQUFzQyxxQkFBdEM7QUFDRDtBQU4yQixDQUE5Qjs7QUFTQSxJQUFJLGlCQUFpQjtBQUNuQix3QkFBc0IsSUFESDtBQUVuQixhQUFXO0FBRlEsQ0FBckI7O0FBS0EsT0FBTyxPQUFQLEdBQWlCLGNBQWpCIiwiZmlsZSI6IlJlYWN0Um9vdEluZGV4LmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBDb3B5cmlnaHQgMjAxMy0yMDE1LCBGYWNlYm9vaywgSW5jLlxuICogQWxsIHJpZ2h0cyByZXNlcnZlZC5cbiAqXG4gKiBUaGlzIHNvdXJjZSBjb2RlIGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBCU0Qtc3R5bGUgbGljZW5zZSBmb3VuZCBpbiB0aGVcbiAqIExJQ0VOU0UgZmlsZSBpbiB0aGUgcm9vdCBkaXJlY3Rvcnkgb2YgdGhpcyBzb3VyY2UgdHJlZS4gQW4gYWRkaXRpb25hbCBncmFudFxuICogb2YgcGF0ZW50IHJpZ2h0cyBjYW4gYmUgZm91bmQgaW4gdGhlIFBBVEVOVFMgZmlsZSBpbiB0aGUgc2FtZSBkaXJlY3RvcnkuXG4gKlxuICogQHByb3ZpZGVzTW9kdWxlIFJlYWN0Um9vdEluZGV4XG4gKiBAdHlwZWNoZWNrc1xuICovXG5cbid1c2Ugc3RyaWN0JztcblxudmFyIFJlYWN0Um9vdEluZGV4SW5qZWN0aW9uID0ge1xuICAvKipcbiAgICogQHBhcmFtIHtmdW5jdGlvbn0gX2NyZWF0ZVJlYWN0Um9vdEluZGV4XG4gICAqL1xuICBpbmplY3RDcmVhdGVSZWFjdFJvb3RJbmRleDogZnVuY3Rpb24gKF9jcmVhdGVSZWFjdFJvb3RJbmRleCkge1xuICAgIFJlYWN0Um9vdEluZGV4LmNyZWF0ZVJlYWN0Um9vdEluZGV4ID0gX2NyZWF0ZVJlYWN0Um9vdEluZGV4O1xuICB9XG59O1xuXG52YXIgUmVhY3RSb290SW5kZXggPSB7XG4gIGNyZWF0ZVJlYWN0Um9vdEluZGV4OiBudWxsLFxuICBpbmplY3Rpb246IFJlYWN0Um9vdEluZGV4SW5qZWN0aW9uXG59O1xuXG5tb2R1bGUuZXhwb3J0cyA9IFJlYWN0Um9vdEluZGV4OyJdfQ==

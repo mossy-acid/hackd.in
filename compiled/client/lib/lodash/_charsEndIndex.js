@@ -1,0 +1,22 @@
+'use strict';
+
+var baseIndexOf = require('./_baseIndexOf');
+
+/**
+ * Used by `_.trim` and `_.trimEnd` to get the index of the last string symbol
+ * that is not found in the character symbols.
+ *
+ * @private
+ * @param {Array} strSymbols The string symbols to inspect.
+ * @param {Array} chrSymbols The character symbols to find.
+ * @returns {number} Returns the index of the last unmatched string symbol.
+ */
+function charsEndIndex(strSymbols, chrSymbols) {
+  var index = strSymbols.length;
+
+  while (index-- && baseIndexOf(chrSymbols, strSymbols[index], 0) > -1) {}
+  return index;
+}
+
+module.exports = charsEndIndex;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jaGFyc0VuZEluZGV4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxjQUFjLFFBQVEsZ0JBQVIsQ0FBbEI7Ozs7Ozs7Ozs7O0FBV0EsU0FBUyxhQUFULENBQXVCLFVBQXZCLEVBQW1DLFVBQW5DLEVBQStDO0FBQzdDLE1BQUksUUFBUSxXQUFXLE1BQXZCOztBQUVBLFNBQU8sV0FBVyxZQUFZLFVBQVosRUFBd0IsV0FBVyxLQUFYLENBQXhCLEVBQTJDLENBQTNDLElBQWdELENBQUMsQ0FBbkUsRUFBc0UsQ0FBRTtBQUN4RSxTQUFPLEtBQVA7QUFDRDs7QUFFRCxPQUFPLE9BQVAsR0FBaUIsYUFBakIiLCJmaWxlIjoiX2NoYXJzRW5kSW5kZXguanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgYmFzZUluZGV4T2YgPSByZXF1aXJlKCcuL19iYXNlSW5kZXhPZicpO1xuXG4vKipcbiAqIFVzZWQgYnkgYF8udHJpbWAgYW5kIGBfLnRyaW1FbmRgIHRvIGdldCB0aGUgaW5kZXggb2YgdGhlIGxhc3Qgc3RyaW5nIHN5bWJvbFxuICogdGhhdCBpcyBub3QgZm91bmQgaW4gdGhlIGNoYXJhY3RlciBzeW1ib2xzLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge0FycmF5fSBzdHJTeW1ib2xzIFRoZSBzdHJpbmcgc3ltYm9scyB0byBpbnNwZWN0LlxuICogQHBhcmFtIHtBcnJheX0gY2hyU3ltYm9scyBUaGUgY2hhcmFjdGVyIHN5bWJvbHMgdG8gZmluZC5cbiAqIEByZXR1cm5zIHtudW1iZXJ9IFJldHVybnMgdGhlIGluZGV4IG9mIHRoZSBsYXN0IHVubWF0Y2hlZCBzdHJpbmcgc3ltYm9sLlxuICovXG5mdW5jdGlvbiBjaGFyc0VuZEluZGV4KHN0clN5bWJvbHMsIGNoclN5bWJvbHMpIHtcbiAgdmFyIGluZGV4ID0gc3RyU3ltYm9scy5sZW5ndGg7XG5cbiAgd2hpbGUgKGluZGV4LS0gJiYgYmFzZUluZGV4T2YoY2hyU3ltYm9scywgc3RyU3ltYm9sc1tpbmRleF0sIDApID4gLTEpIHt9XG4gIHJldHVybiBpbmRleDtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBjaGFyc0VuZEluZGV4O1xuIl19

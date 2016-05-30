@@ -1,0 +1,31 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ServerReactRootIndex
+ * @typechecks
+ */
+
+'use strict';
+
+/**
+ * Size of the reactRoot ID space. We generate random numbers for React root
+ * IDs and if there's a collision the events and DOM update system will
+ * get confused. In the future we need a way to generate GUIDs but for
+ * now this will work on a smaller scale.
+ */
+
+var GLOBAL_MOUNT_POINT_MAX = Math.pow(2, 53);
+
+var ServerReactRootIndex = {
+  createReactRootIndex: function createReactRootIndex() {
+    return Math.ceil(Math.random() * GLOBAL_MOUNT_POINT_MAX);
+  }
+};
+
+module.exports = ServerReactRootIndex;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1NlcnZlclJlYWN0Um9vdEluZGV4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQVlBOzs7Ozs7Ozs7QUFRQSxJQUFJLHlCQUF5QixLQUFLLEdBQUwsQ0FBUyxDQUFULEVBQVksRUFBWixDQUF6Qjs7QUFFSixJQUFJLHVCQUF1QjtBQUN6Qix3QkFBc0IsZ0NBQVk7QUFDaEMsV0FBTyxLQUFLLElBQUwsQ0FBVSxLQUFLLE1BQUwsS0FBZ0Isc0JBQWhCLENBQWpCLENBRGdDO0dBQVo7Q0FEcEI7O0FBTUosT0FBTyxPQUFQLEdBQWlCLG9CQUFqQiIsImZpbGUiOiJTZXJ2ZXJSZWFjdFJvb3RJbmRleC5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29weXJpZ2h0IDIwMTMtMjAxNSwgRmFjZWJvb2ssIEluYy5cbiAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuXG4gKlxuICogVGhpcyBzb3VyY2UgY29kZSBpcyBsaWNlbnNlZCB1bmRlciB0aGUgQlNELXN0eWxlIGxpY2Vuc2UgZm91bmQgaW4gdGhlXG4gKiBMSUNFTlNFIGZpbGUgaW4gdGhlIHJvb3QgZGlyZWN0b3J5IG9mIHRoaXMgc291cmNlIHRyZWUuIEFuIGFkZGl0aW9uYWwgZ3JhbnRcbiAqIG9mIHBhdGVudCByaWdodHMgY2FuIGJlIGZvdW5kIGluIHRoZSBQQVRFTlRTIGZpbGUgaW4gdGhlIHNhbWUgZGlyZWN0b3J5LlxuICpcbiAqIEBwcm92aWRlc01vZHVsZSBTZXJ2ZXJSZWFjdFJvb3RJbmRleFxuICogQHR5cGVjaGVja3NcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbi8qKlxuICogU2l6ZSBvZiB0aGUgcmVhY3RSb290IElEIHNwYWNlLiBXZSBnZW5lcmF0ZSByYW5kb20gbnVtYmVycyBmb3IgUmVhY3Qgcm9vdFxuICogSURzIGFuZCBpZiB0aGVyZSdzIGEgY29sbGlzaW9uIHRoZSBldmVudHMgYW5kIERPTSB1cGRhdGUgc3lzdGVtIHdpbGxcbiAqIGdldCBjb25mdXNlZC4gSW4gdGhlIGZ1dHVyZSB3ZSBuZWVkIGEgd2F5IHRvIGdlbmVyYXRlIEdVSURzIGJ1dCBmb3JcbiAqIG5vdyB0aGlzIHdpbGwgd29yayBvbiBhIHNtYWxsZXIgc2NhbGUuXG4gKi9cbnZhciBHTE9CQUxfTU9VTlRfUE9JTlRfTUFYID0gTWF0aC5wb3coMiwgNTMpO1xuXG52YXIgU2VydmVyUmVhY3RSb290SW5kZXggPSB7XG4gIGNyZWF0ZVJlYWN0Um9vdEluZGV4OiBmdW5jdGlvbiAoKSB7XG4gICAgcmV0dXJuIE1hdGguY2VpbChNYXRoLnJhbmRvbSgpICogR0xPQkFMX01PVU5UX1BPSU5UX01BWCk7XG4gIH1cbn07XG5cbm1vZHVsZS5leHBvcnRzID0gU2VydmVyUmVhY3RSb290SW5kZXg7Il19

@@ -1,0 +1,19 @@
+'use strict';
+
+var baseCreate = require('./_baseCreate'),
+    getPrototype = require('./_getPrototype'),
+    isPrototype = require('./_isPrototype');
+
+/**
+ * Initializes an object clone.
+ *
+ * @private
+ * @param {Object} object The object to clone.
+ * @returns {Object} Returns the initialized clone.
+ */
+function initCloneObject(object) {
+    return typeof object.constructor == 'function' && !isPrototype(object) ? baseCreate(getPrototype(object)) : {};
+}
+
+module.exports = initCloneObject;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19pbml0Q2xvbmVPYmplY3QuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLGFBQWEsUUFBUSxlQUFSLENBQWpCO0lBQ0ksZUFBZSxRQUFRLGlCQUFSLENBRG5CO0lBRUksY0FBYyxRQUFRLGdCQUFSLENBRmxCOzs7Ozs7Ozs7QUFXQSxTQUFTLGVBQVQsQ0FBeUIsTUFBekIsRUFBaUM7QUFDL0IsV0FBUSxPQUFPLE9BQU8sV0FBZCxJQUE2QixVQUE3QixJQUEyQyxDQUFDLFlBQVksTUFBWixDQUE3QyxHQUNILFdBQVcsYUFBYSxNQUFiLENBQVgsQ0FERyxHQUVILEVBRko7QUFHRDs7QUFFRCxPQUFPLE9BQVAsR0FBaUIsZUFBakIiLCJmaWxlIjoiX2luaXRDbG9uZU9iamVjdC5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBiYXNlQ3JlYXRlID0gcmVxdWlyZSgnLi9fYmFzZUNyZWF0ZScpLFxuICAgIGdldFByb3RvdHlwZSA9IHJlcXVpcmUoJy4vX2dldFByb3RvdHlwZScpLFxuICAgIGlzUHJvdG90eXBlID0gcmVxdWlyZSgnLi9faXNQcm90b3R5cGUnKTtcblxuLyoqXG4gKiBJbml0aWFsaXplcyBhbiBvYmplY3QgY2xvbmUuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7T2JqZWN0fSBvYmplY3QgVGhlIG9iamVjdCB0byBjbG9uZS5cbiAqIEByZXR1cm5zIHtPYmplY3R9IFJldHVybnMgdGhlIGluaXRpYWxpemVkIGNsb25lLlxuICovXG5mdW5jdGlvbiBpbml0Q2xvbmVPYmplY3Qob2JqZWN0KSB7XG4gIHJldHVybiAodHlwZW9mIG9iamVjdC5jb25zdHJ1Y3RvciA9PSAnZnVuY3Rpb24nICYmICFpc1Byb3RvdHlwZShvYmplY3QpKVxuICAgID8gYmFzZUNyZWF0ZShnZXRQcm90b3R5cGUob2JqZWN0KSlcbiAgICA6IHt9O1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGluaXRDbG9uZU9iamVjdDtcbiJdfQ==

@@ -1,0 +1,35 @@
+'use strict';
+
+var mapCacheClear = require('./_mapCacheClear'),
+    mapCacheDelete = require('./_mapCacheDelete'),
+    mapCacheGet = require('./_mapCacheGet'),
+    mapCacheHas = require('./_mapCacheHas'),
+    mapCacheSet = require('./_mapCacheSet');
+
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function MapCache(entries) {
+    var index = -1,
+        length = entries ? entries.length : 0;
+
+    this.clear();
+    while (++index < length) {
+        var entry = entries[index];
+        this.set(entry[0], entry[1]);
+    }
+}
+
+// Add methods to `MapCache`.
+MapCache.prototype.clear = mapCacheClear;
+MapCache.prototype['delete'] = mapCacheDelete;
+MapCache.prototype.get = mapCacheGet;
+MapCache.prototype.has = mapCacheHas;
+MapCache.prototype.set = mapCacheSet;
+
+module.exports = MapCache;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19NYXBDYWNoZS5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksZ0JBQWdCLFFBQVEsa0JBQVIsQ0FBcEI7SUFDSSxpQkFBaUIsUUFBUSxtQkFBUixDQURyQjtJQUVJLGNBQWMsUUFBUSxnQkFBUixDQUZsQjtJQUdJLGNBQWMsUUFBUSxnQkFBUixDQUhsQjtJQUlJLGNBQWMsUUFBUSxnQkFBUixDQUpsQjs7Ozs7Ozs7O0FBYUEsU0FBUyxRQUFULENBQWtCLE9BQWxCLEVBQTJCO0FBQ3pCLFFBQUksUUFBUSxDQUFDLENBQWI7UUFDSSxTQUFTLFVBQVUsUUFBUSxNQUFsQixHQUEyQixDQUR4Qzs7QUFHQSxTQUFLLEtBQUw7QUFDQSxXQUFPLEVBQUUsS0FBRixHQUFVLE1BQWpCLEVBQXlCO0FBQ3ZCLFlBQUksUUFBUSxRQUFRLEtBQVIsQ0FBWjtBQUNBLGFBQUssR0FBTCxDQUFTLE1BQU0sQ0FBTixDQUFULEVBQW1CLE1BQU0sQ0FBTixDQUFuQjtBQUNEO0FBQ0Y7OztBQUdELFNBQVMsU0FBVCxDQUFtQixLQUFuQixHQUEyQixhQUEzQjtBQUNBLFNBQVMsU0FBVCxDQUFtQixRQUFuQixJQUErQixjQUEvQjtBQUNBLFNBQVMsU0FBVCxDQUFtQixHQUFuQixHQUF5QixXQUF6QjtBQUNBLFNBQVMsU0FBVCxDQUFtQixHQUFuQixHQUF5QixXQUF6QjtBQUNBLFNBQVMsU0FBVCxDQUFtQixHQUFuQixHQUF5QixXQUF6Qjs7QUFFQSxPQUFPLE9BQVAsR0FBaUIsUUFBakIiLCJmaWxlIjoiX01hcENhY2hlLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIG1hcENhY2hlQ2xlYXIgPSByZXF1aXJlKCcuL19tYXBDYWNoZUNsZWFyJyksXG4gICAgbWFwQ2FjaGVEZWxldGUgPSByZXF1aXJlKCcuL19tYXBDYWNoZURlbGV0ZScpLFxuICAgIG1hcENhY2hlR2V0ID0gcmVxdWlyZSgnLi9fbWFwQ2FjaGVHZXQnKSxcbiAgICBtYXBDYWNoZUhhcyA9IHJlcXVpcmUoJy4vX21hcENhY2hlSGFzJyksXG4gICAgbWFwQ2FjaGVTZXQgPSByZXF1aXJlKCcuL19tYXBDYWNoZVNldCcpO1xuXG4vKipcbiAqIENyZWF0ZXMgYSBtYXAgY2FjaGUgb2JqZWN0IHRvIHN0b3JlIGtleS12YWx1ZSBwYWlycy5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQGNvbnN0cnVjdG9yXG4gKiBAcGFyYW0ge0FycmF5fSBbZW50cmllc10gVGhlIGtleS12YWx1ZSBwYWlycyB0byBjYWNoZS5cbiAqL1xuZnVuY3Rpb24gTWFwQ2FjaGUoZW50cmllcykge1xuICB2YXIgaW5kZXggPSAtMSxcbiAgICAgIGxlbmd0aCA9IGVudHJpZXMgPyBlbnRyaWVzLmxlbmd0aCA6IDA7XG5cbiAgdGhpcy5jbGVhcigpO1xuICB3aGlsZSAoKytpbmRleCA8IGxlbmd0aCkge1xuICAgIHZhciBlbnRyeSA9IGVudHJpZXNbaW5kZXhdO1xuICAgIHRoaXMuc2V0KGVudHJ5WzBdLCBlbnRyeVsxXSk7XG4gIH1cbn1cblxuLy8gQWRkIG1ldGhvZHMgdG8gYE1hcENhY2hlYC5cbk1hcENhY2hlLnByb3RvdHlwZS5jbGVhciA9IG1hcENhY2hlQ2xlYXI7XG5NYXBDYWNoZS5wcm90b3R5cGVbJ2RlbGV0ZSddID0gbWFwQ2FjaGVEZWxldGU7XG5NYXBDYWNoZS5wcm90b3R5cGUuZ2V0ID0gbWFwQ2FjaGVHZXQ7XG5NYXBDYWNoZS5wcm90b3R5cGUuaGFzID0gbWFwQ2FjaGVIYXM7XG5NYXBDYWNoZS5wcm90b3R5cGUuc2V0ID0gbWFwQ2FjaGVTZXQ7XG5cbm1vZHVsZS5leHBvcnRzID0gTWFwQ2FjaGU7XG4iXX0=

@@ -1,0 +1,35 @@
+'use strict';
+
+var listCacheClear = require('./_listCacheClear'),
+    listCacheDelete = require('./_listCacheDelete'),
+    listCacheGet = require('./_listCacheGet'),
+    listCacheHas = require('./_listCacheHas'),
+    listCacheSet = require('./_listCacheSet');
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+    var index = -1,
+        length = entries ? entries.length : 0;
+
+    this.clear();
+    while (++index < length) {
+        var entry = entries[index];
+        this.set(entry[0], entry[1]);
+    }
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+module.exports = ListCache;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19MaXN0Q2FjaGUuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLGlCQUFpQixRQUFRLG1CQUFSLENBQXJCO0lBQ0ksa0JBQWtCLFFBQVEsb0JBQVIsQ0FEdEI7SUFFSSxlQUFlLFFBQVEsaUJBQVIsQ0FGbkI7SUFHSSxlQUFlLFFBQVEsaUJBQVIsQ0FIbkI7SUFJSSxlQUFlLFFBQVEsaUJBQVIsQ0FKbkI7Ozs7Ozs7OztBQWFBLFNBQVMsU0FBVCxDQUFtQixPQUFuQixFQUE0QjtBQUMxQixRQUFJLFFBQVEsQ0FBQyxDQUFiO1FBQ0ksU0FBUyxVQUFVLFFBQVEsTUFBbEIsR0FBMkIsQ0FEeEM7O0FBR0EsU0FBSyxLQUFMO0FBQ0EsV0FBTyxFQUFFLEtBQUYsR0FBVSxNQUFqQixFQUF5QjtBQUN2QixZQUFJLFFBQVEsUUFBUSxLQUFSLENBQVo7QUFDQSxhQUFLLEdBQUwsQ0FBUyxNQUFNLENBQU4sQ0FBVCxFQUFtQixNQUFNLENBQU4sQ0FBbkI7QUFDRDtBQUNGOzs7QUFHRCxVQUFVLFNBQVYsQ0FBb0IsS0FBcEIsR0FBNEIsY0FBNUI7QUFDQSxVQUFVLFNBQVYsQ0FBb0IsUUFBcEIsSUFBZ0MsZUFBaEM7QUFDQSxVQUFVLFNBQVYsQ0FBb0IsR0FBcEIsR0FBMEIsWUFBMUI7QUFDQSxVQUFVLFNBQVYsQ0FBb0IsR0FBcEIsR0FBMEIsWUFBMUI7QUFDQSxVQUFVLFNBQVYsQ0FBb0IsR0FBcEIsR0FBMEIsWUFBMUI7O0FBRUEsT0FBTyxPQUFQLEdBQWlCLFNBQWpCIiwiZmlsZSI6Il9MaXN0Q2FjaGUuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgbGlzdENhY2hlQ2xlYXIgPSByZXF1aXJlKCcuL19saXN0Q2FjaGVDbGVhcicpLFxuICAgIGxpc3RDYWNoZURlbGV0ZSA9IHJlcXVpcmUoJy4vX2xpc3RDYWNoZURlbGV0ZScpLFxuICAgIGxpc3RDYWNoZUdldCA9IHJlcXVpcmUoJy4vX2xpc3RDYWNoZUdldCcpLFxuICAgIGxpc3RDYWNoZUhhcyA9IHJlcXVpcmUoJy4vX2xpc3RDYWNoZUhhcycpLFxuICAgIGxpc3RDYWNoZVNldCA9IHJlcXVpcmUoJy4vX2xpc3RDYWNoZVNldCcpO1xuXG4vKipcbiAqIENyZWF0ZXMgYW4gbGlzdCBjYWNoZSBvYmplY3QuXG4gKlxuICogQHByaXZhdGVcbiAqIEBjb25zdHJ1Y3RvclxuICogQHBhcmFtIHtBcnJheX0gW2VudHJpZXNdIFRoZSBrZXktdmFsdWUgcGFpcnMgdG8gY2FjaGUuXG4gKi9cbmZ1bmN0aW9uIExpc3RDYWNoZShlbnRyaWVzKSB7XG4gIHZhciBpbmRleCA9IC0xLFxuICAgICAgbGVuZ3RoID0gZW50cmllcyA/IGVudHJpZXMubGVuZ3RoIDogMDtcblxuICB0aGlzLmNsZWFyKCk7XG4gIHdoaWxlICgrK2luZGV4IDwgbGVuZ3RoKSB7XG4gICAgdmFyIGVudHJ5ID0gZW50cmllc1tpbmRleF07XG4gICAgdGhpcy5zZXQoZW50cnlbMF0sIGVudHJ5WzFdKTtcbiAgfVxufVxuXG4vLyBBZGQgbWV0aG9kcyB0byBgTGlzdENhY2hlYC5cbkxpc3RDYWNoZS5wcm90b3R5cGUuY2xlYXIgPSBsaXN0Q2FjaGVDbGVhcjtcbkxpc3RDYWNoZS5wcm90b3R5cGVbJ2RlbGV0ZSddID0gbGlzdENhY2hlRGVsZXRlO1xuTGlzdENhY2hlLnByb3RvdHlwZS5nZXQgPSBsaXN0Q2FjaGVHZXQ7XG5MaXN0Q2FjaGUucHJvdG90eXBlLmhhcyA9IGxpc3RDYWNoZUhhcztcbkxpc3RDYWNoZS5wcm90b3R5cGUuc2V0ID0gbGlzdENhY2hlU2V0O1xuXG5tb2R1bGUuZXhwb3J0cyA9IExpc3RDYWNoZTtcbiJdfQ==

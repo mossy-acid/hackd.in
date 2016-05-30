@@ -1,0 +1,35 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule sliceChildren
+ */
+
+'use strict';
+
+var ReactChildren = require('./ReactChildren');
+
+/**
+ * Slice children that are typically specified as `props.children`. This version
+ * of slice children ignores empty child components.
+ *
+ * @param {*} children The children set to filter.
+ * @param {number} start The first zero-based index to include in the subset.
+ * @param {?number} end The non-inclusive last index of the subset.
+ * @return {object} mirrored array with mapped children
+ */
+function sliceChildren(children, start, end) {
+  if (children == null) {
+    return children;
+  }
+
+  var array = ReactChildren.toArray(children);
+  return array.slice(start, end);
+}
+
+module.exports = sliceChildren;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL3NsaWNlQ2hpbGRyZW4uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7QUFXQTs7QUFFQSxJQUFJLGdCQUFnQixRQUFRLGlCQUFSLENBQXBCOzs7Ozs7Ozs7OztBQVdBLFNBQVMsYUFBVCxDQUF1QixRQUF2QixFQUFpQyxLQUFqQyxFQUF3QyxHQUF4QyxFQUE2QztBQUMzQyxNQUFJLFlBQVksSUFBaEIsRUFBc0I7QUFDcEIsV0FBTyxRQUFQO0FBQ0Q7O0FBRUQsTUFBSSxRQUFRLGNBQWMsT0FBZCxDQUFzQixRQUF0QixDQUFaO0FBQ0EsU0FBTyxNQUFNLEtBQU4sQ0FBWSxLQUFaLEVBQW1CLEdBQW5CLENBQVA7QUFDRDs7QUFFRCxPQUFPLE9BQVAsR0FBaUIsYUFBakIiLCJmaWxlIjoic2xpY2VDaGlsZHJlbi5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29weXJpZ2h0IDIwMTMtMjAxNSwgRmFjZWJvb2ssIEluYy5cbiAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuXG4gKlxuICogVGhpcyBzb3VyY2UgY29kZSBpcyBsaWNlbnNlZCB1bmRlciB0aGUgQlNELXN0eWxlIGxpY2Vuc2UgZm91bmQgaW4gdGhlXG4gKiBMSUNFTlNFIGZpbGUgaW4gdGhlIHJvb3QgZGlyZWN0b3J5IG9mIHRoaXMgc291cmNlIHRyZWUuIEFuIGFkZGl0aW9uYWwgZ3JhbnRcbiAqIG9mIHBhdGVudCByaWdodHMgY2FuIGJlIGZvdW5kIGluIHRoZSBQQVRFTlRTIGZpbGUgaW4gdGhlIHNhbWUgZGlyZWN0b3J5LlxuICpcbiAqIEBwcm92aWRlc01vZHVsZSBzbGljZUNoaWxkcmVuXG4gKi9cblxuJ3VzZSBzdHJpY3QnO1xuXG52YXIgUmVhY3RDaGlsZHJlbiA9IHJlcXVpcmUoJy4vUmVhY3RDaGlsZHJlbicpO1xuXG4vKipcbiAqIFNsaWNlIGNoaWxkcmVuIHRoYXQgYXJlIHR5cGljYWxseSBzcGVjaWZpZWQgYXMgYHByb3BzLmNoaWxkcmVuYC4gVGhpcyB2ZXJzaW9uXG4gKiBvZiBzbGljZSBjaGlsZHJlbiBpZ25vcmVzIGVtcHR5IGNoaWxkIGNvbXBvbmVudHMuXG4gKlxuICogQHBhcmFtIHsqfSBjaGlsZHJlbiBUaGUgY2hpbGRyZW4gc2V0IHRvIGZpbHRlci5cbiAqIEBwYXJhbSB7bnVtYmVyfSBzdGFydCBUaGUgZmlyc3QgemVyby1iYXNlZCBpbmRleCB0byBpbmNsdWRlIGluIHRoZSBzdWJzZXQuXG4gKiBAcGFyYW0gez9udW1iZXJ9IGVuZCBUaGUgbm9uLWluY2x1c2l2ZSBsYXN0IGluZGV4IG9mIHRoZSBzdWJzZXQuXG4gKiBAcmV0dXJuIHtvYmplY3R9IG1pcnJvcmVkIGFycmF5IHdpdGggbWFwcGVkIGNoaWxkcmVuXG4gKi9cbmZ1bmN0aW9uIHNsaWNlQ2hpbGRyZW4oY2hpbGRyZW4sIHN0YXJ0LCBlbmQpIHtcbiAgaWYgKGNoaWxkcmVuID09IG51bGwpIHtcbiAgICByZXR1cm4gY2hpbGRyZW47XG4gIH1cblxuICB2YXIgYXJyYXkgPSBSZWFjdENoaWxkcmVuLnRvQXJyYXkoY2hpbGRyZW4pO1xuICByZXR1cm4gYXJyYXkuc2xpY2Uoc3RhcnQsIGVuZCk7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gc2xpY2VDaGlsZHJlbjsiXX0=

@@ -1,0 +1,9 @@
+'use strict';
+
+var root = require('./_root');
+
+/** Built-in value references. */
+var Reflect = root.Reflect;
+
+module.exports = Reflect;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19SZWZsZWN0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxPQUFPLFFBQVEsU0FBUixDQUFYOzs7QUFHQSxJQUFJLFVBQVUsS0FBSyxPQUFuQjs7QUFFQSxPQUFPLE9BQVAsR0FBaUIsT0FBakIiLCJmaWxlIjoiX1JlZmxlY3QuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgcm9vdCA9IHJlcXVpcmUoJy4vX3Jvb3QnKTtcblxuLyoqIEJ1aWx0LWluIHZhbHVlIHJlZmVyZW5jZXMuICovXG52YXIgUmVmbGVjdCA9IHJvb3QuUmVmbGVjdDtcblxubW9kdWxlLmV4cG9ydHMgPSBSZWZsZWN0O1xuIl19

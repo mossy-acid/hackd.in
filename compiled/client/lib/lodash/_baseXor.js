@@ -1,0 +1,28 @@
+'use strict';
+
+var arrayPush = require('./_arrayPush'),
+    baseDifference = require('./_baseDifference'),
+    baseUniq = require('./_baseUniq');
+
+/**
+ * The base implementation of methods like `_.xor`, without support for
+ * iteratee shorthands, that accepts an array of arrays to inspect.
+ *
+ * @private
+ * @param {Array} arrays The arrays to inspect.
+ * @param {Function} [iteratee] The iteratee invoked per element.
+ * @param {Function} [comparator] The comparator invoked per element.
+ * @returns {Array} Returns the new array of values.
+ */
+function baseXor(arrays, iteratee, comparator) {
+    var index = -1,
+        length = arrays.length;
+
+    while (++index < length) {
+        var result = result ? arrayPush(baseDifference(result, arrays[index], iteratee, comparator), baseDifference(arrays[index], result, iteratee, comparator)) : arrays[index];
+    }
+    return result && result.length ? baseUniq(result, iteratee, comparator) : [];
+}
+
+module.exports = baseXor;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlWG9yLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxZQUFZLFFBQVEsY0FBUixDQUFoQjtJQUNJLGlCQUFpQixRQUFRLG1CQUFSLENBRHJCO0lBRUksV0FBVyxRQUFRLGFBQVIsQ0FGZjs7Ozs7Ozs7Ozs7O0FBY0EsU0FBUyxPQUFULENBQWlCLE1BQWpCLEVBQXlCLFFBQXpCLEVBQW1DLFVBQW5DLEVBQStDO0FBQzdDLFFBQUksUUFBUSxDQUFDLENBQWI7UUFDSSxTQUFTLE9BQU8sTUFEcEI7O0FBR0EsV0FBTyxFQUFFLEtBQUYsR0FBVSxNQUFqQixFQUF5QjtBQUN2QixZQUFJLFNBQVMsU0FDVCxVQUNFLGVBQWUsTUFBZixFQUF1QixPQUFPLEtBQVAsQ0FBdkIsRUFBc0MsUUFBdEMsRUFBZ0QsVUFBaEQsQ0FERixFQUVFLGVBQWUsT0FBTyxLQUFQLENBQWYsRUFBOEIsTUFBOUIsRUFBc0MsUUFBdEMsRUFBZ0QsVUFBaEQsQ0FGRixDQURTLEdBS1QsT0FBTyxLQUFQLENBTEo7QUFNRDtBQUNELFdBQVEsVUFBVSxPQUFPLE1BQWxCLEdBQTRCLFNBQVMsTUFBVCxFQUFpQixRQUFqQixFQUEyQixVQUEzQixDQUE1QixHQUFxRSxFQUE1RTtBQUNEOztBQUVELE9BQU8sT0FBUCxHQUFpQixPQUFqQiIsImZpbGUiOiJfYmFzZVhvci5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBhcnJheVB1c2ggPSByZXF1aXJlKCcuL19hcnJheVB1c2gnKSxcbiAgICBiYXNlRGlmZmVyZW5jZSA9IHJlcXVpcmUoJy4vX2Jhc2VEaWZmZXJlbmNlJyksXG4gICAgYmFzZVVuaXEgPSByZXF1aXJlKCcuL19iYXNlVW5pcScpO1xuXG4vKipcbiAqIFRoZSBiYXNlIGltcGxlbWVudGF0aW9uIG9mIG1ldGhvZHMgbGlrZSBgXy54b3JgLCB3aXRob3V0IHN1cHBvcnQgZm9yXG4gKiBpdGVyYXRlZSBzaG9ydGhhbmRzLCB0aGF0IGFjY2VwdHMgYW4gYXJyYXkgb2YgYXJyYXlzIHRvIGluc3BlY3QuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7QXJyYXl9IGFycmF5cyBUaGUgYXJyYXlzIHRvIGluc3BlY3QuXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBbaXRlcmF0ZWVdIFRoZSBpdGVyYXRlZSBpbnZva2VkIHBlciBlbGVtZW50LlxuICogQHBhcmFtIHtGdW5jdGlvbn0gW2NvbXBhcmF0b3JdIFRoZSBjb21wYXJhdG9yIGludm9rZWQgcGVyIGVsZW1lbnQuXG4gKiBAcmV0dXJucyB7QXJyYXl9IFJldHVybnMgdGhlIG5ldyBhcnJheSBvZiB2YWx1ZXMuXG4gKi9cbmZ1bmN0aW9uIGJhc2VYb3IoYXJyYXlzLCBpdGVyYXRlZSwgY29tcGFyYXRvcikge1xuICB2YXIgaW5kZXggPSAtMSxcbiAgICAgIGxlbmd0aCA9IGFycmF5cy5sZW5ndGg7XG5cbiAgd2hpbGUgKCsraW5kZXggPCBsZW5ndGgpIHtcbiAgICB2YXIgcmVzdWx0ID0gcmVzdWx0XG4gICAgICA/IGFycmF5UHVzaChcbiAgICAgICAgICBiYXNlRGlmZmVyZW5jZShyZXN1bHQsIGFycmF5c1tpbmRleF0sIGl0ZXJhdGVlLCBjb21wYXJhdG9yKSxcbiAgICAgICAgICBiYXNlRGlmZmVyZW5jZShhcnJheXNbaW5kZXhdLCByZXN1bHQsIGl0ZXJhdGVlLCBjb21wYXJhdG9yKVxuICAgICAgICApXG4gICAgICA6IGFycmF5c1tpbmRleF07XG4gIH1cbiAgcmV0dXJuIChyZXN1bHQgJiYgcmVzdWx0Lmxlbmd0aCkgPyBiYXNlVW5pcShyZXN1bHQsIGl0ZXJhdGVlLCBjb21wYXJhdG9yKSA6IFtdO1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGJhc2VYb3I7XG4iXX0=

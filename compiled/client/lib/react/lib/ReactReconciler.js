@@ -1,0 +1,108 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactReconciler
+ */
+
+'use strict';
+
+var ReactRef = require('./ReactRef');
+
+/**
+ * Helper to call ReactRef.attachRefs with this composite component, split out
+ * to avoid allocations in the transaction mount-ready queue.
+ */
+function attachRefs() {
+  ReactRef.attachRefs(this, this._currentElement);
+}
+
+var ReactReconciler = {
+
+  /**
+   * Initializes the component, renders markup, and registers event listeners.
+   *
+   * @param {ReactComponent} internalInstance
+   * @param {string} rootID DOM ID of the root node.
+   * @param {ReactReconcileTransaction|ReactServerRenderingTransaction} transaction
+   * @return {?string} Rendered markup to be inserted into the DOM.
+   * @final
+   * @internal
+   */
+  mountComponent: function mountComponent(internalInstance, rootID, transaction, context) {
+    var markup = internalInstance.mountComponent(rootID, transaction, context);
+    if (internalInstance._currentElement && internalInstance._currentElement.ref != null) {
+      transaction.getReactMountReady().enqueue(attachRefs, internalInstance);
+    }
+    return markup;
+  },
+
+  /**
+   * Releases any resources allocated by `mountComponent`.
+   *
+   * @final
+   * @internal
+   */
+  unmountComponent: function unmountComponent(internalInstance) {
+    ReactRef.detachRefs(internalInstance, internalInstance._currentElement);
+    internalInstance.unmountComponent();
+  },
+
+  /**
+   * Update a component using a new element.
+   *
+   * @param {ReactComponent} internalInstance
+   * @param {ReactElement} nextElement
+   * @param {ReactReconcileTransaction} transaction
+   * @param {object} context
+   * @internal
+   */
+  receiveComponent: function receiveComponent(internalInstance, nextElement, transaction, context) {
+    var prevElement = internalInstance._currentElement;
+
+    if (nextElement === prevElement && context === internalInstance._context) {
+      // Since elements are immutable after the owner is rendered,
+      // we can do a cheap identity compare here to determine if this is a
+      // superfluous reconcile. It's possible for state to be mutable but such
+      // change should trigger an update of the owner which would recreate
+      // the element. We explicitly check for the existence of an owner since
+      // it's possible for an element created outside a composite to be
+      // deeply mutated and reused.
+
+      // TODO: Bailing out early is just a perf optimization right?
+      // TODO: Removing the return statement should affect correctness?
+      return;
+    }
+
+    var refsChanged = ReactRef.shouldUpdateRefs(prevElement, nextElement);
+
+    if (refsChanged) {
+      ReactRef.detachRefs(internalInstance, prevElement);
+    }
+
+    internalInstance.receiveComponent(nextElement, transaction, context);
+
+    if (refsChanged && internalInstance._currentElement && internalInstance._currentElement.ref != null) {
+      transaction.getReactMountReady().enqueue(attachRefs, internalInstance);
+    }
+  },
+
+  /**
+   * Flush any dirty changes in a component.
+   *
+   * @param {ReactComponent} internalInstance
+   * @param {ReactReconcileTransaction} transaction
+   * @internal
+   */
+  performUpdateIfNecessary: function performUpdateIfNecessary(internalInstance, transaction) {
+    internalInstance.performUpdateIfNecessary(transaction);
+  }
+
+};
+
+module.exports = ReactReconciler;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1JlYWN0UmVjb25jaWxlci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztBQVdBOztBQUVBLElBQUksV0FBVyxRQUFRLFlBQVIsQ0FBZjs7Ozs7O0FBTUEsU0FBUyxVQUFULEdBQXNCO0FBQ3BCLFdBQVMsVUFBVCxDQUFvQixJQUFwQixFQUEwQixLQUFLLGVBQS9CO0FBQ0Q7O0FBRUQsSUFBSSxrQkFBa0I7Ozs7Ozs7Ozs7OztBQVlwQixrQkFBZ0Isd0JBQVUsZ0JBQVYsRUFBNEIsTUFBNUIsRUFBb0MsV0FBcEMsRUFBaUQsT0FBakQsRUFBMEQ7QUFDeEUsUUFBSSxTQUFTLGlCQUFpQixjQUFqQixDQUFnQyxNQUFoQyxFQUF3QyxXQUF4QyxFQUFxRCxPQUFyRCxDQUFiO0FBQ0EsUUFBSSxpQkFBaUIsZUFBakIsSUFBb0MsaUJBQWlCLGVBQWpCLENBQWlDLEdBQWpDLElBQXdDLElBQWhGLEVBQXNGO0FBQ3BGLGtCQUFZLGtCQUFaLEdBQWlDLE9BQWpDLENBQXlDLFVBQXpDLEVBQXFELGdCQUFyRDtBQUNEO0FBQ0QsV0FBTyxNQUFQO0FBQ0QsR0FsQm1COzs7Ozs7OztBQTBCcEIsb0JBQWtCLDBCQUFVLGdCQUFWLEVBQTRCO0FBQzVDLGFBQVMsVUFBVCxDQUFvQixnQkFBcEIsRUFBc0MsaUJBQWlCLGVBQXZEO0FBQ0EscUJBQWlCLGdCQUFqQjtBQUNELEdBN0JtQjs7Ozs7Ozs7Ozs7QUF3Q3BCLG9CQUFrQiwwQkFBVSxnQkFBVixFQUE0QixXQUE1QixFQUF5QyxXQUF6QyxFQUFzRCxPQUF0RCxFQUErRDtBQUMvRSxRQUFJLGNBQWMsaUJBQWlCLGVBQW5DOztBQUVBLFFBQUksZ0JBQWdCLFdBQWhCLElBQStCLFlBQVksaUJBQWlCLFFBQWhFLEVBQTBFOzs7Ozs7Ozs7OztBQVd4RTtBQUNEOztBQUVELFFBQUksY0FBYyxTQUFTLGdCQUFULENBQTBCLFdBQTFCLEVBQXVDLFdBQXZDLENBQWxCOztBQUVBLFFBQUksV0FBSixFQUFpQjtBQUNmLGVBQVMsVUFBVCxDQUFvQixnQkFBcEIsRUFBc0MsV0FBdEM7QUFDRDs7QUFFRCxxQkFBaUIsZ0JBQWpCLENBQWtDLFdBQWxDLEVBQStDLFdBQS9DLEVBQTRELE9BQTVEOztBQUVBLFFBQUksZUFBZSxpQkFBaUIsZUFBaEMsSUFBbUQsaUJBQWlCLGVBQWpCLENBQWlDLEdBQWpDLElBQXdDLElBQS9GLEVBQXFHO0FBQ25HLGtCQUFZLGtCQUFaLEdBQWlDLE9BQWpDLENBQXlDLFVBQXpDLEVBQXFELGdCQUFyRDtBQUNEO0FBQ0YsR0FwRW1COzs7Ozs7Ozs7QUE2RXBCLDRCQUEwQixrQ0FBVSxnQkFBVixFQUE0QixXQUE1QixFQUF5QztBQUNqRSxxQkFBaUIsd0JBQWpCLENBQTBDLFdBQTFDO0FBQ0Q7O0FBL0VtQixDQUF0Qjs7QUFtRkEsT0FBTyxPQUFQLEdBQWlCLGVBQWpCIiwiZmlsZSI6IlJlYWN0UmVjb25jaWxlci5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29weXJpZ2h0IDIwMTMtMjAxNSwgRmFjZWJvb2ssIEluYy5cbiAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuXG4gKlxuICogVGhpcyBzb3VyY2UgY29kZSBpcyBsaWNlbnNlZCB1bmRlciB0aGUgQlNELXN0eWxlIGxpY2Vuc2UgZm91bmQgaW4gdGhlXG4gKiBMSUNFTlNFIGZpbGUgaW4gdGhlIHJvb3QgZGlyZWN0b3J5IG9mIHRoaXMgc291cmNlIHRyZWUuIEFuIGFkZGl0aW9uYWwgZ3JhbnRcbiAqIG9mIHBhdGVudCByaWdodHMgY2FuIGJlIGZvdW5kIGluIHRoZSBQQVRFTlRTIGZpbGUgaW4gdGhlIHNhbWUgZGlyZWN0b3J5LlxuICpcbiAqIEBwcm92aWRlc01vZHVsZSBSZWFjdFJlY29uY2lsZXJcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbnZhciBSZWFjdFJlZiA9IHJlcXVpcmUoJy4vUmVhY3RSZWYnKTtcblxuLyoqXG4gKiBIZWxwZXIgdG8gY2FsbCBSZWFjdFJlZi5hdHRhY2hSZWZzIHdpdGggdGhpcyBjb21wb3NpdGUgY29tcG9uZW50LCBzcGxpdCBvdXRcbiAqIHRvIGF2b2lkIGFsbG9jYXRpb25zIGluIHRoZSB0cmFuc2FjdGlvbiBtb3VudC1yZWFkeSBxdWV1ZS5cbiAqL1xuZnVuY3Rpb24gYXR0YWNoUmVmcygpIHtcbiAgUmVhY3RSZWYuYXR0YWNoUmVmcyh0aGlzLCB0aGlzLl9jdXJyZW50RWxlbWVudCk7XG59XG5cbnZhciBSZWFjdFJlY29uY2lsZXIgPSB7XG5cbiAgLyoqXG4gICAqIEluaXRpYWxpemVzIHRoZSBjb21wb25lbnQsIHJlbmRlcnMgbWFya3VwLCBhbmQgcmVnaXN0ZXJzIGV2ZW50IGxpc3RlbmVycy5cbiAgICpcbiAgICogQHBhcmFtIHtSZWFjdENvbXBvbmVudH0gaW50ZXJuYWxJbnN0YW5jZVxuICAgKiBAcGFyYW0ge3N0cmluZ30gcm9vdElEIERPTSBJRCBvZiB0aGUgcm9vdCBub2RlLlxuICAgKiBAcGFyYW0ge1JlYWN0UmVjb25jaWxlVHJhbnNhY3Rpb258UmVhY3RTZXJ2ZXJSZW5kZXJpbmdUcmFuc2FjdGlvbn0gdHJhbnNhY3Rpb25cbiAgICogQHJldHVybiB7P3N0cmluZ30gUmVuZGVyZWQgbWFya3VwIHRvIGJlIGluc2VydGVkIGludG8gdGhlIERPTS5cbiAgICogQGZpbmFsXG4gICAqIEBpbnRlcm5hbFxuICAgKi9cbiAgbW91bnRDb21wb25lbnQ6IGZ1bmN0aW9uIChpbnRlcm5hbEluc3RhbmNlLCByb290SUQsIHRyYW5zYWN0aW9uLCBjb250ZXh0KSB7XG4gICAgdmFyIG1hcmt1cCA9IGludGVybmFsSW5zdGFuY2UubW91bnRDb21wb25lbnQocm9vdElELCB0cmFuc2FjdGlvbiwgY29udGV4dCk7XG4gICAgaWYgKGludGVybmFsSW5zdGFuY2UuX2N1cnJlbnRFbGVtZW50ICYmIGludGVybmFsSW5zdGFuY2UuX2N1cnJlbnRFbGVtZW50LnJlZiAhPSBudWxsKSB7XG4gICAgICB0cmFuc2FjdGlvbi5nZXRSZWFjdE1vdW50UmVhZHkoKS5lbnF1ZXVlKGF0dGFjaFJlZnMsIGludGVybmFsSW5zdGFuY2UpO1xuICAgIH1cbiAgICByZXR1cm4gbWFya3VwO1xuICB9LFxuXG4gIC8qKlxuICAgKiBSZWxlYXNlcyBhbnkgcmVzb3VyY2VzIGFsbG9jYXRlZCBieSBgbW91bnRDb21wb25lbnRgLlxuICAgKlxuICAgKiBAZmluYWxcbiAgICogQGludGVybmFsXG4gICAqL1xuICB1bm1vdW50Q29tcG9uZW50OiBmdW5jdGlvbiAoaW50ZXJuYWxJbnN0YW5jZSkge1xuICAgIFJlYWN0UmVmLmRldGFjaFJlZnMoaW50ZXJuYWxJbnN0YW5jZSwgaW50ZXJuYWxJbnN0YW5jZS5fY3VycmVudEVsZW1lbnQpO1xuICAgIGludGVybmFsSW5zdGFuY2UudW5tb3VudENvbXBvbmVudCgpO1xuICB9LFxuXG4gIC8qKlxuICAgKiBVcGRhdGUgYSBjb21wb25lbnQgdXNpbmcgYSBuZXcgZWxlbWVudC5cbiAgICpcbiAgICogQHBhcmFtIHtSZWFjdENvbXBvbmVudH0gaW50ZXJuYWxJbnN0YW5jZVxuICAgKiBAcGFyYW0ge1JlYWN0RWxlbWVudH0gbmV4dEVsZW1lbnRcbiAgICogQHBhcmFtIHtSZWFjdFJlY29uY2lsZVRyYW5zYWN0aW9ufSB0cmFuc2FjdGlvblxuICAgKiBAcGFyYW0ge29iamVjdH0gY29udGV4dFxuICAgKiBAaW50ZXJuYWxcbiAgICovXG4gIHJlY2VpdmVDb21wb25lbnQ6IGZ1bmN0aW9uIChpbnRlcm5hbEluc3RhbmNlLCBuZXh0RWxlbWVudCwgdHJhbnNhY3Rpb24sIGNvbnRleHQpIHtcbiAgICB2YXIgcHJldkVsZW1lbnQgPSBpbnRlcm5hbEluc3RhbmNlLl9jdXJyZW50RWxlbWVudDtcblxuICAgIGlmIChuZXh0RWxlbWVudCA9PT0gcHJldkVsZW1lbnQgJiYgY29udGV4dCA9PT0gaW50ZXJuYWxJbnN0YW5jZS5fY29udGV4dCkge1xuICAgICAgLy8gU2luY2UgZWxlbWVudHMgYXJlIGltbXV0YWJsZSBhZnRlciB0aGUgb3duZXIgaXMgcmVuZGVyZWQsXG4gICAgICAvLyB3ZSBjYW4gZG8gYSBjaGVhcCBpZGVudGl0eSBjb21wYXJlIGhlcmUgdG8gZGV0ZXJtaW5lIGlmIHRoaXMgaXMgYVxuICAgICAgLy8gc3VwZXJmbHVvdXMgcmVjb25jaWxlLiBJdCdzIHBvc3NpYmxlIGZvciBzdGF0ZSB0byBiZSBtdXRhYmxlIGJ1dCBzdWNoXG4gICAgICAvLyBjaGFuZ2Ugc2hvdWxkIHRyaWdnZXIgYW4gdXBkYXRlIG9mIHRoZSBvd25lciB3aGljaCB3b3VsZCByZWNyZWF0ZVxuICAgICAgLy8gdGhlIGVsZW1lbnQuIFdlIGV4cGxpY2l0bHkgY2hlY2sgZm9yIHRoZSBleGlzdGVuY2Ugb2YgYW4gb3duZXIgc2luY2VcbiAgICAgIC8vIGl0J3MgcG9zc2libGUgZm9yIGFuIGVsZW1lbnQgY3JlYXRlZCBvdXRzaWRlIGEgY29tcG9zaXRlIHRvIGJlXG4gICAgICAvLyBkZWVwbHkgbXV0YXRlZCBhbmQgcmV1c2VkLlxuXG4gICAgICAvLyBUT0RPOiBCYWlsaW5nIG91dCBlYXJseSBpcyBqdXN0IGEgcGVyZiBvcHRpbWl6YXRpb24gcmlnaHQ/XG4gICAgICAvLyBUT0RPOiBSZW1vdmluZyB0aGUgcmV0dXJuIHN0YXRlbWVudCBzaG91bGQgYWZmZWN0IGNvcnJlY3RuZXNzP1xuICAgICAgcmV0dXJuO1xuICAgIH1cblxuICAgIHZhciByZWZzQ2hhbmdlZCA9IFJlYWN0UmVmLnNob3VsZFVwZGF0ZVJlZnMocHJldkVsZW1lbnQsIG5leHRFbGVtZW50KTtcblxuICAgIGlmIChyZWZzQ2hhbmdlZCkge1xuICAgICAgUmVhY3RSZWYuZGV0YWNoUmVmcyhpbnRlcm5hbEluc3RhbmNlLCBwcmV2RWxlbWVudCk7XG4gICAgfVxuXG4gICAgaW50ZXJuYWxJbnN0YW5jZS5yZWNlaXZlQ29tcG9uZW50KG5leHRFbGVtZW50LCB0cmFuc2FjdGlvbiwgY29udGV4dCk7XG5cbiAgICBpZiAocmVmc0NoYW5nZWQgJiYgaW50ZXJuYWxJbnN0YW5jZS5fY3VycmVudEVsZW1lbnQgJiYgaW50ZXJuYWxJbnN0YW5jZS5fY3VycmVudEVsZW1lbnQucmVmICE9IG51bGwpIHtcbiAgICAgIHRyYW5zYWN0aW9uLmdldFJlYWN0TW91bnRSZWFkeSgpLmVucXVldWUoYXR0YWNoUmVmcywgaW50ZXJuYWxJbnN0YW5jZSk7XG4gICAgfVxuICB9LFxuXG4gIC8qKlxuICAgKiBGbHVzaCBhbnkgZGlydHkgY2hhbmdlcyBpbiBhIGNvbXBvbmVudC5cbiAgICpcbiAgICogQHBhcmFtIHtSZWFjdENvbXBvbmVudH0gaW50ZXJuYWxJbnN0YW5jZVxuICAgKiBAcGFyYW0ge1JlYWN0UmVjb25jaWxlVHJhbnNhY3Rpb259IHRyYW5zYWN0aW9uXG4gICAqIEBpbnRlcm5hbFxuICAgKi9cbiAgcGVyZm9ybVVwZGF0ZUlmTmVjZXNzYXJ5OiBmdW5jdGlvbiAoaW50ZXJuYWxJbnN0YW5jZSwgdHJhbnNhY3Rpb24pIHtcbiAgICBpbnRlcm5hbEluc3RhbmNlLnBlcmZvcm1VcGRhdGVJZk5lY2Vzc2FyeSh0cmFuc2FjdGlvbik7XG4gIH1cblxufTtcblxubW9kdWxlLmV4cG9ydHMgPSBSZWFjdFJlY29uY2lsZXI7Il19

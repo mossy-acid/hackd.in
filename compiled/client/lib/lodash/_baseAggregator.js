@@ -1,0 +1,24 @@
+'use strict';
+
+var baseEach = require('./_baseEach');
+
+/**
+ * Aggregates elements of `collection` on `accumulator` with keys transformed
+ * by `iteratee` and values set by `setter`.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} setter The function to set `accumulator` values.
+ * @param {Function} iteratee The iteratee to transform keys.
+ * @param {Object} accumulator The initial aggregated object.
+ * @returns {Function} Returns `accumulator`.
+ */
+function baseAggregator(collection, setter, iteratee, accumulator) {
+  baseEach(collection, function (value, key, collection) {
+    setter(accumulator, value, iteratee(value), collection);
+  });
+  return accumulator;
+}
+
+module.exports = baseAggregator;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlQWdncmVnYXRvci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksV0FBVyxRQUFRLGFBQVIsQ0FBZjs7Ozs7Ozs7Ozs7OztBQWFBLFNBQVMsY0FBVCxDQUF3QixVQUF4QixFQUFvQyxNQUFwQyxFQUE0QyxRQUE1QyxFQUFzRCxXQUF0RCxFQUFtRTtBQUNqRSxXQUFTLFVBQVQsRUFBcUIsVUFBUyxLQUFULEVBQWdCLEdBQWhCLEVBQXFCLFVBQXJCLEVBQWlDO0FBQ3BELFdBQU8sV0FBUCxFQUFvQixLQUFwQixFQUEyQixTQUFTLEtBQVQsQ0FBM0IsRUFBNEMsVUFBNUM7QUFDRCxHQUZEO0FBR0EsU0FBTyxXQUFQO0FBQ0Q7O0FBRUQsT0FBTyxPQUFQLEdBQWlCLGNBQWpCIiwiZmlsZSI6Il9iYXNlQWdncmVnYXRvci5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBiYXNlRWFjaCA9IHJlcXVpcmUoJy4vX2Jhc2VFYWNoJyk7XG5cbi8qKlxuICogQWdncmVnYXRlcyBlbGVtZW50cyBvZiBgY29sbGVjdGlvbmAgb24gYGFjY3VtdWxhdG9yYCB3aXRoIGtleXMgdHJhbnNmb3JtZWRcbiAqIGJ5IGBpdGVyYXRlZWAgYW5kIHZhbHVlcyBzZXQgYnkgYHNldHRlcmAuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7QXJyYXl8T2JqZWN0fSBjb2xsZWN0aW9uIFRoZSBjb2xsZWN0aW9uIHRvIGl0ZXJhdGUgb3Zlci5cbiAqIEBwYXJhbSB7RnVuY3Rpb259IHNldHRlciBUaGUgZnVuY3Rpb24gdG8gc2V0IGBhY2N1bXVsYXRvcmAgdmFsdWVzLlxuICogQHBhcmFtIHtGdW5jdGlvbn0gaXRlcmF0ZWUgVGhlIGl0ZXJhdGVlIHRvIHRyYW5zZm9ybSBrZXlzLlxuICogQHBhcmFtIHtPYmplY3R9IGFjY3VtdWxhdG9yIFRoZSBpbml0aWFsIGFnZ3JlZ2F0ZWQgb2JqZWN0LlxuICogQHJldHVybnMge0Z1bmN0aW9ufSBSZXR1cm5zIGBhY2N1bXVsYXRvcmAuXG4gKi9cbmZ1bmN0aW9uIGJhc2VBZ2dyZWdhdG9yKGNvbGxlY3Rpb24sIHNldHRlciwgaXRlcmF0ZWUsIGFjY3VtdWxhdG9yKSB7XG4gIGJhc2VFYWNoKGNvbGxlY3Rpb24sIGZ1bmN0aW9uKHZhbHVlLCBrZXksIGNvbGxlY3Rpb24pIHtcbiAgICBzZXR0ZXIoYWNjdW11bGF0b3IsIHZhbHVlLCBpdGVyYXRlZSh2YWx1ZSksIGNvbGxlY3Rpb24pO1xuICB9KTtcbiAgcmV0dXJuIGFjY3VtdWxhdG9yO1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGJhc2VBZ2dyZWdhdG9yO1xuIl19

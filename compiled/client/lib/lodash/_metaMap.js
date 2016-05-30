@@ -1,0 +1,9 @@
+'use strict';
+
+var WeakMap = require('./_WeakMap');
+
+/** Used to store function metadata. */
+var metaMap = WeakMap && new WeakMap();
+
+module.exports = metaMap;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19tZXRhTWFwLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxVQUFVLFFBQVEsWUFBUixDQUFkOzs7QUFHQSxJQUFJLFVBQVUsV0FBVyxJQUFJLE9BQUosRUFBekI7O0FBRUEsT0FBTyxPQUFQLEdBQWlCLE9BQWpCIiwiZmlsZSI6Il9tZXRhTWFwLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIFdlYWtNYXAgPSByZXF1aXJlKCcuL19XZWFrTWFwJyk7XG5cbi8qKiBVc2VkIHRvIHN0b3JlIGZ1bmN0aW9uIG1ldGFkYXRhLiAqL1xudmFyIG1ldGFNYXAgPSBXZWFrTWFwICYmIG5ldyBXZWFrTWFwO1xuXG5tb2R1bGUuZXhwb3J0cyA9IG1ldGFNYXA7XG4iXX0=

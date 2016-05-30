@@ -1,0 +1,21 @@
+'use strict';
+
+var baseGet = require('./_baseGet'),
+    baseSet = require('./_baseSet');
+
+/**
+ * The base implementation of `_.update`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path of the property to update.
+ * @param {Function} updater The function to produce the updated value.
+ * @param {Function} [customizer] The function to customize path creation.
+ * @returns {Object} Returns `object`.
+ */
+function baseUpdate(object, path, updater, customizer) {
+  return baseSet(object, path, updater(baseGet(object, path)), customizer);
+}
+
+module.exports = baseUpdate;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlVXBkYXRlLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxVQUFVLFFBQVEsWUFBUixDQUFkO0lBQ0ksVUFBVSxRQUFRLFlBQVIsQ0FEZDs7Ozs7Ozs7Ozs7O0FBYUEsU0FBUyxVQUFULENBQW9CLE1BQXBCLEVBQTRCLElBQTVCLEVBQWtDLE9BQWxDLEVBQTJDLFVBQTNDLEVBQXVEO0FBQ3JELFNBQU8sUUFBUSxNQUFSLEVBQWdCLElBQWhCLEVBQXNCLFFBQVEsUUFBUSxNQUFSLEVBQWdCLElBQWhCLENBQVIsQ0FBdEIsRUFBc0QsVUFBdEQsQ0FBUDtBQUNEOztBQUVELE9BQU8sT0FBUCxHQUFpQixVQUFqQiIsImZpbGUiOiJfYmFzZVVwZGF0ZS5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBiYXNlR2V0ID0gcmVxdWlyZSgnLi9fYmFzZUdldCcpLFxuICAgIGJhc2VTZXQgPSByZXF1aXJlKCcuL19iYXNlU2V0Jyk7XG5cbi8qKlxuICogVGhlIGJhc2UgaW1wbGVtZW50YXRpb24gb2YgYF8udXBkYXRlYC5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHtPYmplY3R9IG9iamVjdCBUaGUgb2JqZWN0IHRvIHF1ZXJ5LlxuICogQHBhcmFtIHtBcnJheXxzdHJpbmd9IHBhdGggVGhlIHBhdGggb2YgdGhlIHByb3BlcnR5IHRvIHVwZGF0ZS5cbiAqIEBwYXJhbSB7RnVuY3Rpb259IHVwZGF0ZXIgVGhlIGZ1bmN0aW9uIHRvIHByb2R1Y2UgdGhlIHVwZGF0ZWQgdmFsdWUuXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBbY3VzdG9taXplcl0gVGhlIGZ1bmN0aW9uIHRvIGN1c3RvbWl6ZSBwYXRoIGNyZWF0aW9uLlxuICogQHJldHVybnMge09iamVjdH0gUmV0dXJucyBgb2JqZWN0YC5cbiAqL1xuZnVuY3Rpb24gYmFzZVVwZGF0ZShvYmplY3QsIHBhdGgsIHVwZGF0ZXIsIGN1c3RvbWl6ZXIpIHtcbiAgcmV0dXJuIGJhc2VTZXQob2JqZWN0LCBwYXRoLCB1cGRhdGVyKGJhc2VHZXQob2JqZWN0LCBwYXRoKSksIGN1c3RvbWl6ZXIpO1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGJhc2VVcGRhdGU7XG4iXX0=

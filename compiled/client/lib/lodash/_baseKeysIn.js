@@ -1,0 +1,39 @@
+'use strict';
+
+var Reflect = require('./_Reflect'),
+    iteratorToArray = require('./_iteratorToArray');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Built-in value references. */
+var enumerate = Reflect ? Reflect.enumerate : undefined,
+    propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * The base implementation of `_.keysIn` which doesn't skip the constructor
+ * property of prototypes or treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeysIn(object) {
+  object = object == null ? object : Object(object);
+
+  var result = [];
+  for (var key in object) {
+    result.push(key);
+  }
+  return result;
+}
+
+// Fallback for IE < 9 with es6-shim.
+if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
+  baseKeysIn = function baseKeysIn(object) {
+    return iteratorToArray(enumerate(object));
+  };
+}
+
+module.exports = baseKeysIn;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlS2V5c0luLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxVQUFVLFFBQVEsWUFBUixDQUFkO0lBQ0ksa0JBQWtCLFFBQVEsb0JBQVIsQ0FEdEI7OztBQUlBLElBQUksY0FBYyxPQUFPLFNBQXpCOzs7QUFHQSxJQUFJLFlBQVksVUFBVSxRQUFRLFNBQWxCLEdBQThCLFNBQTlDO0lBQ0ksdUJBQXVCLFlBQVksb0JBRHZDOzs7Ozs7Ozs7O0FBV0EsU0FBUyxVQUFULENBQW9CLE1BQXBCLEVBQTRCO0FBQzFCLFdBQVMsVUFBVSxJQUFWLEdBQWlCLE1BQWpCLEdBQTBCLE9BQU8sTUFBUCxDQUFuQzs7QUFFQSxNQUFJLFNBQVMsRUFBYjtBQUNBLE9BQUssSUFBSSxHQUFULElBQWdCLE1BQWhCLEVBQXdCO0FBQ3RCLFdBQU8sSUFBUCxDQUFZLEdBQVo7QUFDRDtBQUNELFNBQU8sTUFBUDtBQUNEOzs7QUFHRCxJQUFJLGFBQWEsQ0FBQyxxQkFBcUIsSUFBckIsQ0FBMEIsRUFBRSxXQUFXLENBQWIsRUFBMUIsRUFBNEMsU0FBNUMsQ0FBbEIsRUFBMEU7QUFDeEUsZUFBYSxvQkFBUyxNQUFULEVBQWlCO0FBQzVCLFdBQU8sZ0JBQWdCLFVBQVUsTUFBVixDQUFoQixDQUFQO0FBQ0QsR0FGRDtBQUdEOztBQUVELE9BQU8sT0FBUCxHQUFpQixVQUFqQiIsImZpbGUiOiJfYmFzZUtleXNJbi5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBSZWZsZWN0ID0gcmVxdWlyZSgnLi9fUmVmbGVjdCcpLFxuICAgIGl0ZXJhdG9yVG9BcnJheSA9IHJlcXVpcmUoJy4vX2l0ZXJhdG9yVG9BcnJheScpO1xuXG4vKiogVXNlZCBmb3IgYnVpbHQtaW4gbWV0aG9kIHJlZmVyZW5jZXMuICovXG52YXIgb2JqZWN0UHJvdG8gPSBPYmplY3QucHJvdG90eXBlO1xuXG4vKiogQnVpbHQtaW4gdmFsdWUgcmVmZXJlbmNlcy4gKi9cbnZhciBlbnVtZXJhdGUgPSBSZWZsZWN0ID8gUmVmbGVjdC5lbnVtZXJhdGUgOiB1bmRlZmluZWQsXG4gICAgcHJvcGVydHlJc0VudW1lcmFibGUgPSBvYmplY3RQcm90by5wcm9wZXJ0eUlzRW51bWVyYWJsZTtcblxuLyoqXG4gKiBUaGUgYmFzZSBpbXBsZW1lbnRhdGlvbiBvZiBgXy5rZXlzSW5gIHdoaWNoIGRvZXNuJ3Qgc2tpcCB0aGUgY29uc3RydWN0b3JcbiAqIHByb3BlcnR5IG9mIHByb3RvdHlwZXMgb3IgdHJlYXQgc3BhcnNlIGFycmF5cyBhcyBkZW5zZS5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHtPYmplY3R9IG9iamVjdCBUaGUgb2JqZWN0IHRvIHF1ZXJ5LlxuICogQHJldHVybnMge0FycmF5fSBSZXR1cm5zIHRoZSBhcnJheSBvZiBwcm9wZXJ0eSBuYW1lcy5cbiAqL1xuZnVuY3Rpb24gYmFzZUtleXNJbihvYmplY3QpIHtcbiAgb2JqZWN0ID0gb2JqZWN0ID09IG51bGwgPyBvYmplY3QgOiBPYmplY3Qob2JqZWN0KTtcblxuICB2YXIgcmVzdWx0ID0gW107XG4gIGZvciAodmFyIGtleSBpbiBvYmplY3QpIHtcbiAgICByZXN1bHQucHVzaChrZXkpO1xuICB9XG4gIHJldHVybiByZXN1bHQ7XG59XG5cbi8vIEZhbGxiYWNrIGZvciBJRSA8IDkgd2l0aCBlczYtc2hpbS5cbmlmIChlbnVtZXJhdGUgJiYgIXByb3BlcnR5SXNFbnVtZXJhYmxlLmNhbGwoeyAndmFsdWVPZic6IDEgfSwgJ3ZhbHVlT2YnKSkge1xuICBiYXNlS2V5c0luID0gZnVuY3Rpb24ob2JqZWN0KSB7XG4gICAgcmV0dXJuIGl0ZXJhdG9yVG9BcnJheShlbnVtZXJhdGUob2JqZWN0KSk7XG4gIH07XG59XG5cbm1vZHVsZS5leHBvcnRzID0gYmFzZUtleXNJbjtcbiJdfQ==

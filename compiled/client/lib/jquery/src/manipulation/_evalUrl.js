@@ -1,0 +1,20 @@
+"use strict";
+
+define(["../ajax"], function (jQuery) {
+
+	jQuery._evalUrl = function (url) {
+		return jQuery.ajax({
+			url: url,
+
+			// Make this explicit, since user can override this through ajaxSetup (#11264)
+			type: "GET",
+			dataType: "script",
+			async: false,
+			global: false,
+			"throws": true
+		});
+	};
+
+	return jQuery._evalUrl;
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy9tYW5pcHVsYXRpb24vX2V2YWxVcmwuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxPQUFRLENBQ1AsU0FETyxDQUFSLEVBRUcsVUFBVSxNQUFWLEVBQW1COztBQUV0QixRQUFPLFFBQVAsR0FBa0IsVUFBVSxHQUFWLEVBQWdCO0FBQ2pDLFNBQU8sT0FBTyxJQUFQLENBQWE7QUFDbkIsUUFBSyxHQURjOzs7QUFJbkIsU0FBTSxLQUphO0FBS25CLGFBQVUsUUFMUztBQU1uQixVQUFPLEtBTlk7QUFPbkIsV0FBUSxLQVBXO0FBUW5CLGFBQVU7QUFSUyxHQUFiLENBQVA7QUFVQSxFQVhEOztBQWFBLFFBQU8sT0FBTyxRQUFkO0FBRUMsQ0FuQkQiLCJmaWxlIjoiX2V2YWxVcmwuanMiLCJzb3VyY2VzQ29udGVudCI6WyJkZWZpbmUoIFtcblx0XCIuLi9hamF4XCJcbl0sIGZ1bmN0aW9uKCBqUXVlcnkgKSB7XG5cbmpRdWVyeS5fZXZhbFVybCA9IGZ1bmN0aW9uKCB1cmwgKSB7XG5cdHJldHVybiBqUXVlcnkuYWpheCgge1xuXHRcdHVybDogdXJsLFxuXG5cdFx0Ly8gTWFrZSB0aGlzIGV4cGxpY2l0LCBzaW5jZSB1c2VyIGNhbiBvdmVycmlkZSB0aGlzIHRocm91Z2ggYWpheFNldHVwICgjMTEyNjQpXG5cdFx0dHlwZTogXCJHRVRcIixcblx0XHRkYXRhVHlwZTogXCJzY3JpcHRcIixcblx0XHRhc3luYzogZmFsc2UsXG5cdFx0Z2xvYmFsOiBmYWxzZSxcblx0XHRcInRocm93c1wiOiB0cnVlXG5cdH0gKTtcbn07XG5cbnJldHVybiBqUXVlcnkuX2V2YWxVcmw7XG5cbn0gKTtcbiJdfQ==

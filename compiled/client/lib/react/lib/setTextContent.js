@@ -1,0 +1,41 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule setTextContent
+ */
+
+'use strict';
+
+var ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
+var escapeTextContentForBrowser = require('./escapeTextContentForBrowser');
+var setInnerHTML = require('./setInnerHTML');
+
+/**
+ * Set the textContent property of a node, ensuring that whitespace is preserved
+ * even in IE8. innerText is a poor substitute for textContent and, among many
+ * issues, inserts <br> instead of the literal newline chars. innerHTML behaves
+ * as it should.
+ *
+ * @param {DOMElement} node
+ * @param {string} text
+ * @internal
+ */
+var setTextContent = function setTextContent(node, text) {
+  node.textContent = text;
+};
+
+if (ExecutionEnvironment.canUseDOM) {
+  if (!('textContent' in document.documentElement)) {
+    setTextContent = function setTextContent(node, text) {
+      setInnerHTML(node, escapeTextContentForBrowser(text));
+    };
+  }
+}
+
+module.exports = setTextContent;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL3NldFRleHRDb250ZW50LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBV0E7O0FBRUEsSUFBSSx1QkFBdUIsUUFBUSwrQkFBUixDQUEzQjtBQUNBLElBQUksOEJBQThCLFFBQVEsK0JBQVIsQ0FBbEM7QUFDQSxJQUFJLGVBQWUsUUFBUSxnQkFBUixDQUFuQjs7Ozs7Ozs7Ozs7O0FBWUEsSUFBSSxpQkFBaUIsd0JBQVUsSUFBVixFQUFnQixJQUFoQixFQUFzQjtBQUN6QyxPQUFLLFdBQUwsR0FBbUIsSUFBbkI7QUFDRCxDQUZEOztBQUlBLElBQUkscUJBQXFCLFNBQXpCLEVBQW9DO0FBQ2xDLE1BQUksRUFBRSxpQkFBaUIsU0FBUyxlQUE1QixDQUFKLEVBQWtEO0FBQ2hELHFCQUFpQix3QkFBVSxJQUFWLEVBQWdCLElBQWhCLEVBQXNCO0FBQ3JDLG1CQUFhLElBQWIsRUFBbUIsNEJBQTRCLElBQTVCLENBQW5CO0FBQ0QsS0FGRDtBQUdEO0FBQ0Y7O0FBRUQsT0FBTyxPQUFQLEdBQWlCLGNBQWpCIiwiZmlsZSI6InNldFRleHRDb250ZW50LmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBDb3B5cmlnaHQgMjAxMy0yMDE1LCBGYWNlYm9vaywgSW5jLlxuICogQWxsIHJpZ2h0cyByZXNlcnZlZC5cbiAqXG4gKiBUaGlzIHNvdXJjZSBjb2RlIGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBCU0Qtc3R5bGUgbGljZW5zZSBmb3VuZCBpbiB0aGVcbiAqIExJQ0VOU0UgZmlsZSBpbiB0aGUgcm9vdCBkaXJlY3Rvcnkgb2YgdGhpcyBzb3VyY2UgdHJlZS4gQW4gYWRkaXRpb25hbCBncmFudFxuICogb2YgcGF0ZW50IHJpZ2h0cyBjYW4gYmUgZm91bmQgaW4gdGhlIFBBVEVOVFMgZmlsZSBpbiB0aGUgc2FtZSBkaXJlY3RvcnkuXG4gKlxuICogQHByb3ZpZGVzTW9kdWxlIHNldFRleHRDb250ZW50XG4gKi9cblxuJ3VzZSBzdHJpY3QnO1xuXG52YXIgRXhlY3V0aW9uRW52aXJvbm1lbnQgPSByZXF1aXJlKCdmYmpzL2xpYi9FeGVjdXRpb25FbnZpcm9ubWVudCcpO1xudmFyIGVzY2FwZVRleHRDb250ZW50Rm9yQnJvd3NlciA9IHJlcXVpcmUoJy4vZXNjYXBlVGV4dENvbnRlbnRGb3JCcm93c2VyJyk7XG52YXIgc2V0SW5uZXJIVE1MID0gcmVxdWlyZSgnLi9zZXRJbm5lckhUTUwnKTtcblxuLyoqXG4gKiBTZXQgdGhlIHRleHRDb250ZW50IHByb3BlcnR5IG9mIGEgbm9kZSwgZW5zdXJpbmcgdGhhdCB3aGl0ZXNwYWNlIGlzIHByZXNlcnZlZFxuICogZXZlbiBpbiBJRTguIGlubmVyVGV4dCBpcyBhIHBvb3Igc3Vic3RpdHV0ZSBmb3IgdGV4dENvbnRlbnQgYW5kLCBhbW9uZyBtYW55XG4gKiBpc3N1ZXMsIGluc2VydHMgPGJyPiBpbnN0ZWFkIG9mIHRoZSBsaXRlcmFsIG5ld2xpbmUgY2hhcnMuIGlubmVySFRNTCBiZWhhdmVzXG4gKiBhcyBpdCBzaG91bGQuXG4gKlxuICogQHBhcmFtIHtET01FbGVtZW50fSBub2RlXG4gKiBAcGFyYW0ge3N0cmluZ30gdGV4dFxuICogQGludGVybmFsXG4gKi9cbnZhciBzZXRUZXh0Q29udGVudCA9IGZ1bmN0aW9uIChub2RlLCB0ZXh0KSB7XG4gIG5vZGUudGV4dENvbnRlbnQgPSB0ZXh0O1xufTtcblxuaWYgKEV4ZWN1dGlvbkVudmlyb25tZW50LmNhblVzZURPTSkge1xuICBpZiAoISgndGV4dENvbnRlbnQnIGluIGRvY3VtZW50LmRvY3VtZW50RWxlbWVudCkpIHtcbiAgICBzZXRUZXh0Q29udGVudCA9IGZ1bmN0aW9uIChub2RlLCB0ZXh0KSB7XG4gICAgICBzZXRJbm5lckhUTUwobm9kZSwgZXNjYXBlVGV4dENvbnRlbnRGb3JCcm93c2VyKHRleHQpKTtcbiAgICB9O1xuICB9XG59XG5cbm1vZHVsZS5leHBvcnRzID0gc2V0VGV4dENvbnRlbnQ7Il19

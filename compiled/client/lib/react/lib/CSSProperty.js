@@ -1,0 +1,141 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule CSSProperty
+ */
+
+'use strict';
+
+/**
+ * CSS properties which accept numbers but are not in units of "px".
+ */
+
+var isUnitlessNumber = {
+  animationIterationCount: true,
+  boxFlex: true,
+  boxFlexGroup: true,
+  boxOrdinalGroup: true,
+  columnCount: true,
+  flex: true,
+  flexGrow: true,
+  flexPositive: true,
+  flexShrink: true,
+  flexNegative: true,
+  flexOrder: true,
+  fontWeight: true,
+  lineClamp: true,
+  lineHeight: true,
+  opacity: true,
+  order: true,
+  orphans: true,
+  tabSize: true,
+  widows: true,
+  zIndex: true,
+  zoom: true,
+
+  // SVG-related properties
+  fillOpacity: true,
+  stopOpacity: true,
+  strokeDashoffset: true,
+  strokeOpacity: true,
+  strokeWidth: true
+};
+
+/**
+ * @param {string} prefix vendor-specific prefix, eg: Webkit
+ * @param {string} key style name, eg: transitionDuration
+ * @return {string} style name prefixed with `prefix`, properly camelCased, eg:
+ * WebkitTransitionDuration
+ */
+function prefixKey(prefix, key) {
+  return prefix + key.charAt(0).toUpperCase() + key.substring(1);
+}
+
+/**
+ * Support style names that may come passed in prefixed by adding permutations
+ * of vendor prefixes.
+ */
+var prefixes = ['Webkit', 'ms', 'Moz', 'O'];
+
+// Using Object.keys here, or else the vanilla for-in loop makes IE8 go into an
+// infinite loop, because it iterates over the newly added props too.
+Object.keys(isUnitlessNumber).forEach(function (prop) {
+  prefixes.forEach(function (prefix) {
+    isUnitlessNumber[prefixKey(prefix, prop)] = isUnitlessNumber[prop];
+  });
+});
+
+/**
+ * Most style properties can be unset by doing .style[prop] = '' but IE8
+ * doesn't like doing that with shorthand properties so for the properties that
+ * IE8 breaks on, which are listed here, we instead unset each of the
+ * individual properties. See http://bugs.jquery.com/ticket/12385.
+ * The 4-value 'clock' properties like margin, padding, border-width seem to
+ * behave without any problems. Curiously, list-style works too without any
+ * special prodding.
+ */
+var shorthandPropertyExpansions = {
+  background: {
+    backgroundAttachment: true,
+    backgroundColor: true,
+    backgroundImage: true,
+    backgroundPositionX: true,
+    backgroundPositionY: true,
+    backgroundRepeat: true
+  },
+  backgroundPosition: {
+    backgroundPositionX: true,
+    backgroundPositionY: true
+  },
+  border: {
+    borderWidth: true,
+    borderStyle: true,
+    borderColor: true
+  },
+  borderBottom: {
+    borderBottomWidth: true,
+    borderBottomStyle: true,
+    borderBottomColor: true
+  },
+  borderLeft: {
+    borderLeftWidth: true,
+    borderLeftStyle: true,
+    borderLeftColor: true
+  },
+  borderRight: {
+    borderRightWidth: true,
+    borderRightStyle: true,
+    borderRightColor: true
+  },
+  borderTop: {
+    borderTopWidth: true,
+    borderTopStyle: true,
+    borderTopColor: true
+  },
+  font: {
+    fontStyle: true,
+    fontVariant: true,
+    fontWeight: true,
+    fontSize: true,
+    lineHeight: true,
+    fontFamily: true
+  },
+  outline: {
+    outlineWidth: true,
+    outlineStyle: true,
+    outlineColor: true
+  }
+};
+
+var CSSProperty = {
+  isUnitlessNumber: isUnitlessNumber,
+  shorthandPropertyExpansions: shorthandPropertyExpansions
+};
+
+module.exports = CSSProperty;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL0NTU1Byb3BlcnR5LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBV0E7Ozs7OztBQUtBLElBQUksbUJBQW1CO0FBQ3JCLDJCQUF5QixJQURKO0FBRXJCLFdBQVMsSUFGWTtBQUdyQixnQkFBYyxJQUhPO0FBSXJCLG1CQUFpQixJQUpJO0FBS3JCLGVBQWEsSUFMUTtBQU1yQixRQUFNLElBTmU7QUFPckIsWUFBVSxJQVBXO0FBUXJCLGdCQUFjLElBUk87QUFTckIsY0FBWSxJQVRTO0FBVXJCLGdCQUFjLElBVk87QUFXckIsYUFBVyxJQVhVO0FBWXJCLGNBQVksSUFaUztBQWFyQixhQUFXLElBYlU7QUFjckIsY0FBWSxJQWRTO0FBZXJCLFdBQVMsSUFmWTtBQWdCckIsU0FBTyxJQWhCYztBQWlCckIsV0FBUyxJQWpCWTtBQWtCckIsV0FBUyxJQWxCWTtBQW1CckIsVUFBUSxJQW5CYTtBQW9CckIsVUFBUSxJQXBCYTtBQXFCckIsUUFBTSxJQXJCZTs7O0FBd0JyQixlQUFhLElBeEJRO0FBeUJyQixlQUFhLElBekJRO0FBMEJyQixvQkFBa0IsSUExQkc7QUEyQnJCLGlCQUFlLElBM0JNO0FBNEJyQixlQUFhO0FBNUJRLENBQXZCOzs7Ozs7OztBQXFDQSxTQUFTLFNBQVQsQ0FBbUIsTUFBbkIsRUFBMkIsR0FBM0IsRUFBZ0M7QUFDOUIsU0FBTyxTQUFTLElBQUksTUFBSixDQUFXLENBQVgsRUFBYyxXQUFkLEVBQVQsR0FBdUMsSUFBSSxTQUFKLENBQWMsQ0FBZCxDQUE5QztBQUNEOzs7Ozs7QUFNRCxJQUFJLFdBQVcsQ0FBQyxRQUFELEVBQVcsSUFBWCxFQUFpQixLQUFqQixFQUF3QixHQUF4QixDQUFmOzs7O0FBSUEsT0FBTyxJQUFQLENBQVksZ0JBQVosRUFBOEIsT0FBOUIsQ0FBc0MsVUFBVSxJQUFWLEVBQWdCO0FBQ3BELFdBQVMsT0FBVCxDQUFpQixVQUFVLE1BQVYsRUFBa0I7QUFDakMscUJBQWlCLFVBQVUsTUFBVixFQUFrQixJQUFsQixDQUFqQixJQUE0QyxpQkFBaUIsSUFBakIsQ0FBNUM7QUFDRCxHQUZEO0FBR0QsQ0FKRDs7Ozs7Ozs7Ozs7QUFlQSxJQUFJLDhCQUE4QjtBQUNoQyxjQUFZO0FBQ1YsMEJBQXNCLElBRFo7QUFFVixxQkFBaUIsSUFGUDtBQUdWLHFCQUFpQixJQUhQO0FBSVYseUJBQXFCLElBSlg7QUFLVix5QkFBcUIsSUFMWDtBQU1WLHNCQUFrQjtBQU5SLEdBRG9CO0FBU2hDLHNCQUFvQjtBQUNsQix5QkFBcUIsSUFESDtBQUVsQix5QkFBcUI7QUFGSCxHQVRZO0FBYWhDLFVBQVE7QUFDTixpQkFBYSxJQURQO0FBRU4saUJBQWEsSUFGUDtBQUdOLGlCQUFhO0FBSFAsR0Fid0I7QUFrQmhDLGdCQUFjO0FBQ1osdUJBQW1CLElBRFA7QUFFWix1QkFBbUIsSUFGUDtBQUdaLHVCQUFtQjtBQUhQLEdBbEJrQjtBQXVCaEMsY0FBWTtBQUNWLHFCQUFpQixJQURQO0FBRVYscUJBQWlCLElBRlA7QUFHVixxQkFBaUI7QUFIUCxHQXZCb0I7QUE0QmhDLGVBQWE7QUFDWCxzQkFBa0IsSUFEUDtBQUVYLHNCQUFrQixJQUZQO0FBR1gsc0JBQWtCO0FBSFAsR0E1Qm1CO0FBaUNoQyxhQUFXO0FBQ1Qsb0JBQWdCLElBRFA7QUFFVCxvQkFBZ0IsSUFGUDtBQUdULG9CQUFnQjtBQUhQLEdBakNxQjtBQXNDaEMsUUFBTTtBQUNKLGVBQVcsSUFEUDtBQUVKLGlCQUFhLElBRlQ7QUFHSixnQkFBWSxJQUhSO0FBSUosY0FBVSxJQUpOO0FBS0osZ0JBQVksSUFMUjtBQU1KLGdCQUFZO0FBTlIsR0F0QzBCO0FBOENoQyxXQUFTO0FBQ1Asa0JBQWMsSUFEUDtBQUVQLGtCQUFjLElBRlA7QUFHUCxrQkFBYztBQUhQO0FBOUN1QixDQUFsQzs7QUFxREEsSUFBSSxjQUFjO0FBQ2hCLG9CQUFrQixnQkFERjtBQUVoQiwrQkFBNkI7QUFGYixDQUFsQjs7QUFLQSxPQUFPLE9BQVAsR0FBaUIsV0FBakIiLCJmaWxlIjoiQ1NTUHJvcGVydHkuanMiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIENvcHlyaWdodCAyMDEzLTIwMTUsIEZhY2Vib29rLCBJbmMuXG4gKiBBbGwgcmlnaHRzIHJlc2VydmVkLlxuICpcbiAqIFRoaXMgc291cmNlIGNvZGUgaXMgbGljZW5zZWQgdW5kZXIgdGhlIEJTRC1zdHlsZSBsaWNlbnNlIGZvdW5kIGluIHRoZVxuICogTElDRU5TRSBmaWxlIGluIHRoZSByb290IGRpcmVjdG9yeSBvZiB0aGlzIHNvdXJjZSB0cmVlLiBBbiBhZGRpdGlvbmFsIGdyYW50XG4gKiBvZiBwYXRlbnQgcmlnaHRzIGNhbiBiZSBmb3VuZCBpbiB0aGUgUEFURU5UUyBmaWxlIGluIHRoZSBzYW1lIGRpcmVjdG9yeS5cbiAqXG4gKiBAcHJvdmlkZXNNb2R1bGUgQ1NTUHJvcGVydHlcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbi8qKlxuICogQ1NTIHByb3BlcnRpZXMgd2hpY2ggYWNjZXB0IG51bWJlcnMgYnV0IGFyZSBub3QgaW4gdW5pdHMgb2YgXCJweFwiLlxuICovXG52YXIgaXNVbml0bGVzc051bWJlciA9IHtcbiAgYW5pbWF0aW9uSXRlcmF0aW9uQ291bnQ6IHRydWUsXG4gIGJveEZsZXg6IHRydWUsXG4gIGJveEZsZXhHcm91cDogdHJ1ZSxcbiAgYm94T3JkaW5hbEdyb3VwOiB0cnVlLFxuICBjb2x1bW5Db3VudDogdHJ1ZSxcbiAgZmxleDogdHJ1ZSxcbiAgZmxleEdyb3c6IHRydWUsXG4gIGZsZXhQb3NpdGl2ZTogdHJ1ZSxcbiAgZmxleFNocmluazogdHJ1ZSxcbiAgZmxleE5lZ2F0aXZlOiB0cnVlLFxuICBmbGV4T3JkZXI6IHRydWUsXG4gIGZvbnRXZWlnaHQ6IHRydWUsXG4gIGxpbmVDbGFtcDogdHJ1ZSxcbiAgbGluZUhlaWdodDogdHJ1ZSxcbiAgb3BhY2l0eTogdHJ1ZSxcbiAgb3JkZXI6IHRydWUsXG4gIG9ycGhhbnM6IHRydWUsXG4gIHRhYlNpemU6IHRydWUsXG4gIHdpZG93czogdHJ1ZSxcbiAgekluZGV4OiB0cnVlLFxuICB6b29tOiB0cnVlLFxuXG4gIC8vIFNWRy1yZWxhdGVkIHByb3BlcnRpZXNcbiAgZmlsbE9wYWNpdHk6IHRydWUsXG4gIHN0b3BPcGFjaXR5OiB0cnVlLFxuICBzdHJva2VEYXNob2Zmc2V0OiB0cnVlLFxuICBzdHJva2VPcGFjaXR5OiB0cnVlLFxuICBzdHJva2VXaWR0aDogdHJ1ZVxufTtcblxuLyoqXG4gKiBAcGFyYW0ge3N0cmluZ30gcHJlZml4IHZlbmRvci1zcGVjaWZpYyBwcmVmaXgsIGVnOiBXZWJraXRcbiAqIEBwYXJhbSB7c3RyaW5nfSBrZXkgc3R5bGUgbmFtZSwgZWc6IHRyYW5zaXRpb25EdXJhdGlvblxuICogQHJldHVybiB7c3RyaW5nfSBzdHlsZSBuYW1lIHByZWZpeGVkIHdpdGggYHByZWZpeGAsIHByb3Blcmx5IGNhbWVsQ2FzZWQsIGVnOlxuICogV2Via2l0VHJhbnNpdGlvbkR1cmF0aW9uXG4gKi9cbmZ1bmN0aW9uIHByZWZpeEtleShwcmVmaXgsIGtleSkge1xuICByZXR1cm4gcHJlZml4ICsga2V5LmNoYXJBdCgwKS50b1VwcGVyQ2FzZSgpICsga2V5LnN1YnN0cmluZygxKTtcbn1cblxuLyoqXG4gKiBTdXBwb3J0IHN0eWxlIG5hbWVzIHRoYXQgbWF5IGNvbWUgcGFzc2VkIGluIHByZWZpeGVkIGJ5IGFkZGluZyBwZXJtdXRhdGlvbnNcbiAqIG9mIHZlbmRvciBwcmVmaXhlcy5cbiAqL1xudmFyIHByZWZpeGVzID0gWydXZWJraXQnLCAnbXMnLCAnTW96JywgJ08nXTtcblxuLy8gVXNpbmcgT2JqZWN0LmtleXMgaGVyZSwgb3IgZWxzZSB0aGUgdmFuaWxsYSBmb3ItaW4gbG9vcCBtYWtlcyBJRTggZ28gaW50byBhblxuLy8gaW5maW5pdGUgbG9vcCwgYmVjYXVzZSBpdCBpdGVyYXRlcyBvdmVyIHRoZSBuZXdseSBhZGRlZCBwcm9wcyB0b28uXG5PYmplY3Qua2V5cyhpc1VuaXRsZXNzTnVtYmVyKS5mb3JFYWNoKGZ1bmN0aW9uIChwcm9wKSB7XG4gIHByZWZpeGVzLmZvckVhY2goZnVuY3Rpb24gKHByZWZpeCkge1xuICAgIGlzVW5pdGxlc3NOdW1iZXJbcHJlZml4S2V5KHByZWZpeCwgcHJvcCldID0gaXNVbml0bGVzc051bWJlcltwcm9wXTtcbiAgfSk7XG59KTtcblxuLyoqXG4gKiBNb3N0IHN0eWxlIHByb3BlcnRpZXMgY2FuIGJlIHVuc2V0IGJ5IGRvaW5nIC5zdHlsZVtwcm9wXSA9ICcnIGJ1dCBJRThcbiAqIGRvZXNuJ3QgbGlrZSBkb2luZyB0aGF0IHdpdGggc2hvcnRoYW5kIHByb3BlcnRpZXMgc28gZm9yIHRoZSBwcm9wZXJ0aWVzIHRoYXRcbiAqIElFOCBicmVha3Mgb24sIHdoaWNoIGFyZSBsaXN0ZWQgaGVyZSwgd2UgaW5zdGVhZCB1bnNldCBlYWNoIG9mIHRoZVxuICogaW5kaXZpZHVhbCBwcm9wZXJ0aWVzLiBTZWUgaHR0cDovL2J1Z3MuanF1ZXJ5LmNvbS90aWNrZXQvMTIzODUuXG4gKiBUaGUgNC12YWx1ZSAnY2xvY2snIHByb3BlcnRpZXMgbGlrZSBtYXJnaW4sIHBhZGRpbmcsIGJvcmRlci13aWR0aCBzZWVtIHRvXG4gKiBiZWhhdmUgd2l0aG91dCBhbnkgcHJvYmxlbXMuIEN1cmlvdXNseSwgbGlzdC1zdHlsZSB3b3JrcyB0b28gd2l0aG91dCBhbnlcbiAqIHNwZWNpYWwgcHJvZGRpbmcuXG4gKi9cbnZhciBzaG9ydGhhbmRQcm9wZXJ0eUV4cGFuc2lvbnMgPSB7XG4gIGJhY2tncm91bmQ6IHtcbiAgICBiYWNrZ3JvdW5kQXR0YWNobWVudDogdHJ1ZSxcbiAgICBiYWNrZ3JvdW5kQ29sb3I6IHRydWUsXG4gICAgYmFja2dyb3VuZEltYWdlOiB0cnVlLFxuICAgIGJhY2tncm91bmRQb3NpdGlvblg6IHRydWUsXG4gICAgYmFja2dyb3VuZFBvc2l0aW9uWTogdHJ1ZSxcbiAgICBiYWNrZ3JvdW5kUmVwZWF0OiB0cnVlXG4gIH0sXG4gIGJhY2tncm91bmRQb3NpdGlvbjoge1xuICAgIGJhY2tncm91bmRQb3NpdGlvblg6IHRydWUsXG4gICAgYmFja2dyb3VuZFBvc2l0aW9uWTogdHJ1ZVxuICB9LFxuICBib3JkZXI6IHtcbiAgICBib3JkZXJXaWR0aDogdHJ1ZSxcbiAgICBib3JkZXJTdHlsZTogdHJ1ZSxcbiAgICBib3JkZXJDb2xvcjogdHJ1ZVxuICB9LFxuICBib3JkZXJCb3R0b206IHtcbiAgICBib3JkZXJCb3R0b21XaWR0aDogdHJ1ZSxcbiAgICBib3JkZXJCb3R0b21TdHlsZTogdHJ1ZSxcbiAgICBib3JkZXJCb3R0b21Db2xvcjogdHJ1ZVxuICB9LFxuICBib3JkZXJMZWZ0OiB7XG4gICAgYm9yZGVyTGVmdFdpZHRoOiB0cnVlLFxuICAgIGJvcmRlckxlZnRTdHlsZTogdHJ1ZSxcbiAgICBib3JkZXJMZWZ0Q29sb3I6IHRydWVcbiAgfSxcbiAgYm9yZGVyUmlnaHQ6IHtcbiAgICBib3JkZXJSaWdodFdpZHRoOiB0cnVlLFxuICAgIGJvcmRlclJpZ2h0U3R5bGU6IHRydWUsXG4gICAgYm9yZGVyUmlnaHRDb2xvcjogdHJ1ZVxuICB9LFxuICBib3JkZXJUb3A6IHtcbiAgICBib3JkZXJUb3BXaWR0aDogdHJ1ZSxcbiAgICBib3JkZXJUb3BTdHlsZTogdHJ1ZSxcbiAgICBib3JkZXJUb3BDb2xvcjogdHJ1ZVxuICB9LFxuICBmb250OiB7XG4gICAgZm9udFN0eWxlOiB0cnVlLFxuICAgIGZvbnRWYXJpYW50OiB0cnVlLFxuICAgIGZvbnRXZWlnaHQ6IHRydWUsXG4gICAgZm9udFNpemU6IHRydWUsXG4gICAgbGluZUhlaWdodDogdHJ1ZSxcbiAgICBmb250RmFtaWx5OiB0cnVlXG4gIH0sXG4gIG91dGxpbmU6IHtcbiAgICBvdXRsaW5lV2lkdGg6IHRydWUsXG4gICAgb3V0bGluZVN0eWxlOiB0cnVlLFxuICAgIG91dGxpbmVDb2xvcjogdHJ1ZVxuICB9XG59O1xuXG52YXIgQ1NTUHJvcGVydHkgPSB7XG4gIGlzVW5pdGxlc3NOdW1iZXI6IGlzVW5pdGxlc3NOdW1iZXIsXG4gIHNob3J0aGFuZFByb3BlcnR5RXhwYW5zaW9uczogc2hvcnRoYW5kUHJvcGVydHlFeHBhbnNpb25zXG59O1xuXG5tb2R1bGUuZXhwb3J0cyA9IENTU1Byb3BlcnR5OyJdfQ==

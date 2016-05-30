@@ -1,16 +1,31 @@
 // var utils = require('./utilties.js');
+const server   = require('./server.js');
+const Projects = require('./collections/projects');
+const Project  = require('./models/project');
+const path     = require('path');
+const cloudinary = require('./api/cloudinary.js');
 
-module.exports = server => {
 
-  server.get('/',
-    (res, res) => res.render('index') );
+// const knex = require('knex')({
+//   client: 'postgresql',
+//   connection: {
+//     database: 'hackdin'
+//   },
+// });
 
-  server.get('/create', utils.validateUser,
-    (req, res) => res.render('create') );
+module.exports = (server, express) => {
 
-  server.get('/projects',
-    (req, res) => res.render('index') );
+  server.get('/', (req, res) => {
+    res.sendFile(path.resolve('client/projects.html')) 
+  });
 
+  server.get('/projects', (req, res) => {
+    res.sendFile(path.resolve('client/projects.html')) 
+  });
+
+
+  server.get('/newProject',
+    (req, res) => res.sendFile(path.resolve('client/newProject.html')) );
   // server.get('/logout', (req, res) => {
   //   req.session.destroy();
   //   res.render('index');
@@ -28,8 +43,133 @@ module.exports = server => {
 
   // server.get('/engineers', 'list all engineers');
 
-  server.post('/signup', 'submit new user signup');
-  server.post('/create', 'submit new project');
+  // server.post('/signup', 'submit new user signup');
+
+
+  server.get('/projects/data', (req, res) => {
+    // knex.from('projects')
+    //   .innerJoin('engineers', 'projects.id', 'engineers.project_id')
+    //   .then( engineers => {
+    //     console.log(engineers);
+    //     res.send(JSON.stringify(engineers));
+    //   })
+
+    Project.fetchAll({columns: ['title', 'description', 'image']})
+    .then(projects => {
+      res.send(JSON.stringify(projects));
+    })
+  })
+
+  server.post('/projects/data',
+  function(req, res) {
+    let title = req.body.title;
+    let description = req.body.description;
+    let engineers = req.body.engineers;
+    // let technologies = req.body.technologies;
+    let imageUrl = req.body.image;
+
+    cloudinary.uploader.upload(imageUrl,
+      result => {
+        // cloudinary.image( result.public_id, { width: 100, height: 150, crop: "fill" }) )
+        new Project({ title: title }).fetch().then(found => {
+          if (found) {
+            res.status(200).send(found.attributes);
+          } else {
+            Projects.create({
+              title: title,
+              description: description,
+              image: result.secure_url
+              // technologies: technologies
+              // engineers: engineers
+            })
+            .then(newProject => {
+              res.status(201).send(newProject);
+            });
+          }
+        });
+      }
+    ); 
+    
+
+  });
+
+  // server.post('/login',
+  // function(req, res) {
+  //   var username = req.body.username;
+  //   var password = req.body.password;
+
+  //   new Engineer({ username: username }).fetch().then(engineer => {
+  //     if (engineer) {
+  //       bcrypt.compare(password, engineer.get('password'), (err, match) => {
+  //         if (match) {
+  //           console.log('Logging in...');
+  //           req.session.username = username;
+  //           res.status(200);
+  //           res.redirect('/');
+  //         } else {
+  //           console.log('Invalid password');
+  //           res.redirect('/login');
+  //         }
+  //       });
+  //     } else {
+  //       res.status(200);
+  //       res.redirect('/login');
+  //     }
+  //   });
+  // });
+
+
+  // server.post('/signup',
+  // function(req, res) {
+  //   var username = req.body.username;
+  //   var password = req.body.password;
+
+  //   new Engineer({ username: username }).fetch().then(found => {
+  //     if (found) {
+  //       res.status(200);
+  //       res.redirect('/signup');
+  //     } else {
+  //       bcrypt.hash(req.body.password, null, null, (err, hash) => {
+  //         if (err) {
+  //           console.log('BCRYPT HASH ERROR:', err);
+  //           res.status(200);
+  //           res.redirect('/signup');
+  //         } else {
+  //           Engineers.create({
+  //             username: username,
+  //             password: hash
+  //           })
+  //           .then(engineer => {
+  //             req.session.username = username;
+  //             res.status(200);
+  //             res.redirect('/');
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // });
+
+  // server.get('/*', (req, res) => {
+  //   new Link({ code: req.params[0] }).fetch().then(function(link) {
+  //     if (!link) {
+  //       res.redirect('/');
+  //     } else {
+  //       var click = new Click({
+  //         linkId: link.get('id')
+  //       });
+
+  //       click.save().then(function() {
+  //         link.set('visits', link.get('visits') + 1);
+  //         link.save().then(function() {
+  //           return res.redirect(link.get('url'));
+  //         });
+  //       });
+  //     }
+  //   });
+  // });
+
+
 
 
 };

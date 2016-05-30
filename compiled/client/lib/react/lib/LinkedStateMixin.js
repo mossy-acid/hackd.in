@@ -1,0 +1,37 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule LinkedStateMixin
+ * @typechecks static-only
+ */
+
+'use strict';
+
+var ReactLink = require('./ReactLink');
+var ReactStateSetters = require('./ReactStateSetters');
+
+/**
+ * A simple mixin around ReactLink.forState().
+ */
+var LinkedStateMixin = {
+  /**
+   * Create a ReactLink that's linked to part of this component's state. The
+   * ReactLink will have the current value of this.state[key] and will call
+   * setState() when a change is requested.
+   *
+   * @param {string} key state key to update. Note: you may want to use keyOf()
+   * if you're using Google Closure Compiler advanced mode.
+   * @return {ReactLink} ReactLink instance linking to the state.
+   */
+  linkState: function linkState(key) {
+    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
+  }
+};
+
+module.exports = LinkedStateMixin;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL0xpbmtlZFN0YXRlTWl4aW4uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBWUE7O0FBRUEsSUFBSSxZQUFZLFFBQVEsYUFBUixDQUFoQjtBQUNBLElBQUksb0JBQW9CLFFBQVEscUJBQVIsQ0FBeEI7Ozs7O0FBS0EsSUFBSSxtQkFBbUI7Ozs7Ozs7Ozs7QUFVckIsYUFBVyxtQkFBVSxHQUFWLEVBQWU7QUFDeEIsV0FBTyxJQUFJLFNBQUosQ0FBYyxLQUFLLEtBQUwsQ0FBVyxHQUFYLENBQWQsRUFBK0Isa0JBQWtCLG9CQUFsQixDQUF1QyxJQUF2QyxFQUE2QyxHQUE3QyxDQUEvQixDQUFQO0FBQ0Q7QUFab0IsQ0FBdkI7O0FBZUEsT0FBTyxPQUFQLEdBQWlCLGdCQUFqQiIsImZpbGUiOiJMaW5rZWRTdGF0ZU1peGluLmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBDb3B5cmlnaHQgMjAxMy0yMDE1LCBGYWNlYm9vaywgSW5jLlxuICogQWxsIHJpZ2h0cyByZXNlcnZlZC5cbiAqXG4gKiBUaGlzIHNvdXJjZSBjb2RlIGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBCU0Qtc3R5bGUgbGljZW5zZSBmb3VuZCBpbiB0aGVcbiAqIExJQ0VOU0UgZmlsZSBpbiB0aGUgcm9vdCBkaXJlY3Rvcnkgb2YgdGhpcyBzb3VyY2UgdHJlZS4gQW4gYWRkaXRpb25hbCBncmFudFxuICogb2YgcGF0ZW50IHJpZ2h0cyBjYW4gYmUgZm91bmQgaW4gdGhlIFBBVEVOVFMgZmlsZSBpbiB0aGUgc2FtZSBkaXJlY3RvcnkuXG4gKlxuICogQHByb3ZpZGVzTW9kdWxlIExpbmtlZFN0YXRlTWl4aW5cbiAqIEB0eXBlY2hlY2tzIHN0YXRpYy1vbmx5XG4gKi9cblxuJ3VzZSBzdHJpY3QnO1xuXG52YXIgUmVhY3RMaW5rID0gcmVxdWlyZSgnLi9SZWFjdExpbmsnKTtcbnZhciBSZWFjdFN0YXRlU2V0dGVycyA9IHJlcXVpcmUoJy4vUmVhY3RTdGF0ZVNldHRlcnMnKTtcblxuLyoqXG4gKiBBIHNpbXBsZSBtaXhpbiBhcm91bmQgUmVhY3RMaW5rLmZvclN0YXRlKCkuXG4gKi9cbnZhciBMaW5rZWRTdGF0ZU1peGluID0ge1xuICAvKipcbiAgICogQ3JlYXRlIGEgUmVhY3RMaW5rIHRoYXQncyBsaW5rZWQgdG8gcGFydCBvZiB0aGlzIGNvbXBvbmVudCdzIHN0YXRlLiBUaGVcbiAgICogUmVhY3RMaW5rIHdpbGwgaGF2ZSB0aGUgY3VycmVudCB2YWx1ZSBvZiB0aGlzLnN0YXRlW2tleV0gYW5kIHdpbGwgY2FsbFxuICAgKiBzZXRTdGF0ZSgpIHdoZW4gYSBjaGFuZ2UgaXMgcmVxdWVzdGVkLlxuICAgKlxuICAgKiBAcGFyYW0ge3N0cmluZ30ga2V5IHN0YXRlIGtleSB0byB1cGRhdGUuIE5vdGU6IHlvdSBtYXkgd2FudCB0byB1c2Uga2V5T2YoKVxuICAgKiBpZiB5b3UncmUgdXNpbmcgR29vZ2xlIENsb3N1cmUgQ29tcGlsZXIgYWR2YW5jZWQgbW9kZS5cbiAgICogQHJldHVybiB7UmVhY3RMaW5rfSBSZWFjdExpbmsgaW5zdGFuY2UgbGlua2luZyB0byB0aGUgc3RhdGUuXG4gICAqL1xuICBsaW5rU3RhdGU6IGZ1bmN0aW9uIChrZXkpIHtcbiAgICByZXR1cm4gbmV3IFJlYWN0TGluayh0aGlzLnN0YXRlW2tleV0sIFJlYWN0U3RhdGVTZXR0ZXJzLmNyZWF0ZVN0YXRlS2V5U2V0dGVyKHRoaXMsIGtleSkpO1xuICB9XG59O1xuXG5tb2R1bGUuZXhwb3J0cyA9IExpbmtlZFN0YXRlTWl4aW47Il19

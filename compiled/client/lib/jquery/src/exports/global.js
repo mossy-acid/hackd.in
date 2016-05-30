@@ -1,0 +1,30 @@
+"use strict";
+
+var
+
+// Map over jQuery in case of overwrite
+_jQuery = window.jQuery,
+
+
+// Map over the $ in case of overwrite
+_$ = window.$;
+
+jQuery.noConflict = function (deep) {
+	if (window.$ === jQuery) {
+		window.$ = _$;
+	}
+
+	if (deep && window.jQuery === jQuery) {
+		window.jQuery = _jQuery;
+	}
+
+	return jQuery;
+};
+
+// Expose jQuery and $ identifiers, even in AMD
+// (#7102#comment:10, https://github.com/jquery/jquery/pull/557)
+// and CommonJS for browser emulators (#13566)
+if (!noGlobal) {
+	window.jQuery = window.$ = jQuery;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy9leHBvcnRzL2dsb2JhbC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBOzs7QUFHQyxVQUFVLE9BQU8sTUFIbEI7Ozs7QUFNQyxLQUFLLE9BQU8sQ0FOYjs7QUFRQSxPQUFPLFVBQVAsR0FBb0IsVUFBVSxJQUFWLEVBQWlCO0FBQ3BDLEtBQUssT0FBTyxDQUFQLEtBQWEsTUFBbEIsRUFBMkI7QUFDMUIsU0FBTyxDQUFQLEdBQVcsRUFBWDtBQUNBOztBQUVELEtBQUssUUFBUSxPQUFPLE1BQVAsS0FBa0IsTUFBL0IsRUFBd0M7QUFDdkMsU0FBTyxNQUFQLEdBQWdCLE9BQWhCO0FBQ0E7O0FBRUQsUUFBTyxNQUFQO0FBQ0EsQ0FWRDs7Ozs7QUFlQSxJQUFLLENBQUMsUUFBTixFQUFpQjtBQUNoQixRQUFPLE1BQVAsR0FBZ0IsT0FBTyxDQUFQLEdBQVcsTUFBM0I7QUFDQSIsImZpbGUiOiJnbG9iYWwuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXJcblxuXHQvLyBNYXAgb3ZlciBqUXVlcnkgaW4gY2FzZSBvZiBvdmVyd3JpdGVcblx0X2pRdWVyeSA9IHdpbmRvdy5qUXVlcnksXG5cblx0Ly8gTWFwIG92ZXIgdGhlICQgaW4gY2FzZSBvZiBvdmVyd3JpdGVcblx0XyQgPSB3aW5kb3cuJDtcblxualF1ZXJ5Lm5vQ29uZmxpY3QgPSBmdW5jdGlvbiggZGVlcCApIHtcblx0aWYgKCB3aW5kb3cuJCA9PT0galF1ZXJ5ICkge1xuXHRcdHdpbmRvdy4kID0gXyQ7XG5cdH1cblxuXHRpZiAoIGRlZXAgJiYgd2luZG93LmpRdWVyeSA9PT0galF1ZXJ5ICkge1xuXHRcdHdpbmRvdy5qUXVlcnkgPSBfalF1ZXJ5O1xuXHR9XG5cblx0cmV0dXJuIGpRdWVyeTtcbn07XG5cbi8vIEV4cG9zZSBqUXVlcnkgYW5kICQgaWRlbnRpZmllcnMsIGV2ZW4gaW4gQU1EXG4vLyAoIzcxMDIjY29tbWVudDoxMCwgaHR0cHM6Ly9naXRodWIuY29tL2pxdWVyeS9qcXVlcnkvcHVsbC81NTcpXG4vLyBhbmQgQ29tbW9uSlMgZm9yIGJyb3dzZXIgZW11bGF0b3JzICgjMTM1NjYpXG5pZiAoICFub0dsb2JhbCApIHtcblx0d2luZG93LmpRdWVyeSA9IHdpbmRvdy4kID0galF1ZXJ5O1xufVxuIl19

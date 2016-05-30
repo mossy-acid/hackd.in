@@ -1,0 +1,31 @@
+'use strict';
+
+var baseCreate = require('./_baseCreate'),
+    baseLodash = require('./_baseLodash');
+
+/** Used as references for the maximum length and index of an array. */
+var MAX_ARRAY_LENGTH = 4294967295;
+
+/**
+ * Creates a lazy wrapper object which wraps `value` to enable lazy evaluation.
+ *
+ * @private
+ * @constructor
+ * @param {*} value The value to wrap.
+ */
+function LazyWrapper(value) {
+  this.__wrapped__ = value;
+  this.__actions__ = [];
+  this.__dir__ = 1;
+  this.__filtered__ = false;
+  this.__iteratees__ = [];
+  this.__takeCount__ = MAX_ARRAY_LENGTH;
+  this.__views__ = [];
+}
+
+// Ensure `LazyWrapper` is an instance of `baseLodash`.
+LazyWrapper.prototype = baseCreate(baseLodash.prototype);
+LazyWrapper.prototype.constructor = LazyWrapper;
+
+module.exports = LazyWrapper;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19MYXp5V3JhcHBlci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksYUFBYSxRQUFRLGVBQVIsQ0FBakI7SUFDSSxhQUFhLFFBQVEsZUFBUixDQURqQjs7O0FBSUEsSUFBSSxtQkFBbUIsVUFBdkI7Ozs7Ozs7OztBQVNBLFNBQVMsV0FBVCxDQUFxQixLQUFyQixFQUE0QjtBQUMxQixPQUFLLFdBQUwsR0FBbUIsS0FBbkI7QUFDQSxPQUFLLFdBQUwsR0FBbUIsRUFBbkI7QUFDQSxPQUFLLE9BQUwsR0FBZSxDQUFmO0FBQ0EsT0FBSyxZQUFMLEdBQW9CLEtBQXBCO0FBQ0EsT0FBSyxhQUFMLEdBQXFCLEVBQXJCO0FBQ0EsT0FBSyxhQUFMLEdBQXFCLGdCQUFyQjtBQUNBLE9BQUssU0FBTCxHQUFpQixFQUFqQjtBQUNEOzs7QUFHRCxZQUFZLFNBQVosR0FBd0IsV0FBVyxXQUFXLFNBQXRCLENBQXhCO0FBQ0EsWUFBWSxTQUFaLENBQXNCLFdBQXRCLEdBQW9DLFdBQXBDOztBQUVBLE9BQU8sT0FBUCxHQUFpQixXQUFqQiIsImZpbGUiOiJfTGF6eVdyYXBwZXIuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgYmFzZUNyZWF0ZSA9IHJlcXVpcmUoJy4vX2Jhc2VDcmVhdGUnKSxcbiAgICBiYXNlTG9kYXNoID0gcmVxdWlyZSgnLi9fYmFzZUxvZGFzaCcpO1xuXG4vKiogVXNlZCBhcyByZWZlcmVuY2VzIGZvciB0aGUgbWF4aW11bSBsZW5ndGggYW5kIGluZGV4IG9mIGFuIGFycmF5LiAqL1xudmFyIE1BWF9BUlJBWV9MRU5HVEggPSA0Mjk0OTY3Mjk1O1xuXG4vKipcbiAqIENyZWF0ZXMgYSBsYXp5IHdyYXBwZXIgb2JqZWN0IHdoaWNoIHdyYXBzIGB2YWx1ZWAgdG8gZW5hYmxlIGxhenkgZXZhbHVhdGlvbi5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQGNvbnN0cnVjdG9yXG4gKiBAcGFyYW0geyp9IHZhbHVlIFRoZSB2YWx1ZSB0byB3cmFwLlxuICovXG5mdW5jdGlvbiBMYXp5V3JhcHBlcih2YWx1ZSkge1xuICB0aGlzLl9fd3JhcHBlZF9fID0gdmFsdWU7XG4gIHRoaXMuX19hY3Rpb25zX18gPSBbXTtcbiAgdGhpcy5fX2Rpcl9fID0gMTtcbiAgdGhpcy5fX2ZpbHRlcmVkX18gPSBmYWxzZTtcbiAgdGhpcy5fX2l0ZXJhdGVlc19fID0gW107XG4gIHRoaXMuX190YWtlQ291bnRfXyA9IE1BWF9BUlJBWV9MRU5HVEg7XG4gIHRoaXMuX192aWV3c19fID0gW107XG59XG5cbi8vIEVuc3VyZSBgTGF6eVdyYXBwZXJgIGlzIGFuIGluc3RhbmNlIG9mIGBiYXNlTG9kYXNoYC5cbkxhenlXcmFwcGVyLnByb3RvdHlwZSA9IGJhc2VDcmVhdGUoYmFzZUxvZGFzaC5wcm90b3R5cGUpO1xuTGF6eVdyYXBwZXIucHJvdG90eXBlLmNvbnN0cnVjdG9yID0gTGF6eVdyYXBwZXI7XG5cbm1vZHVsZS5leHBvcnRzID0gTGF6eVdyYXBwZXI7XG4iXX0=

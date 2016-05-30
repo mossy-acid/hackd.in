@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>hackd.in</title>
+  <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"> 
+  <link rel="stylesheet" href="./styles/styles.css">
+  <script src="./lib/jquery/dist/jquery.js"></script>
+  <script src="./lib/react/dist/react.js"></script>
+  <script src="./lib/react-dom/dist/react-dom.js"></script>
+  <script src="./lib/lodash/lodash.js"></script>
+</head>
+<body>
+
+<div>
+  <header>
+     <a id="logo" href="#">h.i</a>
+    <nav>
+      <ul>
+        <li><a href="#">Engineers</a></li>
+        <li><a href="#" id="current">Projects</a></li>
+        <form class="search-container" action="//llamaswill.tumblr.com/search">
+          <input id="search-box" type="text" class="search-box" name="q" />
+          <label for="search-box"><span class="glyphicon glyphicon-search search-icon"></span></label>
+          <input type="submit" id="search-submit" />
+        </form>
+        <li class="navFloat"><a class="cd-signin" href="#0">Sign in</a></li>
+        <li class="navFloat"><a class="cd-signup" href="#0">Sign up</a></li>
+      </ul>
+    </nav>
+  </header> 
+  <div id="projects"></div>
+</div>
+
+  <script src="client/src/data/data.js"></script>
+  <script src="client/src/components/Projects.js"></script>
+  <script src="client/src/components/ProjectList.js"></script>
+  <script src="client/src/components/ProjectEntry.js"></script>
+  <script src="client/src/utils/projectHelpers.js"></script>
+  <script src="client/src/projectsRender.js"></script>
+  
+
+  <script type="text/javascript">
+    window.onload = function() {
+      document.addEventListener("touchstart", function(){
+      }, true);
+    }
+  </script>
+</body>
+</html>
+
+
+
+
