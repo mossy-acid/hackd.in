@@ -3,15 +3,37 @@ const server   = require('./server.js');
 const Projects = require('./collections/projects');
 const Project  = require('./models/project');
 const path     = require('path');
+const cloudinary = require('./api/cloudinary.js');
+
+// upload image to CDN which replies with public ID of uploaded image
+// cloudinary.uploader.upload('/Users/Richard/Documents/Development/Hack Reactor/Greenfield/hackd.in/server/richard.png', result => {
+//   console.log(result);
+// });
+
+// retrieve image using public ID
+// cloudinary.api.resource('pgwxtwxxyegpfw1jy4mu', result => {
+//   console.log('cloudinary result:', result);
+// });
+
+// retrieve html img tag of img by querying for public id of stored img
+// cloudinary.image('pgwxtwxxyegpfw1jy4mu', { alt: "Sample Image" });
+// <img src='http://res.cloudinary.com/hackdin/image/upload/pgwxtwxxyegpfw1jy4mu' alt='Sample Image'/>
+
+// cloudinary.uploader.upload('https://static1.squarespace.com/static/ta/522a22cbe4b04681b0bff826/2465/assets/img/students-projects/fit-rpg.jpg',
+//   result => console.log(cloudinary.image( result.public_id, { width: 100, height: 150, crop: "fill" } ))
+// );
+
+// cloudinary.uploader.destroy('public_id_of_image', {invalidate: true}, (err, result) => console.log(result));
+
 
 module.exports = (server, express) => {
 
   server.get('/', (req, res) => {
-    res.sendFile(path.resolve('client/projects.html')) 
+    res.sendFile(path.resolve('client/projects.html'));
   });
 
   server.get('/projects', (req, res) => {
-    res.sendFile(path.resolve('client/projects.html')) 
+    res.sendFile(path.resolve('client/projects.html'));
   });
 
 
@@ -41,7 +63,7 @@ module.exports = (server, express) => {
      Project.fetchAll({columns: ['title', 'description']}).then(projects => {
       res.send(JSON.stringify(projects));
     });
-  })
+  });
 
 
   server.post('/projects/data',
