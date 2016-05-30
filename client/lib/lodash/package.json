@@ -2,7 +2,7 @@
   "_args": [
     [
       "lodash@^4.6.1",
-      "/Users/Justin/Documents/Greenfield/hackd.in"
+      "/Users/Richard/Documents/Development/Hack Reactor/Greenfield/hackd.in"
     ]
   ],
   "_from": "lodash@>=4.6.1 <5.0.0",
@@ -42,7 +42,6 @@
     "/babel-template",
     "/babel-traverse",
     "/babel-types",
-    "/knex",
     "/react-redux",
     "/redux"
   ],
@@ -50,7 +49,7 @@
   "_shasum": "83e4b10913f48496d4d16fec4a560af2ee744b68",
   "_shrinkwrap": null,
   "_spec": "lodash@^4.6.1",
-  "_where": "/Users/Justin/Documents/Greenfield/hackd.in",
+  "_where": "/Users/Richard/Documents/Development/Hack Reactor/Greenfield/hackd.in",
   "author": {
     "email": "john.david.dalton@gmail.com",
     "name": "John-David Dalton",
@@ -61,18 +60,18 @@
   },
   "contributors": [
     {
-      "name": "John-David Dalton",
       "email": "john.david.dalton@gmail.com",
+      "name": "John-David Dalton",
       "url": "http://allyoucanleet.com/"
     },
     {
-      "name": "Blaine Bublitz",
       "email": "blaine.bublitz@gmail.com",
+      "name": "Blaine Bublitz",
       "url": "https://github.com/phated"
     },
     {
-      "name": "Mathias Bynens",
       "email": "mathias@qiwi.be",
+      "name": "Mathias Bynens",
       "url": "https://mathiasbynens.be/"
     }
   ],
@@ -95,16 +94,16 @@
   "main": "lodash.js",
   "maintainers": [
     {
-      "name": "jdalton",
-      "email": "john.david.dalton@gmail.com"
+      "email": "john.david.dalton@gmail.com",
+      "name": "jdalton"
     },
     {
-      "name": "mathias",
-      "email": "mathias@qiwi.be"
+      "email": "mathias@qiwi.be",
+      "name": "mathias"
     },
     {
-      "name": "phated",
-      "email": "blaine.bublitz@gmail.com"
+      "email": "blaine.bublitz@gmail.com",
+      "name": "phated"
     }
   ],
   "name": "lodash",
