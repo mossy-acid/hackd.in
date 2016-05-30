@@ -3,6 +3,7 @@ var getProjects = (cb) => {
     console.log('get request made to projects');
   })
   .done( data => {
+    console.log(data);
     cb(data);
   })
   .fail( (err) => {

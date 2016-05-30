@@ -46,7 +46,7 @@ class NewProject extends React.Component {
             </p>
           </form>
           <div className="submit">
-            <input type="button" value="CHANGE" onClick={this.clickHandler} id="button-blue"/>
+            <input type="button" value="SUBMIT" onClick={this.clickHandler} id="button-blue"/>
           </div>
         </div>
       </div>

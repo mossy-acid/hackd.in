@@ -8,12 +8,9 @@ class Projects extends React.Component {
     this.state = {
       projects: []
     };
-
-    // this.getProjectsFromDatabase = this.getProjectsFromDatabase.bind(this);
   }
 
   componentDidMount() {
-    console.log('componentMounted')
     this.getProjectsFromDatabase();
   }
 
