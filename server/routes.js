@@ -14,13 +14,8 @@ module.exports = (server, express) => {
     res.sendFile(path.resolve('client/projects.html')) 
   });
 
-  server.get('/projects/data', (req, res) => {
-     Project.fetchAll({columns: ['title', 'description', 'technologies']}).then(projects => {
-      res.send(JSON.stringify(projects));
-    });
-  })
 
-  server.get('/newproject',
+  server.get('/newProject',
     (req, res) => res.sendFile(path.resolve('client/newProject.html')) );
   // server.get('/logout', (req, res) => {
   //   req.session.destroy();
@@ -42,29 +37,33 @@ module.exports = (server, express) => {
   // server.post('/signup', 'submit new user signup');
 
 
+  server.get('/projects/data', (req, res) => {
+     Project.fetchAll({columns: ['title', 'description']}).then(projects => {
+      res.send(JSON.stringify(projects));
+    });
+  })
 
 
-  server.post('/newproject',
+  server.post('/projects/data',
   function(req, res) {
-    console.log(req.body);
     let title = req.body.title;
     let description = req.body.description;
-    let technologies = req.body.technologies;
+    // let technologies = req.body.technologies;
 
     new Project({ title: title }).fetch().then(found => {
       if (found) {
         // the found.attributes proptery is an object containing the existing project's properties
-        // need to return a message to the user that a project by this name already exists
+        // need to return a message to the user that a propertiesoject by this name already exists
         res.status(200).send(found.attributes);
       } else {
         Projects.create({
           title: title,
           description: description,
-          technologies: technologies
+          // technologies: technologies
           // engineers: engineers
         })
         .then(newProject => {
-          res.status(200).send(newProject);
+          res.status(201).send(newProject);
         });
       }
     });
