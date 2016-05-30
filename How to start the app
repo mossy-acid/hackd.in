@@ -1,0 +1,8 @@
+How to start the app
+
+1) git pull --rebase upstream master
+2) npm install
+3) Node v6.0.0
+4) Download and run http://postgresapp.com/
+5) createdb hackedin
+6) nodemon server/server.js

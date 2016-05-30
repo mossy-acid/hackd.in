@@ -1,7 +1,15 @@
 const express    = require('express');
 // const session    = require('express-session');
 // const bcrypt     = require('bcrypt-nodejs');
-// const cloudinary = require('cloudinary');
+const cloudinary = require('./api/cloudinary.js');
+
+// cloudinary.api.resource('pgwxtwxxyegpfw1jy4mu', result => {
+//   console.log('cloudinary result:', result);
+// });
+
+// cloudinary.uploader.upload('/Users/Richard/Documents/Development/Hack Reactor/Greenfield/hackd.in/server/richard.png', result => {
+//   console.log(result);
+// });
 
 const server = express();
 const db = require('../db/db-config.js');
