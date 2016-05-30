@@ -1,0 +1,46 @@
+'use strict';
+
+var apply = require('./_apply'),
+    createCtorWrapper = require('./_createCtorWrapper'),
+    createHybridWrapper = require('./_createHybridWrapper'),
+    createRecurryWrapper = require('./_createRecurryWrapper'),
+    getHolder = require('./_getHolder'),
+    replaceHolders = require('./_replaceHolders'),
+    root = require('./_root');
+
+/**
+ * Creates a function that wraps `func` to enable currying.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper`
+ *  for more details.
+ * @param {number} arity The arity of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createCurryWrapper(func, bitmask, arity) {
+  var Ctor = createCtorWrapper(func);
+
+  function wrapper() {
+    var length = arguments.length,
+        args = Array(length),
+        index = length,
+        placeholder = getHolder(wrapper);
+
+    while (index--) {
+      args[index] = arguments[index];
+    }
+    var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
+
+    length -= holders.length;
+    if (length < arity) {
+      return createRecurryWrapper(func, bitmask, createHybridWrapper, wrapper.placeholder, undefined, args, holders, undefined, undefined, arity - length);
+    }
+    var fn = this && this !== root && this instanceof wrapper ? Ctor : func;
+    return apply(fn, this, args);
+  }
+  return wrapper;
+}
+
+module.exports = createCurryWrapper;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jcmVhdGVDdXJyeVdyYXBwZXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLFFBQVEsUUFBUSxVQUFSLENBQVI7SUFDQSxvQkFBb0IsUUFBUSxzQkFBUixDQUFwQjtJQUNBLHNCQUFzQixRQUFRLHdCQUFSLENBQXRCO0lBQ0EsdUJBQXVCLFFBQVEseUJBQVIsQ0FBdkI7SUFDQSxZQUFZLFFBQVEsY0FBUixDQUFaO0lBQ0EsaUJBQWlCLFFBQVEsbUJBQVIsQ0FBakI7SUFDQSxPQUFPLFFBQVEsU0FBUixDQUFQOzs7Ozs7Ozs7Ozs7QUFZSixTQUFTLGtCQUFULENBQTRCLElBQTVCLEVBQWtDLE9BQWxDLEVBQTJDLEtBQTNDLEVBQWtEO0FBQ2hELE1BQUksT0FBTyxrQkFBa0IsSUFBbEIsQ0FBUCxDQUQ0Qzs7QUFHaEQsV0FBUyxPQUFULEdBQW1CO0FBQ2pCLFFBQUksU0FBUyxVQUFVLE1BQVY7UUFDVCxPQUFPLE1BQU0sTUFBTixDQUFQO1FBQ0EsUUFBUSxNQUFSO1FBQ0EsY0FBYyxVQUFVLE9BQVYsQ0FBZCxDQUphOztBQU1qQixXQUFPLE9BQVAsRUFBZ0I7QUFDZCxXQUFLLEtBQUwsSUFBYyxVQUFVLEtBQVYsQ0FBZCxDQURjO0tBQWhCO0FBR0EsUUFBSSxVQUFVLE1BQUMsR0FBUyxDQUFULElBQWMsS0FBSyxDQUFMLE1BQVksV0FBWixJQUEyQixLQUFLLFNBQVMsQ0FBVCxDQUFMLEtBQXFCLFdBQXJCLEdBQ3BELEVBRFUsR0FFVixlQUFlLElBQWYsRUFBcUIsV0FBckIsQ0FGVSxDQVRHOztBQWFqQixjQUFVLFFBQVEsTUFBUixDQWJPO0FBY2pCLFFBQUksU0FBUyxLQUFULEVBQWdCO0FBQ2xCLGFBQU8scUJBQ0wsSUFESyxFQUNDLE9BREQsRUFDVSxtQkFEVixFQUMrQixRQUFRLFdBQVIsRUFBcUIsU0FEcEQsRUFFTCxJQUZLLEVBRUMsT0FGRCxFQUVVLFNBRlYsRUFFcUIsU0FGckIsRUFFZ0MsUUFBUSxNQUFSLENBRnZDLENBRGtCO0tBQXBCO0FBS0EsUUFBSSxLQUFLLElBQUMsSUFBUSxTQUFTLElBQVQsSUFBaUIsZ0JBQWdCLE9BQWhCLEdBQTJCLElBQXJELEdBQTRELElBQTVELENBbkJRO0FBb0JqQixXQUFPLE1BQU0sRUFBTixFQUFVLElBQVYsRUFBZ0IsSUFBaEIsQ0FBUCxDQXBCaUI7R0FBbkI7QUFzQkEsU0FBTyxPQUFQLENBekJnRDtDQUFsRDs7QUE0QkEsT0FBTyxPQUFQLEdBQWlCLGtCQUFqQiIsImZpbGUiOiJfY3JlYXRlQ3VycnlXcmFwcGVyLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIGFwcGx5ID0gcmVxdWlyZSgnLi9fYXBwbHknKSxcbiAgICBjcmVhdGVDdG9yV3JhcHBlciA9IHJlcXVpcmUoJy4vX2NyZWF0ZUN0b3JXcmFwcGVyJyksXG4gICAgY3JlYXRlSHlicmlkV3JhcHBlciA9IHJlcXVpcmUoJy4vX2NyZWF0ZUh5YnJpZFdyYXBwZXInKSxcbiAgICBjcmVhdGVSZWN1cnJ5V3JhcHBlciA9IHJlcXVpcmUoJy4vX2NyZWF0ZVJlY3VycnlXcmFwcGVyJyksXG4gICAgZ2V0SG9sZGVyID0gcmVxdWlyZSgnLi9fZ2V0SG9sZGVyJyksXG4gICAgcmVwbGFjZUhvbGRlcnMgPSByZXF1aXJlKCcuL19yZXBsYWNlSG9sZGVycycpLFxuICAgIHJvb3QgPSByZXF1aXJlKCcuL19yb290Jyk7XG5cbi8qKlxuICogQ3JlYXRlcyBhIGZ1bmN0aW9uIHRoYXQgd3JhcHMgYGZ1bmNgIHRvIGVuYWJsZSBjdXJyeWluZy5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHtGdW5jdGlvbn0gZnVuYyBUaGUgZnVuY3Rpb24gdG8gd3JhcC5cbiAqIEBwYXJhbSB7bnVtYmVyfSBiaXRtYXNrIFRoZSBiaXRtYXNrIG9mIHdyYXBwZXIgZmxhZ3MuIFNlZSBgY3JlYXRlV3JhcHBlcmBcbiAqICBmb3IgbW9yZSBkZXRhaWxzLlxuICogQHBhcmFtIHtudW1iZXJ9IGFyaXR5IFRoZSBhcml0eSBvZiBgZnVuY2AuXG4gKiBAcmV0dXJucyB7RnVuY3Rpb259IFJldHVybnMgdGhlIG5ldyB3cmFwcGVkIGZ1bmN0aW9uLlxuICovXG5mdW5jdGlvbiBjcmVhdGVDdXJyeVdyYXBwZXIoZnVuYywgYml0bWFzaywgYXJpdHkpIHtcbiAgdmFyIEN0b3IgPSBjcmVhdGVDdG9yV3JhcHBlcihmdW5jKTtcblxuICBmdW5jdGlvbiB3cmFwcGVyKCkge1xuICAgIHZhciBsZW5ndGggPSBhcmd1bWVudHMubGVuZ3RoLFxuICAgICAgICBhcmdzID0gQXJyYXkobGVuZ3RoKSxcbiAgICAgICAgaW5kZXggPSBsZW5ndGgsXG4gICAgICAgIHBsYWNlaG9sZGVyID0gZ2V0SG9sZGVyKHdyYXBwZXIpO1xuXG4gICAgd2hpbGUgKGluZGV4LS0pIHtcbiAgICAgIGFyZ3NbaW5kZXhdID0gYXJndW1lbnRzW2luZGV4XTtcbiAgICB9XG4gICAgdmFyIGhvbGRlcnMgPSAobGVuZ3RoIDwgMyAmJiBhcmdzWzBdICE9PSBwbGFjZWhvbGRlciAmJiBhcmdzW2xlbmd0aCAtIDFdICE9PSBwbGFjZWhvbGRlcilcbiAgICAgID8gW11cbiAgICAgIDogcmVwbGFjZUhvbGRlcnMoYXJncywgcGxhY2Vob2xkZXIpO1xuXG4gICAgbGVuZ3RoIC09IGhvbGRlcnMubGVuZ3RoO1xuICAgIGlmIChsZW5ndGggPCBhcml0eSkge1xuICAgICAgcmV0dXJuIGNyZWF0ZVJlY3VycnlXcmFwcGVyKFxuICAgICAgICBmdW5jLCBiaXRtYXNrLCBjcmVhdGVIeWJyaWRXcmFwcGVyLCB3cmFwcGVyLnBsYWNlaG9sZGVyLCB1bmRlZmluZWQsXG4gICAgICAgIGFyZ3MsIGhvbGRlcnMsIHVuZGVmaW5lZCwgdW5kZWZpbmVkLCBhcml0eSAtIGxlbmd0aCk7XG4gICAgfVxuICAgIHZhciBmbiA9ICh0aGlzICYmIHRoaXMgIT09IHJvb3QgJiYgdGhpcyBpbnN0YW5jZW9mIHdyYXBwZXIpID8gQ3RvciA6IGZ1bmM7XG4gICAgcmV0dXJuIGFwcGx5KGZuLCB0aGlzLCBhcmdzKTtcbiAgfVxuICByZXR1cm4gd3JhcHBlcjtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBjcmVhdGVDdXJyeVdyYXBwZXI7XG4iXX0=

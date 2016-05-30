@@ -1,0 +1,56 @@
+'use strict';
+
+var isLaziable = require('./_isLaziable'),
+    setData = require('./_setData');
+
+/** Used to compose bitmasks for wrapper metadata. */
+var BIND_FLAG = 1,
+    BIND_KEY_FLAG = 2,
+    CURRY_BOUND_FLAG = 4,
+    CURRY_FLAG = 8,
+    PARTIAL_FLAG = 32,
+    PARTIAL_RIGHT_FLAG = 64;
+
+/**
+ * Creates a function that wraps `func` to continue currying.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper`
+ *  for more details.
+ * @param {Function} wrapFunc The function to create the `func` wrapper.
+ * @param {*} placeholder The placeholder value.
+ * @param {*} [thisArg] The `this` binding of `func`.
+ * @param {Array} [partials] The arguments to prepend to those provided to
+ *  the new function.
+ * @param {Array} [holders] The `partials` placeholder indexes.
+ * @param {Array} [argPos] The argument positions of the new function.
+ * @param {number} [ary] The arity cap of `func`.
+ * @param {number} [arity] The arity of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createRecurryWrapper(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary, arity) {
+  var isCurry = bitmask & CURRY_FLAG,
+      newHolders = isCurry ? holders : undefined,
+      newHoldersRight = isCurry ? undefined : holders,
+      newPartials = isCurry ? partials : undefined,
+      newPartialsRight = isCurry ? undefined : partials;
+
+  bitmask |= isCurry ? PARTIAL_FLAG : PARTIAL_RIGHT_FLAG;
+  bitmask &= ~(isCurry ? PARTIAL_RIGHT_FLAG : PARTIAL_FLAG);
+
+  if (!(bitmask & CURRY_BOUND_FLAG)) {
+    bitmask &= ~(BIND_FLAG | BIND_KEY_FLAG);
+  }
+  var newData = [func, bitmask, thisArg, newPartials, newHolders, newPartialsRight, newHoldersRight, argPos, ary, arity];
+
+  var result = wrapFunc.apply(undefined, newData);
+  if (isLaziable(func)) {
+    setData(result, newData);
+  }
+  result.placeholder = placeholder;
+  return result;
+}
+
+module.exports = createRecurryWrapper;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jcmVhdGVSZWN1cnJ5V3JhcHBlci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksYUFBYSxRQUFRLGVBQVIsQ0FBYjtJQUNBLFVBQVUsUUFBUSxZQUFSLENBQVY7OztBQUdKLElBQUksWUFBWSxDQUFaO0lBQ0EsZ0JBQWdCLENBQWhCO0lBQ0EsbUJBQW1CLENBQW5CO0lBQ0EsYUFBYSxDQUFiO0lBQ0EsZUFBZSxFQUFmO0lBQ0EscUJBQXFCLEVBQXJCOzs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQW9CSixTQUFTLG9CQUFULENBQThCLElBQTlCLEVBQW9DLE9BQXBDLEVBQTZDLFFBQTdDLEVBQXVELFdBQXZELEVBQW9FLE9BQXBFLEVBQTZFLFFBQTdFLEVBQXVGLE9BQXZGLEVBQWdHLE1BQWhHLEVBQXdHLEdBQXhHLEVBQTZHLEtBQTdHLEVBQW9IO0FBQ2xILE1BQUksVUFBVSxVQUFVLFVBQVY7TUFDVixhQUFhLFVBQVUsT0FBVixHQUFvQixTQUFwQjtNQUNiLGtCQUFrQixVQUFVLFNBQVYsR0FBc0IsT0FBdEI7TUFDbEIsY0FBYyxVQUFVLFFBQVYsR0FBcUIsU0FBckI7TUFDZCxtQkFBbUIsVUFBVSxTQUFWLEdBQXNCLFFBQXRCLENBTDJGOztBQU9sSCxhQUFZLFVBQVUsWUFBVixHQUF5QixrQkFBekIsQ0FQc0c7QUFRbEgsYUFBVyxFQUFFLFVBQVUsa0JBQVYsR0FBK0IsWUFBL0IsQ0FBRixDQVJ1Rzs7QUFVbEgsTUFBSSxFQUFFLFVBQVUsZ0JBQVYsQ0FBRixFQUErQjtBQUNqQyxlQUFXLEVBQUUsWUFBWSxhQUFaLENBQUYsQ0FEc0I7R0FBbkM7QUFHQSxNQUFJLFVBQVUsQ0FDWixJQURZLEVBQ04sT0FETSxFQUNHLE9BREgsRUFDWSxXQURaLEVBQ3lCLFVBRHpCLEVBQ3FDLGdCQURyQyxFQUVaLGVBRlksRUFFSyxNQUZMLEVBRWEsR0FGYixFQUVrQixLQUZsQixDQUFWLENBYjhHOztBQWtCbEgsTUFBSSxTQUFTLFNBQVMsS0FBVCxDQUFlLFNBQWYsRUFBMEIsT0FBMUIsQ0FBVCxDQWxCOEc7QUFtQmxILE1BQUksV0FBVyxJQUFYLENBQUosRUFBc0I7QUFDcEIsWUFBUSxNQUFSLEVBQWdCLE9BQWhCLEVBRG9CO0dBQXRCO0FBR0EsU0FBTyxXQUFQLEdBQXFCLFdBQXJCLENBdEJrSDtBQXVCbEgsU0FBTyxNQUFQLENBdkJrSDtDQUFwSDs7QUEwQkEsT0FBTyxPQUFQLEdBQWlCLG9CQUFqQiIsImZpbGUiOiJfY3JlYXRlUmVjdXJyeVdyYXBwZXIuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgaXNMYXppYWJsZSA9IHJlcXVpcmUoJy4vX2lzTGF6aWFibGUnKSxcbiAgICBzZXREYXRhID0gcmVxdWlyZSgnLi9fc2V0RGF0YScpO1xuXG4vKiogVXNlZCB0byBjb21wb3NlIGJpdG1hc2tzIGZvciB3cmFwcGVyIG1ldGFkYXRhLiAqL1xudmFyIEJJTkRfRkxBRyA9IDEsXG4gICAgQklORF9LRVlfRkxBRyA9IDIsXG4gICAgQ1VSUllfQk9VTkRfRkxBRyA9IDQsXG4gICAgQ1VSUllfRkxBRyA9IDgsXG4gICAgUEFSVElBTF9GTEFHID0gMzIsXG4gICAgUEFSVElBTF9SSUdIVF9GTEFHID0gNjQ7XG5cbi8qKlxuICogQ3JlYXRlcyBhIGZ1bmN0aW9uIHRoYXQgd3JhcHMgYGZ1bmNgIHRvIGNvbnRpbnVlIGN1cnJ5aW5nLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBmdW5jIFRoZSBmdW5jdGlvbiB0byB3cmFwLlxuICogQHBhcmFtIHtudW1iZXJ9IGJpdG1hc2sgVGhlIGJpdG1hc2sgb2Ygd3JhcHBlciBmbGFncy4gU2VlIGBjcmVhdGVXcmFwcGVyYFxuICogIGZvciBtb3JlIGRldGFpbHMuXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSB3cmFwRnVuYyBUaGUgZnVuY3Rpb24gdG8gY3JlYXRlIHRoZSBgZnVuY2Agd3JhcHBlci5cbiAqIEBwYXJhbSB7Kn0gcGxhY2Vob2xkZXIgVGhlIHBsYWNlaG9sZGVyIHZhbHVlLlxuICogQHBhcmFtIHsqfSBbdGhpc0FyZ10gVGhlIGB0aGlzYCBiaW5kaW5nIG9mIGBmdW5jYC5cbiAqIEBwYXJhbSB7QXJyYXl9IFtwYXJ0aWFsc10gVGhlIGFyZ3VtZW50cyB0byBwcmVwZW5kIHRvIHRob3NlIHByb3ZpZGVkIHRvXG4gKiAgdGhlIG5ldyBmdW5jdGlvbi5cbiAqIEBwYXJhbSB7QXJyYXl9IFtob2xkZXJzXSBUaGUgYHBhcnRpYWxzYCBwbGFjZWhvbGRlciBpbmRleGVzLlxuICogQHBhcmFtIHtBcnJheX0gW2FyZ1Bvc10gVGhlIGFyZ3VtZW50IHBvc2l0aW9ucyBvZiB0aGUgbmV3IGZ1bmN0aW9uLlxuICogQHBhcmFtIHtudW1iZXJ9IFthcnldIFRoZSBhcml0eSBjYXAgb2YgYGZ1bmNgLlxuICogQHBhcmFtIHtudW1iZXJ9IFthcml0eV0gVGhlIGFyaXR5IG9mIGBmdW5jYC5cbiAqIEByZXR1cm5zIHtGdW5jdGlvbn0gUmV0dXJucyB0aGUgbmV3IHdyYXBwZWQgZnVuY3Rpb24uXG4gKi9cbmZ1bmN0aW9uIGNyZWF0ZVJlY3VycnlXcmFwcGVyKGZ1bmMsIGJpdG1hc2ssIHdyYXBGdW5jLCBwbGFjZWhvbGRlciwgdGhpc0FyZywgcGFydGlhbHMsIGhvbGRlcnMsIGFyZ1BvcywgYXJ5LCBhcml0eSkge1xuICB2YXIgaXNDdXJyeSA9IGJpdG1hc2sgJiBDVVJSWV9GTEFHLFxuICAgICAgbmV3SG9sZGVycyA9IGlzQ3VycnkgPyBob2xkZXJzIDogdW5kZWZpbmVkLFxuICAgICAgbmV3SG9sZGVyc1JpZ2h0ID0gaXNDdXJyeSA/IHVuZGVmaW5lZCA6IGhvbGRlcnMsXG4gICAgICBuZXdQYXJ0aWFscyA9IGlzQ3VycnkgPyBwYXJ0aWFscyA6IHVuZGVmaW5lZCxcbiAgICAgIG5ld1BhcnRpYWxzUmlnaHQgPSBpc0N1cnJ5ID8gdW5kZWZpbmVkIDogcGFydGlhbHM7XG5cbiAgYml0bWFzayB8PSAoaXNDdXJyeSA/IFBBUlRJQUxfRkxBRyA6IFBBUlRJQUxfUklHSFRfRkxBRyk7XG4gIGJpdG1hc2sgJj0gfihpc0N1cnJ5ID8gUEFSVElBTF9SSUdIVF9GTEFHIDogUEFSVElBTF9GTEFHKTtcblxuICBpZiAoIShiaXRtYXNrICYgQ1VSUllfQk9VTkRfRkxBRykpIHtcbiAgICBiaXRtYXNrICY9IH4oQklORF9GTEFHIHwgQklORF9LRVlfRkxBRyk7XG4gIH1cbiAgdmFyIG5ld0RhdGEgPSBbXG4gICAgZnVuYywgYml0bWFzaywgdGhpc0FyZywgbmV3UGFydGlhbHMsIG5ld0hvbGRlcnMsIG5ld1BhcnRpYWxzUmlnaHQsXG4gICAgbmV3SG9sZGVyc1JpZ2h0LCBhcmdQb3MsIGFyeSwgYXJpdHlcbiAgXTtcblxuICB2YXIgcmVzdWx0ID0gd3JhcEZ1bmMuYXBwbHkodW5kZWZpbmVkLCBuZXdEYXRhKTtcbiAgaWYgKGlzTGF6aWFibGUoZnVuYykpIHtcbiAgICBzZXREYXRhKHJlc3VsdCwgbmV3RGF0YSk7XG4gIH1cbiAgcmVzdWx0LnBsYWNlaG9sZGVyID0gcGxhY2Vob2xkZXI7XG4gIHJldHVybiByZXN1bHQ7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gY3JlYXRlUmVjdXJyeVdyYXBwZXI7XG4iXX0=

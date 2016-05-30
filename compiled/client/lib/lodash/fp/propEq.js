@@ -1,0 +1,4 @@
+'use strict';
+
+module.exports = require('./matchesProperty');
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL3Byb3BFcS5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLE9BQU8sT0FBUCxHQUFpQixRQUFRLG1CQUFSLENBQWpCIiwiZmlsZSI6InByb3BFcS5qcyIsInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0gcmVxdWlyZSgnLi9tYXRjaGVzUHJvcGVydHknKTtcbiJdfQ==

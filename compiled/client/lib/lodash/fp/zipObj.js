@@ -1,0 +1,4 @@
+'use strict';
+
+module.exports = require('./zipObject');
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL3ppcE9iai5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLE9BQU8sT0FBUCxHQUFpQixRQUFRLGFBQVIsQ0FBakIiLCJmaWxlIjoiemlwT2JqLmpzIiwic291cmNlc0NvbnRlbnQiOlsibW9kdWxlLmV4cG9ydHMgPSByZXF1aXJlKCcuL3ppcE9iamVjdCcpO1xuIl19

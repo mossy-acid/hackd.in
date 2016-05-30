@@ -1,0 +1,8 @@
+'use strict';
+
+var convert = require('./convert'),
+    func = convert('restFrom', require('../rest'));
+
+func.placeholder = require('./placeholder');
+module.exports = func;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL3Jlc3RGcm9tLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxVQUFVLFFBQVEsV0FBUixDQUFWO0lBQ0EsT0FBTyxRQUFRLFVBQVIsRUFBb0IsUUFBUSxTQUFSLENBQXBCLENBQVA7O0FBRUosS0FBSyxXQUFMLEdBQW1CLFFBQVEsZUFBUixDQUFuQjtBQUNBLE9BQU8sT0FBUCxHQUFpQixJQUFqQiIsImZpbGUiOiJyZXN0RnJvbS5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBjb252ZXJ0ID0gcmVxdWlyZSgnLi9jb252ZXJ0JyksXG4gICAgZnVuYyA9IGNvbnZlcnQoJ3Jlc3RGcm9tJywgcmVxdWlyZSgnLi4vcmVzdCcpKTtcblxuZnVuYy5wbGFjZWhvbGRlciA9IHJlcXVpcmUoJy4vcGxhY2Vob2xkZXInKTtcbm1vZHVsZS5leHBvcnRzID0gZnVuYztcbiJdfQ==

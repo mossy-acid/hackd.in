@@ -1,0 +1,27 @@
+'use strict';
+
+var arrayReduce = require('./_arrayReduce'),
+    deburr = require('./deburr'),
+    words = require('./words');
+
+/** Used to compose unicode capture groups. */
+var rsApos = '[\'’]';
+
+/** Used to match apostrophes. */
+var reApos = RegExp(rsApos, 'g');
+
+/**
+ * Creates a function like `_.camelCase`.
+ *
+ * @private
+ * @param {Function} callback The function to combine each word.
+ * @returns {Function} Returns the new compounder function.
+ */
+function createCompounder(callback) {
+  return function (string) {
+    return arrayReduce(words(deburr(string).replace(reApos, '')), callback, '');
+  };
+}
+
+module.exports = createCompounder;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jcmVhdGVDb21wb3VuZGVyLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxjQUFjLFFBQVEsZ0JBQVIsQ0FBZDtJQUNBLFNBQVMsUUFBUSxVQUFSLENBQVQ7SUFDQSxRQUFRLFFBQVEsU0FBUixDQUFSOzs7QUFHSixJQUFJLFNBQVMsT0FBVDs7O0FBR0osSUFBSSxTQUFTLE9BQU8sTUFBUCxFQUFlLEdBQWYsQ0FBVDs7Ozs7Ozs7O0FBU0osU0FBUyxnQkFBVCxDQUEwQixRQUExQixFQUFvQztBQUNsQyxTQUFPLFVBQVMsTUFBVCxFQUFpQjtBQUN0QixXQUFPLFlBQVksTUFBTSxPQUFPLE1BQVAsRUFBZSxPQUFmLENBQXVCLE1BQXZCLEVBQStCLEVBQS9CLENBQU4sQ0FBWixFQUF1RCxRQUF2RCxFQUFpRSxFQUFqRSxDQUFQLENBRHNCO0dBQWpCLENBRDJCO0NBQXBDOztBQU1BLE9BQU8sT0FBUCxHQUFpQixnQkFBakIiLCJmaWxlIjoiX2NyZWF0ZUNvbXBvdW5kZXIuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgYXJyYXlSZWR1Y2UgPSByZXF1aXJlKCcuL19hcnJheVJlZHVjZScpLFxuICAgIGRlYnVyciA9IHJlcXVpcmUoJy4vZGVidXJyJyksXG4gICAgd29yZHMgPSByZXF1aXJlKCcuL3dvcmRzJyk7XG5cbi8qKiBVc2VkIHRvIGNvbXBvc2UgdW5pY29kZSBjYXB0dXJlIGdyb3Vwcy4gKi9cbnZhciByc0Fwb3MgPSBcIlsnXFx1MjAxOV1cIjtcblxuLyoqIFVzZWQgdG8gbWF0Y2ggYXBvc3Ryb3BoZXMuICovXG52YXIgcmVBcG9zID0gUmVnRXhwKHJzQXBvcywgJ2cnKTtcblxuLyoqXG4gKiBDcmVhdGVzIGEgZnVuY3Rpb24gbGlrZSBgXy5jYW1lbENhc2VgLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBjYWxsYmFjayBUaGUgZnVuY3Rpb24gdG8gY29tYmluZSBlYWNoIHdvcmQuXG4gKiBAcmV0dXJucyB7RnVuY3Rpb259IFJldHVybnMgdGhlIG5ldyBjb21wb3VuZGVyIGZ1bmN0aW9uLlxuICovXG5mdW5jdGlvbiBjcmVhdGVDb21wb3VuZGVyKGNhbGxiYWNrKSB7XG4gIHJldHVybiBmdW5jdGlvbihzdHJpbmcpIHtcbiAgICByZXR1cm4gYXJyYXlSZWR1Y2Uod29yZHMoZGVidXJyKHN0cmluZykucmVwbGFjZShyZUFwb3MsICcnKSksIGNhbGxiYWNrLCAnJyk7XG4gIH07XG59XG5cbm1vZHVsZS5leHBvcnRzID0gY3JlYXRlQ29tcG91bmRlcjtcbiJdfQ==

@@ -1,0 +1,33 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactMultiChildUpdateTypes
+ */
+
+'use strict';
+
+var keyMirror = require('fbjs/lib/keyMirror');
+
+/**
+ * When a component's children are updated, a series of update configuration
+ * objects are created in order to batch and serialize the required changes.
+ *
+ * Enumerates all the possible types of update configurations.
+ *
+ * @internal
+ */
+var ReactMultiChildUpdateTypes = keyMirror({
+  INSERT_MARKUP: null,
+  MOVE_EXISTING: null,
+  REMOVE_NODE: null,
+  SET_MARKUP: null,
+  TEXT_CONTENT: null
+});
+
+module.exports = ReactMultiChildUpdateTypes;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1JlYWN0TXVsdGlDaGlsZFVwZGF0ZVR5cGVzLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBV0E7O0FBRUEsSUFBSSxZQUFZLFFBQVEsb0JBQVIsQ0FBWjs7Ozs7Ozs7OztBQVVKLElBQUksNkJBQTZCLFVBQVU7QUFDekMsaUJBQWUsSUFBZjtBQUNBLGlCQUFlLElBQWY7QUFDQSxlQUFhLElBQWI7QUFDQSxjQUFZLElBQVo7QUFDQSxnQkFBYyxJQUFkO0NBTCtCLENBQTdCOztBQVFKLE9BQU8sT0FBUCxHQUFpQiwwQkFBakIiLCJmaWxlIjoiUmVhY3RNdWx0aUNoaWxkVXBkYXRlVHlwZXMuanMiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIENvcHlyaWdodCAyMDEzLTIwMTUsIEZhY2Vib29rLCBJbmMuXG4gKiBBbGwgcmlnaHRzIHJlc2VydmVkLlxuICpcbiAqIFRoaXMgc291cmNlIGNvZGUgaXMgbGljZW5zZWQgdW5kZXIgdGhlIEJTRC1zdHlsZSBsaWNlbnNlIGZvdW5kIGluIHRoZVxuICogTElDRU5TRSBmaWxlIGluIHRoZSByb290IGRpcmVjdG9yeSBvZiB0aGlzIHNvdXJjZSB0cmVlLiBBbiBhZGRpdGlvbmFsIGdyYW50XG4gKiBvZiBwYXRlbnQgcmlnaHRzIGNhbiBiZSBmb3VuZCBpbiB0aGUgUEFURU5UUyBmaWxlIGluIHRoZSBzYW1lIGRpcmVjdG9yeS5cbiAqXG4gKiBAcHJvdmlkZXNNb2R1bGUgUmVhY3RNdWx0aUNoaWxkVXBkYXRlVHlwZXNcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbnZhciBrZXlNaXJyb3IgPSByZXF1aXJlKCdmYmpzL2xpYi9rZXlNaXJyb3InKTtcblxuLyoqXG4gKiBXaGVuIGEgY29tcG9uZW50J3MgY2hpbGRyZW4gYXJlIHVwZGF0ZWQsIGEgc2VyaWVzIG9mIHVwZGF0ZSBjb25maWd1cmF0aW9uXG4gKiBvYmplY3RzIGFyZSBjcmVhdGVkIGluIG9yZGVyIHRvIGJhdGNoIGFuZCBzZXJpYWxpemUgdGhlIHJlcXVpcmVkIGNoYW5nZXMuXG4gKlxuICogRW51bWVyYXRlcyBhbGwgdGhlIHBvc3NpYmxlIHR5cGVzIG9mIHVwZGF0ZSBjb25maWd1cmF0aW9ucy5cbiAqXG4gKiBAaW50ZXJuYWxcbiAqL1xudmFyIFJlYWN0TXVsdGlDaGlsZFVwZGF0ZVR5cGVzID0ga2V5TWlycm9yKHtcbiAgSU5TRVJUX01BUktVUDogbnVsbCxcbiAgTU9WRV9FWElTVElORzogbnVsbCxcbiAgUkVNT1ZFX05PREU6IG51bGwsXG4gIFNFVF9NQVJLVVA6IG51bGwsXG4gIFRFWFRfQ09OVEVOVDogbnVsbFxufSk7XG5cbm1vZHVsZS5leHBvcnRzID0gUmVhY3RNdWx0aUNoaWxkVXBkYXRlVHlwZXM7Il19

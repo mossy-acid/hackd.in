@@ -1,0 +1,13 @@
+"use strict";
+
+define(["../core"], function (jQuery) {
+
+	// Support: Android 2.3
+	// Workaround failure to string-cast null input
+	jQuery.parseJSON = function (data) {
+		return JSON.parse(data + "");
+	};
+
+	return jQuery.parseJSON;
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy9hamF4L3BhcnNlSlNPTi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLE9BQVEsQ0FDUCxTQURPLENBQVIsRUFFRyxVQUFVLE1BQVYsRUFBbUI7Ozs7QUFJdEIsUUFBTyxTQUFQLEdBQW1CLFVBQVUsSUFBVixFQUFpQjtBQUNuQyxTQUFPLEtBQUssS0FBTCxDQUFZLE9BQU8sRUFBUCxDQUFuQixDQURtQztFQUFqQixDQUpHOztBQVF0QixRQUFPLE9BQU8sU0FBUCxDQVJlO0NBQW5CLENBRkgiLCJmaWxlIjoicGFyc2VKU09OLmpzIiwic291cmNlc0NvbnRlbnQiOlsiZGVmaW5lKCBbXG5cdFwiLi4vY29yZVwiXG5dLCBmdW5jdGlvbiggalF1ZXJ5ICkge1xuXG4vLyBTdXBwb3J0OiBBbmRyb2lkIDIuM1xuLy8gV29ya2Fyb3VuZCBmYWlsdXJlIHRvIHN0cmluZy1jYXN0IG51bGwgaW5wdXRcbmpRdWVyeS5wYXJzZUpTT04gPSBmdW5jdGlvbiggZGF0YSApIHtcblx0cmV0dXJuIEpTT04ucGFyc2UoIGRhdGEgKyBcIlwiICk7XG59O1xuXG5yZXR1cm4galF1ZXJ5LnBhcnNlSlNPTjtcblxufSApO1xuIl19

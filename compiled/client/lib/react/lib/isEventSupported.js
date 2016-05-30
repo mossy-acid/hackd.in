@@ -1,0 +1,61 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule isEventSupported
+ */
+
+'use strict';
+
+var ExecutionEnvironment = require('fbjs/lib/ExecutionEnvironment');
+
+var useHasFeature;
+if (ExecutionEnvironment.canUseDOM) {
+  useHasFeature = document.implementation && document.implementation.hasFeature &&
+  // always returns true in newer browsers as per the standard.
+  // @see http://dom.spec.whatwg.org/#dom-domimplementation-hasfeature
+  document.implementation.hasFeature('', '') !== true;
+}
+
+/**
+ * Checks if an event is supported in the current execution environment.
+ *
+ * NOTE: This will not work correctly for non-generic events such as `change`,
+ * `reset`, `load`, `error`, and `select`.
+ *
+ * Borrows from Modernizr.
+ *
+ * @param {string} eventNameSuffix Event name, e.g. "click".
+ * @param {?boolean} capture Check if the capture phase is supported.
+ * @return {boolean} True if the event is supported.
+ * @internal
+ * @license Modernizr 3.0.0pre (Custom Build) | MIT
+ */
+function isEventSupported(eventNameSuffix, capture) {
+  if (!ExecutionEnvironment.canUseDOM || capture && !('addEventListener' in document)) {
+    return false;
+  }
+
+  var eventName = 'on' + eventNameSuffix;
+  var isSupported = eventName in document;
+
+  if (!isSupported) {
+    var element = document.createElement('div');
+    element.setAttribute(eventName, 'return;');
+    isSupported = typeof element[eventName] === 'function';
+  }
+
+  if (!isSupported && useHasFeature && eventNameSuffix === 'wheel') {
+    // This is the only way to test support for the `wheel` event in IE9+.
+    isSupported = document.implementation.hasFeature('Events.wheel', '3.0');
+  }
+
+  return isSupported;
+}
+
+module.exports = isEventSupported;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL2lzRXZlbnRTdXBwb3J0ZWQuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7QUFXQTs7QUFFQSxJQUFJLHVCQUF1QixRQUFRLCtCQUFSLENBQXZCOztBQUVKLElBQUksYUFBSjtBQUNBLElBQUkscUJBQXFCLFNBQXJCLEVBQWdDO0FBQ2xDLGtCQUFnQixTQUFTLGNBQVQsSUFBMkIsU0FBUyxjQUFULENBQXdCLFVBQXhCOzs7QUFHM0MsV0FBUyxjQUFULENBQXdCLFVBQXhCLENBQW1DLEVBQW5DLEVBQXVDLEVBQXZDLE1BQStDLElBQS9DLENBSmtDO0NBQXBDOzs7Ozs7Ozs7Ozs7Ozs7O0FBcUJBLFNBQVMsZ0JBQVQsQ0FBMEIsZUFBMUIsRUFBMkMsT0FBM0MsRUFBb0Q7QUFDbEQsTUFBSSxDQUFDLHFCQUFxQixTQUFyQixJQUFrQyxXQUFXLEVBQUUsc0JBQXNCLFFBQXRCLENBQUYsRUFBbUM7QUFDbkYsV0FBTyxLQUFQLENBRG1GO0dBQXJGOztBQUlBLE1BQUksWUFBWSxPQUFPLGVBQVAsQ0FMa0M7QUFNbEQsTUFBSSxjQUFlLGFBQWEsUUFBYixDQU4rQjs7QUFRbEQsTUFBSSxDQUFDLFdBQUQsRUFBYztBQUNoQixRQUFJLFVBQVUsU0FBUyxhQUFULENBQXVCLEtBQXZCLENBQVYsQ0FEWTtBQUVoQixZQUFRLFlBQVIsQ0FBcUIsU0FBckIsRUFBZ0MsU0FBaEMsRUFGZ0I7QUFHaEIsa0JBQWMsT0FBTyxRQUFRLFNBQVIsQ0FBUCxLQUE4QixVQUE5QixDQUhFO0dBQWxCOztBQU1BLE1BQUksQ0FBQyxXQUFELElBQWdCLGFBQWhCLElBQWlDLG9CQUFvQixPQUFwQixFQUE2Qjs7QUFFaEUsa0JBQWMsU0FBUyxjQUFULENBQXdCLFVBQXhCLENBQW1DLGNBQW5DLEVBQW1ELEtBQW5ELENBQWQsQ0FGZ0U7R0FBbEU7O0FBS0EsU0FBTyxXQUFQLENBbkJrRDtDQUFwRDs7QUFzQkEsT0FBTyxPQUFQLEdBQWlCLGdCQUFqQiIsImZpbGUiOiJpc0V2ZW50U3VwcG9ydGVkLmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBDb3B5cmlnaHQgMjAxMy0yMDE1LCBGYWNlYm9vaywgSW5jLlxuICogQWxsIHJpZ2h0cyByZXNlcnZlZC5cbiAqXG4gKiBUaGlzIHNvdXJjZSBjb2RlIGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBCU0Qtc3R5bGUgbGljZW5zZSBmb3VuZCBpbiB0aGVcbiAqIExJQ0VOU0UgZmlsZSBpbiB0aGUgcm9vdCBkaXJlY3Rvcnkgb2YgdGhpcyBzb3VyY2UgdHJlZS4gQW4gYWRkaXRpb25hbCBncmFudFxuICogb2YgcGF0ZW50IHJpZ2h0cyBjYW4gYmUgZm91bmQgaW4gdGhlIFBBVEVOVFMgZmlsZSBpbiB0aGUgc2FtZSBkaXJlY3RvcnkuXG4gKlxuICogQHByb3ZpZGVzTW9kdWxlIGlzRXZlbnRTdXBwb3J0ZWRcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbnZhciBFeGVjdXRpb25FbnZpcm9ubWVudCA9IHJlcXVpcmUoJ2ZianMvbGliL0V4ZWN1dGlvbkVudmlyb25tZW50Jyk7XG5cbnZhciB1c2VIYXNGZWF0dXJlO1xuaWYgKEV4ZWN1dGlvbkVudmlyb25tZW50LmNhblVzZURPTSkge1xuICB1c2VIYXNGZWF0dXJlID0gZG9jdW1lbnQuaW1wbGVtZW50YXRpb24gJiYgZG9jdW1lbnQuaW1wbGVtZW50YXRpb24uaGFzRmVhdHVyZSAmJlxuICAvLyBhbHdheXMgcmV0dXJucyB0cnVlIGluIG5ld2VyIGJyb3dzZXJzIGFzIHBlciB0aGUgc3RhbmRhcmQuXG4gIC8vIEBzZWUgaHR0cDovL2RvbS5zcGVjLndoYXR3Zy5vcmcvI2RvbS1kb21pbXBsZW1lbnRhdGlvbi1oYXNmZWF0dXJlXG4gIGRvY3VtZW50LmltcGxlbWVudGF0aW9uLmhhc0ZlYXR1cmUoJycsICcnKSAhPT0gdHJ1ZTtcbn1cblxuLyoqXG4gKiBDaGVja3MgaWYgYW4gZXZlbnQgaXMgc3VwcG9ydGVkIGluIHRoZSBjdXJyZW50IGV4ZWN1dGlvbiBlbnZpcm9ubWVudC5cbiAqXG4gKiBOT1RFOiBUaGlzIHdpbGwgbm90IHdvcmsgY29ycmVjdGx5IGZvciBub24tZ2VuZXJpYyBldmVudHMgc3VjaCBhcyBgY2hhbmdlYCxcbiAqIGByZXNldGAsIGBsb2FkYCwgYGVycm9yYCwgYW5kIGBzZWxlY3RgLlxuICpcbiAqIEJvcnJvd3MgZnJvbSBNb2Rlcm5penIuXG4gKlxuICogQHBhcmFtIHtzdHJpbmd9IGV2ZW50TmFtZVN1ZmZpeCBFdmVudCBuYW1lLCBlLmcuIFwiY2xpY2tcIi5cbiAqIEBwYXJhbSB7P2Jvb2xlYW59IGNhcHR1cmUgQ2hlY2sgaWYgdGhlIGNhcHR1cmUgcGhhc2UgaXMgc3VwcG9ydGVkLlxuICogQHJldHVybiB7Ym9vbGVhbn0gVHJ1ZSBpZiB0aGUgZXZlbnQgaXMgc3VwcG9ydGVkLlxuICogQGludGVybmFsXG4gKiBAbGljZW5zZSBNb2Rlcm5penIgMy4wLjBwcmUgKEN1c3RvbSBCdWlsZCkgfCBNSVRcbiAqL1xuZnVuY3Rpb24gaXNFdmVudFN1cHBvcnRlZChldmVudE5hbWVTdWZmaXgsIGNhcHR1cmUpIHtcbiAgaWYgKCFFeGVjdXRpb25FbnZpcm9ubWVudC5jYW5Vc2VET00gfHwgY2FwdHVyZSAmJiAhKCdhZGRFdmVudExpc3RlbmVyJyBpbiBkb2N1bWVudCkpIHtcbiAgICByZXR1cm4gZmFsc2U7XG4gIH1cblxuICB2YXIgZXZlbnROYW1lID0gJ29uJyArIGV2ZW50TmFtZVN1ZmZpeDtcbiAgdmFyIGlzU3VwcG9ydGVkID0gKGV2ZW50TmFtZSBpbiBkb2N1bWVudCk7XG5cbiAgaWYgKCFpc1N1cHBvcnRlZCkge1xuICAgIHZhciBlbGVtZW50ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7XG4gICAgZWxlbWVudC5zZXRBdHRyaWJ1dGUoZXZlbnROYW1lLCAncmV0dXJuOycpO1xuICAgIGlzU3VwcG9ydGVkID0gdHlwZW9mIGVsZW1lbnRbZXZlbnROYW1lXSA9PT0gJ2Z1bmN0aW9uJztcbiAgfVxuXG4gIGlmICghaXNTdXBwb3J0ZWQgJiYgdXNlSGFzRmVhdHVyZSAmJiBldmVudE5hbWVTdWZmaXggPT09ICd3aGVlbCcpIHtcbiAgICAvLyBUaGlzIGlzIHRoZSBvbmx5IHdheSB0byB0ZXN0IHN1cHBvcnQgZm9yIHRoZSBgd2hlZWxgIGV2ZW50IGluIElFOSsuXG4gICAgaXNTdXBwb3J0ZWQgPSBkb2N1bWVudC5pbXBsZW1lbnRhdGlvbi5oYXNGZWF0dXJlKCdFdmVudHMud2hlZWwnLCAnMy4wJyk7XG4gIH1cblxuICByZXR1cm4gaXNTdXBwb3J0ZWQ7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gaXNFdmVudFN1cHBvcnRlZDsiXX0=

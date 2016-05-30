@@ -1,0 +1,7 @@
+"use strict";
+
+define(function () {
+	return (/^$|\/(?:java|ecma)script/i
+	);
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy9tYW5pcHVsYXRpb24vdmFyL3JzY3JpcHRUeXBlLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsT0FBUSxZQUFXO0FBQ2xCLFFBQVMsNEJBQVQ7R0FEa0I7Q0FBWCxDQUFSIiwiZmlsZSI6InJzY3JpcHRUeXBlLmpzIiwic291cmNlc0NvbnRlbnQiOlsiZGVmaW5lKCBmdW5jdGlvbigpIHtcblx0cmV0dXJuICggL14kfFxcLyg/OmphdmF8ZWNtYSlzY3JpcHQvaSApO1xufSApO1xuIl19

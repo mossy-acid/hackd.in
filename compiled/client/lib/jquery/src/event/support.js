@@ -1,0 +1,9 @@
+"use strict";
+
+define(["../var/support"], function (support) {
+
+	support.focusin = "onfocusin" in window;
+
+	return support;
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy9ldmVudC9zdXBwb3J0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsT0FBUSxDQUNQLGdCQURPLENBQVIsRUFFRyxVQUFVLE9BQVYsRUFBb0I7O0FBRXZCLFNBQVEsT0FBUixHQUFrQixlQUFlLE1BQWYsQ0FGSzs7QUFJdkIsUUFBTyxPQUFQLENBSnVCO0NBQXBCLENBRkgiLCJmaWxlIjoic3VwcG9ydC5qcyIsInNvdXJjZXNDb250ZW50IjpbImRlZmluZSggW1xuXHRcIi4uL3Zhci9zdXBwb3J0XCJcbl0sIGZ1bmN0aW9uKCBzdXBwb3J0ICkge1xuXG5zdXBwb3J0LmZvY3VzaW4gPSBcIm9uZm9jdXNpblwiIGluIHdpbmRvdztcblxucmV0dXJuIHN1cHBvcnQ7XG5cbn0gKTtcbiJdfQ==

@@ -1,0 +1,8 @@
+'use strict';
+
+var convert = require('./convert'),
+    func = convert('flattenDepth', require('../flattenDepth'));
+
+func.placeholder = require('./placeholder');
+module.exports = func;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL2ZsYXR0ZW5EZXB0aC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksVUFBVSxRQUFRLFdBQVIsQ0FBVjtJQUNBLE9BQU8sUUFBUSxjQUFSLEVBQXdCLFFBQVEsaUJBQVIsQ0FBeEIsQ0FBUDs7QUFFSixLQUFLLFdBQUwsR0FBbUIsUUFBUSxlQUFSLENBQW5CO0FBQ0EsT0FBTyxPQUFQLEdBQWlCLElBQWpCIiwiZmlsZSI6ImZsYXR0ZW5EZXB0aC5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBjb252ZXJ0ID0gcmVxdWlyZSgnLi9jb252ZXJ0JyksXG4gICAgZnVuYyA9IGNvbnZlcnQoJ2ZsYXR0ZW5EZXB0aCcsIHJlcXVpcmUoJy4uL2ZsYXR0ZW5EZXB0aCcpKTtcblxuZnVuYy5wbGFjZWhvbGRlciA9IHJlcXVpcmUoJy4vcGxhY2Vob2xkZXInKTtcbm1vZHVsZS5leHBvcnRzID0gZnVuYztcbiJdfQ==

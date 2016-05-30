@@ -1,0 +1,5 @@
+'use strict';
+
+var convert = require('./convert');
+module.exports = convert(require('../date'));
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL2RhdGUuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLFVBQVUsUUFBUSxXQUFSLENBQVY7QUFDSixPQUFPLE9BQVAsR0FBaUIsUUFBUSxRQUFRLFNBQVIsQ0FBUixDQUFqQiIsImZpbGUiOiJkYXRlLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIGNvbnZlcnQgPSByZXF1aXJlKCcuL2NvbnZlcnQnKTtcbm1vZHVsZS5leHBvcnRzID0gY29udmVydChyZXF1aXJlKCcuLi9kYXRlJykpO1xuIl19

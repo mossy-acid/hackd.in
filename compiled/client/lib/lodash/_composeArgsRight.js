@@ -1,0 +1,44 @@
+"use strict";
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * This function is like `composeArgs` except that the arguments composition
+ * is tailored for `_.partialRight`.
+ *
+ * @private
+ * @param {Array} args The provided arguments.
+ * @param {Array} partials The arguments to append to those provided.
+ * @param {Array} holders The `partials` placeholder indexes.
+ * @params {boolean} [isCurried] Specify composing for a curried function.
+ * @returns {Array} Returns the new array of composed arguments.
+ */
+function composeArgsRight(args, partials, holders, isCurried) {
+  var argsIndex = -1,
+      argsLength = args.length,
+      holdersIndex = -1,
+      holdersLength = holders.length,
+      rightIndex = -1,
+      rightLength = partials.length,
+      rangeLength = nativeMax(argsLength - holdersLength, 0),
+      result = Array(rangeLength + rightLength),
+      isUncurried = !isCurried;
+
+  while (++argsIndex < rangeLength) {
+    result[argsIndex] = args[argsIndex];
+  }
+  var offset = argsIndex;
+  while (++rightIndex < rightLength) {
+    result[offset + rightIndex] = partials[rightIndex];
+  }
+  while (++holdersIndex < holdersLength) {
+    if (isUncurried || argsIndex < argsLength) {
+      result[offset + holders[holdersIndex]] = args[argsIndex++];
+    }
+  }
+  return result;
+}
+
+module.exports = composeArgsRight;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jb21wb3NlQXJnc1JpZ2h0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUNBLElBQUksWUFBWSxLQUFLLEdBQUw7Ozs7Ozs7Ozs7Ozs7QUFhaEIsU0FBUyxnQkFBVCxDQUEwQixJQUExQixFQUFnQyxRQUFoQyxFQUEwQyxPQUExQyxFQUFtRCxTQUFuRCxFQUE4RDtBQUM1RCxNQUFJLFlBQVksQ0FBQyxDQUFEO01BQ1osYUFBYSxLQUFLLE1BQUw7TUFDYixlQUFlLENBQUMsQ0FBRDtNQUNmLGdCQUFnQixRQUFRLE1BQVI7TUFDaEIsYUFBYSxDQUFDLENBQUQ7TUFDYixjQUFjLFNBQVMsTUFBVDtNQUNkLGNBQWMsVUFBVSxhQUFhLGFBQWIsRUFBNEIsQ0FBdEMsQ0FBZDtNQUNBLFNBQVMsTUFBTSxjQUFjLFdBQWQsQ0FBZjtNQUNBLGNBQWMsQ0FBQyxTQUFELENBVDBDOztBQVc1RCxTQUFPLEVBQUUsU0FBRixHQUFjLFdBQWQsRUFBMkI7QUFDaEMsV0FBTyxTQUFQLElBQW9CLEtBQUssU0FBTCxDQUFwQixDQURnQztHQUFsQztBQUdBLE1BQUksU0FBUyxTQUFULENBZHdEO0FBZTVELFNBQU8sRUFBRSxVQUFGLEdBQWUsV0FBZixFQUE0QjtBQUNqQyxXQUFPLFNBQVMsVUFBVCxDQUFQLEdBQThCLFNBQVMsVUFBVCxDQUE5QixDQURpQztHQUFuQztBQUdBLFNBQU8sRUFBRSxZQUFGLEdBQWlCLGFBQWpCLEVBQWdDO0FBQ3JDLFFBQUksZUFBZSxZQUFZLFVBQVosRUFBd0I7QUFDekMsYUFBTyxTQUFTLFFBQVEsWUFBUixDQUFULENBQVAsR0FBeUMsS0FBSyxXQUFMLENBQXpDLENBRHlDO0tBQTNDO0dBREY7QUFLQSxTQUFPLE1BQVAsQ0F2QjREO0NBQTlEOztBQTBCQSxPQUFPLE9BQVAsR0FBaUIsZ0JBQWpCIiwiZmlsZSI6Il9jb21wb3NlQXJnc1JpZ2h0LmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyogQnVpbHQtaW4gbWV0aG9kIHJlZmVyZW5jZXMgZm9yIHRob3NlIHdpdGggdGhlIHNhbWUgbmFtZSBhcyBvdGhlciBgbG9kYXNoYCBtZXRob2RzLiAqL1xudmFyIG5hdGl2ZU1heCA9IE1hdGgubWF4O1xuXG4vKipcbiAqIFRoaXMgZnVuY3Rpb24gaXMgbGlrZSBgY29tcG9zZUFyZ3NgIGV4Y2VwdCB0aGF0IHRoZSBhcmd1bWVudHMgY29tcG9zaXRpb25cbiAqIGlzIHRhaWxvcmVkIGZvciBgXy5wYXJ0aWFsUmlnaHRgLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge0FycmF5fSBhcmdzIFRoZSBwcm92aWRlZCBhcmd1bWVudHMuXG4gKiBAcGFyYW0ge0FycmF5fSBwYXJ0aWFscyBUaGUgYXJndW1lbnRzIHRvIGFwcGVuZCB0byB0aG9zZSBwcm92aWRlZC5cbiAqIEBwYXJhbSB7QXJyYXl9IGhvbGRlcnMgVGhlIGBwYXJ0aWFsc2AgcGxhY2Vob2xkZXIgaW5kZXhlcy5cbiAqIEBwYXJhbXMge2Jvb2xlYW59IFtpc0N1cnJpZWRdIFNwZWNpZnkgY29tcG9zaW5nIGZvciBhIGN1cnJpZWQgZnVuY3Rpb24uXG4gKiBAcmV0dXJucyB7QXJyYXl9IFJldHVybnMgdGhlIG5ldyBhcnJheSBvZiBjb21wb3NlZCBhcmd1bWVudHMuXG4gKi9cbmZ1bmN0aW9uIGNvbXBvc2VBcmdzUmlnaHQoYXJncywgcGFydGlhbHMsIGhvbGRlcnMsIGlzQ3VycmllZCkge1xuICB2YXIgYXJnc0luZGV4ID0gLTEsXG4gICAgICBhcmdzTGVuZ3RoID0gYXJncy5sZW5ndGgsXG4gICAgICBob2xkZXJzSW5kZXggPSAtMSxcbiAgICAgIGhvbGRlcnNMZW5ndGggPSBob2xkZXJzLmxlbmd0aCxcbiAgICAgIHJpZ2h0SW5kZXggPSAtMSxcbiAgICAgIHJpZ2h0TGVuZ3RoID0gcGFydGlhbHMubGVuZ3RoLFxuICAgICAgcmFuZ2VMZW5ndGggPSBuYXRpdmVNYXgoYXJnc0xlbmd0aCAtIGhvbGRlcnNMZW5ndGgsIDApLFxuICAgICAgcmVzdWx0ID0gQXJyYXkocmFuZ2VMZW5ndGggKyByaWdodExlbmd0aCksXG4gICAgICBpc1VuY3VycmllZCA9ICFpc0N1cnJpZWQ7XG5cbiAgd2hpbGUgKCsrYXJnc0luZGV4IDwgcmFuZ2VMZW5ndGgpIHtcbiAgICByZXN1bHRbYXJnc0luZGV4XSA9IGFyZ3NbYXJnc0luZGV4XTtcbiAgfVxuICB2YXIgb2Zmc2V0ID0gYXJnc0luZGV4O1xuICB3aGlsZSAoKytyaWdodEluZGV4IDwgcmlnaHRMZW5ndGgpIHtcbiAgICByZXN1bHRbb2Zmc2V0ICsgcmlnaHRJbmRleF0gPSBwYXJ0aWFsc1tyaWdodEluZGV4XTtcbiAgfVxuICB3aGlsZSAoKytob2xkZXJzSW5kZXggPCBob2xkZXJzTGVuZ3RoKSB7XG4gICAgaWYgKGlzVW5jdXJyaWVkIHx8IGFyZ3NJbmRleCA8IGFyZ3NMZW5ndGgpIHtcbiAgICAgIHJlc3VsdFtvZmZzZXQgKyBob2xkZXJzW2hvbGRlcnNJbmRleF1dID0gYXJnc1thcmdzSW5kZXgrK107XG4gICAgfVxuICB9XG4gIHJldHVybiByZXN1bHQ7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gY29tcG9zZUFyZ3NSaWdodDtcbiJdfQ==

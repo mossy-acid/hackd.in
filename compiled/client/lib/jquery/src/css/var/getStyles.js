@@ -1,0 +1,18 @@
+"use strict";
+
+define(function () {
+	return function (elem) {
+
+		// Support: IE<=11+, Firefox<=30+ (#15098, #14150)
+		// IE throws on elements created in popups
+		// FF meanwhile throws on frame elements through "defaultView.getComputedStyle"
+		var view = elem.ownerDocument.defaultView;
+
+		if (!view || !view.opener) {
+			view = window;
+		}
+
+		return view.getComputedStyle(elem);
+	};
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy9jc3MvdmFyL2dldFN0eWxlcy5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLE9BQVEsWUFBVztBQUNsQixRQUFPLFVBQVUsSUFBVixFQUFpQjs7Ozs7QUFLdkIsTUFBSSxPQUFPLEtBQUssYUFBTCxDQUFtQixXQUFuQixDQUxZOztBQU92QixNQUFLLENBQUMsSUFBRCxJQUFTLENBQUMsS0FBSyxNQUFMLEVBQWM7QUFDNUIsVUFBTyxNQUFQLENBRDRCO0dBQTdCOztBQUlBLFNBQU8sS0FBSyxnQkFBTCxDQUF1QixJQUF2QixDQUFQLENBWHVCO0VBQWpCLENBRFc7Q0FBWCxDQUFSIiwiZmlsZSI6ImdldFN0eWxlcy5qcyIsInNvdXJjZXNDb250ZW50IjpbImRlZmluZSggZnVuY3Rpb24oKSB7XG5cdHJldHVybiBmdW5jdGlvbiggZWxlbSApIHtcblxuXHRcdC8vIFN1cHBvcnQ6IElFPD0xMSssIEZpcmVmb3g8PTMwKyAoIzE1MDk4LCAjMTQxNTApXG5cdFx0Ly8gSUUgdGhyb3dzIG9uIGVsZW1lbnRzIGNyZWF0ZWQgaW4gcG9wdXBzXG5cdFx0Ly8gRkYgbWVhbndoaWxlIHRocm93cyBvbiBmcmFtZSBlbGVtZW50cyB0aHJvdWdoIFwiZGVmYXVsdFZpZXcuZ2V0Q29tcHV0ZWRTdHlsZVwiXG5cdFx0dmFyIHZpZXcgPSBlbGVtLm93bmVyRG9jdW1lbnQuZGVmYXVsdFZpZXc7XG5cblx0XHRpZiAoICF2aWV3IHx8ICF2aWV3Lm9wZW5lciApIHtcblx0XHRcdHZpZXcgPSB3aW5kb3c7XG5cdFx0fVxuXG5cdFx0cmV0dXJuIHZpZXcuZ2V0Q29tcHV0ZWRTdHlsZSggZWxlbSApO1xuXHR9O1xufSApO1xuIl19

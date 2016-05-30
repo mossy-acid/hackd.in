@@ -1,0 +1,8 @@
+"use strict";
+
+define(function () {
+
+	// All support tests are defined in their respective modules.
+	return {};
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy92YXIvc3VwcG9ydC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLE9BQVEsWUFBVzs7O0FBR2xCLFFBQU8sRUFBUCxDQUhrQjtDQUFYLENBQVIiLCJmaWxlIjoic3VwcG9ydC5qcyIsInNvdXJjZXNDb250ZW50IjpbImRlZmluZSggZnVuY3Rpb24oKSB7XG5cblx0Ly8gQWxsIHN1cHBvcnQgdGVzdHMgYXJlIGRlZmluZWQgaW4gdGhlaXIgcmVzcGVjdGl2ZSBtb2R1bGVzLlxuXHRyZXR1cm4ge307XG59ICk7XG4iXX0=

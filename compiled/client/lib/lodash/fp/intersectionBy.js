@@ -1,0 +1,8 @@
+'use strict';
+
+var convert = require('./convert'),
+    func = convert('intersectionBy', require('../intersectionBy'));
+
+func.placeholder = require('./placeholder');
+module.exports = func;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL2ludGVyc2VjdGlvbkJ5LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxVQUFVLFFBQVEsV0FBUixDQUFWO0lBQ0EsT0FBTyxRQUFRLGdCQUFSLEVBQTBCLFFBQVEsbUJBQVIsQ0FBMUIsQ0FBUDs7QUFFSixLQUFLLFdBQUwsR0FBbUIsUUFBUSxlQUFSLENBQW5CO0FBQ0EsT0FBTyxPQUFQLEdBQWlCLElBQWpCIiwiZmlsZSI6ImludGVyc2VjdGlvbkJ5LmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIGNvbnZlcnQgPSByZXF1aXJlKCcuL2NvbnZlcnQnKSxcbiAgICBmdW5jID0gY29udmVydCgnaW50ZXJzZWN0aW9uQnknLCByZXF1aXJlKCcuLi9pbnRlcnNlY3Rpb25CeScpKTtcblxuZnVuYy5wbGFjZWhvbGRlciA9IHJlcXVpcmUoJy4vcGxhY2Vob2xkZXInKTtcbm1vZHVsZS5leHBvcnRzID0gZnVuYztcbiJdfQ==

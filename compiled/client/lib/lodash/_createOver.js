@@ -1,0 +1,33 @@
+'use strict';
+
+var apply = require('./_apply'),
+    arrayMap = require('./_arrayMap'),
+    baseFlatten = require('./_baseFlatten'),
+    baseIteratee = require('./_baseIteratee'),
+    baseUnary = require('./_baseUnary'),
+    isArray = require('./isArray'),
+    isFlattenableIteratee = require('./_isFlattenableIteratee'),
+    rest = require('./rest');
+
+/**
+ * Creates a function like `_.over`.
+ *
+ * @private
+ * @param {Function} arrayFunc The function to iterate over iteratees.
+ * @returns {Function} Returns the new over function.
+ */
+function createOver(arrayFunc) {
+  return rest(function (iteratees) {
+    iteratees = iteratees.length == 1 && isArray(iteratees[0]) ? arrayMap(iteratees[0], baseUnary(baseIteratee)) : arrayMap(baseFlatten(iteratees, 1, isFlattenableIteratee), baseUnary(baseIteratee));
+
+    return rest(function (args) {
+      var thisArg = this;
+      return arrayFunc(iteratees, function (iteratee) {
+        return apply(iteratee, thisArg, args);
+      });
+    });
+  });
+}
+
+module.exports = createOver;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jcmVhdGVPdmVyLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxRQUFRLFFBQVEsVUFBUixDQUFSO0lBQ0EsV0FBVyxRQUFRLGFBQVIsQ0FBWDtJQUNBLGNBQWMsUUFBUSxnQkFBUixDQUFkO0lBQ0EsZUFBZSxRQUFRLGlCQUFSLENBQWY7SUFDQSxZQUFZLFFBQVEsY0FBUixDQUFaO0lBQ0EsVUFBVSxRQUFRLFdBQVIsQ0FBVjtJQUNBLHdCQUF3QixRQUFRLDBCQUFSLENBQXhCO0lBQ0EsT0FBTyxRQUFRLFFBQVIsQ0FBUDs7Ozs7Ozs7O0FBU0osU0FBUyxVQUFULENBQW9CLFNBQXBCLEVBQStCO0FBQzdCLFNBQU8sS0FBSyxVQUFTLFNBQVQsRUFBb0I7QUFDOUIsZ0JBQVksU0FBQyxDQUFVLE1BQVYsSUFBb0IsQ0FBcEIsSUFBeUIsUUFBUSxVQUFVLENBQVYsQ0FBUixDQUF6QixHQUNULFNBQVMsVUFBVSxDQUFWLENBQVQsRUFBdUIsVUFBVSxZQUFWLENBQXZCLENBRFEsR0FFUixTQUFTLFlBQVksU0FBWixFQUF1QixDQUF2QixFQUEwQixxQkFBMUIsQ0FBVCxFQUEyRCxVQUFVLFlBQVYsQ0FBM0QsQ0FGUSxDQURrQjs7QUFLOUIsV0FBTyxLQUFLLFVBQVMsSUFBVCxFQUFlO0FBQ3pCLFVBQUksVUFBVSxJQUFWLENBRHFCO0FBRXpCLGFBQU8sVUFBVSxTQUFWLEVBQXFCLFVBQVMsUUFBVCxFQUFtQjtBQUM3QyxlQUFPLE1BQU0sUUFBTixFQUFnQixPQUFoQixFQUF5QixJQUF6QixDQUFQLENBRDZDO09BQW5CLENBQTVCLENBRnlCO0tBQWYsQ0FBWixDQUw4QjtHQUFwQixDQUFaLENBRDZCO0NBQS9COztBQWVBLE9BQU8sT0FBUCxHQUFpQixVQUFqQiIsImZpbGUiOiJfY3JlYXRlT3Zlci5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBhcHBseSA9IHJlcXVpcmUoJy4vX2FwcGx5JyksXG4gICAgYXJyYXlNYXAgPSByZXF1aXJlKCcuL19hcnJheU1hcCcpLFxuICAgIGJhc2VGbGF0dGVuID0gcmVxdWlyZSgnLi9fYmFzZUZsYXR0ZW4nKSxcbiAgICBiYXNlSXRlcmF0ZWUgPSByZXF1aXJlKCcuL19iYXNlSXRlcmF0ZWUnKSxcbiAgICBiYXNlVW5hcnkgPSByZXF1aXJlKCcuL19iYXNlVW5hcnknKSxcbiAgICBpc0FycmF5ID0gcmVxdWlyZSgnLi9pc0FycmF5JyksXG4gICAgaXNGbGF0dGVuYWJsZUl0ZXJhdGVlID0gcmVxdWlyZSgnLi9faXNGbGF0dGVuYWJsZUl0ZXJhdGVlJyksXG4gICAgcmVzdCA9IHJlcXVpcmUoJy4vcmVzdCcpO1xuXG4vKipcbiAqIENyZWF0ZXMgYSBmdW5jdGlvbiBsaWtlIGBfLm92ZXJgLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge0Z1bmN0aW9ufSBhcnJheUZ1bmMgVGhlIGZ1bmN0aW9uIHRvIGl0ZXJhdGUgb3ZlciBpdGVyYXRlZXMuXG4gKiBAcmV0dXJucyB7RnVuY3Rpb259IFJldHVybnMgdGhlIG5ldyBvdmVyIGZ1bmN0aW9uLlxuICovXG5mdW5jdGlvbiBjcmVhdGVPdmVyKGFycmF5RnVuYykge1xuICByZXR1cm4gcmVzdChmdW5jdGlvbihpdGVyYXRlZXMpIHtcbiAgICBpdGVyYXRlZXMgPSAoaXRlcmF0ZWVzLmxlbmd0aCA9PSAxICYmIGlzQXJyYXkoaXRlcmF0ZWVzWzBdKSlcbiAgICAgID8gYXJyYXlNYXAoaXRlcmF0ZWVzWzBdLCBiYXNlVW5hcnkoYmFzZUl0ZXJhdGVlKSlcbiAgICAgIDogYXJyYXlNYXAoYmFzZUZsYXR0ZW4oaXRlcmF0ZWVzLCAxLCBpc0ZsYXR0ZW5hYmxlSXRlcmF0ZWUpLCBiYXNlVW5hcnkoYmFzZUl0ZXJhdGVlKSk7XG5cbiAgICByZXR1cm4gcmVzdChmdW5jdGlvbihhcmdzKSB7XG4gICAgICB2YXIgdGhpc0FyZyA9IHRoaXM7XG4gICAgICByZXR1cm4gYXJyYXlGdW5jKGl0ZXJhdGVlcywgZnVuY3Rpb24oaXRlcmF0ZWUpIHtcbiAgICAgICAgcmV0dXJuIGFwcGx5KGl0ZXJhdGVlLCB0aGlzQXJnLCBhcmdzKTtcbiAgICAgIH0pO1xuICAgIH0pO1xuICB9KTtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBjcmVhdGVPdmVyO1xuIl19

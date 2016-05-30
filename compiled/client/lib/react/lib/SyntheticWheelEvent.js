@@ -1,0 +1,56 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule SyntheticWheelEvent
+ * @typechecks static-only
+ */
+
+'use strict';
+
+var SyntheticMouseEvent = require('./SyntheticMouseEvent');
+
+/**
+ * @interface WheelEvent
+ * @see http://www.w3.org/TR/DOM-Level-3-Events/
+ */
+var WheelEventInterface = {
+  deltaX: function deltaX(event) {
+    return 'deltaX' in event ? event.deltaX :
+    // Fallback to `wheelDeltaX` for Webkit and normalize (right is positive).
+    'wheelDeltaX' in event ? -event.wheelDeltaX : 0;
+  },
+  deltaY: function deltaY(event) {
+    return 'deltaY' in event ? event.deltaY :
+    // Fallback to `wheelDeltaY` for Webkit and normalize (down is positive).
+    'wheelDeltaY' in event ? -event.wheelDeltaY :
+    // Fallback to `wheelDelta` for IE<9 and normalize (down is positive).
+    'wheelDelta' in event ? -event.wheelDelta : 0;
+  },
+  deltaZ: null,
+
+  // Browsers without "deltaMode" is reporting in raw wheel delta where one
+  // notch on the scroll is always +/- 120, roughly equivalent to pixels.
+  // A good approximation of DOM_DELTA_LINE (1) is 5% of viewport size or
+  // ~40 pixels, for DOM_DELTA_SCREEN (2) it is 87.5% of viewport size.
+  deltaMode: null
+};
+
+/**
+ * @param {object} dispatchConfig Configuration used to dispatch this event.
+ * @param {string} dispatchMarker Marker identifying the event target.
+ * @param {object} nativeEvent Native browser event.
+ * @extends {SyntheticMouseEvent}
+ */
+function SyntheticWheelEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEventTarget) {
+  SyntheticMouseEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent, nativeEventTarget);
+}
+
+SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
+
+module.exports = SyntheticWheelEvent;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1N5bnRoZXRpY1doZWVsRXZlbnQuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBWUE7O0FBRUEsSUFBSSxzQkFBc0IsUUFBUSx1QkFBUixDQUF0Qjs7Ozs7O0FBTUosSUFBSSxzQkFBc0I7QUFDeEIsVUFBUSxnQkFBVSxLQUFWLEVBQWlCO0FBQ3ZCLFdBQU8sWUFBWSxLQUFaLEdBQW9CLE1BQU0sTUFBTjs7QUFFM0IscUJBQWlCLEtBQWpCLEdBQXlCLENBQUMsTUFBTSxXQUFOLEdBQW9CLENBQTlDLENBSHVCO0dBQWpCO0FBS1IsVUFBUSxnQkFBVSxLQUFWLEVBQWlCO0FBQ3ZCLFdBQU8sWUFBWSxLQUFaLEdBQW9CLE1BQU0sTUFBTjs7QUFFM0IscUJBQWlCLEtBQWpCLEdBQXlCLENBQUMsTUFBTSxXQUFOOztBQUUxQixvQkFBZ0IsS0FBaEIsR0FBd0IsQ0FBQyxNQUFNLFVBQU4sR0FBbUIsQ0FBNUMsQ0FMdUI7R0FBakI7QUFPUixVQUFRLElBQVI7Ozs7OztBQU1BLGFBQVcsSUFBWDtDQW5CRTs7Ozs7Ozs7QUE0QkosU0FBUyxtQkFBVCxDQUE2QixjQUE3QixFQUE2QyxjQUE3QyxFQUE2RCxXQUE3RCxFQUEwRSxpQkFBMUUsRUFBNkY7QUFDM0Ysc0JBQW9CLElBQXBCLENBQXlCLElBQXpCLEVBQStCLGNBQS9CLEVBQStDLGNBQS9DLEVBQStELFdBQS9ELEVBQTRFLGlCQUE1RSxFQUQyRjtDQUE3Rjs7QUFJQSxvQkFBb0IsWUFBcEIsQ0FBaUMsbUJBQWpDLEVBQXNELG1CQUF0RDs7QUFFQSxPQUFPLE9BQVAsR0FBaUIsbUJBQWpCIiwiZmlsZSI6IlN5bnRoZXRpY1doZWVsRXZlbnQuanMiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIENvcHlyaWdodCAyMDEzLTIwMTUsIEZhY2Vib29rLCBJbmMuXG4gKiBBbGwgcmlnaHRzIHJlc2VydmVkLlxuICpcbiAqIFRoaXMgc291cmNlIGNvZGUgaXMgbGljZW5zZWQgdW5kZXIgdGhlIEJTRC1zdHlsZSBsaWNlbnNlIGZvdW5kIGluIHRoZVxuICogTElDRU5TRSBmaWxlIGluIHRoZSByb290IGRpcmVjdG9yeSBvZiB0aGlzIHNvdXJjZSB0cmVlLiBBbiBhZGRpdGlvbmFsIGdyYW50XG4gKiBvZiBwYXRlbnQgcmlnaHRzIGNhbiBiZSBmb3VuZCBpbiB0aGUgUEFURU5UUyBmaWxlIGluIHRoZSBzYW1lIGRpcmVjdG9yeS5cbiAqXG4gKiBAcHJvdmlkZXNNb2R1bGUgU3ludGhldGljV2hlZWxFdmVudFxuICogQHR5cGVjaGVja3Mgc3RhdGljLW9ubHlcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbnZhciBTeW50aGV0aWNNb3VzZUV2ZW50ID0gcmVxdWlyZSgnLi9TeW50aGV0aWNNb3VzZUV2ZW50Jyk7XG5cbi8qKlxuICogQGludGVyZmFjZSBXaGVlbEV2ZW50XG4gKiBAc2VlIGh0dHA6Ly93d3cudzMub3JnL1RSL0RPTS1MZXZlbC0zLUV2ZW50cy9cbiAqL1xudmFyIFdoZWVsRXZlbnRJbnRlcmZhY2UgPSB7XG4gIGRlbHRhWDogZnVuY3Rpb24gKGV2ZW50KSB7XG4gICAgcmV0dXJuICdkZWx0YVgnIGluIGV2ZW50ID8gZXZlbnQuZGVsdGFYIDpcbiAgICAvLyBGYWxsYmFjayB0byBgd2hlZWxEZWx0YVhgIGZvciBXZWJraXQgYW5kIG5vcm1hbGl6ZSAocmlnaHQgaXMgcG9zaXRpdmUpLlxuICAgICd3aGVlbERlbHRhWCcgaW4gZXZlbnQgPyAtZXZlbnQud2hlZWxEZWx0YVggOiAwO1xuICB9LFxuICBkZWx0YVk6IGZ1bmN0aW9uIChldmVudCkge1xuICAgIHJldHVybiAnZGVsdGFZJyBpbiBldmVudCA/IGV2ZW50LmRlbHRhWSA6XG4gICAgLy8gRmFsbGJhY2sgdG8gYHdoZWVsRGVsdGFZYCBmb3IgV2Via2l0IGFuZCBub3JtYWxpemUgKGRvd24gaXMgcG9zaXRpdmUpLlxuICAgICd3aGVlbERlbHRhWScgaW4gZXZlbnQgPyAtZXZlbnQud2hlZWxEZWx0YVkgOlxuICAgIC8vIEZhbGxiYWNrIHRvIGB3aGVlbERlbHRhYCBmb3IgSUU8OSBhbmQgbm9ybWFsaXplIChkb3duIGlzIHBvc2l0aXZlKS5cbiAgICAnd2hlZWxEZWx0YScgaW4gZXZlbnQgPyAtZXZlbnQud2hlZWxEZWx0YSA6IDA7XG4gIH0sXG4gIGRlbHRhWjogbnVsbCxcblxuICAvLyBCcm93c2VycyB3aXRob3V0IFwiZGVsdGFNb2RlXCIgaXMgcmVwb3J0aW5nIGluIHJhdyB3aGVlbCBkZWx0YSB3aGVyZSBvbmVcbiAgLy8gbm90Y2ggb24gdGhlIHNjcm9sbCBpcyBhbHdheXMgKy8tIDEyMCwgcm91Z2hseSBlcXVpdmFsZW50IHRvIHBpeGVscy5cbiAgLy8gQSBnb29kIGFwcHJveGltYXRpb24gb2YgRE9NX0RFTFRBX0xJTkUgKDEpIGlzIDUlIG9mIHZpZXdwb3J0IHNpemUgb3JcbiAgLy8gfjQwIHBpeGVscywgZm9yIERPTV9ERUxUQV9TQ1JFRU4gKDIpIGl0IGlzIDg3LjUlIG9mIHZpZXdwb3J0IHNpemUuXG4gIGRlbHRhTW9kZTogbnVsbFxufTtcblxuLyoqXG4gKiBAcGFyYW0ge29iamVjdH0gZGlzcGF0Y2hDb25maWcgQ29uZmlndXJhdGlvbiB1c2VkIHRvIGRpc3BhdGNoIHRoaXMgZXZlbnQuXG4gKiBAcGFyYW0ge3N0cmluZ30gZGlzcGF0Y2hNYXJrZXIgTWFya2VyIGlkZW50aWZ5aW5nIHRoZSBldmVudCB0YXJnZXQuXG4gKiBAcGFyYW0ge29iamVjdH0gbmF0aXZlRXZlbnQgTmF0aXZlIGJyb3dzZXIgZXZlbnQuXG4gKiBAZXh0ZW5kcyB7U3ludGhldGljTW91c2VFdmVudH1cbiAqL1xuZnVuY3Rpb24gU3ludGhldGljV2hlZWxFdmVudChkaXNwYXRjaENvbmZpZywgZGlzcGF0Y2hNYXJrZXIsIG5hdGl2ZUV2ZW50LCBuYXRpdmVFdmVudFRhcmdldCkge1xuICBTeW50aGV0aWNNb3VzZUV2ZW50LmNhbGwodGhpcywgZGlzcGF0Y2hDb25maWcsIGRpc3BhdGNoTWFya2VyLCBuYXRpdmVFdmVudCwgbmF0aXZlRXZlbnRUYXJnZXQpO1xufVxuXG5TeW50aGV0aWNNb3VzZUV2ZW50LmF1Z21lbnRDbGFzcyhTeW50aGV0aWNXaGVlbEV2ZW50LCBXaGVlbEV2ZW50SW50ZXJmYWNlKTtcblxubW9kdWxlLmV4cG9ydHMgPSBTeW50aGV0aWNXaGVlbEV2ZW50OyJdfQ==

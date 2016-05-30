@@ -1,0 +1,8 @@
+'use strict';
+
+var convert = require('./convert'),
+    func = convert('sum', require('../sum'), require('./_falseOptions'));
+
+func.placeholder = require('./placeholder');
+module.exports = func;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL3N1bS5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksVUFBVSxRQUFRLFdBQVIsQ0FBVjtJQUNBLE9BQU8sUUFBUSxLQUFSLEVBQWUsUUFBUSxRQUFSLENBQWYsRUFBa0MsUUFBUSxpQkFBUixDQUFsQyxDQUFQOztBQUVKLEtBQUssV0FBTCxHQUFtQixRQUFRLGVBQVIsQ0FBbkI7QUFDQSxPQUFPLE9BQVAsR0FBaUIsSUFBakIiLCJmaWxlIjoic3VtLmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIGNvbnZlcnQgPSByZXF1aXJlKCcuL2NvbnZlcnQnKSxcbiAgICBmdW5jID0gY29udmVydCgnc3VtJywgcmVxdWlyZSgnLi4vc3VtJyksIHJlcXVpcmUoJy4vX2ZhbHNlT3B0aW9ucycpKTtcblxuZnVuYy5wbGFjZWhvbGRlciA9IHJlcXVpcmUoJy4vcGxhY2Vob2xkZXInKTtcbm1vZHVsZS5leHBvcnRzID0gZnVuYztcbiJdfQ==

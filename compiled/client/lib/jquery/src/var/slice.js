@@ -1,0 +1,6 @@
+"use strict";
+
+define(["./arr"], function (arr) {
+	return arr.slice;
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy92YXIvc2xpY2UuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxPQUFRLENBQ1AsT0FETyxDQUFSLEVBRUcsVUFBVSxHQUFWLEVBQWdCO0FBQ2xCLFFBQU8sSUFBSSxLQUFKLENBRFc7Q0FBaEIsQ0FGSCIsImZpbGUiOiJzbGljZS5qcyIsInNvdXJjZXNDb250ZW50IjpbImRlZmluZSggW1xuXHRcIi4vYXJyXCJcbl0sIGZ1bmN0aW9uKCBhcnIgKSB7XG5cdHJldHVybiBhcnIuc2xpY2U7XG59ICk7XG4iXX0=

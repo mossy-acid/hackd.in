@@ -6,11 +6,19 @@ const path     = require('path');
 
 module.exports = (server, express) => {
 
-  server.get('/',
-    (req, res) => res.sendFile(path.resolve('client/projects.html')) );
+  server.get('/', (req, res) => {
+    res.sendFile(path.resolve('client/projects.html')) 
+  });
 
-  server.get('/projects',
-    (req, res) => res.sendFile(path.resolve('client/projects.html')) );
+  server.get('/projects', (req, res) => {
+    res.sendFile(path.resolve('client/projects.html')) 
+  });
+
+  server.get('/projects/data', (req, res) => {
+     Project.fetchAll({columns: ['title', 'description', 'technologies']}).then(projects => {
+      res.send(JSON.stringify(projects));
+    });
+  })
 
   server.get('/newproject',
     (req, res) => res.sendFile(path.resolve('client/newProject.html')) );

@@ -1,0 +1,51 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactDOMButton
+ */
+
+'use strict';
+
+var mouseListenerNames = {
+  onClick: true,
+  onDoubleClick: true,
+  onMouseDown: true,
+  onMouseMove: true,
+  onMouseUp: true,
+
+  onClickCapture: true,
+  onDoubleClickCapture: true,
+  onMouseDownCapture: true,
+  onMouseMoveCapture: true,
+  onMouseUpCapture: true
+};
+
+/**
+ * Implements a <button> native component that does not receive mouse events
+ * when `disabled` is set.
+ */
+var ReactDOMButton = {
+  getNativeProps: function getNativeProps(inst, props, context) {
+    if (!props.disabled) {
+      return props;
+    }
+
+    // Copy the props, except the mouse listeners
+    var nativeProps = {};
+    for (var key in props) {
+      if (props.hasOwnProperty(key) && !mouseListenerNames[key]) {
+        nativeProps[key] = props[key];
+      }
+    }
+
+    return nativeProps;
+  }
+};
+
+module.exports = ReactDOMButton;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1JlYWN0RE9NQnV0dG9uLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBV0E7O0FBRUEsSUFBSSxxQkFBcUI7QUFDdkIsV0FBUyxJQUFUO0FBQ0EsaUJBQWUsSUFBZjtBQUNBLGVBQWEsSUFBYjtBQUNBLGVBQWEsSUFBYjtBQUNBLGFBQVcsSUFBWDs7QUFFQSxrQkFBZ0IsSUFBaEI7QUFDQSx3QkFBc0IsSUFBdEI7QUFDQSxzQkFBb0IsSUFBcEI7QUFDQSxzQkFBb0IsSUFBcEI7QUFDQSxvQkFBa0IsSUFBbEI7Q0FYRTs7Ozs7O0FBa0JKLElBQUksaUJBQWlCO0FBQ25CLGtCQUFnQix3QkFBVSxJQUFWLEVBQWdCLEtBQWhCLEVBQXVCLE9BQXZCLEVBQWdDO0FBQzlDLFFBQUksQ0FBQyxNQUFNLFFBQU4sRUFBZ0I7QUFDbkIsYUFBTyxLQUFQLENBRG1CO0tBQXJCOzs7QUFEOEMsUUFNMUMsY0FBYyxFQUFkLENBTjBDO0FBTzlDLFNBQUssSUFBSSxHQUFKLElBQVcsS0FBaEIsRUFBdUI7QUFDckIsVUFBSSxNQUFNLGNBQU4sQ0FBcUIsR0FBckIsS0FBNkIsQ0FBQyxtQkFBbUIsR0FBbkIsQ0FBRCxFQUEwQjtBQUN6RCxvQkFBWSxHQUFaLElBQW1CLE1BQU0sR0FBTixDQUFuQixDQUR5RDtPQUEzRDtLQURGOztBQU1BLFdBQU8sV0FBUCxDQWI4QztHQUFoQztDQURkOztBQWtCSixPQUFPLE9BQVAsR0FBaUIsY0FBakIiLCJmaWxlIjoiUmVhY3RET01CdXR0b24uanMiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIENvcHlyaWdodCAyMDEzLTIwMTUsIEZhY2Vib29rLCBJbmMuXG4gKiBBbGwgcmlnaHRzIHJlc2VydmVkLlxuICpcbiAqIFRoaXMgc291cmNlIGNvZGUgaXMgbGljZW5zZWQgdW5kZXIgdGhlIEJTRC1zdHlsZSBsaWNlbnNlIGZvdW5kIGluIHRoZVxuICogTElDRU5TRSBmaWxlIGluIHRoZSByb290IGRpcmVjdG9yeSBvZiB0aGlzIHNvdXJjZSB0cmVlLiBBbiBhZGRpdGlvbmFsIGdyYW50XG4gKiBvZiBwYXRlbnQgcmlnaHRzIGNhbiBiZSBmb3VuZCBpbiB0aGUgUEFURU5UUyBmaWxlIGluIHRoZSBzYW1lIGRpcmVjdG9yeS5cbiAqXG4gKiBAcHJvdmlkZXNNb2R1bGUgUmVhY3RET01CdXR0b25cbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbnZhciBtb3VzZUxpc3RlbmVyTmFtZXMgPSB7XG4gIG9uQ2xpY2s6IHRydWUsXG4gIG9uRG91YmxlQ2xpY2s6IHRydWUsXG4gIG9uTW91c2VEb3duOiB0cnVlLFxuICBvbk1vdXNlTW92ZTogdHJ1ZSxcbiAgb25Nb3VzZVVwOiB0cnVlLFxuXG4gIG9uQ2xpY2tDYXB0dXJlOiB0cnVlLFxuICBvbkRvdWJsZUNsaWNrQ2FwdHVyZTogdHJ1ZSxcbiAgb25Nb3VzZURvd25DYXB0dXJlOiB0cnVlLFxuICBvbk1vdXNlTW92ZUNhcHR1cmU6IHRydWUsXG4gIG9uTW91c2VVcENhcHR1cmU6IHRydWVcbn07XG5cbi8qKlxuICogSW1wbGVtZW50cyBhIDxidXR0b24+IG5hdGl2ZSBjb21wb25lbnQgdGhhdCBkb2VzIG5vdCByZWNlaXZlIG1vdXNlIGV2ZW50c1xuICogd2hlbiBgZGlzYWJsZWRgIGlzIHNldC5cbiAqL1xudmFyIFJlYWN0RE9NQnV0dG9uID0ge1xuICBnZXROYXRpdmVQcm9wczogZnVuY3Rpb24gKGluc3QsIHByb3BzLCBjb250ZXh0KSB7XG4gICAgaWYgKCFwcm9wcy5kaXNhYmxlZCkge1xuICAgICAgcmV0dXJuIHByb3BzO1xuICAgIH1cblxuICAgIC8vIENvcHkgdGhlIHByb3BzLCBleGNlcHQgdGhlIG1vdXNlIGxpc3RlbmVyc1xuICAgIHZhciBuYXRpdmVQcm9wcyA9IHt9O1xuICAgIGZvciAodmFyIGtleSBpbiBwcm9wcykge1xuICAgICAgaWYgKHByb3BzLmhhc093blByb3BlcnR5KGtleSkgJiYgIW1vdXNlTGlzdGVuZXJOYW1lc1trZXldKSB7XG4gICAgICAgIG5hdGl2ZVByb3BzW2tleV0gPSBwcm9wc1trZXldO1xuICAgICAgfVxuICAgIH1cblxuICAgIHJldHVybiBuYXRpdmVQcm9wcztcbiAgfVxufTtcblxubW9kdWxlLmV4cG9ydHMgPSBSZWFjdERPTUJ1dHRvbjsiXX0=

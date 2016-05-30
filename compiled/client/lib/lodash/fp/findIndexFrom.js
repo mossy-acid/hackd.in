@@ -1,0 +1,8 @@
+'use strict';
+
+var convert = require('./convert'),
+    func = convert('findIndexFrom', require('../findIndex'));
+
+func.placeholder = require('./placeholder');
+module.exports = func;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL2ZpbmRJbmRleEZyb20uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLFVBQVUsUUFBUSxXQUFSLENBQVY7SUFDQSxPQUFPLFFBQVEsZUFBUixFQUF5QixRQUFRLGNBQVIsQ0FBekIsQ0FBUDs7QUFFSixLQUFLLFdBQUwsR0FBbUIsUUFBUSxlQUFSLENBQW5CO0FBQ0EsT0FBTyxPQUFQLEdBQWlCLElBQWpCIiwiZmlsZSI6ImZpbmRJbmRleEZyb20uanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgY29udmVydCA9IHJlcXVpcmUoJy4vY29udmVydCcpLFxuICAgIGZ1bmMgPSBjb252ZXJ0KCdmaW5kSW5kZXhGcm9tJywgcmVxdWlyZSgnLi4vZmluZEluZGV4JykpO1xuXG5mdW5jLnBsYWNlaG9sZGVyID0gcmVxdWlyZSgnLi9wbGFjZWhvbGRlcicpO1xubW9kdWxlLmV4cG9ydHMgPSBmdW5jO1xuIl19

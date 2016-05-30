@@ -1,0 +1,20 @@
+'use strict';
+
+var baseInverter = require('./_baseInverter');
+
+/**
+ * Creates a function like `_.invertBy`.
+ *
+ * @private
+ * @param {Function} setter The function to set accumulator values.
+ * @param {Function} toIteratee The function to resolve iteratees.
+ * @returns {Function} Returns the new inverter function.
+ */
+function createInverter(setter, toIteratee) {
+  return function (object, iteratee) {
+    return baseInverter(object, setter, toIteratee(iteratee), {});
+  };
+}
+
+module.exports = createInverter;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jcmVhdGVJbnZlcnRlci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksZUFBZSxRQUFRLGlCQUFSLENBQWY7Ozs7Ozs7Ozs7QUFVSixTQUFTLGNBQVQsQ0FBd0IsTUFBeEIsRUFBZ0MsVUFBaEMsRUFBNEM7QUFDMUMsU0FBTyxVQUFTLE1BQVQsRUFBaUIsUUFBakIsRUFBMkI7QUFDaEMsV0FBTyxhQUFhLE1BQWIsRUFBcUIsTUFBckIsRUFBNkIsV0FBVyxRQUFYLENBQTdCLEVBQW1ELEVBQW5ELENBQVAsQ0FEZ0M7R0FBM0IsQ0FEbUM7Q0FBNUM7O0FBTUEsT0FBTyxPQUFQLEdBQWlCLGNBQWpCIiwiZmlsZSI6Il9jcmVhdGVJbnZlcnRlci5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBiYXNlSW52ZXJ0ZXIgPSByZXF1aXJlKCcuL19iYXNlSW52ZXJ0ZXInKTtcblxuLyoqXG4gKiBDcmVhdGVzIGEgZnVuY3Rpb24gbGlrZSBgXy5pbnZlcnRCeWAuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7RnVuY3Rpb259IHNldHRlciBUaGUgZnVuY3Rpb24gdG8gc2V0IGFjY3VtdWxhdG9yIHZhbHVlcy5cbiAqIEBwYXJhbSB7RnVuY3Rpb259IHRvSXRlcmF0ZWUgVGhlIGZ1bmN0aW9uIHRvIHJlc29sdmUgaXRlcmF0ZWVzLlxuICogQHJldHVybnMge0Z1bmN0aW9ufSBSZXR1cm5zIHRoZSBuZXcgaW52ZXJ0ZXIgZnVuY3Rpb24uXG4gKi9cbmZ1bmN0aW9uIGNyZWF0ZUludmVydGVyKHNldHRlciwgdG9JdGVyYXRlZSkge1xuICByZXR1cm4gZnVuY3Rpb24ob2JqZWN0LCBpdGVyYXRlZSkge1xuICAgIHJldHVybiBiYXNlSW52ZXJ0ZXIob2JqZWN0LCBzZXR0ZXIsIHRvSXRlcmF0ZWUoaXRlcmF0ZWUpLCB7fSk7XG4gIH07XG59XG5cbm1vZHVsZS5leHBvcnRzID0gY3JlYXRlSW52ZXJ0ZXI7XG4iXX0=

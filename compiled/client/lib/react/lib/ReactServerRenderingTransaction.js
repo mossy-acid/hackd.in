@@ -1,0 +1,88 @@
+/**
+ * Copyright 2014-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactServerRenderingTransaction
+ * @typechecks
+ */
+
+'use strict';
+
+var PooledClass = require('./PooledClass');
+var CallbackQueue = require('./CallbackQueue');
+var Transaction = require('./Transaction');
+
+var assign = require('./Object.assign');
+var emptyFunction = require('fbjs/lib/emptyFunction');
+
+/**
+ * Provides a `CallbackQueue` queue for collecting `onDOMReady` callbacks
+ * during the performing of the transaction.
+ */
+var ON_DOM_READY_QUEUEING = {
+  /**
+   * Initializes the internal `onDOMReady` queue.
+   */
+  initialize: function initialize() {
+    this.reactMountReady.reset();
+  },
+
+  close: emptyFunction
+};
+
+/**
+ * Executed within the scope of the `Transaction` instance. Consider these as
+ * being member methods, but with an implied ordering while being isolated from
+ * each other.
+ */
+var TRANSACTION_WRAPPERS = [ON_DOM_READY_QUEUEING];
+
+/**
+ * @class ReactServerRenderingTransaction
+ * @param {boolean} renderToStaticMarkup
+ */
+function ReactServerRenderingTransaction(renderToStaticMarkup) {
+  this.reinitializeTransaction();
+  this.renderToStaticMarkup = renderToStaticMarkup;
+  this.reactMountReady = CallbackQueue.getPooled(null);
+  this.useCreateElement = false;
+}
+
+var Mixin = {
+  /**
+   * @see Transaction
+   * @abstract
+   * @final
+   * @return {array} Empty list of operation wrap procedures.
+   */
+  getTransactionWrappers: function getTransactionWrappers() {
+    return TRANSACTION_WRAPPERS;
+  },
+
+  /**
+   * @return {object} The queue to collect `onDOMReady` callbacks with.
+   */
+  getReactMountReady: function getReactMountReady() {
+    return this.reactMountReady;
+  },
+
+  /**
+   * `PooledClass` looks for this, and will invoke this before allowing this
+   * instance to be reused.
+   */
+  destructor: function destructor() {
+    CallbackQueue.release(this.reactMountReady);
+    this.reactMountReady = null;
+  }
+};
+
+assign(ReactServerRenderingTransaction.prototype, Transaction.Mixin, Mixin);
+
+PooledClass.addPoolingTo(ReactServerRenderingTransaction);
+
+module.exports = ReactServerRenderingTransaction;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1JlYWN0U2VydmVyUmVuZGVyaW5nVHJhbnNhY3Rpb24uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBWUE7O0FBRUEsSUFBSSxjQUFjLFFBQVEsZUFBUixDQUFkO0FBQ0osSUFBSSxnQkFBZ0IsUUFBUSxpQkFBUixDQUFoQjtBQUNKLElBQUksY0FBYyxRQUFRLGVBQVIsQ0FBZDs7QUFFSixJQUFJLFNBQVMsUUFBUSxpQkFBUixDQUFUO0FBQ0osSUFBSSxnQkFBZ0IsUUFBUSx3QkFBUixDQUFoQjs7Ozs7O0FBTUosSUFBSSx3QkFBd0I7Ozs7QUFJMUIsY0FBWSxzQkFBWTtBQUN0QixTQUFLLGVBQUwsQ0FBcUIsS0FBckIsR0FEc0I7R0FBWjs7QUFJWixTQUFPLGFBQVA7Q0FSRTs7Ozs7OztBQWdCSixJQUFJLHVCQUF1QixDQUFDLHFCQUFELENBQXZCOzs7Ozs7QUFNSixTQUFTLCtCQUFULENBQXlDLG9CQUF6QyxFQUErRDtBQUM3RCxPQUFLLHVCQUFMLEdBRDZEO0FBRTdELE9BQUssb0JBQUwsR0FBNEIsb0JBQTVCLENBRjZEO0FBRzdELE9BQUssZUFBTCxHQUF1QixjQUFjLFNBQWQsQ0FBd0IsSUFBeEIsQ0FBdkIsQ0FINkQ7QUFJN0QsT0FBSyxnQkFBTCxHQUF3QixLQUF4QixDQUo2RDtDQUEvRDs7QUFPQSxJQUFJLFFBQVE7Ozs7Ozs7QUFPViwwQkFBd0Isa0NBQVk7QUFDbEMsV0FBTyxvQkFBUCxDQURrQztHQUFaOzs7OztBQU94QixzQkFBb0IsOEJBQVk7QUFDOUIsV0FBTyxLQUFLLGVBQUwsQ0FEdUI7R0FBWjs7Ozs7O0FBUXBCLGNBQVksc0JBQVk7QUFDdEIsa0JBQWMsT0FBZCxDQUFzQixLQUFLLGVBQUwsQ0FBdEIsQ0FEc0I7QUFFdEIsU0FBSyxlQUFMLEdBQXVCLElBQXZCLENBRnNCO0dBQVo7Q0F0QlY7O0FBNEJKLE9BQU8sZ0NBQWdDLFNBQWhDLEVBQTJDLFlBQVksS0FBWixFQUFtQixLQUFyRTs7QUFFQSxZQUFZLFlBQVosQ0FBeUIsK0JBQXpCOztBQUVBLE9BQU8sT0FBUCxHQUFpQiwrQkFBakIiLCJmaWxlIjoiUmVhY3RTZXJ2ZXJSZW5kZXJpbmdUcmFuc2FjdGlvbi5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29weXJpZ2h0IDIwMTQtMjAxNSwgRmFjZWJvb2ssIEluYy5cbiAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuXG4gKlxuICogVGhpcyBzb3VyY2UgY29kZSBpcyBsaWNlbnNlZCB1bmRlciB0aGUgQlNELXN0eWxlIGxpY2Vuc2UgZm91bmQgaW4gdGhlXG4gKiBMSUNFTlNFIGZpbGUgaW4gdGhlIHJvb3QgZGlyZWN0b3J5IG9mIHRoaXMgc291cmNlIHRyZWUuIEFuIGFkZGl0aW9uYWwgZ3JhbnRcbiAqIG9mIHBhdGVudCByaWdodHMgY2FuIGJlIGZvdW5kIGluIHRoZSBQQVRFTlRTIGZpbGUgaW4gdGhlIHNhbWUgZGlyZWN0b3J5LlxuICpcbiAqIEBwcm92aWRlc01vZHVsZSBSZWFjdFNlcnZlclJlbmRlcmluZ1RyYW5zYWN0aW9uXG4gKiBAdHlwZWNoZWNrc1xuICovXG5cbid1c2Ugc3RyaWN0JztcblxudmFyIFBvb2xlZENsYXNzID0gcmVxdWlyZSgnLi9Qb29sZWRDbGFzcycpO1xudmFyIENhbGxiYWNrUXVldWUgPSByZXF1aXJlKCcuL0NhbGxiYWNrUXVldWUnKTtcbnZhciBUcmFuc2FjdGlvbiA9IHJlcXVpcmUoJy4vVHJhbnNhY3Rpb24nKTtcblxudmFyIGFzc2lnbiA9IHJlcXVpcmUoJy4vT2JqZWN0LmFzc2lnbicpO1xudmFyIGVtcHR5RnVuY3Rpb24gPSByZXF1aXJlKCdmYmpzL2xpYi9lbXB0eUZ1bmN0aW9uJyk7XG5cbi8qKlxuICogUHJvdmlkZXMgYSBgQ2FsbGJhY2tRdWV1ZWAgcXVldWUgZm9yIGNvbGxlY3RpbmcgYG9uRE9NUmVhZHlgIGNhbGxiYWNrc1xuICogZHVyaW5nIHRoZSBwZXJmb3JtaW5nIG9mIHRoZSB0cmFuc2FjdGlvbi5cbiAqL1xudmFyIE9OX0RPTV9SRUFEWV9RVUVVRUlORyA9IHtcbiAgLyoqXG4gICAqIEluaXRpYWxpemVzIHRoZSBpbnRlcm5hbCBgb25ET01SZWFkeWAgcXVldWUuXG4gICAqL1xuICBpbml0aWFsaXplOiBmdW5jdGlvbiAoKSB7XG4gICAgdGhpcy5yZWFjdE1vdW50UmVhZHkucmVzZXQoKTtcbiAgfSxcblxuICBjbG9zZTogZW1wdHlGdW5jdGlvblxufTtcblxuLyoqXG4gKiBFeGVjdXRlZCB3aXRoaW4gdGhlIHNjb3BlIG9mIHRoZSBgVHJhbnNhY3Rpb25gIGluc3RhbmNlLiBDb25zaWRlciB0aGVzZSBhc1xuICogYmVpbmcgbWVtYmVyIG1ldGhvZHMsIGJ1dCB3aXRoIGFuIGltcGxpZWQgb3JkZXJpbmcgd2hpbGUgYmVpbmcgaXNvbGF0ZWQgZnJvbVxuICogZWFjaCBvdGhlci5cbiAqL1xudmFyIFRSQU5TQUNUSU9OX1dSQVBQRVJTID0gW09OX0RPTV9SRUFEWV9RVUVVRUlOR107XG5cbi8qKlxuICogQGNsYXNzIFJlYWN0U2VydmVyUmVuZGVyaW5nVHJhbnNhY3Rpb25cbiAqIEBwYXJhbSB7Ym9vbGVhbn0gcmVuZGVyVG9TdGF0aWNNYXJrdXBcbiAqL1xuZnVuY3Rpb24gUmVhY3RTZXJ2ZXJSZW5kZXJpbmdUcmFuc2FjdGlvbihyZW5kZXJUb1N0YXRpY01hcmt1cCkge1xuICB0aGlzLnJlaW5pdGlhbGl6ZVRyYW5zYWN0aW9uKCk7XG4gIHRoaXMucmVuZGVyVG9TdGF0aWNNYXJrdXAgPSByZW5kZXJUb1N0YXRpY01hcmt1cDtcbiAgdGhpcy5yZWFjdE1vdW50UmVhZHkgPSBDYWxsYmFja1F1ZXVlLmdldFBvb2xlZChudWxsKTtcbiAgdGhpcy51c2VDcmVhdGVFbGVtZW50ID0gZmFsc2U7XG59XG5cbnZhciBNaXhpbiA9IHtcbiAgLyoqXG4gICAqIEBzZWUgVHJhbnNhY3Rpb25cbiAgICogQGFic3RyYWN0XG4gICAqIEBmaW5hbFxuICAgKiBAcmV0dXJuIHthcnJheX0gRW1wdHkgbGlzdCBvZiBvcGVyYXRpb24gd3JhcCBwcm9jZWR1cmVzLlxuICAgKi9cbiAgZ2V0VHJhbnNhY3Rpb25XcmFwcGVyczogZnVuY3Rpb24gKCkge1xuICAgIHJldHVybiBUUkFOU0FDVElPTl9XUkFQUEVSUztcbiAgfSxcblxuICAvKipcbiAgICogQHJldHVybiB7b2JqZWN0fSBUaGUgcXVldWUgdG8gY29sbGVjdCBgb25ET01SZWFkeWAgY2FsbGJhY2tzIHdpdGguXG4gICAqL1xuICBnZXRSZWFjdE1vdW50UmVhZHk6IGZ1bmN0aW9uICgpIHtcbiAgICByZXR1cm4gdGhpcy5yZWFjdE1vdW50UmVhZHk7XG4gIH0sXG5cbiAgLyoqXG4gICAqIGBQb29sZWRDbGFzc2AgbG9va3MgZm9yIHRoaXMsIGFuZCB3aWxsIGludm9rZSB0aGlzIGJlZm9yZSBhbGxvd2luZyB0aGlzXG4gICAqIGluc3RhbmNlIHRvIGJlIHJldXNlZC5cbiAgICovXG4gIGRlc3RydWN0b3I6IGZ1bmN0aW9uICgpIHtcbiAgICBDYWxsYmFja1F1ZXVlLnJlbGVhc2UodGhpcy5yZWFjdE1vdW50UmVhZHkpO1xuICAgIHRoaXMucmVhY3RNb3VudFJlYWR5ID0gbnVsbDtcbiAgfVxufTtcblxuYXNzaWduKFJlYWN0U2VydmVyUmVuZGVyaW5nVHJhbnNhY3Rpb24ucHJvdG90eXBlLCBUcmFuc2FjdGlvbi5NaXhpbiwgTWl4aW4pO1xuXG5Qb29sZWRDbGFzcy5hZGRQb29saW5nVG8oUmVhY3RTZXJ2ZXJSZW5kZXJpbmdUcmFuc2FjdGlvbik7XG5cbm1vZHVsZS5leHBvcnRzID0gUmVhY3RTZXJ2ZXJSZW5kZXJpbmdUcmFuc2FjdGlvbjsiXX0=

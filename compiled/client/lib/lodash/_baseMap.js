@@ -1,0 +1,25 @@
+'use strict';
+
+var baseEach = require('./_baseEach'),
+    isArrayLike = require('./isArrayLike');
+
+/**
+ * The base implementation of `_.map` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ */
+function baseMap(collection, iteratee) {
+  var index = -1,
+      result = isArrayLike(collection) ? Array(collection.length) : [];
+
+  baseEach(collection, function (value, key, collection) {
+    result[++index] = iteratee(value, key, collection);
+  });
+  return result;
+}
+
+module.exports = baseMap;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19iYXNlTWFwLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsSUFBSSxXQUFXLFFBQVEsYUFBUixDQUFYO0lBQ0EsY0FBYyxRQUFRLGVBQVIsQ0FBZDs7Ozs7Ozs7OztBQVVKLFNBQVMsT0FBVCxDQUFpQixVQUFqQixFQUE2QixRQUE3QixFQUF1QztBQUNyQyxNQUFJLFFBQVEsQ0FBQyxDQUFEO01BQ1IsU0FBUyxZQUFZLFVBQVosSUFBMEIsTUFBTSxXQUFXLE1BQVgsQ0FBaEMsR0FBcUQsRUFBckQsQ0FGd0I7O0FBSXJDLFdBQVMsVUFBVCxFQUFxQixVQUFTLEtBQVQsRUFBZ0IsR0FBaEIsRUFBcUIsVUFBckIsRUFBaUM7QUFDcEQsV0FBTyxFQUFFLEtBQUYsQ0FBUCxHQUFrQixTQUFTLEtBQVQsRUFBZ0IsR0FBaEIsRUFBcUIsVUFBckIsQ0FBbEIsQ0FEb0Q7R0FBakMsQ0FBckIsQ0FKcUM7QUFPckMsU0FBTyxNQUFQLENBUHFDO0NBQXZDOztBQVVBLE9BQU8sT0FBUCxHQUFpQixPQUFqQiIsImZpbGUiOiJfYmFzZU1hcC5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBiYXNlRWFjaCA9IHJlcXVpcmUoJy4vX2Jhc2VFYWNoJyksXG4gICAgaXNBcnJheUxpa2UgPSByZXF1aXJlKCcuL2lzQXJyYXlMaWtlJyk7XG5cbi8qKlxuICogVGhlIGJhc2UgaW1wbGVtZW50YXRpb24gb2YgYF8ubWFwYCB3aXRob3V0IHN1cHBvcnQgZm9yIGl0ZXJhdGVlIHNob3J0aGFuZHMuXG4gKlxuICogQHByaXZhdGVcbiAqIEBwYXJhbSB7QXJyYXl8T2JqZWN0fSBjb2xsZWN0aW9uIFRoZSBjb2xsZWN0aW9uIHRvIGl0ZXJhdGUgb3Zlci5cbiAqIEBwYXJhbSB7RnVuY3Rpb259IGl0ZXJhdGVlIFRoZSBmdW5jdGlvbiBpbnZva2VkIHBlciBpdGVyYXRpb24uXG4gKiBAcmV0dXJucyB7QXJyYXl9IFJldHVybnMgdGhlIG5ldyBtYXBwZWQgYXJyYXkuXG4gKi9cbmZ1bmN0aW9uIGJhc2VNYXAoY29sbGVjdGlvbiwgaXRlcmF0ZWUpIHtcbiAgdmFyIGluZGV4ID0gLTEsXG4gICAgICByZXN1bHQgPSBpc0FycmF5TGlrZShjb2xsZWN0aW9uKSA/IEFycmF5KGNvbGxlY3Rpb24ubGVuZ3RoKSA6IFtdO1xuXG4gIGJhc2VFYWNoKGNvbGxlY3Rpb24sIGZ1bmN0aW9uKHZhbHVlLCBrZXksIGNvbGxlY3Rpb24pIHtcbiAgICByZXN1bHRbKytpbmRleF0gPSBpdGVyYXRlZSh2YWx1ZSwga2V5LCBjb2xsZWN0aW9uKTtcbiAgfSk7XG4gIHJldHVybiByZXN1bHQ7XG59XG5cbm1vZHVsZS5leHBvcnRzID0gYmFzZU1hcDtcbiJdfQ==

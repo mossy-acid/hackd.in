@@ -1,0 +1,42 @@
+"use strict";
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * Creates an array that is the composition of partially applied arguments,
+ * placeholders, and provided arguments into a single array of arguments.
+ *
+ * @private
+ * @param {Array} args The provided arguments.
+ * @param {Array} partials The arguments to prepend to those provided.
+ * @param {Array} holders The `partials` placeholder indexes.
+ * @params {boolean} [isCurried] Specify composing for a curried function.
+ * @returns {Array} Returns the new array of composed arguments.
+ */
+function composeArgs(args, partials, holders, isCurried) {
+  var argsIndex = -1,
+      argsLength = args.length,
+      holdersLength = holders.length,
+      leftIndex = -1,
+      leftLength = partials.length,
+      rangeLength = nativeMax(argsLength - holdersLength, 0),
+      result = Array(leftLength + rangeLength),
+      isUncurried = !isCurried;
+
+  while (++leftIndex < leftLength) {
+    result[leftIndex] = partials[leftIndex];
+  }
+  while (++argsIndex < holdersLength) {
+    if (isUncurried || argsIndex < argsLength) {
+      result[holders[argsIndex]] = args[argsIndex];
+    }
+  }
+  while (rangeLength--) {
+    result[leftIndex++] = args[argsIndex++];
+  }
+  return result;
+}
+
+module.exports = composeArgs;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19jb21wb3NlQXJncy5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFDQSxJQUFJLFlBQVksS0FBSyxHQUFMOzs7Ozs7Ozs7Ozs7O0FBYWhCLFNBQVMsV0FBVCxDQUFxQixJQUFyQixFQUEyQixRQUEzQixFQUFxQyxPQUFyQyxFQUE4QyxTQUE5QyxFQUF5RDtBQUN2RCxNQUFJLFlBQVksQ0FBQyxDQUFEO01BQ1osYUFBYSxLQUFLLE1BQUw7TUFDYixnQkFBZ0IsUUFBUSxNQUFSO01BQ2hCLFlBQVksQ0FBQyxDQUFEO01BQ1osYUFBYSxTQUFTLE1BQVQ7TUFDYixjQUFjLFVBQVUsYUFBYSxhQUFiLEVBQTRCLENBQXRDLENBQWQ7TUFDQSxTQUFTLE1BQU0sYUFBYSxXQUFiLENBQWY7TUFDQSxjQUFjLENBQUMsU0FBRCxDQVJxQzs7QUFVdkQsU0FBTyxFQUFFLFNBQUYsR0FBYyxVQUFkLEVBQTBCO0FBQy9CLFdBQU8sU0FBUCxJQUFvQixTQUFTLFNBQVQsQ0FBcEIsQ0FEK0I7R0FBakM7QUFHQSxTQUFPLEVBQUUsU0FBRixHQUFjLGFBQWQsRUFBNkI7QUFDbEMsUUFBSSxlQUFlLFlBQVksVUFBWixFQUF3QjtBQUN6QyxhQUFPLFFBQVEsU0FBUixDQUFQLElBQTZCLEtBQUssU0FBTCxDQUE3QixDQUR5QztLQUEzQztHQURGO0FBS0EsU0FBTyxhQUFQLEVBQXNCO0FBQ3BCLFdBQU8sV0FBUCxJQUFzQixLQUFLLFdBQUwsQ0FBdEIsQ0FEb0I7R0FBdEI7QUFHQSxTQUFPLE1BQVAsQ0FyQnVEO0NBQXpEOztBQXdCQSxPQUFPLE9BQVAsR0FBaUIsV0FBakIiLCJmaWxlIjoiX2NvbXBvc2VBcmdzLmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyogQnVpbHQtaW4gbWV0aG9kIHJlZmVyZW5jZXMgZm9yIHRob3NlIHdpdGggdGhlIHNhbWUgbmFtZSBhcyBvdGhlciBgbG9kYXNoYCBtZXRob2RzLiAqL1xudmFyIG5hdGl2ZU1heCA9IE1hdGgubWF4O1xuXG4vKipcbiAqIENyZWF0ZXMgYW4gYXJyYXkgdGhhdCBpcyB0aGUgY29tcG9zaXRpb24gb2YgcGFydGlhbGx5IGFwcGxpZWQgYXJndW1lbnRzLFxuICogcGxhY2Vob2xkZXJzLCBhbmQgcHJvdmlkZWQgYXJndW1lbnRzIGludG8gYSBzaW5nbGUgYXJyYXkgb2YgYXJndW1lbnRzLlxuICpcbiAqIEBwcml2YXRlXG4gKiBAcGFyYW0ge0FycmF5fSBhcmdzIFRoZSBwcm92aWRlZCBhcmd1bWVudHMuXG4gKiBAcGFyYW0ge0FycmF5fSBwYXJ0aWFscyBUaGUgYXJndW1lbnRzIHRvIHByZXBlbmQgdG8gdGhvc2UgcHJvdmlkZWQuXG4gKiBAcGFyYW0ge0FycmF5fSBob2xkZXJzIFRoZSBgcGFydGlhbHNgIHBsYWNlaG9sZGVyIGluZGV4ZXMuXG4gKiBAcGFyYW1zIHtib29sZWFufSBbaXNDdXJyaWVkXSBTcGVjaWZ5IGNvbXBvc2luZyBmb3IgYSBjdXJyaWVkIGZ1bmN0aW9uLlxuICogQHJldHVybnMge0FycmF5fSBSZXR1cm5zIHRoZSBuZXcgYXJyYXkgb2YgY29tcG9zZWQgYXJndW1lbnRzLlxuICovXG5mdW5jdGlvbiBjb21wb3NlQXJncyhhcmdzLCBwYXJ0aWFscywgaG9sZGVycywgaXNDdXJyaWVkKSB7XG4gIHZhciBhcmdzSW5kZXggPSAtMSxcbiAgICAgIGFyZ3NMZW5ndGggPSBhcmdzLmxlbmd0aCxcbiAgICAgIGhvbGRlcnNMZW5ndGggPSBob2xkZXJzLmxlbmd0aCxcbiAgICAgIGxlZnRJbmRleCA9IC0xLFxuICAgICAgbGVmdExlbmd0aCA9IHBhcnRpYWxzLmxlbmd0aCxcbiAgICAgIHJhbmdlTGVuZ3RoID0gbmF0aXZlTWF4KGFyZ3NMZW5ndGggLSBob2xkZXJzTGVuZ3RoLCAwKSxcbiAgICAgIHJlc3VsdCA9IEFycmF5KGxlZnRMZW5ndGggKyByYW5nZUxlbmd0aCksXG4gICAgICBpc1VuY3VycmllZCA9ICFpc0N1cnJpZWQ7XG5cbiAgd2hpbGUgKCsrbGVmdEluZGV4IDwgbGVmdExlbmd0aCkge1xuICAgIHJlc3VsdFtsZWZ0SW5kZXhdID0gcGFydGlhbHNbbGVmdEluZGV4XTtcbiAgfVxuICB3aGlsZSAoKythcmdzSW5kZXggPCBob2xkZXJzTGVuZ3RoKSB7XG4gICAgaWYgKGlzVW5jdXJyaWVkIHx8IGFyZ3NJbmRleCA8IGFyZ3NMZW5ndGgpIHtcbiAgICAgIHJlc3VsdFtob2xkZXJzW2FyZ3NJbmRleF1dID0gYXJnc1thcmdzSW5kZXhdO1xuICAgIH1cbiAgfVxuICB3aGlsZSAocmFuZ2VMZW5ndGgtLSkge1xuICAgIHJlc3VsdFtsZWZ0SW5kZXgrK10gPSBhcmdzW2FyZ3NJbmRleCsrXTtcbiAgfVxuICByZXR1cm4gcmVzdWx0O1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGNvbXBvc2VBcmdzO1xuIl19

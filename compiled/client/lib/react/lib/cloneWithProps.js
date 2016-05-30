@@ -1,0 +1,55 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @typechecks static-only
+ * @providesModule cloneWithProps
+ */
+
+'use strict';
+
+var ReactElement = require('./ReactElement');
+var ReactPropTransferer = require('./ReactPropTransferer');
+
+var keyOf = require('fbjs/lib/keyOf');
+var warning = require('fbjs/lib/warning');
+
+var CHILDREN_PROP = keyOf({ children: null });
+
+var didDeprecatedWarn = false;
+
+/**
+ * Sometimes you want to change the props of a child passed to you. Usually
+ * this is to add a CSS class.
+ *
+ * @param {ReactElement} child child element you'd like to clone
+ * @param {object} props props you'd like to modify. className and style will be
+ * merged automatically.
+ * @return {ReactElement} a clone of child with props merged in.
+ * @deprecated
+ */
+function cloneWithProps(child, props) {
+  if (process.env.NODE_ENV !== 'production') {
+    process.env.NODE_ENV !== 'production' ? warning(didDeprecatedWarn, 'cloneWithProps(...) is deprecated. ' + 'Please use React.cloneElement instead.') : undefined;
+    didDeprecatedWarn = true;
+    process.env.NODE_ENV !== 'production' ? warning(!child.ref, 'You are calling cloneWithProps() on a child with a ref. This is ' + 'dangerous because you\'re creating a new child which will not be ' + 'added as a ref to its parent.') : undefined;
+  }
+
+  var newProps = ReactPropTransferer.mergeProps(props, child.props);
+
+  // Use `child.props.children` if it is provided.
+  if (!newProps.hasOwnProperty(CHILDREN_PROP) && child.props.hasOwnProperty(CHILDREN_PROP)) {
+    newProps.children = child.props.children;
+  }
+
+  // The current API doesn't retain _owner, which is why this
+  // doesn't use ReactElement.cloneAndReplaceProps.
+  return ReactElement.createElement(child.type, newProps);
+}
+
+module.exports = cloneWithProps;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL2Nsb25lV2l0aFByb3BzLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQVlBOztBQUVBLElBQUksZUFBZSxRQUFRLGdCQUFSLENBQWY7QUFDSixJQUFJLHNCQUFzQixRQUFRLHVCQUFSLENBQXRCOztBQUVKLElBQUksUUFBUSxRQUFRLGdCQUFSLENBQVI7QUFDSixJQUFJLFVBQVUsUUFBUSxrQkFBUixDQUFWOztBQUVKLElBQUksZ0JBQWdCLE1BQU0sRUFBRSxVQUFVLElBQVYsRUFBUixDQUFoQjs7QUFFSixJQUFJLG9CQUFvQixLQUFwQjs7Ozs7Ozs7Ozs7O0FBWUosU0FBUyxjQUFULENBQXdCLEtBQXhCLEVBQStCLEtBQS9CLEVBQXNDO0FBQ3BDLE1BQUksUUFBUSxHQUFSLENBQVksUUFBWixLQUF5QixZQUF6QixFQUF1QztBQUN6QyxZQUFRLEdBQVIsQ0FBWSxRQUFaLEtBQXlCLFlBQXpCLEdBQXdDLFFBQVEsaUJBQVIsRUFBMkIsd0NBQXdDLHdDQUF4QyxDQUFuRSxHQUF1SixTQUF2SixDQUR5QztBQUV6Qyx3QkFBb0IsSUFBcEIsQ0FGeUM7QUFHekMsWUFBUSxHQUFSLENBQVksUUFBWixLQUF5QixZQUF6QixHQUF3QyxRQUFRLENBQUMsTUFBTSxHQUFOLEVBQVcscUVBQXFFLG1FQUFyRSxHQUEySSwrQkFBM0ksQ0FBNUQsR0FBME8sU0FBMU8sQ0FIeUM7R0FBM0M7O0FBTUEsTUFBSSxXQUFXLG9CQUFvQixVQUFwQixDQUErQixLQUEvQixFQUFzQyxNQUFNLEtBQU4sQ0FBakQ7OztBQVBnQyxNQVVoQyxDQUFDLFNBQVMsY0FBVCxDQUF3QixhQUF4QixDQUFELElBQTJDLE1BQU0sS0FBTixDQUFZLGNBQVosQ0FBMkIsYUFBM0IsQ0FBM0MsRUFBc0Y7QUFDeEYsYUFBUyxRQUFULEdBQW9CLE1BQU0sS0FBTixDQUFZLFFBQVosQ0FEb0U7R0FBMUY7Ozs7QUFWb0MsU0FnQjdCLGFBQWEsYUFBYixDQUEyQixNQUFNLElBQU4sRUFBWSxRQUF2QyxDQUFQLENBaEJvQztDQUF0Qzs7QUFtQkEsT0FBTyxPQUFQLEdBQWlCLGNBQWpCIiwiZmlsZSI6ImNsb25lV2l0aFByb3BzLmpzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBDb3B5cmlnaHQgMjAxMy0yMDE1LCBGYWNlYm9vaywgSW5jLlxuICogQWxsIHJpZ2h0cyByZXNlcnZlZC5cbiAqXG4gKiBUaGlzIHNvdXJjZSBjb2RlIGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBCU0Qtc3R5bGUgbGljZW5zZSBmb3VuZCBpbiB0aGVcbiAqIExJQ0VOU0UgZmlsZSBpbiB0aGUgcm9vdCBkaXJlY3Rvcnkgb2YgdGhpcyBzb3VyY2UgdHJlZS4gQW4gYWRkaXRpb25hbCBncmFudFxuICogb2YgcGF0ZW50IHJpZ2h0cyBjYW4gYmUgZm91bmQgaW4gdGhlIFBBVEVOVFMgZmlsZSBpbiB0aGUgc2FtZSBkaXJlY3RvcnkuXG4gKlxuICogQHR5cGVjaGVja3Mgc3RhdGljLW9ubHlcbiAqIEBwcm92aWRlc01vZHVsZSBjbG9uZVdpdGhQcm9wc1xuICovXG5cbid1c2Ugc3RyaWN0JztcblxudmFyIFJlYWN0RWxlbWVudCA9IHJlcXVpcmUoJy4vUmVhY3RFbGVtZW50Jyk7XG52YXIgUmVhY3RQcm9wVHJhbnNmZXJlciA9IHJlcXVpcmUoJy4vUmVhY3RQcm9wVHJhbnNmZXJlcicpO1xuXG52YXIga2V5T2YgPSByZXF1aXJlKCdmYmpzL2xpYi9rZXlPZicpO1xudmFyIHdhcm5pbmcgPSByZXF1aXJlKCdmYmpzL2xpYi93YXJuaW5nJyk7XG5cbnZhciBDSElMRFJFTl9QUk9QID0ga2V5T2YoeyBjaGlsZHJlbjogbnVsbCB9KTtcblxudmFyIGRpZERlcHJlY2F0ZWRXYXJuID0gZmFsc2U7XG5cbi8qKlxuICogU29tZXRpbWVzIHlvdSB3YW50IHRvIGNoYW5nZSB0aGUgcHJvcHMgb2YgYSBjaGlsZCBwYXNzZWQgdG8geW91LiBVc3VhbGx5XG4gKiB0aGlzIGlzIHRvIGFkZCBhIENTUyBjbGFzcy5cbiAqXG4gKiBAcGFyYW0ge1JlYWN0RWxlbWVudH0gY2hpbGQgY2hpbGQgZWxlbWVudCB5b3UnZCBsaWtlIHRvIGNsb25lXG4gKiBAcGFyYW0ge29iamVjdH0gcHJvcHMgcHJvcHMgeW91J2QgbGlrZSB0byBtb2RpZnkuIGNsYXNzTmFtZSBhbmQgc3R5bGUgd2lsbCBiZVxuICogbWVyZ2VkIGF1dG9tYXRpY2FsbHkuXG4gKiBAcmV0dXJuIHtSZWFjdEVsZW1lbnR9IGEgY2xvbmUgb2YgY2hpbGQgd2l0aCBwcm9wcyBtZXJnZWQgaW4uXG4gKiBAZGVwcmVjYXRlZFxuICovXG5mdW5jdGlvbiBjbG9uZVdpdGhQcm9wcyhjaGlsZCwgcHJvcHMpIHtcbiAgaWYgKHByb2Nlc3MuZW52Lk5PREVfRU5WICE9PSAncHJvZHVjdGlvbicpIHtcbiAgICBwcm9jZXNzLmVudi5OT0RFX0VOViAhPT0gJ3Byb2R1Y3Rpb24nID8gd2FybmluZyhkaWREZXByZWNhdGVkV2FybiwgJ2Nsb25lV2l0aFByb3BzKC4uLikgaXMgZGVwcmVjYXRlZC4gJyArICdQbGVhc2UgdXNlIFJlYWN0LmNsb25lRWxlbWVudCBpbnN0ZWFkLicpIDogdW5kZWZpbmVkO1xuICAgIGRpZERlcHJlY2F0ZWRXYXJuID0gdHJ1ZTtcbiAgICBwcm9jZXNzLmVudi5OT0RFX0VOViAhPT0gJ3Byb2R1Y3Rpb24nID8gd2FybmluZyghY2hpbGQucmVmLCAnWW91IGFyZSBjYWxsaW5nIGNsb25lV2l0aFByb3BzKCkgb24gYSBjaGlsZCB3aXRoIGEgcmVmLiBUaGlzIGlzICcgKyAnZGFuZ2Vyb3VzIGJlY2F1c2UgeW91XFwncmUgY3JlYXRpbmcgYSBuZXcgY2hpbGQgd2hpY2ggd2lsbCBub3QgYmUgJyArICdhZGRlZCBhcyBhIHJlZiB0byBpdHMgcGFyZW50LicpIDogdW5kZWZpbmVkO1xuICB9XG5cbiAgdmFyIG5ld1Byb3BzID0gUmVhY3RQcm9wVHJhbnNmZXJlci5tZXJnZVByb3BzKHByb3BzLCBjaGlsZC5wcm9wcyk7XG5cbiAgLy8gVXNlIGBjaGlsZC5wcm9wcy5jaGlsZHJlbmAgaWYgaXQgaXMgcHJvdmlkZWQuXG4gIGlmICghbmV3UHJvcHMuaGFzT3duUHJvcGVydHkoQ0hJTERSRU5fUFJPUCkgJiYgY2hpbGQucHJvcHMuaGFzT3duUHJvcGVydHkoQ0hJTERSRU5fUFJPUCkpIHtcbiAgICBuZXdQcm9wcy5jaGlsZHJlbiA9IGNoaWxkLnByb3BzLmNoaWxkcmVuO1xuICB9XG5cbiAgLy8gVGhlIGN1cnJlbnQgQVBJIGRvZXNuJ3QgcmV0YWluIF9vd25lciwgd2hpY2ggaXMgd2h5IHRoaXNcbiAgLy8gZG9lc24ndCB1c2UgUmVhY3RFbGVtZW50LmNsb25lQW5kUmVwbGFjZVByb3BzLlxuICByZXR1cm4gUmVhY3RFbGVtZW50LmNyZWF0ZUVsZW1lbnQoY2hpbGQudHlwZSwgbmV3UHJvcHMpO1xufVxuXG5tb2R1bGUuZXhwb3J0cyA9IGNsb25lV2l0aFByb3BzOyJdfQ==

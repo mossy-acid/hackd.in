@@ -1,0 +1,19 @@
+'use strict';
+
+var isArray = require('./isArray'),
+    isFunction = require('./isFunction');
+
+/**
+ * Checks if `value` is a flattenable array and not a `_.matchesProperty`
+ * iteratee shorthand.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+ */
+function isFlattenableIteratee(value) {
+  return isArray(value) && !(value.length == 2 && !isFunction(value[0]));
+}
+
+module.exports = isFlattenableIteratee;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL19pc0ZsYXR0ZW5hYmxlSXRlcmF0ZWUuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLFVBQVUsUUFBUSxXQUFSLENBQVY7SUFDQSxhQUFhLFFBQVEsY0FBUixDQUFiOzs7Ozs7Ozs7O0FBVUosU0FBUyxxQkFBVCxDQUErQixLQUEvQixFQUFzQztBQUNwQyxTQUFPLFFBQVEsS0FBUixLQUFrQixFQUFFLE1BQU0sTUFBTixJQUFnQixDQUFoQixJQUFxQixDQUFDLFdBQVcsTUFBTSxDQUFOLENBQVgsQ0FBRCxDQUF2QixDQURXO0NBQXRDOztBQUlBLE9BQU8sT0FBUCxHQUFpQixxQkFBakIiLCJmaWxlIjoiX2lzRmxhdHRlbmFibGVJdGVyYXRlZS5qcyIsInNvdXJjZXNDb250ZW50IjpbInZhciBpc0FycmF5ID0gcmVxdWlyZSgnLi9pc0FycmF5JyksXG4gICAgaXNGdW5jdGlvbiA9IHJlcXVpcmUoJy4vaXNGdW5jdGlvbicpO1xuXG4vKipcbiAqIENoZWNrcyBpZiBgdmFsdWVgIGlzIGEgZmxhdHRlbmFibGUgYXJyYXkgYW5kIG5vdCBhIGBfLm1hdGNoZXNQcm9wZXJ0eWBcbiAqIGl0ZXJhdGVlIHNob3J0aGFuZC5cbiAqXG4gKiBAcHJpdmF0ZVxuICogQHBhcmFtIHsqfSB2YWx1ZSBUaGUgdmFsdWUgdG8gY2hlY2suXG4gKiBAcmV0dXJucyB7Ym9vbGVhbn0gUmV0dXJucyBgdHJ1ZWAgaWYgYHZhbHVlYCBpcyBmbGF0dGVuYWJsZSwgZWxzZSBgZmFsc2VgLlxuICovXG5mdW5jdGlvbiBpc0ZsYXR0ZW5hYmxlSXRlcmF0ZWUodmFsdWUpIHtcbiAgcmV0dXJuIGlzQXJyYXkodmFsdWUpICYmICEodmFsdWUubGVuZ3RoID09IDIgJiYgIWlzRnVuY3Rpb24odmFsdWVbMF0pKTtcbn1cblxubW9kdWxlLmV4cG9ydHMgPSBpc0ZsYXR0ZW5hYmxlSXRlcmF0ZWU7XG4iXX0=

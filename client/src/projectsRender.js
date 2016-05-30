@@ -1,3 +1,3 @@
 ReactDOM.render(
-  <Projects data={window.getProjects} />, document.getElementById('projects')
+  <Projects getProjects={window.getProjects} />, document.getElementById('projects')
 );

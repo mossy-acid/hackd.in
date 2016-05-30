@@ -1,0 +1,31 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule forEachAccumulated
+ */
+
+'use strict';
+
+/**
+ * @param {array} arr an "accumulation" of items which is either an Array or
+ * a single item. Useful when paired with the `accumulate` module. This is a
+ * simple utility that allows us to reason about a collection of items, but
+ * handling the case when there is exactly one item (and we do not need to
+ * allocate an array).
+ */
+
+var forEachAccumulated = function forEachAccumulated(arr, cb, scope) {
+  if (Array.isArray(arr)) {
+    arr.forEach(cb, scope);
+  } else if (arr) {
+    cb.call(scope, arr);
+  }
+};
+
+module.exports = forEachAccumulated;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL2ZvckVhY2hBY2N1bXVsYXRlZC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztBQVdBOzs7Ozs7Ozs7O0FBU0EsSUFBSSxxQkFBcUIsU0FBckIsa0JBQXFCLENBQVUsR0FBVixFQUFlLEVBQWYsRUFBbUIsS0FBbkIsRUFBMEI7QUFDakQsTUFBSSxNQUFNLE9BQU4sQ0FBYyxHQUFkLENBQUosRUFBd0I7QUFDdEIsUUFBSSxPQUFKLENBQVksRUFBWixFQUFnQixLQUFoQixFQURzQjtHQUF4QixNQUVPLElBQUksR0FBSixFQUFTO0FBQ2QsT0FBRyxJQUFILENBQVEsS0FBUixFQUFlLEdBQWYsRUFEYztHQUFUO0NBSGdCOztBQVF6QixPQUFPLE9BQVAsR0FBaUIsa0JBQWpCIiwiZmlsZSI6ImZvckVhY2hBY2N1bXVsYXRlZC5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29weXJpZ2h0IDIwMTMtMjAxNSwgRmFjZWJvb2ssIEluYy5cbiAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuXG4gKlxuICogVGhpcyBzb3VyY2UgY29kZSBpcyBsaWNlbnNlZCB1bmRlciB0aGUgQlNELXN0eWxlIGxpY2Vuc2UgZm91bmQgaW4gdGhlXG4gKiBMSUNFTlNFIGZpbGUgaW4gdGhlIHJvb3QgZGlyZWN0b3J5IG9mIHRoaXMgc291cmNlIHRyZWUuIEFuIGFkZGl0aW9uYWwgZ3JhbnRcbiAqIG9mIHBhdGVudCByaWdodHMgY2FuIGJlIGZvdW5kIGluIHRoZSBQQVRFTlRTIGZpbGUgaW4gdGhlIHNhbWUgZGlyZWN0b3J5LlxuICpcbiAqIEBwcm92aWRlc01vZHVsZSBmb3JFYWNoQWNjdW11bGF0ZWRcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbi8qKlxuICogQHBhcmFtIHthcnJheX0gYXJyIGFuIFwiYWNjdW11bGF0aW9uXCIgb2YgaXRlbXMgd2hpY2ggaXMgZWl0aGVyIGFuIEFycmF5IG9yXG4gKiBhIHNpbmdsZSBpdGVtLiBVc2VmdWwgd2hlbiBwYWlyZWQgd2l0aCB0aGUgYGFjY3VtdWxhdGVgIG1vZHVsZS4gVGhpcyBpcyBhXG4gKiBzaW1wbGUgdXRpbGl0eSB0aGF0IGFsbG93cyB1cyB0byByZWFzb24gYWJvdXQgYSBjb2xsZWN0aW9uIG9mIGl0ZW1zLCBidXRcbiAqIGhhbmRsaW5nIHRoZSBjYXNlIHdoZW4gdGhlcmUgaXMgZXhhY3RseSBvbmUgaXRlbSAoYW5kIHdlIGRvIG5vdCBuZWVkIHRvXG4gKiBhbGxvY2F0ZSBhbiBhcnJheSkuXG4gKi9cbnZhciBmb3JFYWNoQWNjdW11bGF0ZWQgPSBmdW5jdGlvbiAoYXJyLCBjYiwgc2NvcGUpIHtcbiAgaWYgKEFycmF5LmlzQXJyYXkoYXJyKSkge1xuICAgIGFyci5mb3JFYWNoKGNiLCBzY29wZSk7XG4gIH0gZWxzZSBpZiAoYXJyKSB7XG4gICAgY2IuY2FsbChzY29wZSwgYXJyKTtcbiAgfVxufTtcblxubW9kdWxlLmV4cG9ydHMgPSBmb3JFYWNoQWNjdW11bGF0ZWQ7Il19

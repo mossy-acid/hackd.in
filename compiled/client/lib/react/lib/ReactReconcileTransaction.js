@@ -1,0 +1,152 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactReconcileTransaction
+ * @typechecks static-only
+ */
+
+'use strict';
+
+var CallbackQueue = require('./CallbackQueue');
+var PooledClass = require('./PooledClass');
+var ReactBrowserEventEmitter = require('./ReactBrowserEventEmitter');
+var ReactDOMFeatureFlags = require('./ReactDOMFeatureFlags');
+var ReactInputSelection = require('./ReactInputSelection');
+var Transaction = require('./Transaction');
+
+var assign = require('./Object.assign');
+
+/**
+ * Ensures that, when possible, the selection range (currently selected text
+ * input) is not disturbed by performing the transaction.
+ */
+var SELECTION_RESTORATION = {
+  /**
+   * @return {Selection} Selection information.
+   */
+  initialize: ReactInputSelection.getSelectionInformation,
+  /**
+   * @param {Selection} sel Selection information returned from `initialize`.
+   */
+  close: ReactInputSelection.restoreSelection
+};
+
+/**
+ * Suppresses events (blur/focus) that could be inadvertently dispatched due to
+ * high level DOM manipulations (like temporarily removing a text input from the
+ * DOM).
+ */
+var EVENT_SUPPRESSION = {
+  /**
+   * @return {boolean} The enabled status of `ReactBrowserEventEmitter` before
+   * the reconciliation.
+   */
+  initialize: function initialize() {
+    var currentlyEnabled = ReactBrowserEventEmitter.isEnabled();
+    ReactBrowserEventEmitter.setEnabled(false);
+    return currentlyEnabled;
+  },
+
+  /**
+   * @param {boolean} previouslyEnabled Enabled status of
+   *   `ReactBrowserEventEmitter` before the reconciliation occurred. `close`
+   *   restores the previous value.
+   */
+  close: function close(previouslyEnabled) {
+    ReactBrowserEventEmitter.setEnabled(previouslyEnabled);
+  }
+};
+
+/**
+ * Provides a queue for collecting `componentDidMount` and
+ * `componentDidUpdate` callbacks during the the transaction.
+ */
+var ON_DOM_READY_QUEUEING = {
+  /**
+   * Initializes the internal `onDOMReady` queue.
+   */
+  initialize: function initialize() {
+    this.reactMountReady.reset();
+  },
+
+  /**
+   * After DOM is flushed, invoke all registered `onDOMReady` callbacks.
+   */
+  close: function close() {
+    this.reactMountReady.notifyAll();
+  }
+};
+
+/**
+ * Executed within the scope of the `Transaction` instance. Consider these as
+ * being member methods, but with an implied ordering while being isolated from
+ * each other.
+ */
+var TRANSACTION_WRAPPERS = [SELECTION_RESTORATION, EVENT_SUPPRESSION, ON_DOM_READY_QUEUEING];
+
+/**
+ * Currently:
+ * - The order that these are listed in the transaction is critical:
+ * - Suppresses events.
+ * - Restores selection range.
+ *
+ * Future:
+ * - Restore document/overflow scroll positions that were unintentionally
+ *   modified via DOM insertions above the top viewport boundary.
+ * - Implement/integrate with customized constraint based layout system and keep
+ *   track of which dimensions must be remeasured.
+ *
+ * @class ReactReconcileTransaction
+ */
+function ReactReconcileTransaction(forceHTML) {
+  this.reinitializeTransaction();
+  // Only server-side rendering really needs this option (see
+  // `ReactServerRendering`), but server-side uses
+  // `ReactServerRenderingTransaction` instead. This option is here so that it's
+  // accessible and defaults to false when `ReactDOMComponent` and
+  // `ReactTextComponent` checks it in `mountComponent`.`
+  this.renderToStaticMarkup = false;
+  this.reactMountReady = CallbackQueue.getPooled(null);
+  this.useCreateElement = !forceHTML && ReactDOMFeatureFlags.useCreateElement;
+}
+
+var Mixin = {
+  /**
+   * @see Transaction
+   * @abstract
+   * @final
+   * @return {array<object>} List of operation wrap procedures.
+   *   TODO: convert to array<TransactionWrapper>
+   */
+  getTransactionWrappers: function getTransactionWrappers() {
+    return TRANSACTION_WRAPPERS;
+  },
+
+  /**
+   * @return {object} The queue to collect `onDOMReady` callbacks with.
+   */
+  getReactMountReady: function getReactMountReady() {
+    return this.reactMountReady;
+  },
+
+  /**
+   * `PooledClass` looks for this, and will invoke this before allowing this
+   * instance to be reused.
+   */
+  destructor: function destructor() {
+    CallbackQueue.release(this.reactMountReady);
+    this.reactMountReady = null;
+  }
+};
+
+assign(ReactReconcileTransaction.prototype, Transaction.Mixin, Mixin);
+
+PooledClass.addPoolingTo(ReactReconcileTransaction);
+
+module.exports = ReactReconcileTransaction;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1JlYWN0UmVjb25jaWxlVHJhbnNhY3Rpb24uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBWUE7O0FBRUEsSUFBSSxnQkFBZ0IsUUFBUSxpQkFBUixDQUFoQjtBQUNKLElBQUksY0FBYyxRQUFRLGVBQVIsQ0FBZDtBQUNKLElBQUksMkJBQTJCLFFBQVEsNEJBQVIsQ0FBM0I7QUFDSixJQUFJLHVCQUF1QixRQUFRLHdCQUFSLENBQXZCO0FBQ0osSUFBSSxzQkFBc0IsUUFBUSx1QkFBUixDQUF0QjtBQUNKLElBQUksY0FBYyxRQUFRLGVBQVIsQ0FBZDs7QUFFSixJQUFJLFNBQVMsUUFBUSxpQkFBUixDQUFUOzs7Ozs7QUFNSixJQUFJLHdCQUF3Qjs7OztBQUkxQixjQUFZLG9CQUFvQix1QkFBcEI7Ozs7QUFJWixTQUFPLG9CQUFvQixnQkFBcEI7Q0FSTDs7Ozs7OztBQWdCSixJQUFJLG9CQUFvQjs7Ozs7QUFLdEIsY0FBWSxzQkFBWTtBQUN0QixRQUFJLG1CQUFtQix5QkFBeUIsU0FBekIsRUFBbkIsQ0FEa0I7QUFFdEIsNkJBQXlCLFVBQXpCLENBQW9DLEtBQXBDLEVBRnNCO0FBR3RCLFdBQU8sZ0JBQVAsQ0FIc0I7R0FBWjs7Ozs7OztBQVdaLFNBQU8sZUFBVSxpQkFBVixFQUE2QjtBQUNsQyw2QkFBeUIsVUFBekIsQ0FBb0MsaUJBQXBDLEVBRGtDO0dBQTdCO0NBaEJMOzs7Ozs7QUF5QkosSUFBSSx3QkFBd0I7Ozs7QUFJMUIsY0FBWSxzQkFBWTtBQUN0QixTQUFLLGVBQUwsQ0FBcUIsS0FBckIsR0FEc0I7R0FBWjs7Ozs7QUFPWixTQUFPLGlCQUFZO0FBQ2pCLFNBQUssZUFBTCxDQUFxQixTQUFyQixHQURpQjtHQUFaO0NBWEw7Ozs7Ozs7QUFxQkosSUFBSSx1QkFBdUIsQ0FBQyxxQkFBRCxFQUF3QixpQkFBeEIsRUFBMkMscUJBQTNDLENBQXZCOzs7Ozs7Ozs7Ozs7Ozs7O0FBZ0JKLFNBQVMseUJBQVQsQ0FBbUMsU0FBbkMsRUFBOEM7QUFDNUMsT0FBSyx1QkFBTDs7Ozs7O0FBRDRDLE1BTzVDLENBQUssb0JBQUwsR0FBNEIsS0FBNUIsQ0FQNEM7QUFRNUMsT0FBSyxlQUFMLEdBQXVCLGNBQWMsU0FBZCxDQUF3QixJQUF4QixDQUF2QixDQVI0QztBQVM1QyxPQUFLLGdCQUFMLEdBQXdCLENBQUMsU0FBRCxJQUFjLHFCQUFxQixnQkFBckIsQ0FUTTtDQUE5Qzs7QUFZQSxJQUFJLFFBQVE7Ozs7Ozs7O0FBUVYsMEJBQXdCLGtDQUFZO0FBQ2xDLFdBQU8sb0JBQVAsQ0FEa0M7R0FBWjs7Ozs7QUFPeEIsc0JBQW9CLDhCQUFZO0FBQzlCLFdBQU8sS0FBSyxlQUFMLENBRHVCO0dBQVo7Ozs7OztBQVFwQixjQUFZLHNCQUFZO0FBQ3RCLGtCQUFjLE9BQWQsQ0FBc0IsS0FBSyxlQUFMLENBQXRCLENBRHNCO0FBRXRCLFNBQUssZUFBTCxHQUF1QixJQUF2QixDQUZzQjtHQUFaO0NBdkJWOztBQTZCSixPQUFPLDBCQUEwQixTQUExQixFQUFxQyxZQUFZLEtBQVosRUFBbUIsS0FBL0Q7O0FBRUEsWUFBWSxZQUFaLENBQXlCLHlCQUF6Qjs7QUFFQSxPQUFPLE9BQVAsR0FBaUIseUJBQWpCIiwiZmlsZSI6IlJlYWN0UmVjb25jaWxlVHJhbnNhY3Rpb24uanMiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIENvcHlyaWdodCAyMDEzLTIwMTUsIEZhY2Vib29rLCBJbmMuXG4gKiBBbGwgcmlnaHRzIHJlc2VydmVkLlxuICpcbiAqIFRoaXMgc291cmNlIGNvZGUgaXMgbGljZW5zZWQgdW5kZXIgdGhlIEJTRC1zdHlsZSBsaWNlbnNlIGZvdW5kIGluIHRoZVxuICogTElDRU5TRSBmaWxlIGluIHRoZSByb290IGRpcmVjdG9yeSBvZiB0aGlzIHNvdXJjZSB0cmVlLiBBbiBhZGRpdGlvbmFsIGdyYW50XG4gKiBvZiBwYXRlbnQgcmlnaHRzIGNhbiBiZSBmb3VuZCBpbiB0aGUgUEFURU5UUyBmaWxlIGluIHRoZSBzYW1lIGRpcmVjdG9yeS5cbiAqXG4gKiBAcHJvdmlkZXNNb2R1bGUgUmVhY3RSZWNvbmNpbGVUcmFuc2FjdGlvblxuICogQHR5cGVjaGVja3Mgc3RhdGljLW9ubHlcbiAqL1xuXG4ndXNlIHN0cmljdCc7XG5cbnZhciBDYWxsYmFja1F1ZXVlID0gcmVxdWlyZSgnLi9DYWxsYmFja1F1ZXVlJyk7XG52YXIgUG9vbGVkQ2xhc3MgPSByZXF1aXJlKCcuL1Bvb2xlZENsYXNzJyk7XG52YXIgUmVhY3RCcm93c2VyRXZlbnRFbWl0dGVyID0gcmVxdWlyZSgnLi9SZWFjdEJyb3dzZXJFdmVudEVtaXR0ZXInKTtcbnZhciBSZWFjdERPTUZlYXR1cmVGbGFncyA9IHJlcXVpcmUoJy4vUmVhY3RET01GZWF0dXJlRmxhZ3MnKTtcbnZhciBSZWFjdElucHV0U2VsZWN0aW9uID0gcmVxdWlyZSgnLi9SZWFjdElucHV0U2VsZWN0aW9uJyk7XG52YXIgVHJhbnNhY3Rpb24gPSByZXF1aXJlKCcuL1RyYW5zYWN0aW9uJyk7XG5cbnZhciBhc3NpZ24gPSByZXF1aXJlKCcuL09iamVjdC5hc3NpZ24nKTtcblxuLyoqXG4gKiBFbnN1cmVzIHRoYXQsIHdoZW4gcG9zc2libGUsIHRoZSBzZWxlY3Rpb24gcmFuZ2UgKGN1cnJlbnRseSBzZWxlY3RlZCB0ZXh0XG4gKiBpbnB1dCkgaXMgbm90IGRpc3R1cmJlZCBieSBwZXJmb3JtaW5nIHRoZSB0cmFuc2FjdGlvbi5cbiAqL1xudmFyIFNFTEVDVElPTl9SRVNUT1JBVElPTiA9IHtcbiAgLyoqXG4gICAqIEByZXR1cm4ge1NlbGVjdGlvbn0gU2VsZWN0aW9uIGluZm9ybWF0aW9uLlxuICAgKi9cbiAgaW5pdGlhbGl6ZTogUmVhY3RJbnB1dFNlbGVjdGlvbi5nZXRTZWxlY3Rpb25JbmZvcm1hdGlvbixcbiAgLyoqXG4gICAqIEBwYXJhbSB7U2VsZWN0aW9ufSBzZWwgU2VsZWN0aW9uIGluZm9ybWF0aW9uIHJldHVybmVkIGZyb20gYGluaXRpYWxpemVgLlxuICAgKi9cbiAgY2xvc2U6IFJlYWN0SW5wdXRTZWxlY3Rpb24ucmVzdG9yZVNlbGVjdGlvblxufTtcblxuLyoqXG4gKiBTdXBwcmVzc2VzIGV2ZW50cyAoYmx1ci9mb2N1cykgdGhhdCBjb3VsZCBiZSBpbmFkdmVydGVudGx5IGRpc3BhdGNoZWQgZHVlIHRvXG4gKiBoaWdoIGxldmVsIERPTSBtYW5pcHVsYXRpb25zIChsaWtlIHRlbXBvcmFyaWx5IHJlbW92aW5nIGEgdGV4dCBpbnB1dCBmcm9tIHRoZVxuICogRE9NKS5cbiAqL1xudmFyIEVWRU5UX1NVUFBSRVNTSU9OID0ge1xuICAvKipcbiAgICogQHJldHVybiB7Ym9vbGVhbn0gVGhlIGVuYWJsZWQgc3RhdHVzIG9mIGBSZWFjdEJyb3dzZXJFdmVudEVtaXR0ZXJgIGJlZm9yZVxuICAgKiB0aGUgcmVjb25jaWxpYXRpb24uXG4gICAqL1xuICBpbml0aWFsaXplOiBmdW5jdGlvbiAoKSB7XG4gICAgdmFyIGN1cnJlbnRseUVuYWJsZWQgPSBSZWFjdEJyb3dzZXJFdmVudEVtaXR0ZXIuaXNFbmFibGVkKCk7XG4gICAgUmVhY3RCcm93c2VyRXZlbnRFbWl0dGVyLnNldEVuYWJsZWQoZmFsc2UpO1xuICAgIHJldHVybiBjdXJyZW50bHlFbmFibGVkO1xuICB9LFxuXG4gIC8qKlxuICAgKiBAcGFyYW0ge2Jvb2xlYW59IHByZXZpb3VzbHlFbmFibGVkIEVuYWJsZWQgc3RhdHVzIG9mXG4gICAqICAgYFJlYWN0QnJvd3NlckV2ZW50RW1pdHRlcmAgYmVmb3JlIHRoZSByZWNvbmNpbGlhdGlvbiBvY2N1cnJlZC4gYGNsb3NlYFxuICAgKiAgIHJlc3RvcmVzIHRoZSBwcmV2aW91cyB2YWx1ZS5cbiAgICovXG4gIGNsb3NlOiBmdW5jdGlvbiAocHJldmlvdXNseUVuYWJsZWQpIHtcbiAgICBSZWFjdEJyb3dzZXJFdmVudEVtaXR0ZXIuc2V0RW5hYmxlZChwcmV2aW91c2x5RW5hYmxlZCk7XG4gIH1cbn07XG5cbi8qKlxuICogUHJvdmlkZXMgYSBxdWV1ZSBmb3IgY29sbGVjdGluZyBgY29tcG9uZW50RGlkTW91bnRgIGFuZFxuICogYGNvbXBvbmVudERpZFVwZGF0ZWAgY2FsbGJhY2tzIGR1cmluZyB0aGUgdGhlIHRyYW5zYWN0aW9uLlxuICovXG52YXIgT05fRE9NX1JFQURZX1FVRVVFSU5HID0ge1xuICAvKipcbiAgICogSW5pdGlhbGl6ZXMgdGhlIGludGVybmFsIGBvbkRPTVJlYWR5YCBxdWV1ZS5cbiAgICovXG4gIGluaXRpYWxpemU6IGZ1bmN0aW9uICgpIHtcbiAgICB0aGlzLnJlYWN0TW91bnRSZWFkeS5yZXNldCgpO1xuICB9LFxuXG4gIC8qKlxuICAgKiBBZnRlciBET00gaXMgZmx1c2hlZCwgaW52b2tlIGFsbCByZWdpc3RlcmVkIGBvbkRPTVJlYWR5YCBjYWxsYmFja3MuXG4gICAqL1xuICBjbG9zZTogZnVuY3Rpb24gKCkge1xuICAgIHRoaXMucmVhY3RNb3VudFJlYWR5Lm5vdGlmeUFsbCgpO1xuICB9XG59O1xuXG4vKipcbiAqIEV4ZWN1dGVkIHdpdGhpbiB0aGUgc2NvcGUgb2YgdGhlIGBUcmFuc2FjdGlvbmAgaW5zdGFuY2UuIENvbnNpZGVyIHRoZXNlIGFzXG4gKiBiZWluZyBtZW1iZXIgbWV0aG9kcywgYnV0IHdpdGggYW4gaW1wbGllZCBvcmRlcmluZyB3aGlsZSBiZWluZyBpc29sYXRlZCBmcm9tXG4gKiBlYWNoIG90aGVyLlxuICovXG52YXIgVFJBTlNBQ1RJT05fV1JBUFBFUlMgPSBbU0VMRUNUSU9OX1JFU1RPUkFUSU9OLCBFVkVOVF9TVVBQUkVTU0lPTiwgT05fRE9NX1JFQURZX1FVRVVFSU5HXTtcblxuLyoqXG4gKiBDdXJyZW50bHk6XG4gKiAtIFRoZSBvcmRlciB0aGF0IHRoZXNlIGFyZSBsaXN0ZWQgaW4gdGhlIHRyYW5zYWN0aW9uIGlzIGNyaXRpY2FsOlxuICogLSBTdXBwcmVzc2VzIGV2ZW50cy5cbiAqIC0gUmVzdG9yZXMgc2VsZWN0aW9uIHJhbmdlLlxuICpcbiAqIEZ1dHVyZTpcbiAqIC0gUmVzdG9yZSBkb2N1bWVudC9vdmVyZmxvdyBzY3JvbGwgcG9zaXRpb25zIHRoYXQgd2VyZSB1bmludGVudGlvbmFsbHlcbiAqICAgbW9kaWZpZWQgdmlhIERPTSBpbnNlcnRpb25zIGFib3ZlIHRoZSB0b3Agdmlld3BvcnQgYm91bmRhcnkuXG4gKiAtIEltcGxlbWVudC9pbnRlZ3JhdGUgd2l0aCBjdXN0b21pemVkIGNvbnN0cmFpbnQgYmFzZWQgbGF5b3V0IHN5c3RlbSBhbmQga2VlcFxuICogICB0cmFjayBvZiB3aGljaCBkaW1lbnNpb25zIG11c3QgYmUgcmVtZWFzdXJlZC5cbiAqXG4gKiBAY2xhc3MgUmVhY3RSZWNvbmNpbGVUcmFuc2FjdGlvblxuICovXG5mdW5jdGlvbiBSZWFjdFJlY29uY2lsZVRyYW5zYWN0aW9uKGZvcmNlSFRNTCkge1xuICB0aGlzLnJlaW5pdGlhbGl6ZVRyYW5zYWN0aW9uKCk7XG4gIC8vIE9ubHkgc2VydmVyLXNpZGUgcmVuZGVyaW5nIHJlYWxseSBuZWVkcyB0aGlzIG9wdGlvbiAoc2VlXG4gIC8vIGBSZWFjdFNlcnZlclJlbmRlcmluZ2ApLCBidXQgc2VydmVyLXNpZGUgdXNlc1xuICAvLyBgUmVhY3RTZXJ2ZXJSZW5kZXJpbmdUcmFuc2FjdGlvbmAgaW5zdGVhZC4gVGhpcyBvcHRpb24gaXMgaGVyZSBzbyB0aGF0IGl0J3NcbiAgLy8gYWNjZXNzaWJsZSBhbmQgZGVmYXVsdHMgdG8gZmFsc2Ugd2hlbiBgUmVhY3RET01Db21wb25lbnRgIGFuZFxuICAvLyBgUmVhY3RUZXh0Q29tcG9uZW50YCBjaGVja3MgaXQgaW4gYG1vdW50Q29tcG9uZW50YC5gXG4gIHRoaXMucmVuZGVyVG9TdGF0aWNNYXJrdXAgPSBmYWxzZTtcbiAgdGhpcy5yZWFjdE1vdW50UmVhZHkgPSBDYWxsYmFja1F1ZXVlLmdldFBvb2xlZChudWxsKTtcbiAgdGhpcy51c2VDcmVhdGVFbGVtZW50ID0gIWZvcmNlSFRNTCAmJiBSZWFjdERPTUZlYXR1cmVGbGFncy51c2VDcmVhdGVFbGVtZW50O1xufVxuXG52YXIgTWl4aW4gPSB7XG4gIC8qKlxuICAgKiBAc2VlIFRyYW5zYWN0aW9uXG4gICAqIEBhYnN0cmFjdFxuICAgKiBAZmluYWxcbiAgICogQHJldHVybiB7YXJyYXk8b2JqZWN0Pn0gTGlzdCBvZiBvcGVyYXRpb24gd3JhcCBwcm9jZWR1cmVzLlxuICAgKiAgIFRPRE86IGNvbnZlcnQgdG8gYXJyYXk8VHJhbnNhY3Rpb25XcmFwcGVyPlxuICAgKi9cbiAgZ2V0VHJhbnNhY3Rpb25XcmFwcGVyczogZnVuY3Rpb24gKCkge1xuICAgIHJldHVybiBUUkFOU0FDVElPTl9XUkFQUEVSUztcbiAgfSxcblxuICAvKipcbiAgICogQHJldHVybiB7b2JqZWN0fSBUaGUgcXVldWUgdG8gY29sbGVjdCBgb25ET01SZWFkeWAgY2FsbGJhY2tzIHdpdGguXG4gICAqL1xuICBnZXRSZWFjdE1vdW50UmVhZHk6IGZ1bmN0aW9uICgpIHtcbiAgICByZXR1cm4gdGhpcy5yZWFjdE1vdW50UmVhZHk7XG4gIH0sXG5cbiAgLyoqXG4gICAqIGBQb29sZWRDbGFzc2AgbG9va3MgZm9yIHRoaXMsIGFuZCB3aWxsIGludm9rZSB0aGlzIGJlZm9yZSBhbGxvd2luZyB0aGlzXG4gICAqIGluc3RhbmNlIHRvIGJlIHJldXNlZC5cbiAgICovXG4gIGRlc3RydWN0b3I6IGZ1bmN0aW9uICgpIHtcbiAgICBDYWxsYmFja1F1ZXVlLnJlbGVhc2UodGhpcy5yZWFjdE1vdW50UmVhZHkpO1xuICAgIHRoaXMucmVhY3RNb3VudFJlYWR5ID0gbnVsbDtcbiAgfVxufTtcblxuYXNzaWduKFJlYWN0UmVjb25jaWxlVHJhbnNhY3Rpb24ucHJvdG90eXBlLCBUcmFuc2FjdGlvbi5NaXhpbiwgTWl4aW4pO1xuXG5Qb29sZWRDbGFzcy5hZGRQb29saW5nVG8oUmVhY3RSZWNvbmNpbGVUcmFuc2FjdGlvbik7XG5cbm1vZHVsZS5leHBvcnRzID0gUmVhY3RSZWNvbmNpbGVUcmFuc2FjdGlvbjsiXX0=

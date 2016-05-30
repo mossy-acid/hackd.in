@@ -1,0 +1,46 @@
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule ReactMarkupChecksum
+ */
+
+'use strict';
+
+var adler32 = require('./adler32');
+
+var TAG_END = /\/?>/;
+
+var ReactMarkupChecksum = {
+  CHECKSUM_ATTR_NAME: 'data-react-checksum',
+
+  /**
+   * @param {string} markup Markup string
+   * @return {string} Markup string with checksum attribute attached
+   */
+  addChecksumToMarkup: function addChecksumToMarkup(markup) {
+    var checksum = adler32(markup);
+
+    // Add checksum (handle both parent tags and self-closing tags)
+    return markup.replace(TAG_END, ' ' + ReactMarkupChecksum.CHECKSUM_ATTR_NAME + '="' + checksum + '"$&');
+  },
+
+  /**
+   * @param {string} markup to use
+   * @param {DOMElement} element root React element
+   * @returns {boolean} whether or not the markup is the same
+   */
+  canReuseMarkup: function canReuseMarkup(markup, element) {
+    var existingChecksum = element.getAttribute(ReactMarkupChecksum.CHECKSUM_ATTR_NAME);
+    existingChecksum = existingChecksum && parseInt(existingChecksum, 10);
+    var markupChecksum = adler32(markup);
+    return markupChecksum === existingChecksum;
+  }
+};
+
+module.exports = ReactMarkupChecksum;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvcmVhY3QvbGliL1JlYWN0TWFya3VwQ2hlY2tzdW0uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7QUFXQTs7QUFFQSxJQUFJLFVBQVUsUUFBUSxXQUFSLENBQVY7O0FBRUosSUFBSSxVQUFVLE1BQVY7O0FBRUosSUFBSSxzQkFBc0I7QUFDeEIsc0JBQW9CLHFCQUFwQjs7Ozs7O0FBTUEsdUJBQXFCLDZCQUFVLE1BQVYsRUFBa0I7QUFDckMsUUFBSSxXQUFXLFFBQVEsTUFBUixDQUFYOzs7QUFEaUMsV0FJOUIsT0FBTyxPQUFQLENBQWUsT0FBZixFQUF3QixNQUFNLG9CQUFvQixrQkFBcEIsR0FBeUMsSUFBL0MsR0FBc0QsUUFBdEQsR0FBaUUsS0FBakUsQ0FBL0IsQ0FKcUM7R0FBbEI7Ozs7Ozs7QUFZckIsa0JBQWdCLHdCQUFVLE1BQVYsRUFBa0IsT0FBbEIsRUFBMkI7QUFDekMsUUFBSSxtQkFBbUIsUUFBUSxZQUFSLENBQXFCLG9CQUFvQixrQkFBcEIsQ0FBeEMsQ0FEcUM7QUFFekMsdUJBQW1CLG9CQUFvQixTQUFTLGdCQUFULEVBQTJCLEVBQTNCLENBQXBCLENBRnNCO0FBR3pDLFFBQUksaUJBQWlCLFFBQVEsTUFBUixDQUFqQixDQUhxQztBQUl6QyxXQUFPLG1CQUFtQixnQkFBbkIsQ0FKa0M7R0FBM0I7Q0FuQmQ7O0FBMkJKLE9BQU8sT0FBUCxHQUFpQixtQkFBakIiLCJmaWxlIjoiUmVhY3RNYXJrdXBDaGVja3N1bS5qcyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQ29weXJpZ2h0IDIwMTMtMjAxNSwgRmFjZWJvb2ssIEluYy5cbiAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuXG4gKlxuICogVGhpcyBzb3VyY2UgY29kZSBpcyBsaWNlbnNlZCB1bmRlciB0aGUgQlNELXN0eWxlIGxpY2Vuc2UgZm91bmQgaW4gdGhlXG4gKiBMSUNFTlNFIGZpbGUgaW4gdGhlIHJvb3QgZGlyZWN0b3J5IG9mIHRoaXMgc291cmNlIHRyZWUuIEFuIGFkZGl0aW9uYWwgZ3JhbnRcbiAqIG9mIHBhdGVudCByaWdodHMgY2FuIGJlIGZvdW5kIGluIHRoZSBQQVRFTlRTIGZpbGUgaW4gdGhlIHNhbWUgZGlyZWN0b3J5LlxuICpcbiAqIEBwcm92aWRlc01vZHVsZSBSZWFjdE1hcmt1cENoZWNrc3VtXG4gKi9cblxuJ3VzZSBzdHJpY3QnO1xuXG52YXIgYWRsZXIzMiA9IHJlcXVpcmUoJy4vYWRsZXIzMicpO1xuXG52YXIgVEFHX0VORCA9IC9cXC8/Pi87XG5cbnZhciBSZWFjdE1hcmt1cENoZWNrc3VtID0ge1xuICBDSEVDS1NVTV9BVFRSX05BTUU6ICdkYXRhLXJlYWN0LWNoZWNrc3VtJyxcblxuICAvKipcbiAgICogQHBhcmFtIHtzdHJpbmd9IG1hcmt1cCBNYXJrdXAgc3RyaW5nXG4gICAqIEByZXR1cm4ge3N0cmluZ30gTWFya3VwIHN0cmluZyB3aXRoIGNoZWNrc3VtIGF0dHJpYnV0ZSBhdHRhY2hlZFxuICAgKi9cbiAgYWRkQ2hlY2tzdW1Ub01hcmt1cDogZnVuY3Rpb24gKG1hcmt1cCkge1xuICAgIHZhciBjaGVja3N1bSA9IGFkbGVyMzIobWFya3VwKTtcblxuICAgIC8vIEFkZCBjaGVja3N1bSAoaGFuZGxlIGJvdGggcGFyZW50IHRhZ3MgYW5kIHNlbGYtY2xvc2luZyB0YWdzKVxuICAgIHJldHVybiBtYXJrdXAucmVwbGFjZShUQUdfRU5ELCAnICcgKyBSZWFjdE1hcmt1cENoZWNrc3VtLkNIRUNLU1VNX0FUVFJfTkFNRSArICc9XCInICsgY2hlY2tzdW0gKyAnXCIkJicpO1xuICB9LFxuXG4gIC8qKlxuICAgKiBAcGFyYW0ge3N0cmluZ30gbWFya3VwIHRvIHVzZVxuICAgKiBAcGFyYW0ge0RPTUVsZW1lbnR9IGVsZW1lbnQgcm9vdCBSZWFjdCBlbGVtZW50XG4gICAqIEByZXR1cm5zIHtib29sZWFufSB3aGV0aGVyIG9yIG5vdCB0aGUgbWFya3VwIGlzIHRoZSBzYW1lXG4gICAqL1xuICBjYW5SZXVzZU1hcmt1cDogZnVuY3Rpb24gKG1hcmt1cCwgZWxlbWVudCkge1xuICAgIHZhciBleGlzdGluZ0NoZWNrc3VtID0gZWxlbWVudC5nZXRBdHRyaWJ1dGUoUmVhY3RNYXJrdXBDaGVja3N1bS5DSEVDS1NVTV9BVFRSX05BTUUpO1xuICAgIGV4aXN0aW5nQ2hlY2tzdW0gPSBleGlzdGluZ0NoZWNrc3VtICYmIHBhcnNlSW50KGV4aXN0aW5nQ2hlY2tzdW0sIDEwKTtcbiAgICB2YXIgbWFya3VwQ2hlY2tzdW0gPSBhZGxlcjMyKG1hcmt1cCk7XG4gICAgcmV0dXJuIG1hcmt1cENoZWNrc3VtID09PSBleGlzdGluZ0NoZWNrc3VtO1xuICB9XG59O1xuXG5tb2R1bGUuZXhwb3J0cyA9IFJlYWN0TWFya3VwQ2hlY2tzdW07Il19

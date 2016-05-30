@@ -1,0 +1,4 @@
+'use strict';
+
+module.exports = require('./map');
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2ZwL3BsdWNrLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsT0FBTyxPQUFQLEdBQWlCLFFBQVEsT0FBUixDQUFqQiIsImZpbGUiOiJwbHVjay5qcyIsInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0gcmVxdWlyZSgnLi9tYXAnKTtcbiJdfQ==

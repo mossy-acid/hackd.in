@@ -1,0 +1,4 @@
+'use strict';
+
+module.exports = require('./forEachRight');
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL2NsaWVudC9saWIvbG9kYXNoL2VhY2hSaWdodC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLE9BQU8sT0FBUCxHQUFpQixRQUFRLGdCQUFSLENBQWpCIiwiZmlsZSI6ImVhY2hSaWdodC5qcyIsInNvdXJjZXNDb250ZW50IjpbIm1vZHVsZS5leHBvcnRzID0gcmVxdWlyZSgnLi9mb3JFYWNoUmlnaHQnKTtcbiJdfQ==
