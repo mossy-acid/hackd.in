@@ -16,13 +16,24 @@ class NewProject extends React.Component {
     };
   }
 
+  clickHandler(e) {
+    var data = { 
+      title: $('#projectTitle').val(),
+      contributors: $('#contributors').val(),
+      technologies: $('#technologies').val(),
+      description: $('#projectDescription').val()
+    }
+
+    postProject(data);
+  }
+
   render() {
     return (
       <div className="actual-content">
         <div id="form-input">
           <form className="form" id="form1">
             <p className="projectTitle">
-              <input name="projectTitle" type="text" className="formInput" placeholder="Project Name" id="projectTitle" />
+              <input name="projectTitle" type="text" className="formInput" placeholder="Project Title" id="projectTitle" />
             </p>
             <p className="contributors">
               <input name="contributors" type="text" className="formInput" id="contributors" placeholder="Contributors" />
@@ -35,7 +46,7 @@ class NewProject extends React.Component {
             </p>
           </form>
           <div className="submit">
-              <input type="submit" value="SUBMIT" id="button-blue"/>
+            <input type="button" value="SUBMIT" onClick={this.clickHandler} id="button-blue"/>
           </div>
         </div>
       </div>

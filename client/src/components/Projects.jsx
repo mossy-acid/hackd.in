@@ -6,23 +6,28 @@ class Projects extends React.Component {
     super(props);
 
     this.state = {
-
+      projects: []
     };
   }
 
   componentDidMount() {
-    console.log('componentMounted')
     this.getProjectsFromDatabase();
   }
 
   getProjectsFromDatabase() {
+    var context = this;
     console.log('getProjects function called');
-    this.props.getProjects();
+    this.props.getProjects( function(projects) {
+      context.setState({
+        projects: JSON.parse(projects)
+      });
+    });
   }
 
   render() {
     return (
       <div>
+        <ProjectList projects={this.state.projects} />
       </div>
     );
   }
