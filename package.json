@@ -6,7 +6,7 @@
   "private": true,
   "main": "server/server.js",
   "engines": {
-    "node": "6.0.0"
+    "node" : "6.0.0"
   },
   "scripts": {},
   "dependencies": {
