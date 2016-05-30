@@ -19,11 +19,12 @@ class NewProject extends React.Component {
   clickHandler(e) {
     var data = { 
       title: $('#projectTitle').val(),
-      contributors: $('#contributors').val(),
+      engineers: $('#contributors').val(),
       technologies: $('#technologies').val(),
-      description: $('#projectDescription').val()
-    }
-
+      description: $('#projectDescription').val(),
+      image: $('#image').val()
+    };
+    console.log('image: ', data.image);
     postProject(data);
   }
 
@@ -41,6 +42,11 @@ class NewProject extends React.Component {
             <p className="technologies">
               <input name="technologies" type="text" className="formInput" id="technologies" placeholder="Technologies" />
             </p>
+
+            <p className="image">
+              <input name="image" type="text" className="formInput" id="image" placeholder="Image" />
+            </p>
+
             <p className="projectDescription">
               <textarea name="projectDescription" className="formInput" id="projectDescription" placeholder="Project Description"></textarea>
             </p>

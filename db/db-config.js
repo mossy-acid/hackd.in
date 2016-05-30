@@ -3,7 +3,7 @@ const knex = require('knex')({
   client: 'postgresql',
   connection: {
     database: 'hackdin'
-  },
+  }
 });
 
 const db = require('bookshelf')(knex);
@@ -14,6 +14,7 @@ db.knex.schema.hasTable('projects').then(exists => {
       project.increments('id').primary();
       project.string('title').unique();
       project.string('description');
+      project.string('image');
       project.integer('school_id').unsigned().references('id').inTable('schools');
       // project.integer('visits');
       // project.timestamps();
@@ -29,9 +30,9 @@ db.knex.schema.hasTable('engineers').then(exists => {
       engineer.increments('id').primary();
       // engineer.string('username').unique();
       // engineer.string('password');
-      engineer.string('firstname');
-      engineer.string('lastname');
-      engineer.string('bio');
+      engineer.string('name');
+      // engineer.string('lastname');
+      // engineer.string('bio');
       // engineer.string('github');
       // engineer.string('linkedin');
       engineer.integer('project_id').unsigned().references('id').inTable('projects');
@@ -69,12 +70,12 @@ db.knex.schema.hasTable('technologies').then(exists => {
 });
 
 // Join table
-db.knex.schema.hasTable('ProjectsTechnologies').then(exists => {
+db.knex.schema.hasTable('projects_technologies').then(exists => {
   if (!exists) {
-    db.knex.schema.createTable('ProjectsTechnologies', projTech => {
+    db.knex.schema.createTable('projects_technologies', projTech => {
       projTech.increments('id').primary();
-      projTech.integer('project_id');
-      projTech.integer('technology_id');
+      projTech.integer('project_id').unsigned().references('id').inTable('projects');
+      projTech.integer('technology_id').unsigned().references('id').inTable('technologies');
     }).then(table => {
       console.log('Created Table', table);
     });

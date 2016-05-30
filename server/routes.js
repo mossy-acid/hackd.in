@@ -3,6 +3,15 @@ const server   = require('./server.js');
 const Projects = require('./collections/projects');
 const Project  = require('./models/project');
 const path     = require('path');
+const cloudinary = require('./api/cloudinary.js');
+
+
+// const knex = require('knex')({
+//   client: 'postgresql',
+//   connection: {
+//     database: 'hackdin'
+//   },
+// });
 
 module.exports = (server, express) => {
 
@@ -38,35 +47,50 @@ module.exports = (server, express) => {
 
 
   server.get('/projects/data', (req, res) => {
-     Project.fetchAll({columns: ['title', 'description']}).then(projects => {
-      res.send(JSON.stringify(projects));
-    });
-  })
+    // knex.from('projects')
+    //   .innerJoin('engineers', 'projects.id', 'engineers.project_id')
+    //   .then( engineers => {
+    //     console.log(engineers);
+    //     res.send(JSON.stringify(engineers));
+    //   })
 
+    Project.fetchAll({columns: ['title', 'description', 'image']})
+    .then(projects => {
+      res.send(JSON.stringify(projects));
+    })
+  })
 
   server.post('/projects/data',
   function(req, res) {
     let title = req.body.title;
     let description = req.body.description;
+    let engineers = req.body.engineers;
     // let technologies = req.body.technologies;
+    let imageUrl = req.body.image;
 
-    new Project({ title: title }).fetch().then(found => {
-      if (found) {
-        // the found.attributes proptery is an object containing the existing project's properties
-        // need to return a message to the user that a propertiesoject by this name already exists
-        res.status(200).send(found.attributes);
-      } else {
-        Projects.create({
-          title: title,
-          description: description,
-          // technologies: technologies
-          // engineers: engineers
-        })
-        .then(newProject => {
-          res.status(201).send(newProject);
+    cloudinary.uploader.upload(imageUrl,
+      result => {
+        // cloudinary.image( result.public_id, { width: 100, height: 150, crop: "fill" }) )
+        new Project({ title: title }).fetch().then(found => {
+          if (found) {
+            res.status(200).send(found.attributes);
+          } else {
+            Projects.create({
+              title: title,
+              description: description,
+              image: result.secure_url
+              // technologies: technologies
+              // engineers: engineers
+            })
+            .then(newProject => {
+              res.status(201).send(newProject);
+            });
+          }
         });
       }
-    });
+    ); 
+    
+
   });
 
   // server.post('/login',
