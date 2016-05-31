@@ -1,12 +1,3 @@
-// import React, { PropTypes } from 'react'
-// import ProjectList from './ProjectList'
-
-// const NewProject = () => (
-//   <div className="actual-content">
-//     <p>Hello</p>
-//   </div>
-// );
-
 class NewProject extends React.Component {
   constructor() {
     super();
