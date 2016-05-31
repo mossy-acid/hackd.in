@@ -1,7 +1,7 @@
 /*---------Navigation Bar-------*/
 
 html {
-  font-family: "Oswald"; 
+  font-family: "Oswald";
   margin: 1em 10%;
   background-color: #fafafa;
 }
@@ -63,8 +63,9 @@ nav ul li a:hover {
   color: #00acee;
 }
 img {
-  width: 500px;
+  width: auto;
   height: auto;
+  border-radius: 5px;
 }
 
 .actual-content {
@@ -232,8 +233,8 @@ textarea {
   color: #1dabb8;
 }
 
-a:hover { 
-  text-decoration: none; 
+a:hover {
+  text-decoration: none;
 }
 
 /*------Projects Page------------*/
@@ -339,11 +340,12 @@ img {
    color: white;
 }
 :-moz-placeholder { /* Firefox 18- */
-   color: white;  
+   color: white;
 }
 ::-moz-placeholder {  /* Firefox 19+ */
-   color: white;  
+   color: white;
 }
-:-ms-input-placeholder {  
-   color: white;  
+:-ms-input-placeholder {
+   color: white;
 }
+=======

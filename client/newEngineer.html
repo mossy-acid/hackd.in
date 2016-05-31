@@ -25,12 +25,11 @@
 
 <div>
   <header>
-    <a id="logo" href="#">h.i</a>
+     <a id="logo" href="#">h.i</a>
     <nav>
       <ul>
-        <li><a href="engineers">Engineers</a></li>
-        <li><a href="projects" id="current">Projects</a></li>
-        <li><a href="profile">My Profile</a></li>
+        <li><a href="engineers" id="current">Engineers</a></li>
+        <li><a href="projects">Projects</a></li>
         <form class="search-container">
           <input id="search-box" type="text" class="search-box" name="q" />
           <label for="search-box"><span class="glyphicon glyphicon-search search-icon"></span></label>
@@ -41,15 +40,12 @@
       </ul>
     </nav>
   </header>
-  <div id="projects"></div>
+  <div id="newEngineer"></div>
 </div>
+  <script src="client/src/utils/engineerHelpers.js"></script>
+  <script src="client/src/components/newEngineer.js"></script>
+  <script src="client/src/newEngineerRender.js"></script>
 
-  <script src="client/src/data/data.js"></script>
-  <script src="client/src/components/Projects.js"></script>
-  <script src="client/src/components/ProjectList.js"></script>
-  <script src="client/src/components/ProjectEntry.js"></script>
-  <script src="client/src/utils/projectHelpers.js"></script>
-  <script src="client/src/projectsRender.js"></script>
 
   <script type="text/javascript">
     window.onload = function() {
