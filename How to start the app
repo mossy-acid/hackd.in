@@ -6,3 +6,5 @@ How to start the app
 4) Download and run http://postgresapp.com/
 5) createdb hackedin
 6) nodemon server/server.js
+7) npm install babel-cli
+8) babel . --out-dir compiled --presets=es2015,react --ignore=node_modules,compiled,db,server --source-maps inline --watch

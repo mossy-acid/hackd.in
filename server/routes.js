@@ -78,7 +78,7 @@ module.exports = (server, express) => {
     //     res.send(JSON.stringify(engineers));
     //   })
 
-    Project.fetchAll({columns: ['title', 'description', 'image', 'imageTag']})
+    Project.fetchAll({columns: ['title', 'description', 'image']})
     .then(projects => {
       res.send(JSON.stringify(projects));
     });
@@ -110,12 +110,14 @@ module.exports = (server, express) => {
           if (found) {
             res.status(200).send(found.attributes);
           } else {
+            let url = result.secure_url.split('/');
+            url[6] = 'c_fill,h_250,w_250';
+            url = url.join('/');
+            console.log(url);
             Projects.create({
               title: title,
               description: description,
-              image: result.secure_url,
-              imageTag: cloudinary.image(result.public_id, { width: 75, height: 75, crop: 'fill',
-                 html_width: 50, html_height: 75 })
+              image: url,
               // technologies: technologies
               // engineers: engineers
             })

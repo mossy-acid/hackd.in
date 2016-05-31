@@ -16,7 +16,7 @@ const postEngineer = data => {
     console.log('POST request made to Engineers');
   })
   .done( data => {
-    console.log(data)
+    console.log(data);
   })
   .fail( err => {
     console.log(err);
