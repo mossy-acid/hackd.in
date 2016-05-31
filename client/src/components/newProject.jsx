@@ -8,7 +8,7 @@ class NewProject extends React.Component {
   }
 
   clickHandler(e) {
-    var data = { 
+    var data = {
       title: $('#projectTitle').val(),
       engineers: $('#contributors').val(),
       technologies: $('#technologies').val(),

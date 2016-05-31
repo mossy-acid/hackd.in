@@ -42,8 +42,15 @@ module.exports = (server, express) => {
     res.sendFile(path.resolve('client/projects.html'));
   });
 
+  server.get('/newProject',
+    (req, res) => res.sendFile(path.resolve('client/newProject.html')) );
 
-  server.get('/newProject', (req, res) => res.sendFile(path.resolve('client/newProject.html')) );
+  server.get('/engineers',
+    (req, res) => res.sendFile(path.resolve('client/engineers.html')) );
+
+  server.get('/newEngineer',
+    (req, res) => res.sendFile(path.resolve('client/newEngineer.html')) );
+
   // server.get('/logout', (req, res) => {
   //   req.session.destroy();
   //   res.render('index');
@@ -59,7 +66,6 @@ module.exports = (server, express) => {
 
   // server.get('/[* engineer name *]', 'go to individual engineer page');
 
-  // server.get('/engineers', 'list all engineers');
 
   // server.post('/signup', 'submit new user signup');
 
@@ -82,8 +88,12 @@ module.exports = (server, express) => {
     res.sendFile(path.resolve('client/profile.html'));
   })
 
-
-
+  server.get('/engineers/data', (req, res) => {
+    Engineer.fetchAll({columns: ['name']})
+    .then(engineers => {
+      res.send(JSON.stringify(engineers));
+    });
+  });
 
   server.post('/projects/data',
   function(req, res) {
@@ -114,8 +124,31 @@ module.exports = (server, express) => {
         });
       }
     );
+  });
 
+  // this needs fixin'
+  server.post('/engineers/data',
+  function(req, res) {
+    let title = req.body.name;
+    let imageUrl = req.body.image;
 
+    cloudinary.uploader.upload(imageUrl,
+      result => {
+        new Engineer({ name: name }).fetch().then(found => {
+          if (found) {
+            res.status(200).send(found.attributes);
+          } else {
+            Engineers.create({
+              name: name,
+              image: result.secure_url
+            })
+            .then(newEngineer => {
+              res.status(201).send(newEngineer);
+            });
+          }
+        });
+      }
+    );
   });
 
   // server.post('/login',

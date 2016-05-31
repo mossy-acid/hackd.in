@@ -82,10 +82,4 @@ db.knex.schema.hasTable('projects_technologies').then(exists => {
   }
 });
 
-
 module.exports = db;
-
-
-
-
-

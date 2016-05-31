@@ -15,9 +15,9 @@ class Projects extends React.Component {
   }
 
   getProjectsFromDatabase() {
-    var context = this;
+    let context = this;
     console.log('getProjects function called');
-    this.props.getProjects( function(projects) {
+    this.props.getProjects( projects => {
       context.setState({
         projects: JSON.parse(projects)
       });

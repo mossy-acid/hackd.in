@@ -2,10 +2,11 @@ const ProjectEntry = ({project}) => (
   <div className="project-entry">
     <div className="screenshot">
       {/*return from cloudinary upload function}*/}
-      <img src={project.image}/>
+      <img src={project.image} />
+      {console.log(project)}
     </div>
 
-    <div className="information"> 
+    <div className="information">
       <p>Title: {project.title}</p>
       <p>Description: {project.description}</p>
     </div>
