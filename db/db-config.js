@@ -15,6 +15,7 @@ db.knex.schema.hasTable('projects').then(exists => {
       project.string('title').unique();
       project.string('description');
       project.string('image');
+      project.string('imageTag');
       project.integer('school_id').unsigned().references('id').inTable('schools');
       // project.integer('visits');
       // project.timestamps();

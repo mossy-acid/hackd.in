@@ -78,7 +78,7 @@ module.exports = (server, express) => {
     //     res.send(JSON.stringify(engineers));
     //   })
 
-    Project.fetchAll({columns: ['title', 'description', 'image']})
+    Project.fetchAll({columns: ['title', 'description', 'image', 'imageTag']})
     .then(projects => {
       res.send(JSON.stringify(projects));
     });
@@ -113,7 +113,9 @@ module.exports = (server, express) => {
             Projects.create({
               title: title,
               description: description,
-              image: result.secure_url
+              image: result.secure_url,
+              imageTag: cloudinary.image(result.public_id, { width: 75, height: 75, crop: 'fill',
+                 html_width: 50, html_height: 75 })
               // technologies: technologies
               // engineers: engineers
             })
