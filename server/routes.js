@@ -43,8 +43,7 @@ module.exports = (server, express) => {
   });
 
 
-  server.get('/newProject',
-    (req, res) => res.sendFile(path.resolve('client/newProject.html')) );
+  server.get('/newProject', (req, res) => res.sendFile(path.resolve('client/newProject.html')) );
   // server.get('/logout', (req, res) => {
   //   req.session.destroy();
   //   res.render('index');
@@ -78,6 +77,13 @@ module.exports = (server, express) => {
       res.send(JSON.stringify(projects));
     });
   });
+
+  server.get('/profile', (req,res) => {
+    res.sendFile(path.resolve('client/profile.html'));
+  })
+
+
+
 
   server.post('/projects/data',
   function(req, res) {
