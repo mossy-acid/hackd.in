@@ -3,29 +3,52 @@ class Profile extends React.Component {
     super();
 
     this.state = {
-
+      edit: {
+        information: false,
+        email: false,
+        school: false,
+        bio: false,
+        linkedin: false,
+        github: false
+      }
     };
+
+    this.clickEdit = this.clickEdit.bind(this);
+    this.submitEdit = this.submitEdit.bind(this);
+  }
+
+  renderField(field) {
+    if (this.state.edit[field]) {
+      return (
+        <div>
+          <input id={field+'Edit'} placeholder={'Enter new '+field}></input>
+          <button type='button' className={field+' glyphicon glyphicon-edit'} onClick={this.clickEdit}>Save</button>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <h4 id={field}>{field.toUpperCase()+':'}</h4>
+          <button type='button' className={field+' glyphicon glyphicon-edit'} onClick={this.clickEdit}>Edit</button>
+        </div>
+      )
+    }
   }
 
   clickEdit(e) {
     var field = $(e.target.classList)[0];
+    var newState = this.state.edit;
+    newState[field] = !newState[field];
+    if (!newState[field]) {
+      this.submitEdit(field);
+    }
 
-    if ($(e.target).text() === 'Edit') {
-      $(e.target).text('Save');
-      $('#'+field).html(
-        '<input id="'+field+'Edit" placeholder="Edit Me"></input><br></br>'
-      );
-    } else {
-      $(e.target).text('Edit');
-      var changedVal = $('#'+field+'Edit').val());
-      $('#'+field).html(
-        `<h4 id='email'>Email:</h4><br></br>`
-      );
-    } 
+    this.setState({ edit: newState} );
   }
 
-  submitEdit(e) {
-    console.log('changed')
+  submitEdit(field) {
+    var edit = ($('#'+field+'Edit').val());
+    console.log(edit);
   }
 
   render() {
@@ -37,24 +60,18 @@ class Profile extends React.Component {
 
         <div className='information'>
           <h2 id='name'>Some Name</h2>
-          <button type='button' className='email glyphicon glyphicon-edit' onClick={this.clickEdit}>Edit</button>
-          <h4 id='email'>Email:</h4><br></br>
-          
-          <button type='button' className='location glyphicon glyphicon-edit' onClick={this.clickEdit}>Edit</button>
-          <h4 id='location'>Location:</h4><br></br>
-          
-          <button type='button' className='school glyphicon glyphicon-edit' onClick={this.clickEdit}>Edit</button>
-          <h4 id='school'>School:</h4><br></br>
 
-          <button type='button' className='bio glyphicon glyphicon-edit' onClick={this.clickEdit}>Edit</button>
-          <h4 id='bio'>Bio:</h4><br></br>
+          {this.renderField('email')}
 
-          <button type='button' className='linkedin glyphicon glyphicon-edit' onClick={this.clickEdit}>Edit</button>
-          <h4 id='linkedin'>LinkedIn Handle:</h4><br></br>
+          {this.renderField('location')}
 
-          <button type='button' className='github glyphicon glyphicon-edit' onClick={this.clickEdit}>Edit</button>
-          <h4 id='github'>Github Handle:</h4><br></br>
+          {this.renderField('school')}
 
+          {this.renderField('bio')}
+
+          {this.renderField('linkedin')}
+
+          {this.renderField('github')}
         </div>
       </div>
     )

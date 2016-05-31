@@ -252,9 +252,9 @@ a:hover {
   float: left;
 }
 .screenshot img {
-  height: 350px;
-  width: 350px;
-  margin: 30px;
+  height: 400px;
+  width: 400px;
+  margin: 20px;
 }
 
 .information{
@@ -276,40 +276,67 @@ img {
 /*-------Profile Page-----------*/
 .profile-container {
   display: block;
-  width: 100%;
-  height: 400px;
-  float: left;
+  top: 100px;
+  width: 1000px;
+  height: 450px;
+  margin: auto;
   position: relative;
   background-color: gray;
+  padding-top: 1px;
   /*color: white;*/
 }
 .information button {
   display: inline;
   margin-top: 10px;
-  float: right;
   border-style: none;
   background-color: black;
   color: white;
   border-radius: 5px;
+  position: relative;
+  left: 200px;
+  width: 50px;
 }
+
 .information button:hover {
   background-color: red;
   color: white;
 }
 .information #name {
+  /*position: relative;*/
   /*text-align: center;*/
   color: white;
 }
-.information h4 {
-  display: inline-block;
-}
+.information h4,
 .information input {
   display: inline-block;
-  position: absolute;
-  /*height: 20px;*/
-  width: 50px;
+  width: 300px;
+  height: 20px;
+  font-size: 20px;
+}
+.information input {
+  /*position: absolute;*/
+  height: 35px;
+  margin-top: 5px;
+  background: transparent;
+  border: none;
+  /*background-color: black;*/
 }
 .information #bio {
-  /*display: block;*/
   height: 100px;
+}
+.information #bioEdit {
+  height: 115px;
+}
+
+::-webkit-input-placeholder {
+   color: white;
+}
+:-moz-placeholder { /* Firefox 18- */
+   color: white;  
+}
+::-moz-placeholder {  /* Firefox 19+ */
+   color: white;  
+}
+:-ms-input-placeholder {  
+   color: white;  
 }
