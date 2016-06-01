@@ -32,9 +32,10 @@ db.knex.schema.hasTable('engineers').then(exists => {
       // engineer.string('password');
       engineer.string('name');
       // engineer.string('lastname');
-      engineer.string('bio');
+      // engineer.string('bio');
       // engineer.string('github');
       // engineer.string('linkedin');
+      engineer.string('image');
       engineer.integer('project_id').unsigned().references('id').inTable('projects');
       engineer.integer('school_id').unsigned().references('id').inTable('schools');
       // engineer.integer('visits');
