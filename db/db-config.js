@@ -29,9 +29,8 @@ db.knex.schema.hasTable('engineers').then(exists => {
   if (!exists) {
     db.knex.schema.createTable('engineers', engineer => {
       engineer.increments('id').primary();
-      engineer.string('username').unique();
+      engineer.string('gitHandle').unique();
       engineer.string('name');
-      engineer.string('gitHandle');
       engineer.string('email');
       engineer.string('bio');
       engineer.string('githubUrl');

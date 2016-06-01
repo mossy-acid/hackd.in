@@ -140,9 +140,10 @@ module.exports = (server, express) => {
   });
 
   server.get('/engineer', (req, res) => {
-    let username = req.query;
-    console.log('inside routes:', username);
-    new Engineer({ username: username }).fetch().then(found => {
+    let gitHandle = req.query.gitHandle;
+    console.log('inside routes:', req.query);
+    new Engineer({ gitHandle: gitHandle }).fetch().then(found => {
+      console.log('found:', found);
       if (found) {
         res.status(200).send(found.attributes);
       } else {

@@ -31,7 +31,7 @@ class Profile extends React.Component {
 
   componentDidMount() {
     let context = this;
-    getEngineer('justin-lai', engineer => {
+    getEngineer('mybrainishuge', engineer => {
       context.setState({
         myinfo: engineer
       });
