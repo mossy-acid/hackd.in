@@ -1,6 +1,8 @@
 const server   = require('./server.js');
 const Projects = require('./collections/projects');
 const Project  = require('./models/project');
+const Engineers = require('./collections/engineers');
+const Engineer  = require('./models/engineer');
 const path     = require('path');
 const cloudinary = require('./api/cloudinary.js');
 const passport = require('./api/github.js');
@@ -28,8 +30,10 @@ module.exports = (server, express) => {
   server.get('/', (req, res) => {
     if (req.isAuthenticated()) {
       console.log('User is authenticated');
+      // display 'my profile' instead of sign in/up
     } else {
       console.log('User is not authenticated');
+      // hide 'my profile' and display sign in/up
     }
     res.sendFile(path.resolve('client/projects.html'));
   });
@@ -40,7 +44,11 @@ module.exports = (server, express) => {
   server.get('/signin/github/callback',
     passport.authenticate('github', { failureRedirect: '/' }),
     (req, res) => {
-      console.log('github req:', req.user);
+      console.log('github id:', req.user.id);
+      console.log('github id:', req.user.displayName);
+      console.log('github id:', req.user.username);
+      console.log('github id:', req.user.profileUrl);
+      console.log('github id:', req.user.photos[0].value);
       res.redirect('/');
     });
 
@@ -56,7 +64,7 @@ module.exports = (server, express) => {
   server.get('/newEngineer',
     (req, res) => res.sendFile(path.resolve('client/newEngineer.html')) );
 
-  server.get('/logout', (req, res) => {
+  server.get('/signout', (req, res) => {
     console.log('Logging out');
     req.logout();
     res.redirect('/');
@@ -95,7 +103,7 @@ module.exports = (server, express) => {
   })
 
   server.get('/engineers/data', (req, res) => {
-    Engineer.fetchAll({columns: ['name', 'bio']})
+    Engineer.fetchAll({columns: ['name', 'image']})
     .then(engineers => {
       res.send(JSON.stringify(engineers));
     });
@@ -139,7 +147,7 @@ module.exports = (server, express) => {
   // this needs fixin'
   server.post('/engineers/data',
   function(req, res) {
-    let title = req.body.name;
+    let name = req.body.name;
     let imageUrl = req.body.image;
 
     cloudinary.uploader.upload(imageUrl,
@@ -148,9 +156,12 @@ module.exports = (server, express) => {
           if (found) {
             res.status(200).send(found.attributes);
           } else {
+            let url = result.secure_url.split('/');
+            url[6] = 'c_fill,h_250,w_250';
+            url = url.join('/');
             Engineers.create({
               name: name,
-              image: result.secure_url
+              image: url
             })
             .then(newEngineer => {
               res.status(201).send(newEngineer);
