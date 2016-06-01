@@ -1,11 +1,11 @@
-const server   = require('./server.js');
-const Projects = require('./collections/projects');
-const Project  = require('./models/project');
-const Engineers = require('./collections/engineers');
-const Engineer  = require('./models/engineer');
-const path     = require('path');
+const server     = require('./server.js');
+const Projects   = require('./collections/projects');
+const Project    = require('./models/project');
+const Engineers  = require('./collections/engineers');
+const Engineer   = require('./models/engineer');
+const path       = require('path');
 const cloudinary = require('./api/cloudinary.js');
-const passport = require('./api/github.js');
+const passport   = require('./api/github.js');
 
 server.use(passport.initialize());
 server.use(passport.session());
@@ -14,17 +14,32 @@ server.use(passport.session());
 
 module.exports = (server, express) => {
 
+  // passport.serializeUser((user, done) => {
+  //   console.log('inside serializeUser');
+  //   // placeholder for custom user serialization
+  //   // null is for errors
+  //   done(null, user);
+  // });
+
+  // passport.deserializeUser((user, done) => {
+  //   console.log('inside deserializeUser');
+  //   // placeholder for custom user deserialization.
+  //   // maybe you are going to get the user from mongo by id?
+  //   // null is for errors
+  //   done(null, user);
+  // });
+
   passport.serializeUser((user, done) => {
-    // placeholder for custom user serialization
-    // null is for errors
-    done(null, user);
+    console.log('inside serializeUser');
+    done(null, user.username);
   });
 
-  passport.deserializeUser((user, done) => {
-    // placeholder for custom user deserialization.
-    // maybe you are going to get the user from mongo by id?
-    // null is for errors
-    done(null, user);
+  passport.deserializeUser((username, done) => {
+    console.log('inside deserializeUser:', username);
+
+    // Engineer.findById(id, (err, user) => {
+      done(null, username);
+    // });
   });
 
   server.get('/', (req, res) => {
