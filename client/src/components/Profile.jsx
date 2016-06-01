@@ -34,13 +34,10 @@ class Profile extends React.Component {
       context.setState({
         myinfo: engineer
       });
-      console.log(context.state.myinfo);
     });
   }
 
   renderField(field) {
-    console.log('field:', field);
-    console.log('state of field: ', this.state.myinfo[field]);
     if (this.state.edit[field] && field === 'bio') {
       return (
         <div>

@@ -2,8 +2,8 @@
 // import ProjectList from './ProjectList'
 
 class Projects extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       projects: []
@@ -17,7 +17,7 @@ class Projects extends React.Component {
   getProjectsFromDatabase() {
     let context = this;
     console.log('getProjects function called');
-    this.props.getProjects( projects => {
+    getProjects( projects => {
       context.setState({
         projects: JSON.parse(projects)
       });

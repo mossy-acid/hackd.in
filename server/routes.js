@@ -50,7 +50,7 @@ module.exports = (server, express) => {
       console.log('User is not authenticated');
       // hide 'my profile' and sign out and display sign in/up
     }
-    res.sendFile(path.resolve('client/projects.html'));
+    res.sendFile(path.resolve('client/index.html'));
   });
 
   server.get('/signin', passport.authenticate('github'));
