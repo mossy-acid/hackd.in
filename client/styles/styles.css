@@ -290,15 +290,21 @@ img {
   display: inline;
   margin-top: 10px;
   border-style: none;
-  background-color: black;
+  /*background-color: black;*/
   color: white;
   border-radius: 5px;
   position: relative;
   left: 200px;
   width: 50px;
 }
+#saveButton {
+  background-color: red;
+}
+#editButton {
+  background-color: black;
+}
 
-.information button:hover {
+#editButton:hover {
   background-color: red;
   color: white;
 }
