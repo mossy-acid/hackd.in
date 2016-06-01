@@ -25,13 +25,12 @@ class Profile extends React.Component {
 
     this.clickEdit = this.clickEdit.bind(this);
     this.submitEdit = this.submitEdit.bind(this);
-    // this.submitForm = this.submitForm.bind(this);
 
   }
 
   componentDidMount() {
     let context = this;
-    getEngineer('mybrainishuge', engineer => {
+    getEngineer('justin-lai', engineer => {
       context.setState({
         myinfo: engineer
       });
