@@ -3,14 +3,23 @@ class Profile extends React.Component {
     super();
 
     this.state = {
+      myinfo: {
+        username: '',
+        name: '',
+        bio: '',
+        githubUrl: '',
+        image: ''
+      },
+
       edit: {
         information: false,
         email: false,
         school: false,
         bio: false,
         linkedin: false,
-        github: false
+        githubUrl: false
       },
+
       currentFocus: null
     };
 
@@ -20,25 +29,37 @@ class Profile extends React.Component {
 
   }
 
+  componentDidMount() {
+    let context = this;
+    getEngineer('justin-lai', engineer => {
+      context.setState({
+        myinfo: engineer
+      });
+      console.log(context.state.myinfo);
+    });
+  }
+
   renderField(field) {
+    console.log('field:', field);
+    console.log('state of field: ', this.state.myinfo[field]);
     if (this.state.edit[field] && field === 'bio') {
       return (
         <div>
-          <textarea id={field} className='inputField' placeholder={('Enter new '+field).toUpperCase()}></textarea>
+          <textarea id={field} className='inputField' placeholder={this.state.myinfo[field]}></textarea>
           <button type='button' id='saveButton' className={field+' glyphicon glyphicon-edit'} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
         </div>
       )
     } else if (this.state.edit[field]) {
       return (
         <div>
-          <input id={field} className='inputField' placeholder={(field+': ').toUpperCase()}></input>
+          <input id={field} className='inputField' placeholder={this.state.myinfo[field]}></input>
           <button type='button' id='saveButton' className={field+' glyphicon glyphicon-edit'} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
         </div>
       )
     } else {
       return (
         <div>
-          <h4 id={field}>{field.toUpperCase()+':'}</h4>
+          <h4 id={field}>{this.state.myinfo[field]}</h4>
           <button type='button' id='editButton' className={field+' glyphicon glyphicon-edit'} onClick={this.clickEdit}>Edit</button>
         </div>
       )
@@ -87,7 +108,7 @@ class Profile extends React.Component {
   //       school: false,
   //       bio: false,
   //       linkedin: false,
-  //       github: false
+  //       githubUrl: false
   //     }
   //   })
   // }
@@ -104,28 +125,21 @@ class Profile extends React.Component {
         $('button.'+field).click()
       }
     })
-  } 
+  }
 
   render() {
     return (
       <div className='actual-content profile-container'>
         <div className="screenshot">
-          <img src='https://octodex.github.com/images/codercat.jpg'/>
+          <img src={this.state.myinfo['image']} />
         </div>
 
         <div className='information'>
-          <h2 id='name'>Some Name</h2>
-            {this.renderField('email')}
-
-            {this.renderField('location')}
-
-            {this.renderField('school')}
+          <h2 id='name'>{this.state.myinfo['name']}</h2>
 
             {this.renderField('bio')}
 
-            {this.renderField('linkedin')}
-
-            {this.renderField('github')}
+            {this.renderField('githubUrl')}
         </div>
     </div>
     )
@@ -133,3 +147,4 @@ class Profile extends React.Component {
 }
 
 window.Profile = Profile;
+
