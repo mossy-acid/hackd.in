@@ -21,7 +21,6 @@ class Engineers extends React.Component {
       context.setState({
         engineers: JSON.parse(engineers)
       });
-      console.log(context.state.engineers)
     });
   }
 

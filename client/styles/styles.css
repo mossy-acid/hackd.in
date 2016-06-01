@@ -238,7 +238,7 @@ a:hover {
 }
 
 /*------Projects Page------------*/
-.project-entry {
+.project-entry, .engineer-entry {
   /*display: inline-block;*/
   display: block;
   margin-bottom: 50px;

@@ -30,6 +30,11 @@ module.exports = (server, express) => {
   server.get('/', (req, res) => {
     if (req.isAuthenticated()) {
       console.log('User is authenticated');
+      console.log('github id:', req.user.id);
+      console.log('github name:', req.user.displayName);
+      console.log('github username:', req.user.username);
+      console.log('github profile:', req.user.profileUrl);
+      console.log('github image:', req.user.photos[0].value);
       // display 'my profile' instead of sign in/up
     } else {
       console.log('User is not authenticated');
@@ -46,12 +51,6 @@ module.exports = (server, express) => {
     passport.authenticate('github', { failureRedirect: '/' }),
     (req, res) => {
 
-      // console.log('github id:', req.user.id);
-      // console.log('github id:', req.user.displayName);
-      // console.log('github id:', req.user.username);
-      // console.log('github id:', req.user.profileUrl);
-      // console.log('github id:', req.user.photos[0].value);
-
       const name = req.user.displayName;
       const gitHandle = req.user.username;
       const email = req.user.emails[0].value;
@@ -63,7 +62,7 @@ module.exports = (server, express) => {
         if (found) {
           //res.status(200).send(found.attributes);
           res.redirect('/profile');
-        } else {  
+        } else {
           Engineers.create({
             name: name,
             gitHandle: gitHandle,
@@ -76,7 +75,6 @@ module.exports = (server, express) => {
         }
       });
   });
-
 
   server.get('/projects',
     (req, res) => res.sendFile(path.resolve('client/projects.html')) );
@@ -125,8 +123,33 @@ module.exports = (server, express) => {
   });
 
   server.get('/profile', (req,res) => {
-    res.sendFile(path.resolve('client/profile.html'));
-  })
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      console.log('github id:', req.user.id);
+      console.log('github name:', req.user.displayName);
+      console.log('github username:', req.user.username);
+      console.log('github profile:', req.user.profileUrl);
+      console.log('github image:', req.user.photos[0].value);
+      // display 'my profile' instead of sign in/up
+      res.sendFile(path.resolve('client/profile.html'));
+    } else {
+      console.log('User is not authenticated');
+      // hide 'my profile' and display sign in/up
+      res.sendFile(path.resolve('client/projects.html'));
+    }
+  });
+
+  server.get('/engineer', (req, res) => {
+    let username = req.query;
+    console.log('inside routes:', username);
+    new Engineer({ username: username }).fetch().then(found => {
+      if (found) {
+        res.status(200).send(found.attributes);
+      } else {
+        res.sendStatus(404);
+      }
+    });
+  });
 
   server.get('/engineers/data', (req, res) => {
     Engineer.fetchAll({columns: ['name']})
@@ -136,7 +159,7 @@ module.exports = (server, express) => {
   });
 
   server.post('/projects/data',
-  function(req, res) {
+  (req, res) => {
     let title = req.body.title;
     let description = req.body.description;
     let engineers = req.body.engineers;
@@ -171,32 +194,32 @@ module.exports = (server, express) => {
   });
 
   // this needs fixin'
-  server.post('/engineers/data',
-  function(req, res) {
-    let name = req.body.name;
-    let imageUrl = req.body.image;
+  // server.post('/engineers/data',
+  // function(req, res) {
+  //   let name = req.body.name;
+  //   let imageUrl = req.body.image;
 
-    cloudinary.uploader.upload(imageUrl,
-      result => {
-        new Engineer({ name: name }).fetch().then(found => {
-          if (found) {
-            res.status(200).send(found.attributes);
-          } else {
-            let url = result.secure_url.split('/');
-            url[6] = 'c_fill,h_250,w_250';
-            url = url.join('/');
-            Engineers.create({
-              name: name,
-              image: url
-            })
-            .then(newEngineer => {
-              res.status(201).send(newEngineer);
-            });
-          }
-        });
-      }
-    );
-  });
+  //   cloudinary.uploader.upload(imageUrl,
+  //     result => {
+  //       new Engineer({ name: name }).fetch().then(found => {
+  //         if (found) {
+  //           res.status(200).send(found.attributes);
+  //         } else {
+  //           let url = result.secure_url.split('/');
+  //           url[6] = 'c_fill,h_250,w_250';
+  //           url = url.join('/');
+  //           Engineers.create({
+  //             name: name,
+  //             image: url
+  //           })
+  //           .then(newEngineer => {
+  //             res.status(201).send(newEngineer);
+  //           });
+  //         }
+  //       });
+  //     }
+  //   );
+  // });
 
   // server.post('/login',
   // function(req, res) {
