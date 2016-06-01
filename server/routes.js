@@ -41,16 +41,29 @@ module.exports = (server, express) => {
   server.get('/signin', passport.authenticate('github'));
 
   // GitHub will call this URL
-  server.get('/signin/github/callback',
+  server.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/' }),
     (req, res) => {
+
       console.log('github id:', req.user.id);
       console.log('github id:', req.user.displayName);
       console.log('github id:', req.user.username);
       console.log('github id:', req.user.profileUrl);
       console.log('github id:', req.user.photos[0].value);
-      res.redirect('/');
-    });
+
+      const name = req.user.displayName;
+      console.log('github req:', req.user);
+
+      new Engineer({ name: name }).fetch().then(found => {
+        if (found) {
+          //res.status(200).send(found.attributes);
+          res.redirect('/profile');
+        } else {
+          res.redirect('/projects');
+        }
+      });
+  });
+
 
   server.get('/projects',
     (req, res) => res.sendFile(path.resolve('client/projects.html')) );
