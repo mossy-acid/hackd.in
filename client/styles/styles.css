@@ -34,8 +34,8 @@ nav {
 nav ul {
   list-style-type: none;
   margin: 0;
-  padding: 2.2em 2em;
-  display:;
+  padding: 1.9em 2em;
+  /*display:;*/
 }
 nav ul li {
   display: inline;

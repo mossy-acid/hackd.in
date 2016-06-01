@@ -2,9 +2,9 @@ How to start the app
 
 1) git pull --rebase upstream master
 2) npm install
-3) Node v6.0.0
+3) Node v6.2.0
 4) Download and run http://postgresapp.com/
-5) createdb hackedin
+5) createdb hackdin
 6) nodemon server/server.js
 7) npm install babel-cli
 8) babel . --out-dir compiled --presets=es2015,react --ignore=node_modules,compiled,db,server --source-maps inline --watch

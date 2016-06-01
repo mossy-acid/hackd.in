@@ -4,11 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>hackd.in</title>
-  <!-- <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css"> -->
-  <!-- <script src="./lib/jquery/dist/jquery.min.js"></script> -->
-  <!-- <script src="./lib/react/dist/react.js"></script> -->
-  <!-- <script src="./lib/react-dom/dist/react-dom.js"></script> -->
-  <!-- <script src="./lib/lodash/lodash.js"></script> -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <link rel="stylesheet" href="styles/styles.css">
   <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
@@ -21,32 +16,33 @@
   <!-- <script src="./lib/jquery-cloudinary/jquery.fileupload.js"></script> -->
   <!-- <script src="./lib/jquery-cloudinary/jquery.cloudinary.js"></script> -->
 </head>
-<body>
 
-<div>
-  <header>
-     <a id="logo" href="#">h.i</a>
-    <nav>
-      <ul>
-        <li><a href="engineers" id="current">Engineers</a></li>
-        <li><a href="projects">Projects</a></li>
-        <form class="search-container">
-          <input id="search-box" type="text" class="search-box" name="q" />
-          <label for="search-box"><span class="glyphicon glyphicon-search search-icon"></span></label>
-          <input type="submit" id="search-submit" />
-        </form>
-        <li class="navFloat"><a class="cd-signin" href="/signin">Sign in</a></li>
-        <li class="navFloat"><a class="cd-signup" href="#0">Sign up</a></li>
-        <li class="navFloat"><a class="cd-signout" href="signout">Sign out</a></li>
-      </ul>
-    </nav>
-  </header>
-  <div id="newEngineer"></div>
-</div>
+<body>
+  <div>
+    <header>
+      <a id="logo" href="/">h.i</a>
+      <nav>
+        <ul>
+          <li><a href="engineers" id="current">Engineers</a></li>
+          <li><a href="projects">Projects</a></li>
+          <li><a href="profile">My Profile</a></li>
+          <li><a class="cd-signup" href="signup">[ up</a></li>
+          <li><a class="cd-signin" href="signin">- in -</a></li>
+          <li><a class="cd-signout" href="signout">out ]</a></li>
+          <form class="search-container">
+            <input id="search-box" type="text" class="search-box" name="q" />
+            <label for="search-box"><span class="glyphicon glyphicon-search search-icon"></span></label>
+            <input type="submit" id="search-submit" />
+          </form>
+        </ul>
+      </nav>
+    </header>
+    <div id="newEngineer"></div>
+  </div>
+
   <script src="client/src/utils/engineerHelpers.js"></script>
   <script src="client/src/components/newEngineer.js"></script>
   <script src="client/src/newEngineerRender.js"></script>
-
 
   <script type="text/javascript">
     window.onload = function() {
@@ -55,4 +51,5 @@
     };
   </script>
 </body>
+
 </html>

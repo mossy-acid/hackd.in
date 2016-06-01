@@ -1,11 +1,11 @@
-const server   = require('./server.js');
-const Projects = require('./collections/projects');
-const Project  = require('./models/project');
-const Engineers = require('./collections/engineers');
-const Engineer  = require('./models/engineer');
-const path     = require('path');
+const server     = require('./server.js');
+const Projects   = require('./collections/projects');
+const Project    = require('./models/project');
+const Engineers  = require('./collections/engineers');
+const Engineer   = require('./models/engineer');
+const path       = require('path');
 const cloudinary = require('./api/cloudinary.js');
-const passport = require('./api/github.js');
+const passport   = require('./api/github.js');
 
 server.use(passport.initialize());
 server.use(passport.session());
@@ -14,31 +14,41 @@ server.use(passport.session());
 
 module.exports = (server, express) => {
 
+  // passport.serializeUser((user, done) => {
+  //   console.log('inside serializeUser');
+  //   // placeholder for custom user serialization
+  //   // null is for errors
+  //   done(null, user);
+  // });
+
+  // passport.deserializeUser((user, done) => {
+  //   console.log('inside deserializeUser');
+  //   // placeholder for custom user deserialization.
+  //   // maybe you are going to get the user from mongo by id?
+  //   // null is for errors
+  //   done(null, user);
+  // });
+
   passport.serializeUser((user, done) => {
-    // placeholder for custom user serialization
-    // null is for errors
-    done(null, user);
+    console.log('inside serializeUser');
+    done(null, user.username);
   });
 
-  passport.deserializeUser((user, done) => {
-    // placeholder for custom user deserialization.
-    // maybe you are going to get the user from mongo by id?
-    // null is for errors
-    done(null, user);
+  passport.deserializeUser((username, done) => {
+    console.log('inside deserializeUser:', username);
+
+    // Engineer.findById(id, (err, user) => {
+      done(null, username);
+    // });
   });
 
   server.get('/', (req, res) => {
     if (req.isAuthenticated()) {
       console.log('User is authenticated');
-      console.log('github id:', req.user.id);
-      console.log('github name:', req.user.displayName);
-      console.log('github username:', req.user.username);
-      console.log('github profile:', req.user.profileUrl);
-      console.log('github image:', req.user.photos[0].value);
-      // display 'my profile' instead of sign in/up
+      // display 'my profile' and sign out instead of sign in/up
     } else {
       console.log('User is not authenticated');
-      // hide 'my profile' and display sign in/up
+      // hide 'my profile' and sign out and display sign in/up
     }
     res.sendFile(path.resolve('client/projects.html'));
   });
@@ -56,7 +66,7 @@ module.exports = (server, express) => {
       const email = req.user.emails[0].value;
       const image = req.user.photos[0].value;
 
-      console.log('github req:', req.user);
+      // console.log('github req:', req.user);
 
       new Engineer({ gitHandle: gitHandle }).fetch().then(found => {
         if (found) {
@@ -76,17 +86,49 @@ module.exports = (server, express) => {
       });
   });
 
-  server.get('/projects',
-    (req, res) => res.sendFile(path.resolve('client/projects.html')) );
+  server.get('/projects', (req, res) => {
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      // display 'my profile' and sign out instead of sign in/up
+    } else {
+      console.log('User is not authenticated');
+      // hide 'my profile' and sign out and display sign in/up
+    }
+    res.sendFile(path.resolve('client/projects.html'));
+  });
 
-  server.get('/newProject',
-    (req, res) => res.sendFile(path.resolve('client/newProject.html')) );
+  server.get('/newProject', (req, res) => {
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      // display 'my profile' and sign out instead of sign in/up
+    } else {
+      console.log('User is not authenticated');
+      // hide 'my profile' and sign out and display sign in/up
+    }
+    res.sendFile(path.resolve('client/newProject.html'));
+  });
 
-  server.get('/engineers',
-    (req, res) => res.sendFile(path.resolve('client/engineers.html')) );
+  server.get('/engineers', (req, res) => {
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      // display 'my profile' and sign out instead of sign in/up
+    } else {
+      console.log('User is not authenticated');
+      // hide 'my profile' and sign out and display sign in/up
+    }
+    res.sendFile(path.resolve('client/engineers.html'));
+  });
 
-  server.get('/newEngineer',
-    (req, res) => res.sendFile(path.resolve('client/newEngineer.html')) );
+  server.get('/newEngineer', (req, res) => {
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      // display 'my profile' and sign out instead of sign in/up
+    } else {
+      console.log('User is not authenticated');
+      // hide 'my profile' and sign out and display sign in/up
+    }
+    res.sendFile(path.resolve('client/newEngineer.html'));
+  });
 
   server.get('/signout', (req, res) => {
     console.log('Logging out');
@@ -116,6 +158,14 @@ module.exports = (server, express) => {
     //     res.send(JSON.stringify(engineers));
     //   })
 
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      // display 'my profile' and sign out instead of sign in/up
+    } else {
+      console.log('User is not authenticated');
+      // hide 'my profile' and sign out and display sign in/up
+    }
+
     Project.fetchAll({columns: ['title', 'description', 'image']})
     .then(projects => {
       res.send(JSON.stringify(projects));
@@ -125,25 +175,26 @@ module.exports = (server, express) => {
   server.get('/profile', (req,res) => {
     if (req.isAuthenticated()) {
       console.log('User is authenticated');
-      console.log('github id:', req.user.id);
-      console.log('github name:', req.user.displayName);
-      console.log('github username:', req.user.username);
-      console.log('github profile:', req.user.profileUrl);
-      console.log('github image:', req.user.photos[0].value);
-      // display 'my profile' instead of sign in/up
+      // display 'my profile' and sign out instead of sign in/up
       res.sendFile(path.resolve('client/profile.html'));
     } else {
       console.log('User is not authenticated');
-      // hide 'my profile' and display sign in/up
+      // hide 'my profile' and sign out and display sign in/up
       res.sendFile(path.resolve('client/projects.html'));
     }
   });
 
   server.get('/engineer', (req, res) => {
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      // display 'my profile' and sign out instead of sign in/up
+    } else {
+      console.log('User is not authenticated');
+      // hide 'my profile' and sign out and display sign in/up
+    }
+
     let gitHandle = req.query.gitHandle;
-    console.log('inside routes:', req.query);
     new Engineer({ gitHandle: gitHandle }).fetch().then(found => {
-      console.log('found:', found);
       if (found) {
         res.status(200).send(found.attributes);
       } else {
@@ -153,14 +204,29 @@ module.exports = (server, express) => {
   });
 
   server.get('/engineers/data', (req, res) => {
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      // display 'my profile' and sign out instead of sign in/up
+    } else {
+      console.log('User is not authenticated');
+      // hide 'my profile' and sign out and display sign in/up
+    }
+
     Engineer.fetchAll({columns: ['name', 'image', 'email', 'gitHandle']})
     .then(engineers => {
       res.send(JSON.stringify(engineers));
     });
   });
 
-  server.post('/projects/data',
-  (req, res) => {
+  server.post('/projects/data', (req, res) => {
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      // display 'my profile' and sign out instead of sign in/up
+    } else {
+      console.log('User is not authenticated');
+      // hide 'my profile' and sign out and display sign in/up
+    }
+
     let title = req.body.title;
     let description = req.body.description;
     let engineers = req.body.engineers;
@@ -177,7 +243,6 @@ module.exports = (server, express) => {
             let url = result.secure_url.split('/');
             url[6] = 'c_fill,h_250,w_250';
             url = url.join('/');
-            console.log(url);
             Projects.create({
               title: title,
               description: description,
