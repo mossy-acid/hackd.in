@@ -7,6 +7,8 @@ const EngineerEntry = ({engineer}) => (
 
     <div className="information">
       <p>Name: {engineer.name}</p>
+      <p>Email: {engineer.email}</p>
+      <p>Git Handle: {engineer.gitHandle}</p>
     </div>
 
   </div>
