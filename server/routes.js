@@ -39,27 +39,40 @@ module.exports = (server, express) => {
   });
 
   server.get('/signin', passport.authenticate('github'));
+  server.get('/signup', passport.authenticate('github'));
 
   // GitHub will call this URL
   server.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/' }),
     (req, res) => {
 
-      console.log('github id:', req.user.id);
-      console.log('github id:', req.user.displayName);
-      console.log('github id:', req.user.username);
-      console.log('github id:', req.user.profileUrl);
-      console.log('github id:', req.user.photos[0].value);
+      // console.log('github id:', req.user.id);
+      // console.log('github id:', req.user.displayName);
+      // console.log('github id:', req.user.username);
+      // console.log('github id:', req.user.profileUrl);
+      // console.log('github id:', req.user.photos[0].value);
 
       const name = req.user.displayName;
+      const gitHandle = req.user.username;
+      const email = req.user.emails[0].value;
+      const image = req.user.photos[0].value;
+
       console.log('github req:', req.user);
 
-      new Engineer({ name: name }).fetch().then(found => {
+      new Engineer({ gitHandle: gitHandle }).fetch().then(found => {
         if (found) {
           //res.status(200).send(found.attributes);
           res.redirect('/profile');
-        } else {
-          res.redirect('/projects');
+        } else {  
+          Engineers.create({
+            name: name,
+            gitHandle: gitHandle,
+            email: email,
+            image: image
+          })
+          .then(newEngineer => {
+            res.status(201).redirect('/projects');
+          });
         }
       });
   });
@@ -116,7 +129,7 @@ module.exports = (server, express) => {
   })
 
   server.get('/engineers/data', (req, res) => {
-    Engineer.fetchAll({columns: ['name', 'image']})
+    Engineer.fetchAll({columns: ['name']})
     .then(engineers => {
       res.send(JSON.stringify(engineers));
     });

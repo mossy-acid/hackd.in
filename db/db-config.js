@@ -31,6 +31,8 @@ db.knex.schema.hasTable('engineers').then(exists => {
       // engineer.string('username').unique();
       // engineer.string('password');
       engineer.string('name');
+      engineer.string('gitHandle');
+      engineer.string('email');
       // engineer.string('lastname');
       // engineer.string('bio');
       // engineer.string('github');
