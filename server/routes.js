@@ -152,7 +152,7 @@ module.exports = (server, express) => {
   });
 
   server.get('/engineers/data', (req, res) => {
-    Engineer.fetchAll({columns: ['name']})
+    Engineer.fetchAll({columns: ['name', 'image', 'email', 'gitHandle']})
     .then(engineers => {
       res.send(JSON.stringify(engineers));
     });
@@ -192,34 +192,6 @@ module.exports = (server, express) => {
       }
     );
   });
-
-  // this needs fixin'
-  // server.post('/engineers/data',
-  // function(req, res) {
-  //   let name = req.body.name;
-  //   let imageUrl = req.body.image;
-
-  //   cloudinary.uploader.upload(imageUrl,
-  //     result => {
-  //       new Engineer({ name: name }).fetch().then(found => {
-  //         if (found) {
-  //           res.status(200).send(found.attributes);
-  //         } else {
-  //           let url = result.secure_url.split('/');
-  //           url[6] = 'c_fill,h_250,w_250';
-  //           url = url.join('/');
-  //           Engineers.create({
-  //             name: name,
-  //             image: url
-  //           })
-  //           .then(newEngineer => {
-  //             res.status(201).send(newEngineer);
-  //           });
-  //         }
-  //       });
-  //     }
-  //   );
-  // });
 
   // server.post('/login',
   // function(req, res) {
