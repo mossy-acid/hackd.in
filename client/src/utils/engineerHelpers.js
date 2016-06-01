@@ -13,7 +13,7 @@ const getEngineers = cb => {
 
 const getEngineer = (query, cb) => {
   console.log('getEngineer query:', query);
-  $.get('/engineer?username='+ query, () => {
+  $.get('/engineer?gitHandle='+ query, () => {
     console.log('GET request made for Engineer');
   })
   .done( data => {
