@@ -86,16 +86,16 @@ module.exports = (server, express) => {
       });
   });
 
-  server.get('/projects', (req, res) => {
-    if (req.isAuthenticated()) {
-      console.log('User is authenticated');
-      // display 'my profile' and sign out instead of sign in/up
-    } else {
-      console.log('User is not authenticated');
-      // hide 'my profile' and sign out and display sign in/up
-    }
-    res.sendFile(path.resolve('client/projects.html'));
-  });
+  // server.get('/projects', (req, res) => {
+  //   if (req.isAuthenticated()) {
+  //     console.log('User is authenticated');
+  //     // display 'my profile' and sign out instead of sign in/up
+  //   } else {
+  //     console.log('User is not authenticated');
+  //     // hide 'my profile' and sign out and display sign in/up
+  //   }
+  //   res.sendFile(path.resolve('client/projects.html'));
+  // });
 
   server.get('/newProject', (req, res) => {
     if (req.isAuthenticated()) {
@@ -108,16 +108,16 @@ module.exports = (server, express) => {
     res.sendFile(path.resolve('client/newProject.html'));
   });
 
-  server.get('/engineers', (req, res) => {
-    if (req.isAuthenticated()) {
-      console.log('User is authenticated');
-      // display 'my profile' and sign out instead of sign in/up
-    } else {
-      console.log('User is not authenticated');
-      // hide 'my profile' and sign out and display sign in/up
-    }
-    res.sendFile(path.resolve('client/engineers.html'));
-  });
+  // server.get('/engineers', (req, res) => {
+  //   if (req.isAuthenticated()) {
+  //     console.log('User is authenticated');
+  //     // display 'my profile' and sign out instead of sign in/up
+  //   } else {
+  //     console.log('User is not authenticated');
+  //     // hide 'my profile' and sign out and display sign in/up
+  //   }
+  //   res.sendFile(path.resolve('client/engineers.html'));
+  // });
 
   server.get('/newEngineer', (req, res) => {
     if (req.isAuthenticated()) {
