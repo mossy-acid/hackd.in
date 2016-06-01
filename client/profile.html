@@ -4,39 +4,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>hackd.in</title>
-  <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css">
-  <link
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <link rel="stylesheet" href="styles/styles.css">
-  <script src="./lib/jquery/dist/jquery.js"></script>
-  <script src="./lib/react/dist/react.js"></script>
-  <script src="./lib/react-dom/dist/react-dom.js"></script>
-  <script src="./lib/lodash/lodash.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script src="https://fb.me/react-15.1.0.min.js"></script>
+  <script src="https://fb.me/react-dom-15.1.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js"></script>
+  <!-- script files for Cloudinary jQuery Plugin file upload widget -->
+  <!-- <script src="./lib/jquery-cloudinary/jquery.ui.widget.js"></script> -->
+  <!-- <script src="./lib/jquery-cloudinary/jquery.iframe-transport.js"></script> -->
+  <!-- <script src="./lib/jquery-cloudinary/jquery.fileupload.js"></script> -->
+  <!-- <script src="./lib/jquery-cloudinary/jquery.cloudinary.js"></script> -->
 </head>
-<body>
 
-<div>
-  <header>
-     <a id="logo" href="#">h.i</a>
-    <nav>
-      <ul>
-        <li><a href="engineers">Engineers</a></li>
-        <li><a href="projects">Projects</a></li>
-        <li><a href="profile" id="current">My Profile</a></li>
-        <form class="search-container">
-          <input id="search-box" type="text" class="search-box" name="q" />
-          <label for="search-box"><span class="glyphicon glyphicon-search search-icon"></span></label>
-          <input type="submit" id="search-submit" />
-        </form>
-        <li class="navFloat"><a class="cd-signin" href="/signin">Sign in</a></li>
-        <li class="navFloat"><a class="cd-signup" href="#0">Sign up</a></li>
-        <li class="navFloat"><a class="cd-signout" href="signout">Sign out</a></li>
-      </ul>
-    </nav>
-  </header>
-  <div id="profile"></div>
-</div>
+<body>
+  <div>
+    <header>
+      <a id="logo" href="#">h.i</a>
+      <nav>
+        <ul>
+          <li><a href="engineers">Engineers</a></li>
+          <li><a href="projects">Projects</a></li>
+          <li><a href="profile" id="current">My Profile</a></li>
+          <form class="search-container">
+            <input id="search-box" type="text" class="search-box" name="q" />
+            <label for="search-box"><span class="glyphicon glyphicon-search search-icon"></span></label>
+            <input type="submit" id="search-submit" />
+          </form>
+          <li class="navFloat"><a class="cd-signup" href="signup">sign up</a></li>
+          <li class="navFloat"><a class="cd-signout" href="signout">sign out</a></li>
+          <li class="navFloat"><a class="cd-signin" href="signin">sign in</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div id="profile"></div>
+  </div>
+
   <script src="client/src/utils/engineerHelpers.js"></script>
   <script src="client/src/components/Profile.js"></script>
   <script src="client/src/profileRender.js"></script>
 </body>
+
 </html>
