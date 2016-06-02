@@ -15,22 +15,23 @@ class Projects extends React.Component {
   }
 
   getProjectsFromDatabase() {
-    let context = this;
     getProjects( projects => {
-      context.setState({
+      this.setState({
         projects: JSON.parse(projects)
       });
     });
   }
 
-  getProjectsFromDatabase() {
-    let context = this;
-    console.log('getProjects function called');
-    getProjects( projects => {
-      context.setState({
-        projects: JSON.parse(projects)
+  viewBlurb(project) {
+    if (this.state.blurb === null) {
+      this.setState({
+        blurb: project
       });
-    });
+    } else {
+      this.setState({
+        blurb: null
+      });
+    }
   }
 
   render() {

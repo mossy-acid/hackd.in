@@ -110,11 +110,10 @@ module.exports = (server, express) => {
 
     knex.from('projects')
       .then( projects => {
-        var results = [];
-        projects.forEach(function(project) {
-          var contributors = [];
-          var technologies = [];
-          var schoolName = null;
+        let results = [];
+        projects.forEach( project => {
+          let contributors = [];
+          let technologies = [];
           knex.from('projects')
             .innerJoin('engineers', 'projects.id', 'engineers.project_id')
             .where('projects.id', '=', project.id)
@@ -122,14 +121,13 @@ module.exports = (server, express) => {
             .innerJoin('projects_technologies', 'projects.id', 'projects_technologies.project_id')
             .innerJoin('technologies', 'technologies.id', 'projects_technologies.technology_id')
             .then( engineers => {
-              engineers.forEach(function(engineer) {
-                schoolName = engineer.schoolName;
+              engineers.forEach( engineer => {
+                let schoolName = engineer.schoolName;
                 if (contributors.indexOf(engineer.name) === -1) contributors.push(engineer.name);
                 if (technologies.indexOf(engineer.techName) === -1) technologies.push(engineer.techName);
               });
-            
-            results.push(
-              {
+
+            results.push({
                 title: project.title,
                 description: project.description,
                 engineers: contributors,
@@ -145,7 +143,7 @@ module.exports = (server, express) => {
           });
         });
       });
-    
+
   });
 
   server.get('/profile', (req,res) => {
@@ -164,7 +162,7 @@ module.exports = (server, express) => {
       // hide 'my profile' and sign out and display sign in/up
       res.sendFile(path.resolve('/'));
     }
-    // 
+    //
   });
 
   server.get('/engineer', (req, res) => {
@@ -182,33 +180,28 @@ module.exports = (server, express) => {
     knex.from('engineers')
       .then( engineers => {
         var results = [];
-        engineers.forEach(function(engineer) {
-          var project = null;
-          var school = null;
+        engineers.forEach( engineer => {
           knex.from('engineers')
             .innerJoin('projects', 'projects.id', 'engineers.project_id')
             .where('engineers.project_id', '=', engineer.project_id)
             .innerJoin('schools', 'schools.id', 'engineers.school_id')
             .then( data => {
-              console.log('Data is====', data);
-              project = data[0].title;
-              school = data[0].schoolName;
-            results.push(
-              {
-                name: engineer.name,
-                email: engineer.email,
-                image: engineer.image,
-                gitHandle: engineer.gitHandle,
-                project: project,
-                school: school
+              if (data.length) {
+                results.push({
+                  name: engineer.name,
+                  email: engineer.email,
+                  image: engineer.image,
+                  gitHandle: engineer.gitHandle,
+                  project: data[0].title,
+                  school: data[0].schoolName
+                });
               }
-            );
             if (results.length === engineers.length) {
               res.send(JSON.stringify(results));
             }
-          })
-        })
-      })
+          });
+        });
+      });
   });
 
   server.post('/projects/data', (req, res) => {
@@ -226,7 +219,7 @@ module.exports = (server, express) => {
             res.status(200).send(found.attributes);
           } else {
             let url = result.secure_url.split('/');
-            url[6] = 'c_fill,h_250,w_250';
+            url[6] = 'c_fill,h_150,w_150';
             url = url.join('/');
             Projects.create({
               title: title,
