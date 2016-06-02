@@ -4,9 +4,10 @@ class Profile extends React.Component {
 
     this.state = {
       myinfo: {
-        username: '',
+        gitHandle: '',
         name: '',
         bio: '',
+        email: '',
         githubUrl: '',
         image: ''
       },
@@ -30,10 +31,10 @@ class Profile extends React.Component {
 
   componentDidMount() {
     let context = this;
-    getEngineer('justin-lai', engineer => {
+    getMyProfile(myinfo => {
       context.setState({
-        myinfo: engineer
-      });
+        myinfo: myinfo
+      });  
     });
   }
 
@@ -82,32 +83,6 @@ class Profile extends React.Component {
     var edit = ($('#'+field).val());
     console.log(field + ": " + edit);
   }
-
-  // submitForm(e) {
-  //   var newEdits = {};
-  //   for (var field in this.state.edit) {
-  //     if (this.state.edit[field]) {
-  //       var edit = ($('#'+field+'Edit').val());
-  //       //do not save empty edits
-  //       if (edit) {
-  //         newEdits[field] = ($('#'+field+'Edit').val());
-  //       }
-  //     }
-  //   }
-  //   console.log(newEdits);
-
-  //   //reset state
-  //   this.setState({
-  //     edit: {
-  //       information: false,
-  //       email: false,
-  //       school: false,
-  //       bio: false,
-  //       linkedin: false,
-  //       githubUrl: false
-  //     }
-  //   })
-  // }
 
   componentDidUpdate() {
     //set current focus on input element

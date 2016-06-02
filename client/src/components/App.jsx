@@ -3,7 +3,7 @@ class App extends React.Component {
     super();
 
     this.state = {
-      currentPage: 'profile'
+      currentPage: 'projects'
     }
 
     this.changeCurrentPage = this.changeCurrentPage.bind(this);

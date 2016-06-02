@@ -13,13 +13,12 @@ class Projects extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.getProjectsFromDatabase();
-  // }
+  componentDidMount() {
+    this.getProjectsFromDatabase();
+  }
 
   getProjectsFromDatabase() {
     let context = this;
-    console.log('getProjects function called');
     getProjects( projects => {
       context.setState({
         projects: JSON.parse(projects)
@@ -39,15 +38,15 @@ class Projects extends React.Component {
     }
   }
 
-  // getProjectsFromDatabase() {
-  //   let context = this;
-  //   console.log('getProjects function called');
-  //   this.props.getProjects( projects => {
-  //     context.setState({
-  //       projects: JSON.parse(projects)
-  //     });
-  //   });
-  // }
+  getProjectsFromDatabase() {
+    let context = this;
+    console.log('getProjects function called');
+    getProjects( projects => {
+      context.setState({
+        projects: JSON.parse(projects)
+      });
+    });
+  }
 
   render() {
     return (
@@ -55,7 +54,7 @@ class Projects extends React.Component {
       //   <ProjectList projects={this.state.projects} />
       // </div>}
       <div>
-        <ProjectList projects={window.fakeData} viewBlurb={this.viewBlurb} blurb={this.state.blurb}/>
+        <ProjectList projects={this.state.projects} viewBlurb={this.viewBlurb} blurb={this.state.blurb}/>
       </div>
     );
   }

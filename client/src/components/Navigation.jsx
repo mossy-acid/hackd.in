@@ -3,7 +3,7 @@ class Navigation extends React.Component {
     super();
 
     this.state = {
-      currentPage: 'nav-profile'
+      currentPage: 'nav-projects'
     }
 
     this.clickHandler = this.clickHandler.bind(this);
