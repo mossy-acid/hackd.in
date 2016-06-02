@@ -3,17 +3,41 @@ const session    = require('express-session');
 const db         = require('../db/db-config.js');
 const bodyParser = require('body-parser');
 const helmet     = require('helmet');
+const Knex       = require('knex');
+
+const KnexSessionStore = require('connect-session-knex')(session);
 
 const server = express();
 
 server.use(helmet());
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
+
+const knex = Knex({
+  client: 'pg',
+  connection: {
+    // host: '127.0.0.1',
+    user: 'postgres',
+    password: '',
+    database: 'hackdin'
+  }
+});
+
+const store = new KnexSessionStore({
+  knex: knex,
+  tablename: 'sessions'
+});
+
 server.use(session({
+  store: store,
   secret: 'worst kept secret',
   name: 'sessionId',
-  resave: true,
-  saveUninitialized: true
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false
+    // maxAge: 60000 // 1 minute for testing
+ }
 }));
 
 let port = process.env.PORT || 3000;

@@ -14,37 +14,23 @@ server.use(passport.session());
 
 module.exports = (server, express) => {
 
-  // passport.serializeUser((user, done) => {
-  //   console.log('inside serializeUser');
-  //   // placeholder for custom user serialization
-  //   // null is for errors
-  //   done(null, user);
-  // });
-
-  // passport.deserializeUser((user, done) => {
-  //   console.log('inside deserializeUser');
-  //   // placeholder for custom user deserialization.
-  //   // maybe you are going to get the user from mongo by id?
-  //   // null is for errors
-  //   done(null, user);
-  // });
-
   passport.serializeUser((user, done) => {
-    console.log('inside serializeUser');
+    console.log('Inside serializeUser:  ', user.username);
     done(null, user.username);
   });
 
   passport.deserializeUser((username, done) => {
-    console.log('inside deserializeUser:', username);
-
-    // Engineer.findById(id, (err, user) => {
+    console.log('Inside deserializeUser:', username);
+    // maybe we get the user from psql by id?
+    // Engineer.fetch(username, (err, user) => {
       done(null, username);
     // });
   });
 
   server.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-      console.log('User is authenticated');
+      console.log('req.session:  ', req.session);
+      console.log('User is authenticated: ', req.user);
       // display 'my profile' and sign out instead of sign in/up
     } else {
       console.log('User is not authenticated');
@@ -58,8 +44,10 @@ module.exports = (server, express) => {
 
   // GitHub will call this URL
   server.get('/auth/github/callback',
-    passport.authenticate('github', { failureRedirect: '/' }),
-    (req, res) => {
+    passport.authenticate('github', {
+      failureRedirect: '/',
+      failureFlash: true
+    }), (req, res) => {
 
       const name = req.user.displayName;
       const gitHandle = req.user.username;
@@ -99,7 +87,7 @@ module.exports = (server, express) => {
 
   server.get('/newProject', (req, res) => {
     if (req.isAuthenticated()) {
-      console.log('User is authenticated');
+      console.log('User is authenticated: ', req.user);
       // display 'my profile' and sign out instead of sign in/up
     } else {
       console.log('User is not authenticated');
@@ -121,7 +109,7 @@ module.exports = (server, express) => {
 
   server.get('/newEngineer', (req, res) => {
     if (req.isAuthenticated()) {
-      console.log('User is authenticated');
+      console.log('User is authenticated: ', req.user);
       // display 'my profile' and sign out instead of sign in/up
     } else {
       console.log('User is not authenticated');
@@ -131,7 +119,7 @@ module.exports = (server, express) => {
   });
 
   server.get('/signout', (req, res) => {
-    console.log('Logging out');
+    console.log('Logging out:', req.user);
     req.logout();
     res.redirect('/');
   });
@@ -159,7 +147,7 @@ module.exports = (server, express) => {
     //   })
 
     if (req.isAuthenticated()) {
-      console.log('User is authenticated');
+      console.log('User is authenticated: ', req.user);
       // display 'my profile' and sign out instead of sign in/up
     } else {
       console.log('User is not authenticated');
@@ -174,7 +162,7 @@ module.exports = (server, express) => {
 
   server.get('/profile', (req,res) => {
     if (req.isAuthenticated()) {
-      console.log('User is authenticated');
+      console.log('User is authenticated: ', req.user);
       // display 'my profile' and sign out instead of sign in/up
       res.sendFile(path.resolve('client/profile.html'));
     } else {
@@ -186,7 +174,7 @@ module.exports = (server, express) => {
 
   server.get('/engineer', (req, res) => {
     if (req.isAuthenticated()) {
-      console.log('User is authenticated');
+      console.log('User is authenticated: ', req.user);
       // display 'my profile' and sign out instead of sign in/up
     } else {
       console.log('User is not authenticated');
@@ -205,7 +193,7 @@ module.exports = (server, express) => {
 
   server.get('/engineers/data', (req, res) => {
     if (req.isAuthenticated()) {
-      console.log('User is authenticated');
+      console.log('User is authenticated: ', req.user);
       // display 'my profile' and sign out instead of sign in/up
     } else {
       console.log('User is not authenticated');
@@ -220,7 +208,7 @@ module.exports = (server, express) => {
 
   server.post('/projects/data', (req, res) => {
     if (req.isAuthenticated()) {
-      console.log('User is authenticated');
+      console.log('User is authenticated: ', req.user);
       // display 'my profile' and sign out instead of sign in/up
     } else {
       console.log('User is not authenticated');
