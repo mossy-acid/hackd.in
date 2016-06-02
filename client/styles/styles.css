@@ -50,9 +50,10 @@ nav ul li a {
   transition: .5s color;
 }
 nav ul li a:hover {
+  cursor: pointer;
   border-bottom: 3px solid #333;
 }
-#current {
+.current {
   color: #ff4629;
   border-bottom: 3px solid #333;
 }

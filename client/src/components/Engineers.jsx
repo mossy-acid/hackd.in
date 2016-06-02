@@ -2,8 +2,8 @@
 // import ProjectList from './ProjectList'
 
 class Engineers extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       engineers: []
@@ -17,7 +17,7 @@ class Engineers extends React.Component {
   getEngineersFromDatabase() {
     let context = this;
     console.log('getEngineers function called');
-    this.props.getEngineers( engineers => {
+    getEngineers( engineers => {
       context.setState({
         engineers: JSON.parse(engineers)
       });

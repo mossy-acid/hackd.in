@@ -25,23 +25,19 @@ class Profile extends React.Component {
 
     this.clickEdit = this.clickEdit.bind(this);
     this.submitEdit = this.submitEdit.bind(this);
-    // this.submitForm = this.submitForm.bind(this);
 
   }
 
   componentDidMount() {
     let context = this;
-    getEngineer('mybrainishuge', engineer => {
+    getEngineer('justin-lai', engineer => {
       context.setState({
         myinfo: engineer
       });
-      console.log(context.state.myinfo);
     });
   }
 
   renderField(field) {
-    console.log('field:', field);
-    console.log('state of field: ', this.state.myinfo[field]);
     if (this.state.edit[field] && field === 'bio') {
       return (
         <div>

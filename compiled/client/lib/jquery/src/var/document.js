@@ -1,6 +1,0 @@
-"use strict";
-
-define(function () {
-	return window.document;
-});
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL2NsaWVudC9saWIvanF1ZXJ5L3NyYy92YXIvZG9jdW1lbnQuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxPQUFRLFlBQVc7QUFDbEIsUUFBTyxPQUFPLFFBQWQ7QUFDQSxDQUZEIiwiZmlsZSI6ImRvY3VtZW50LmpzIiwic291cmNlc0NvbnRlbnQiOlsiZGVmaW5lKCBmdW5jdGlvbigpIHtcblx0cmV0dXJuIHdpbmRvdy5kb2N1bWVudDtcbn0gKTtcbiJdfQ==
