@@ -25,6 +25,19 @@ const getEngineer = (query, cb) => {
   });
 };
 
+const getMyProfile = (cb) => {
+  $.get('/profile', () => {
+    console.log('GET request made for Engineer');
+  })
+  .done( data => {
+    console.log(data);
+    cb(data);
+  })
+  .fail( err => {
+    console.log(err);
+  });
+}
+
 const postEngineer = data => {
   $.post('/engineers/data', data, () => {
     console.log('POST request made to Engineers');
@@ -40,3 +53,4 @@ const postEngineer = data => {
 window.getEngineers = getEngineers;
 window.getEngineer  = getEngineer;
 window.postEngineer = postEngineer;
+window.getMyProfile = getMyProfile;
