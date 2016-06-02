@@ -269,9 +269,9 @@ img {
 
 .navFloat {
   display: inline;
-  position: relative;
-  float: right;
-  left: 500px;
+  position: fixed;
+  /*float: right;*/
+  right: 50px;
 }
 
 
@@ -355,7 +355,4 @@ img {
 :-ms-input-placeholder {
    color: white;
 }
-.blurb {
-  background-color: black;
-  color: white;
-}
+=======

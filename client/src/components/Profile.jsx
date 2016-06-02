@@ -56,7 +56,7 @@ class Profile extends React.Component {
     } else {
       return (
         <div>
-          <h4 id={field}>{this.state.myinfo[field]}</h4>
+          <h4 id={field}>{field+": "+(this.state.myinfo[field] || '')}</h4>
           <button type='button' id='editButton' className={field+' glyphicon glyphicon-edit'} onClick={this.clickEdit}>Edit</button>
         </div>
       )
@@ -107,6 +107,11 @@ class Profile extends React.Component {
 
         <div className='information'>
           <h2 id='name'>{this.state.myinfo['name']}</h2>
+            {this.renderField('gitHandle')}
+
+            {this.renderField('school')}
+
+            {this.renderField('technologies')}
 
             {this.renderField('bio')}
 

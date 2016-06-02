@@ -28,10 +28,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <header>
-          <a id="logo" href="#">h.i</a>
-          <Navigation changeCurrentPage={this.changeCurrentPage}/>
-        </header>
+        <Navigation changeCurrentPage={this.changeCurrentPage}/>
 
         {this.renderPage(this.state.currentPage)}
       </div>
