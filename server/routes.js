@@ -73,6 +73,10 @@ module.exports = (server, express) => {
       });
   });
 
+  server.get('/auth', (req, res) => {
+    res.send(req.isAuthenticated());
+  });
+
   server.get('/newProject', (req, res) => {
     if (req.isAuthenticated()) {
       console.log('User is authenticated: ', req.user);
@@ -132,7 +136,8 @@ module.exports = (server, express) => {
                 title: project.title,
                 description: project.description,
                 engineers: contributors,
-                school: 'test'
+                school: 'test',
+                image: project.image
               }
             );
 
