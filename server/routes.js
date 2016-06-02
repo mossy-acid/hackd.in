@@ -28,17 +28,6 @@ module.exports = (server, express) => {
   });
 
   server.get('/', (req, res) => {
-<<<<<<< 0cb96f91ac409ebb00ea54858d29347e1f3161ca
-    if (req.isAuthenticated()) {
-      console.log('req.session:  ', req.session);
-      console.log('User is authenticated: ', req.user);
-      // display 'my profile' and sign out instead of sign in/up
-    } else {
-      console.log('User is not authenticated');
-      // hide 'my profile' and sign out and display sign in/up
-    }
-=======
->>>>>>> removed auth from several routes
     res.sendFile(path.resolve('client/index.html'));
   });
 
