@@ -104,18 +104,6 @@ module.exports = (server, express) => {
 
   server.get('/projects/data', (req, res) => {
 
-
-    knex.from('projects')
-      .innerJoin('engineers', 'projects.id', 'engineers.project_id')
-      .where('projects.id', '=', 1)
-      .then( engineers => {
-        //res.send(JSON.stringify(engineers));
-        engineers.forEach(function(engineer) {
-          //console.log(engineer.name);
-        })
-        //res.send(JSON.stringify(engineers));
-      })
-
     knex.from('projects')
       .innerJoin('schools', 'schools.id', 'projects.school_id')
       .then( schools => {
@@ -125,12 +113,12 @@ module.exports = (server, express) => {
         //res.send(JSON.stringify(school));
       })
 
-
     knex.from('projects')
       .then( projects => {
         var results = [];
         projects.forEach(function(project) {
           var contributors = [];
+          var school = null;
           knex.from('projects')
             .innerJoin('engineers', 'projects.id', 'engineers.project_id')
             .where('projects.id', '=', project.id)
@@ -138,6 +126,7 @@ module.exports = (server, express) => {
               engineers.forEach(function(engineer) {
                 contributors.push(engineer.name);
               });
+
             results.push(
               {
                 title: project.title,
@@ -146,6 +135,7 @@ module.exports = (server, express) => {
                 school: 'test'
               }
             );
+
             if (results.length === projects.length) {
               console.log(results);
               res.send(JSON.stringify(results));
