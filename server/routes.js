@@ -130,19 +130,19 @@ module.exports = (server, express) => {
       .then( projects => {
         var results = [];
         projects.forEach(function(project) {
-          var something = [];
+          var contributors = [];
           knex.from('projects')
             .innerJoin('engineers', 'projects.id', 'engineers.project_id')
             .where('projects.id', '=', project.id)
             .then( engineers => {
               engineers.forEach(function(engineer) {
-                something.push(engineer.name);
+                contributors.push(engineer.name);
               });
             results.push(
               {
                 title: project.title,
                 description: project.description,
-                engineers: something,
+                engineers: contributors,
                 school: 'test'
               }
             );
