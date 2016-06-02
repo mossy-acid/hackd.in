@@ -7,7 +7,9 @@ const ProjectEntry = ({project, viewBlurb, blurb}) => (
 
     <div className="information">
       <p>Title: {project.title}</p>
+      <p>Description: {project.description}</p>
       <p>Engineers: {project.engineers}</p>
+      <p>School: {project.school}</p>
     </div>
 
   </div>
