@@ -7,6 +7,13 @@ const path       = require('path');
 const cloudinary = require('./api/cloudinary.js');
 const passport   = require('./api/github.js');
 
+const knex = require('knex')({
+  client: 'postgresql',
+  connection: {
+    database: 'hackdin'
+  }
+});
+
 server.use(passport.initialize());
 server.use(passport.session());
 
@@ -96,10 +103,62 @@ module.exports = (server, express) => {
 
 
   server.get('/projects/data', (req, res) => {
-    Project.fetchAll({columns: ['title', 'description', 'image']})
-    .then(projects => {
-      res.send(JSON.stringify(projects));
-    });
+
+
+    knex.from('projects')
+      .innerJoin('engineers', 'projects.id', 'engineers.project_id')
+      .where('projects.id', '=', 1)
+      .then( engineers => {
+        //res.send(JSON.stringify(engineers));
+        engineers.forEach(function(engineer) {
+          //console.log(engineer.name);
+        })
+        //res.send(JSON.stringify(engineers));
+      })
+
+    knex.from('projects')
+      .innerJoin('schools', 'schools.id', 'projects.school_id')
+      .then( schools => {
+        schools.forEach(function(school) {
+          //console.log(school.name);
+        })
+        //res.send(JSON.stringify(school));
+      })
+
+
+    knex.from('projects')
+      .then( projects => {
+        var results = [];
+        projects.forEach(function(project) {
+          var something = [];
+          knex.from('projects')
+            .innerJoin('engineers', 'projects.id', 'engineers.project_id')
+            .where('projects.id', '=', project.id)
+            .then( engineers => {
+              engineers.forEach(function(engineer) {
+                something.push(engineer.name);
+              });
+            results.push(
+              {
+                title: project.title,
+                description: project.description,
+                engineers: something,
+                school: 'test'
+              }
+            );
+            if (results.length === projects.length) {
+              console.log(results);
+              res.send(JSON.stringify(results));
+            }
+          })
+        })
+      })
+    // Project.fetchAll({columns: ['title', 'description', 'image']})
+    // .then(projects => {
+    //   //console.log(projects);
+    //   res.send(JSON.stringify(projects));
+    // });
+
   });
 
   server.get('/profile', (req,res) => {
