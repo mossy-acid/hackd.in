@@ -5,14 +5,17 @@ class Projects extends React.Component {
   constructor() {
     super();
 
+    this.viewBlurb = this.viewBlurb.bind(this);
+
     this.state = {
-      projects: []
+      projects: [],
+      blurb: null
     };
   }
 
-  componentDidMount() {
-    this.getProjectsFromDatabase();
-  }
+  // componentDidMount() {
+  //   this.getProjectsFromDatabase();
+  // }
 
   getProjectsFromDatabase() {
     let context = this;
@@ -24,10 +27,35 @@ class Projects extends React.Component {
     });
   }
 
+  viewBlurb(project) {
+    if (this.state.blurb === null) {
+      this.setState({
+        blurb: project
+      });      
+    } else {
+      this.setState({
+        blurb: null
+      });
+    }
+  }
+
+  // getProjectsFromDatabase() {
+  //   let context = this;
+  //   console.log('getProjects function called');
+  //   this.props.getProjects( projects => {
+  //     context.setState({
+  //       projects: JSON.parse(projects)
+  //     });
+  //   });
+  // }
+
   render() {
     return (
+      // {<div>
+      //   <ProjectList projects={this.state.projects} />
+      // </div>}
       <div>
-        <ProjectList projects={this.state.projects} />
+        <ProjectList projects={window.fakeData} viewBlurb={this.viewBlurb} blurb={this.state.blurb}/>
       </div>
     );
   }
