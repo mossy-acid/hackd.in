@@ -179,10 +179,34 @@ module.exports = (server, express) => {
   });
 
   server.get('/engineers/data', (req, res) => {
-    Engineer.fetchAll({columns: ['name', 'image', 'email', 'gitHandle']})
-    .then(engineers => {
-      res.send(JSON.stringify(engineers));
-    });
+    knex.from('engineers')
+      .then( engineers => {
+        var results = [];
+        engineers.forEach(function(engineer) {
+          var project = null;
+          var school = null;
+          knex.from('engineers')
+            .innerJoin('projects', 'projects.id', 'engineers.project_id')
+            .where('engineers.project_id', '=', engineer.project_id)
+            .innerJoin('schools', 'schools.id', 'engineers.school_id')
+            .then( data => {
+              project = data[0].title;
+              school = data[0].schoolName;
+            results.push(
+              {
+                name: engineer.name,
+                email: engineer.email,
+                gitHandle: engineer.gitHandle,
+                project: project,
+                school: school
+              }
+            );
+            if (results.length === engineers.length) {
+              res.send(JSON.stringify(results));
+            }
+          })
+        })
+      })
   });
 
   server.post('/projects/data', (req, res) => {

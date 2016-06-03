@@ -9,6 +9,8 @@ const EngineerEntry = ({engineer}) => (
       <p>Name: {engineer.name}</p>
       <p>Email: {engineer.email}</p>
       <p>Github Handle: {engineer.gitHandle}</p>
+      <p>Projects: {engineer.project}</p>
+      <p>School: {engineer.school}</p>
     </div>
 
   </div>
