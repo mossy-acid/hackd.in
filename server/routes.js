@@ -196,6 +196,7 @@ module.exports = (server, express) => {
               {
                 name: engineer.name,
                 email: engineer.email,
+                image: engineer.image,
                 gitHandle: engineer.gitHandle,
                 project: project,
                 school: school
