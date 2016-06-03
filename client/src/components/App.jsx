@@ -4,25 +4,25 @@ class App extends React.Component {
 
     this.state = {
       currentPage: 'projects'
-    }
+    };
 
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
   }
 
   renderPage(page) {
     if (page === 'engineers') {
-      return (<Engineers />)
+      return (<Engineers />);
     } else if (page === 'projects') {
-      return (<Projects />)
+      return (<Projects />);
     } else {
-      return (<Profile />)
+      return (<Profile />);
     }
   }
 
   changeCurrentPage(newPage) {
     this.setState({
       currentPage: newPage
-    })
+    });
   }
 
   render() {

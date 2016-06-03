@@ -17,15 +17,15 @@ class Navigation extends React.Component {
 
   componentDidUpdate() {
     $('#'+this.state.currentPage).addClass('current');
-    console.log(this.state.authenticated);
+    console.log('authenticated:', this.state.authenticated);
   }
 
   checkAuth() {
     $.get('/auth', () => {
-      console.log('GET request made to /auth')
+      console.log('GET request made to /auth');
     })
     .done( isAuth => {
-      console.log(isAuth);
+      console.log('checkAuth:', isAuth);
       this.setState({
         authenticated: isAuth
       });
@@ -41,7 +41,7 @@ class Navigation extends React.Component {
     this.setState({
       currentPage: e.target.id
     });
-    this.props.changeCurrentPage(e.target.id.slice(4))
+    this.props.changeCurrentPage(e.target.id.slice(4));
   }
 
   render() {
