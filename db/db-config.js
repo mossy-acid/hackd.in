@@ -50,7 +50,7 @@ db.knex.schema.hasTable('schools').then(exists => {
   if (!exists) {
     db.knex.schema.createTable('schools', school => {
       school.increments('id').primary();
-      school.string('name').unique();
+      school.string('schoolName').unique();
       school.string('url');
       // school.timestamps();
     }).then(table => {
@@ -63,7 +63,7 @@ db.knex.schema.hasTable('technologies').then(exists => {
   if (!exists) {
     db.knex.schema.createTable('technologies', technology => {
       technology.increments('id').primary();
-      technology.string('name').unique();
+      technology.string('techName').unique();
     }).then(table => {
       console.log('Created Table', table);
     });
