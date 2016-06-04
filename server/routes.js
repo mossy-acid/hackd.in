@@ -220,7 +220,7 @@ module.exports = (server, express) => {
             res.status(200).send(found.attributes);
           } else {
             let url = result.secure_url.split('/');
-            url[6] = 'c_fill,h_150,w_150';
+            url[6] = 'c_fill,h_250,r_5,w_250';
             url = url.join('/');
             Projects.create({
               title: title,

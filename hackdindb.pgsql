@@ -269,10 +269,10 @@ ALTER TABLE ONLY technologies ALTER COLUMN id SET DEFAULT nextval('technologies_
 --
 
 COPY engineers (id, "gitHandle", name, email, bio, "githubUrl", "linkedinUrl", image, project_id, school_id, created_at, updated_at) FROM stdin;
-2	justin-lai	Justin Lai	justin.th.lai@gmail.com	\N	https://github.com/justin-lai	\N	https://avatars1.githubusercontent.com/u/16922334?v=3&s=460	3	1	\N	\N
-3	vickeetran	Victoria Tran	ptran.vicki@gmail.com	\N	https://github.com/vickeetran	\N	https://avatars0.githubusercontent.com/u/10315399?v=3&s=400	2	4	\N	\N
-1	mybrainishuge	Richard May	richardamay@gmail.com	\N	https://github.com/mybrainishuge	\N	https://avatars.githubusercontent.com/u/10822210?v=3	1	2	\N	\N
-4	kamalmango	Kamal Mango	kamal.mango7@gmail.com	\N	https://github.com/kamalmango	\N	https://avatars3.githubusercontent.com/u/11984827?v=3&s=460	1	2	\N	\N
+4	kamalmango	Kamal Mango	kamal.mango7@gmail.com	\N	https://github.com/kamalmango	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,r_5,w_250/v1465012962/11984827_e6f8ve.jpg	1	2	\N	\N
+3	vickeetran	Victoria Tran	ptran.vicki@gmail.com	\N	https://github.com/vickeetran	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/v1465012954/10315399_jws0en.jpg	2	4	\N	\N
+1	mybrainishuge	Richard May	richardamay@gmail.com	\N	https://github.com/mybrainishuge	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/v1465012928/10822210_kki4kg.jpg	1	2	\N	\N
+2	justin-lai	Justin Lai	justin.th.lai@gmail.com	\N	https://github.com/justin-lai	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,r_5,w_250/v1465012945/16922334_xehnlh.jpg	3	1	\N	\N
 \.
 
 
@@ -288,9 +288,9 @@ SELECT pg_catalog.setval('engineers_id_seq', 1, true);
 --
 
 COPY projects (id, title, description, image, "projectUrl", school_id, created_at, updated_at) FROM stdin;
-2	Big Dogs	Exhaustive list of large dogs	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_150,w_150/jjnyycfjhy0e16nio9bq.jpg	\N	4	\N	\N
-3	Food	This is food	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_150,w_150/mwtl0gemwps3zuwgzxmr.jpg	\N	1	\N	\N
-1	hackd.in	Centralized database of bootcamp graduate projects	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_150,w_150/cbdeov4kafwfiuznnnal.png	\N	2	\N	\N
+2	Big Dogs	Exhaustive list of large dogs	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/jjnyycfjhy0e16nio9bq.jpg	\N	4	\N	\N
+3	Food	This is food	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/mwtl0gemwps3zuwgzxmr.jpg	\N	1	\N	\N
+1	hackd.in	Centralized database of bootcamp graduate projects	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/cbdeov4kafwfiuznnnal.png	\N	2	\N	\N
 \.
 
 

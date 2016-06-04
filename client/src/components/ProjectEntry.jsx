@@ -16,15 +16,15 @@ class ProjectEntry extends React.Component {
           flip: "animated flipOutY",
           blurb: true
         })
-        ), 950);
+      ), 950);
     } else {
       this.setState({flip: null});
       setTimeout( () => (
         this.setState({
           flip: null,
           blurb: false
-        })),
-        950);
+        })
+      ), 950);
     }
   }
 
@@ -65,4 +65,3 @@ ProjectEntry.propTypes = {
 };
 
 window.ProjectEntry = ProjectEntry;
-window.ProjectBlurb = ProjectBlurb;
