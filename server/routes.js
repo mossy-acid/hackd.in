@@ -121,25 +121,26 @@ module.exports = (server, express) => {
             .innerJoin('projects_technologies', 'projects.id', 'projects_technologies.project_id')
             .innerJoin('technologies', 'technologies.id', 'projects_technologies.technology_id')
             .then( engineers => {
+              let schoolName;
+
               engineers.forEach( engineer => {
-                let schoolName = engineer.schoolName;
+                schoolName = engineer.schoolName;
                 if (contributors.indexOf(engineer.name) === -1) contributors.push(engineer.name);
                 if (technologies.indexOf(engineer.techName) === -1) technologies.push(engineer.techName);
               });
 
-            results.push({
+              results.push({
                 title: project.title,
                 description: project.description,
                 engineers: contributors,
                 school: schoolName,
                 image: project.image,
                 technologies: technologies
-              }
-            );
+              });
 
-            if (results.length === projects.length) {
-              res.send(JSON.stringify(results));
-            }
+              if (results.length === projects.length) {
+                res.send(JSON.stringify(results));
+              }
           });
         });
       });
@@ -150,7 +151,7 @@ module.exports = (server, express) => {
     if (req.isAuthenticated()) {
       console.log('User is authenticated');
       let gitHandle = req.user;
-      new Engineer({ gitHandle: gitHandle }).fetch().then(found => {
+      new Engineer({ gitHandle: gitHandle }).fetch().then( found => {
         if (found) {
           res.status(200).send(found.attributes);
         } else {
@@ -179,7 +180,7 @@ module.exports = (server, express) => {
   server.get('/engineers/data', (req, res) => {
     knex.from('engineers')
       .then( engineers => {
-        var results = [];
+        let results = [];
         engineers.forEach( engineer => {
           knex.from('engineers')
             .innerJoin('projects', 'projects.id', 'engineers.project_id')
@@ -239,8 +240,8 @@ module.exports = (server, express) => {
 
   // server.post('/login',
   // function(req, res) {
-  //   var username = req.body.username;
-  //   var password = req.body.password;
+  //   let username = req.body.username;
+  //   let password = req.body.password;
 
   //   new Engineer({ username: username }).fetch().then(engineer => {
   //     if (engineer) {
@@ -265,8 +266,8 @@ module.exports = (server, express) => {
 
   // server.post('/signup',
   // function(req, res) {
-  //   var username = req.body.username;
-  //   var password = req.body.password;
+  //   let username = req.body.username;
+  //   let password = req.body.password;
 
   //   new Engineer({ username: username }).fetch().then(found => {
   //     if (found) {
@@ -299,7 +300,7 @@ module.exports = (server, express) => {
   //     if (!link) {
   //       res.redirect('/');
   //     } else {
-  //       var click = new Click({
+  //       let click = new Click({
   //         linkId: link.get('id')
   //       });
 
