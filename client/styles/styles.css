@@ -57,12 +57,12 @@ nav ul li a:hover {
   color: #ff4629;
   border-bottom: 3px solid #333;
 }
-#fb:hover {
+/*#fb:hover {
   color: #3b5998;
 }
 #twitter:hover {
   color: #00acee;
-}
+}*/
 img {
   width: auto;
   height: auto;

@@ -36,7 +36,7 @@ const getMyProfile = cb => {
   .fail( err => {
     console.log(err);
   });
-}
+};
 
 const postEngineer = data => {
   $.post('/engineers/data', data, () => {

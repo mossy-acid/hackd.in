@@ -59,9 +59,9 @@ class ProjectEntry extends React.Component {
   }
 }
 
-
-ProjectEntry.propTypes = {
-  project: React.PropTypes.object.isRequired
-};
+// ========== What purpose does the following serve? ============
+// ProjectEntry.propTypes = {
+//   project: React.PropTypes.object.isRequired
+// };
 
 window.ProjectEntry = ProjectEntry;
