@@ -1,19 +1,11 @@
-const ProjectList = ({projects, viewBlurb, blurb}) => (
+const ProjectList = ({projects}) => (
   <div className="actual-content">
     { projects.map( (project, index) => {
-        if (blurb !== project) {
-          return (
-            <ProjectEntry key={index} project={project} viewBlurb={viewBlurb} blurb={blurb}/>
-          )
-        } else {
-          return (
-            <ProjectBlurb key={index} project={project} viewBlurb={viewBlurb} blurb={blurb}/>
-          )
-        }
-      }
-    )}
+      return (
+        <ProjectEntry key={index} project={project}/>
+      )
+    })}
   </div>
-
 );
 
 ProjectList.propTypes = {

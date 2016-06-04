@@ -5,11 +5,8 @@ class Projects extends React.Component {
   constructor() {
     super();
 
-    this.viewBlurb = this.viewBlurb.bind(this);
-
     this.state = {
-      projects: [],
-      blurb: null
+      projects: []
     };
   }
 
@@ -26,18 +23,6 @@ class Projects extends React.Component {
     });
   }
 
-  viewBlurb(project) {
-    if (this.state.blurb === null) {
-      this.setState({
-        blurb: project
-      });      
-    } else {
-      this.setState({
-        blurb: null
-      });
-    }
-  }
-
   getProjectsFromDatabase() {
     let context = this;
     console.log('getProjects function called');
@@ -50,11 +35,8 @@ class Projects extends React.Component {
 
   render() {
     return (
-      // {<div>
-      //   <ProjectList projects={this.state.projects} />
-      // </div>}
       <div>
-        <ProjectList projects={this.state.projects} viewBlurb={this.viewBlurb} blurb={this.state.blurb}/>
+        <ProjectList projects={this.state.projects} />
       </div>
     );
   }
