@@ -1,10 +1,23 @@
 
 const getMyProfile = (cb) => {
   $.get('/profile', () => {
-    console.log('GET request made for Engineer');
+    console.log('GET request made for Profile');
   })
   .done( data => {
-    console.log(data);
+    cb(data);
+  })
+  .fail( err => {
+    console.log(err);
+  });
+}
+
+const editMyProfile = (data, cb) => {
+  console.log('data: ', data);
+  $.post('/profile', data, () => {
+    console.log('POST request made for Profile');
+  })
+  .done( data => {
+    console.log('data: ', data);
     cb(data);
   })
   .fail( err => {
@@ -13,3 +26,4 @@ const getMyProfile = (cb) => {
 }
 
 window.getMyProfile = getMyProfile;
+window.editMyProfile = editMyProfile;

@@ -150,20 +150,47 @@ module.exports = (server, express) => {
   server.get('/profile', (req,res) => {
     if (req.isAuthenticated()) {
       console.log('User is authenticated');
-      let gitHandle = req.user;
-      new Engineer({ gitHandle: gitHandle }).fetch().then( found => {
-        if (found) {
-          res.status(200).send(found.attributes);
-        } else {
-          res.sendStatus(404);
-        }
-      });
+      // let gitHandle = req.user;
+      // new Engineer({ gitHandle: gitHandle }).fetch().then( found => {
+      //   if (found) {
+      //     res.status(200).send(found.attributes);
+      //   } else {
+      //     res.sendStatus(404);
+      //   }
+      // });
+        knex.from('engineers')
+          .then( engineers => {
+            let results = [];
+            engineers.forEach( engineer => {
+              knex.from('engineers')
+                .innerJoin('projects', 'projects.id', 'engineers.project_id')
+                .where('engineers.project_id', '=', engineer.project_id)
+                .innerJoin('schools', 'schools.id', 'engineers.school_id')
+                .then( data => {
+                  if (data.length && engineer.gitHandle === req.user) {
+                    results.push({
+                      name: engineer.name,
+                      email: engineer.email,
+                      image: engineer.image,
+                      gitHandle: engineer.gitHandle,
+                      githubUrl: engineer.githubUrl,
+                      linkedinUrl: engineer.linkedinUrl,
+                      bio: engineer.bio,
+                      project: data[0].title,
+                      school: data[0].schoolName
+                    });
+                  }
+                if (results.length === 1) {
+                  res.send(JSON.stringify(results[0]));
+                }
+              });
+            });
+          });
     } else {
       console.log('User is not authenticated');
       // hide 'my profile' and sign out and display sign in/up
       res.sendFile(path.resolve('/'));
     }
-    //
   });
 
   server.get('/engineer', (req, res) => {
@@ -193,6 +220,7 @@ module.exports = (server, express) => {
                   email: engineer.email,
                   image: engineer.image,
                   gitHandle: engineer.gitHandle,
+                  bio: engineer.bio,
                   project: data[0].title,
                   school: data[0].schoolName
                 });
@@ -238,6 +266,55 @@ module.exports = (server, express) => {
     );
   });
 
+  server.post('/profile', (req,res) => {
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      // knex('engineers')
+      //   .where('gitHandle', '=', req.user)
+      //   .update(req.body.field, req.body.newValue);
+      new Engineer({ gitHandle: req.user }).fetch().then( found => {
+        if (found) {
+          console.log(req.body.field);
+          console.log(req.body.newValue);
+          found.save(req.body.field, req.body.newValue)
+          res.status(201).send(found.attributes);
+        } else {
+          res.sendStatus(404);
+        }
+      });
+    }
+    //     knex.from('engineers')
+    //       .then( engineers => {
+    //         let results = [];
+    //         engineers.forEach( engineer => {
+    //           knex.from('engineers')
+    //             .innerJoin('projects', 'projects.id', 'engineers.project_id')
+    //             .where('engineers.project_id', '=', engineer.project_id)
+    //             .innerJoin('schools', 'schools.id', 'engineers.school_id')
+    //             .then( data => {
+    //               if (data.length && engineer.gitHandle === req.user) {
+    //                 results.push({
+    //                   name: engineer.name,
+    //                   email: engineer.email,
+    //                   image: engineer.image,
+    //                   gitHandle: engineer.gitHandle,
+    //                   project: data[0].title,
+    //                   school: data[0].schoolName
+    //                 });
+    //               }
+    //             if (results.length === 1) {
+    //               res.send(JSON.stringify(results[0]));
+    //             }
+    //           });
+    //         });
+    //       });
+    // } else {
+    //   console.log('User is not authenticated');
+    //   // hide 'my profile' and sign out and display sign in/up
+    //   res.sendFile(path.resolve('/'));
+    // }
+  // });
+
   // server.post('/login',
   // function(req, res) {
   //   let username = req.body.username;
@@ -261,7 +338,7 @@ module.exports = (server, express) => {
   //       res.redirect('/login');
   //     }
   //   });
-  // });
+  });
 
 
   // server.post('/signup',

@@ -8,6 +8,7 @@ class Profile extends React.Component {
         name: '',
         bio: '',
         email: '',
+        linkedinUrl: '',
         githubUrl: '',
         image: ''
       },
@@ -17,7 +18,7 @@ class Profile extends React.Component {
         email: false,
         school: false,
         bio: false,
-        linkedin: false,
+        linkedinUrl: false,
         githubUrl: false
       },
 
@@ -30,11 +31,11 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    // let context = this;
     getMyProfile(myinfo => {
       this.setState({
-        myinfo: myinfo
+        myinfo: JSON.parse(myinfo)
       });
+      console.log(myinfo);
     });
   }
 
@@ -80,8 +81,18 @@ class Profile extends React.Component {
   }
 
   submitEdit(field) {
-    let edit = ($('#'+field).val());
-    console.log(field + ": " + edit);
+    //post the edit to the database
+    let edit = { field: field, newValue: $('#'+field).val() };
+    editMyProfile(edit, () => {
+      //update the state and re-render
+      let newState = this.state.myinfo;
+      newState[field] = edit.newValue;
+      this.setState({
+        myinfo: newState
+      });
+      this.renderField(field);
+    });
+
   }
 
   componentDidUpdate() {
@@ -100,23 +111,34 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <div className='actual-content profile-container'>
-        <div className="screenshot">
-          <img src={this.state.myinfo['image']} />
-        </div>
+      <div>
+        <div className='actual-content profile-container'>
+          <div id="profilePhoto">
+            <img src={this.state.myinfo['image']} />
+          </div>
 
-        <div className='information'>
-          <h2 id='name'>{this.state.myinfo['name']}</h2>
-            {this.renderField('gitHandle')}
+          <div className='information'>
+            <h2 id='name'>{this.state.myinfo['name']}</h2>
 
-            {this.renderField('school')}
+            <h4 id='gitHandle'>{"Github handle: "+(this.state.myinfo['gitHandle'])}</h4>
 
-            {this.renderField('technologies')}
+              {this.renderField('school')}
 
-            {this.renderField('bio')}
+              {this.renderField('technologies')}
 
-            {this.renderField('githubUrl')}
-        </div>
+              {this.renderField('bio')}
+
+              {this.renderField('githubUrl')}
+
+              {this.renderField('linkedinUrl')}
+
+          </div>
+
+      </div>
+
+      <div>
+        <NewProject />
+      </div>
     </div>
     )
   }
