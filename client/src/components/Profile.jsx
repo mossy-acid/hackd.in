@@ -30,11 +30,11 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    let context = this;
+    // let context = this;
     getMyProfile(myinfo => {
-      context.setState({
+      this.setState({
         myinfo: myinfo
-      });  
+      });
     });
   }
 
@@ -64,8 +64,8 @@ class Profile extends React.Component {
   }
 
   clickEdit(e) {
-    var field = $(e.target.classList)[0];
-    var newState = this.state.edit;
+    let field = $(e.target.classList)[0];
+    let newState = this.state.edit;
     newState[field] = !newState[field];
     //if saving
     if (!newState[field]) {
@@ -80,7 +80,7 @@ class Profile extends React.Component {
   }
 
   submitEdit(field) {
-    var edit = ($('#'+field).val());
+    let edit = ($('#'+field).val());
     console.log(field + ": " + edit);
   }
 
@@ -92,7 +92,7 @@ class Profile extends React.Component {
     //handles enter keyclick on input fields
     $('.inputField').keypress( e => {
       if (e.which == 13) {
-        var field = e.target.id;
+        let field = e.target.id;
         $('button.'+field).click()
       }
     })

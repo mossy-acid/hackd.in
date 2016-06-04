@@ -11,20 +11,20 @@ class ProjectEntry extends React.Component {
   flipFunc() {
     if (this.state.flip === null) {
       this.setState({flip: "animated flipOutY"});
-      setTimeout(() => (
+      setTimeout( () => (
         this.setState({
           flip: "animated flipOutY",
           blurb: true
         })
-        ), 950);
+      ), 950);
     } else {
-      this.setState({flip: null})
-      setTimeout(() => (
+      this.setState({flip: null});
+      setTimeout( () => (
         this.setState({
           flip: null,
           blurb: false
-        })),
-        950);
+        })
+      ), 950);
     }
   }
 
@@ -54,16 +54,14 @@ class ProjectEntry extends React.Component {
             <p className="blurb">Technologies: {this.props.project.technologies}</p>
           </div>
         </div>
-      ) 
+      )
     }
   }
 }
 
 
-
 ProjectEntry.propTypes = {
   project: React.PropTypes.object.isRequired
 };
-
 
 window.ProjectEntry = ProjectEntry;

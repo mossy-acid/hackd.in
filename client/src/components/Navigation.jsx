@@ -5,7 +5,7 @@ class Navigation extends React.Component {
     this.state = {
       currentPage: 'nav-projects',
       authenticated: false
-    }
+    };
 
     this.clickHandler = this.clickHandler.bind(this);
   }
@@ -17,22 +17,22 @@ class Navigation extends React.Component {
 
   componentDidUpdate() {
     $('#'+this.state.currentPage).addClass('current');
-    console.log(this.state.authenticated);
+    console.log('authenticated:', this.state.authenticated);
   }
 
   checkAuth() {
     $.get('/auth', () => {
-      console.log('GET request made to /auth')
+      console.log('GET request made to /auth');
     })
     .done( isAuth => {
-      console.log(isAuth);
+      console.log('checkAuth:', isAuth);
       this.setState({
         authenticated: isAuth
       });
     })
     .fail( err => {
       console.log(err);
-    })
+    });
   }
 
   clickHandler(e) {
@@ -40,8 +40,8 @@ class Navigation extends React.Component {
     $('.current').removeClass('current');
     this.setState({
       currentPage: e.target.id
-    })
-    this.props.changeCurrentPage(e.target.id.slice(4))
+    });
+    this.props.changeCurrentPage(e.target.id.slice(4));
   }
 
   render() {
@@ -52,12 +52,12 @@ class Navigation extends React.Component {
           <ul>
             <li><a id="nav-engineers" onClick={this.clickHandler}>Engineers</a></li>
             <li><a id="nav-projects" onClick={this.clickHandler}>Projects</a></li>
-            { 
+            {
               (() => {
                 //renders the profile link in nav only if user is signed in
                 if (this.state.authenticated) {
                   return (<li><a id="nav-profile" onClick={this.clickHandler}>My Profile</a></li>)
-                } 
+                }
               })()
             }
             <form className="search-container">
@@ -65,7 +65,7 @@ class Navigation extends React.Component {
               <label for="search-box"><span className="glyphicon glyphicon-search search-icon"></span></label>
               <input type="submit" id="search-submit" />
             </form>
-            { 
+            {
               (() => {
                 //renders the signout button if the user is logged in, or signin otherwise
                 if (this.state.authenticated) {
@@ -82,7 +82,7 @@ class Navigation extends React.Component {
   }
 }
 
-// { (() => 
+// { (() =>
 //   {
 //     if (this.state.authenticated) {
 //       return (

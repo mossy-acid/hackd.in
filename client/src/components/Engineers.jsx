@@ -15,10 +15,9 @@ class Engineers extends React.Component {
   }
 
   getEngineersFromDatabase() {
-    let context = this;
     console.log('getEngineers function called');
     getEngineers( engineers => {
-      context.setState({
+      this.setState({
         engineers: JSON.parse(engineers)
       });
     });

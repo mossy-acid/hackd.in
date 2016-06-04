@@ -110,11 +110,10 @@ module.exports = (server, express) => {
 
     knex.from('projects')
       .then( projects => {
-        var results = [];
-        projects.forEach(function(project) {
-          var contributors = [];
-          var technologies = [];
-          var schoolName = null;
+        let results = [];
+        projects.forEach( project => {
+          let contributors = [];
+          let technologies = [];
           knex.from('projects')
             .innerJoin('engineers', 'projects.id', 'engineers.project_id')
             .where('projects.id', '=', project.id)
@@ -122,37 +121,37 @@ module.exports = (server, express) => {
             .innerJoin('projects_technologies', 'projects.id', 'projects_technologies.project_id')
             .innerJoin('technologies', 'technologies.id', 'projects_technologies.technology_id')
             .then( engineers => {
-              engineers.forEach(function(engineer) {
+              let schoolName;
+
+              engineers.forEach( engineer => {
                 schoolName = engineer.schoolName;
                 if (contributors.indexOf(engineer.name) === -1) contributors.push(engineer.name);
                 if (technologies.indexOf(engineer.techName) === -1) technologies.push(engineer.techName);
               });
-            
-            results.push(
-              {
+
+              results.push({
                 title: project.title,
                 description: project.description,
                 engineers: contributors,
                 school: schoolName,
                 image: project.image,
                 technologies: technologies
-              }
-            );
+              });
 
-            if (results.length === projects.length) {
-              res.send(JSON.stringify(results));
-            }
+              if (results.length === projects.length) {
+                res.send(JSON.stringify(results));
+              }
           });
         });
       });
-    
+
   });
 
   server.get('/profile', (req,res) => {
     if (req.isAuthenticated()) {
       console.log('User is authenticated');
       let gitHandle = req.user;
-      new Engineer({ gitHandle: gitHandle }).fetch().then(found => {
+      new Engineer({ gitHandle: gitHandle }).fetch().then( found => {
         if (found) {
           res.status(200).send(found.attributes);
         } else {
@@ -164,7 +163,7 @@ module.exports = (server, express) => {
       // hide 'my profile' and sign out and display sign in/up
       res.sendFile(path.resolve('/'));
     }
-    // 
+    //
   });
 
   server.get('/engineer', (req, res) => {
@@ -181,34 +180,29 @@ module.exports = (server, express) => {
   server.get('/engineers/data', (req, res) => {
     knex.from('engineers')
       .then( engineers => {
-        var results = [];
-        engineers.forEach(function(engineer) {
-          var project = null;
-          var school = null;
+        let results = [];
+        engineers.forEach( engineer => {
           knex.from('engineers')
             .innerJoin('projects', 'projects.id', 'engineers.project_id')
             .where('engineers.project_id', '=', engineer.project_id)
             .innerJoin('schools', 'schools.id', 'engineers.school_id')
             .then( data => {
-              console.log('Data is====', data);
-              project = data[0].title;
-              school = data[0].schoolName;
-            results.push(
-              {
-                name: engineer.name,
-                email: engineer.email,
-                image: engineer.image,
-                gitHandle: engineer.gitHandle,
-                project: project,
-                school: school
+              if (data.length) {
+                results.push({
+                  name: engineer.name,
+                  email: engineer.email,
+                  image: engineer.image,
+                  gitHandle: engineer.gitHandle,
+                  project: data[0].title,
+                  school: data[0].schoolName
+                });
               }
-            );
             if (results.length === engineers.length) {
               res.send(JSON.stringify(results));
             }
-          })
-        })
-      })
+          });
+        });
+      });
   });
 
   server.post('/projects/data', (req, res) => {
@@ -226,7 +220,7 @@ module.exports = (server, express) => {
             res.status(200).send(found.attributes);
           } else {
             let url = result.secure_url.split('/');
-            url[6] = 'c_fill,h_250,w_250';
+            url[6] = 'c_fill,h_250,r_5,w_250';
             url = url.join('/');
             Projects.create({
               title: title,
@@ -246,8 +240,8 @@ module.exports = (server, express) => {
 
   // server.post('/login',
   // function(req, res) {
-  //   var username = req.body.username;
-  //   var password = req.body.password;
+  //   let username = req.body.username;
+  //   let password = req.body.password;
 
   //   new Engineer({ username: username }).fetch().then(engineer => {
   //     if (engineer) {
@@ -272,8 +266,8 @@ module.exports = (server, express) => {
 
   // server.post('/signup',
   // function(req, res) {
-  //   var username = req.body.username;
-  //   var password = req.body.password;
+  //   let username = req.body.username;
+  //   let password = req.body.password;
 
   //   new Engineer({ username: username }).fetch().then(found => {
   //     if (found) {
@@ -306,7 +300,7 @@ module.exports = (server, express) => {
   //     if (!link) {
   //       res.redirect('/');
   //     } else {
-  //       var click = new Click({
+  //       let click = new Click({
   //         linkId: link.get('id')
   //       });
 

@@ -25,9 +25,9 @@ const getEngineer = (query, cb) => {
   });
 };
 
-const getMyProfile = (cb) => {
+const getMyProfile = cb => {
   $.get('/profile', () => {
-    console.log('GET request made for Engineer');
+    console.log('GET request made for profile');
   })
   .done( data => {
     console.log(data);
