@@ -190,6 +190,7 @@ module.exports = (server, express) => {
             .where('engineers.project_id', '=', engineer.project_id)
             .innerJoin('schools', 'schools.id', 'engineers.school_id')
             .then( data => {
+              console.log('Data is====', data);
               project = data[0].title;
               school = data[0].schoolName;
             results.push(
