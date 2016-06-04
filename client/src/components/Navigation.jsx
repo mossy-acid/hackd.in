@@ -17,7 +17,7 @@ class Navigation extends React.Component {
 
   componentDidUpdate() {
     $('#'+this.state.currentPage).addClass('current');
-    console.log('authenticated:', this.state.authenticated);
+    console.log('Authenticated:', this.state.authenticated);
   }
 
   checkAuth() {
@@ -25,7 +25,6 @@ class Navigation extends React.Component {
       console.log('GET request made to /auth');
     })
     .done( isAuth => {
-      console.log('checkAuth:', isAuth);
       this.setState({
         authenticated: isAuth
       });

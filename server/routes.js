@@ -22,12 +22,12 @@ server.use(passport.session());
 module.exports = (server, express) => {
 
   passport.serializeUser((user, done) => {
-    console.log('Inside serializeUser:  ', user.username);
+    console.log('Serialize User:  ', user.username);
     done(null, user.username);
   });
 
   passport.deserializeUser((username, done) => {
-    console.log('Inside deserializeUser:', username);
+    console.log('Deserialize User:', username);
     // maybe we get the user from psql by id?
     // Engineer.fetch(username, (err, user) => {
       done(null, username);
@@ -53,11 +53,8 @@ module.exports = (server, express) => {
       const email = req.user.emails[0].value;
       const image = req.user.photos[0].value;
 
-      // console.log('github req:', req.user);
-
       new Engineer({ gitHandle: gitHandle }).fetch().then(found => {
         if (found) {
-          //res.status(200).send(found.attributes);
           res.redirect('/');
         } else {
           Engineers.create({
@@ -132,10 +129,10 @@ module.exports = (server, express) => {
               results.push({
                 title: project.title,
                 description: project.description,
-                engineers: contributors,
+                engineers: contributors.join(', '),
                 school: schoolName,
                 image: project.image,
-                technologies: technologies
+                technologies: technologies.join(', ')
               });
 
               if (results.length === projects.length) {

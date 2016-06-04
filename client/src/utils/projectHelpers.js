@@ -1,9 +1,7 @@
 const getProjects = cb => {
   $.get('/projects/data', () => {
-    console.log('GET request made to Projects');
   })
   .done( data => {
-    console.log(data);
     cb(data);
   })
   .fail( err => {
@@ -13,10 +11,8 @@ const getProjects = cb => {
 
 const postProject = data => {
   $.post('/projects/data', data, () => {
-    console.log('POST request made to Projects');
   })
   .done( data => {
-    console.log(data);
   })
   .fail( err => {
     console.log(err);
