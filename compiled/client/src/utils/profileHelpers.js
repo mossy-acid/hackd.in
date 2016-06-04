@@ -1,0 +1,15 @@
+'use strict';
+
+var getMyProfile = function getMyProfile(cb) {
+  $.get('/profile', function () {
+    console.log('GET request made for Engineer');
+  }).done(function (data) {
+    console.log(data);
+    cb(data);
+  }).fail(function (err) {
+    console.log(err);
+  });
+};
+
+window.getMyProfile = getMyProfile;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL2NsaWVudC9zcmMvdXRpbHMvcHJvZmlsZUhlbHBlcnMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFDQSxJQUFNLGVBQWUsU0FBZixZQUFlLENBQUMsRUFBRCxFQUFRO0FBQzNCLElBQUUsR0FBRixDQUFNLFVBQU4sRUFBa0IsWUFBTTtBQUN0QixZQUFRLEdBQVIsQ0FBWSwrQkFBWjtBQUNELEdBRkQsRUFHQyxJQUhELENBR08sZ0JBQVE7QUFDYixZQUFRLEdBQVIsQ0FBWSxJQUFaO0FBQ0EsT0FBRyxJQUFIO0FBQ0QsR0FORCxFQU9DLElBUEQsQ0FPTyxlQUFPO0FBQ1osWUFBUSxHQUFSLENBQVksR0FBWjtBQUNELEdBVEQ7QUFVRCxDQVhEOztBQWFBLE9BQU8sWUFBUCxHQUFzQixZQUF0QiIsImZpbGUiOiJwcm9maWxlSGVscGVycy5qcyIsInNvdXJjZXNDb250ZW50IjpbIlxuY29uc3QgZ2V0TXlQcm9maWxlID0gKGNiKSA9PiB7XG4gICQuZ2V0KCcvcHJvZmlsZScsICgpID0+IHtcbiAgICBjb25zb2xlLmxvZygnR0VUIHJlcXVlc3QgbWFkZSBmb3IgRW5naW5lZXInKTtcbiAgfSlcbiAgLmRvbmUoIGRhdGEgPT4ge1xuICAgIGNvbnNvbGUubG9nKGRhdGEpO1xuICAgIGNiKGRhdGEpO1xuICB9KVxuICAuZmFpbCggZXJyID0+IHtcbiAgICBjb25zb2xlLmxvZyhlcnIpO1xuICB9KTtcbn1cblxud2luZG93LmdldE15UHJvZmlsZSA9IGdldE15UHJvZmlsZTtcbiJdfQ==
