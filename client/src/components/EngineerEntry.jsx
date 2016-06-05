@@ -11,15 +11,15 @@ class EngineerEntry extends React.Component {
   flipFunc() {
     if (this.state.flip === null) {
       this.setState({flip: "animated flipOutY"});
-      setTimeout(() => (
+      setTimeout( () => (
         this.setState({
           flip: "animated flipOutY",
           blurb: true
         })
       ), 950);
     } else {
-      this.setState({flip: null})
-      setTimeout(() => (
+      this.setState({flip: null});
+      setTimeout( () => (
         this.setState({
           flip: null,
           blurb: false

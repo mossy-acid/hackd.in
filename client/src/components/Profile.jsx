@@ -45,7 +45,7 @@ class Profile extends React.Component {
       getProject(this.state.myinfo.project['project_id'], project => {
         this.setState({
           project: JSON.parse(project)[0]
-        })
+        });
 
         // set project technologies to engineer's as well
         let newState = this.state.myinfo;
@@ -53,7 +53,7 @@ class Profile extends React.Component {
         this.setState({
           myinfo: newState
         });
-      })
+      });
     });
   }
 
@@ -154,11 +154,11 @@ class Profile extends React.Component {
           </div>
 
       </div>
-      
+
       <div id='profile-project-container'>
         <ProjectEntry project={this.state.project} />
       </div>
-      
+
       <div id='newproject-form'>
         <NewProject />
       </div>
