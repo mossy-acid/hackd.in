@@ -15,7 +15,7 @@ class Projects extends React.Component {
   }
 
   getProjectsFromDatabase() {
-    getProjects( projects => {
+    getProject( 'all', projects => {
       this.setState({
         projects: JSON.parse(projects)
       });

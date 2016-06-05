@@ -291,6 +291,16 @@ a:hover {
   padding-top: 1px;
   /*color: white;*/
 }
+
+#profilePhoto {
+  float: left;
+}
+#profilePhoto img {
+  height: 380px;
+  width: 350px;
+  margin: 30px;
+}
+
 .information button {
   display: inline;
   margin-top: 10px;

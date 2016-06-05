@@ -85,16 +85,6 @@ module.exports = (server, express) => {
     res.sendFile(path.resolve('client/newProject.html'));
   });
 
-  server.get('/newEngineer', (req, res) => {
-    if (req.isAuthenticated()) {
-      console.log('User is authenticated: ', req.user);
-      // display 'my profile' and sign out instead of sign in/up
-    } else {
-      console.log('User is not authenticated');
-      // hide 'my profile' and sign out and display sign in/up
-    }
-    res.sendFile(path.resolve('client/newEngineer.html'));
-  });
 
   server.get('/signout', (req, res) => {
     console.log('Logging out:', req.user);
@@ -103,8 +93,8 @@ module.exports = (server, express) => {
   });
 
 
-  server.get('/projects/data', (req, res) => {
-
+  server.get('/projects', (req, res) => {
+    let projectId = req.query.id;
     knex.from('projects')
       .then( projects => {
         let results = [];
@@ -126,16 +116,18 @@ module.exports = (server, express) => {
                 if (technologies.indexOf(engineer.techName) === -1) technologies.push(engineer.techName);
               });
 
-              results.push({
-                title: project.title,
-                description: project.description,
-                engineers: contributors.join(', '),
-                school: schoolName,
-                image: project.image,
-                technologies: technologies.join(', ')
-              });
+              if (projectId === project.id || projectId === 'all') {
+                results.push({
+                  title: project.title,
+                  description: project.description,
+                  engineers: contributors.join(', '),
+                  school: schoolName,
+                  image: project.image,
+                  technologies: technologies.join(', ')
+                });
+              }
 
-              if (results.length === projects.length) {
+              if (results.length === projects.length || projectId == project.id) {
                 res.send(JSON.stringify(results));
               }
           });
@@ -147,34 +139,50 @@ module.exports = (server, express) => {
   server.get('/profile', (req,res) => {
     if (req.isAuthenticated()) {
       console.log('User is authenticated');
-      let gitHandle = req.user;
-      new Engineer({ gitHandle: gitHandle }).fetch().then( found => {
-        if (found) {
-          res.status(200).send(found.attributes);
-        } else {
-          res.sendStatus(404);
-        }
-      });
+
+        knex.from('engineers')
+          .then( engineers => {
+            let results = [];
+            engineers.forEach( engineer => {
+              knex.from('engineers')
+                .innerJoin('projects', 'projects.id', 'engineers.project_id')
+                .where('engineers.project_id', '=', engineer.project_id)
+                .innerJoin('schools', 'schools.id', 'engineers.school_id')
+                .then( data => {
+                  if (data.length && engineer.gitHandle === req.user) {
+                    results.push({
+                      name: engineer.name,
+                      email: engineer.email,
+                      image: engineer.image,
+                      gitHandle: engineer.gitHandle,
+                      githubUrl: engineer.githubUrl,
+                      linkedinUrl: engineer.linkedinUrl,
+                      bio: engineer.bio,
+                      project: {
+                        title: data[0].title,
+                        project_id: data[0].project_id,
+                        description: data[0].description,
+                        image: data[0].image,
+                        projectUrl: data[0].projectUrl
+                      },
+                      school: data[0].schoolName
+                    });
+                  }
+                if (results.length === 1) {
+                  res.send(JSON.stringify(results[0]));
+                }
+              });
+            });
+          });
     } else {
       console.log('User is not authenticated');
       // hide 'my profile' and sign out and display sign in/up
       res.sendFile(path.resolve('/'));
     }
-    //
   });
 
-  server.get('/engineer', (req, res) => {
-    let gitHandle = req.query.gitHandle;
-    new Engineer({ gitHandle: gitHandle }).fetch().then(found => {
-      if (found) {
-        res.status(200).send(found.attributes);
-      } else {
-        res.sendStatus(404);
-      }
-    });
-  });
-
-  server.get('/engineers/data', (req, res) => {
+  server.get('/engineers', (req, res) => {
+    let engineerName = req.query.name;
     knex.from('engineers')
       .then( engineers => {
         let results = [];
@@ -184,12 +192,13 @@ module.exports = (server, express) => {
             .where('engineers.project_id', '=', engineer.project_id)
             .innerJoin('schools', 'schools.id', 'engineers.school_id')
             .then( data => {
-              if (data.length) {
+              if (data.length && (engineer.name === engineerName || engineerName === 'all')) {
                 results.push({
                   name: engineer.name,
                   email: engineer.email,
                   image: engineer.image,
                   gitHandle: engineer.gitHandle,
+                  bio: engineer.bio,
                   project: data[0].title,
                   school: data[0].schoolName
                 });
@@ -202,7 +211,7 @@ module.exports = (server, express) => {
       });
   });
 
-  server.post('/projects/data', (req, res) => {
+  server.post('/projects', (req, res) => {
     let title = req.body.title;
     let description = req.body.description;
     let engineers = req.body.engineers;
@@ -211,7 +220,6 @@ module.exports = (server, express) => {
 
     cloudinary.uploader.upload(imageUrl,
       result => {
-        // cloudinary.image( result.public_id, { width: 100, height: 150, crop: "fill" }) )
         new Project({ title: title }).fetch().then(found => {
           if (found) {
             res.status(200).send(found.attributes);
@@ -235,83 +243,56 @@ module.exports = (server, express) => {
     );
   });
 
-  // server.post('/login',
-  // function(req, res) {
-  //   let username = req.body.username;
-  //   let password = req.body.password;
-
-  //   new Engineer({ username: username }).fetch().then(engineer => {
-  //     if (engineer) {
-  //       bcrypt.compare(password, engineer.get('password'), (err, match) => {
-  //         if (match) {
-  //           console.log('Logging in...');
-  //           req.session.username = username;
-  //           res.status(200);
-  //           res.redirect('/');
-  //         } else {
-  //           console.log('Invalid password');
-  //           res.redirect('/login');
-  //         }
-  //       });
-  //     } else {
-  //       res.status(200);
-  //       res.redirect('/login');
-  //     }
-  //   });
-  // });
-
-
-  // server.post('/signup',
-  // function(req, res) {
-  //   let username = req.body.username;
-  //   let password = req.body.password;
-
-  //   new Engineer({ username: username }).fetch().then(found => {
-  //     if (found) {
-  //       res.status(200);
-  //       res.redirect('/signup');
-  //     } else {
-  //       bcrypt.hash(req.body.password, null, null, (err, hash) => {
-  //         if (err) {
-  //           console.log('BCRYPT HASH ERROR:', err);
-  //           res.status(200);
-  //           res.redirect('/signup');
-  //         } else {
-  //           Engineers.create({
-  //             username: username,
-  //             password: hash
-  //           })
-  //           .then(engineer => {
-  //             req.session.username = username;
-  //             res.status(200);
-  //             res.redirect('/');
-  //           });
-  //         }
-  //       });
-  //     }
-  //   });
-  // });
-
-  // server.get('/*', (req, res) => {
-  //   new Link({ code: req.params[0] }).fetch().then(function(link) {
-  //     if (!link) {
-  //       res.redirect('/');
-  //     } else {
-  //       let click = new Click({
-  //         linkId: link.get('id')
-  //       });
-
-  //       click.save().then(function() {
-  //         link.set('visits', link.get('visits') + 1);
-  //         link.save().then(function() {
-  //           return res.redirect(link.get('url'));
-  //         });
-  //       });
-  //     }
-  //   });
-  // });
-
-
-
+  server.post('/profile', (req,res) => {
+    if (req.isAuthenticated()) {
+      console.log('User is authenticated');
+      // knex('engineers')
+      //   .where('gitHandle', '=', req.user)
+      //   .update(req.body.field, req.body.newValue);
+      new Engineer({ gitHandle: req.user }).fetch().then( found => {
+        if (found) {
+          console.log(req.body.field);
+          console.log(req.body.newValue);
+          found.save(req.body.field, req.body.newValue)
+          res.status(201).send(found.attributes);
+        } else {
+          res.sendStatus(404);
+        }
+      });
+    }
+  })
 
 };
+
+  // server.get('/newEngineer', (req, res) => {
+  //   if (req.isAuthenticated()) {
+  //     console.log('User is authenticated: ', req.user);
+  //     // display 'my profile' and sign out instead of sign in/up
+  //   } else {
+  //     console.log('User is not authenticated');
+  //     // hide 'my profile' and sign out and display sign in/up
+  //   }
+  //   res.sendFile(path.resolve('client/newEngineer.html'));
+  // });
+  //
+  //   // server.get('/engineer', (req, res) => {
+  //   let gitHandle = req.query.gitHandle;
+  //   new Engineer({ gitHandle: gitHandle }).fetch().then(found => {
+  //     if (found) {
+  //       res.status(200).send(found.attributes);
+  //     } else {
+  //       res.sendStatus(404);
+  //     }
+  //   });
+  // });
+
+  // server.get('/projects', (req, res) => {
+  //   let id = req.query.id;
+  //   new Project({ id: id }).fetch().then(found => {
+  //     if (found) {
+  //       res.status(200).send(found.attributes);
+  //     } else {
+  //       res.sendStatus(404);
+  //     }
+  //   });
+  // });
