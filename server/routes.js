@@ -116,7 +116,7 @@ module.exports = (server, express) => {
                 if (technologies.indexOf(engineer.techName) === -1) technologies.push(engineer.techName);
               });
 
-              if (projectId === project.id || projectId === 'all') {
+              if (projectId === project.id.toString() || projectId === 'all') {
                 results.push({
                   title: project.title,
                   description: project.description,
@@ -127,7 +127,7 @@ module.exports = (server, express) => {
                 });
               }
 
-              if (results.length === projects.length || projectId == project.id) {
+              if (results.length === projects.length || projectId === project.id.toString()) {
                 res.send(JSON.stringify(results));
               }
           });

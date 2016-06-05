@@ -180,28 +180,28 @@ form {
   padding: 13px 13px 13px 54px;
 }
 
-#contributors{
+#contributors-form{
   background-image: url(https://cdn0.iconfinder.com/data/icons/users-icon/100/User_Group-128.png);
   background-size: 25px 25px;
   background-position: 11px 8px;
   background-repeat: no-repeat;
 }
 
-#projectTitle{
+#projectTitle-form{
   background-image: url(https://cdn2.iconfinder.com/data/icons/files-folders-3/24/files-folders-37-128.png);
   background-size: 30px 30px;
   background-position: 11px 8px;
   background-repeat: no-repeat;
 }
 
-#technologies{
+#technologies-form{
   background-image: url(https://cdn3.iconfinder.com/data/icons/social-productivity-line-art-3/128/keyboard-128.png);
   background-size: 25px 25px;
   background-position: 11px 8px;
   background-repeat: no-repeat;
 }
 
-#projectDescription{
+#projectDescription-form{
   background-image: url(http://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/512/edit-icon.png);
   background-size: 25px 25px;
   background-position: 11px 8px;
@@ -376,7 +376,7 @@ a:hover {
    color: white;
 }
 
-#profile-project-container {
+/*#profile-project-container {
   width: 700px;
   height: 400px;
   position: relative;
@@ -389,4 +389,4 @@ a:hover {
 #newproject-form {
   position: relative;
   top: 200px;
-}
+}*/

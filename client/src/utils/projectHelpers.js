@@ -3,7 +3,7 @@ const getProject = (query, cb) => {
     console.log('GET request made to Projects');
   })
   .done( data => {
-    // console.log('project:', data);
+    console.log('project:', data);
     cb(data);
   })
   .fail( err => {

@@ -42,7 +42,6 @@ class Profile extends React.Component {
       this.setState({
         myinfo: JSON.parse(myinfo)
       });
-      console.log(this.state.myinfo)
       getProject(this.state.myinfo.project['project_id'], project => {
         this.setState({
           project: JSON.parse(project)[0]
@@ -50,7 +49,7 @@ class Profile extends React.Component {
 
         // set project technologies to engineer's as well
         let newState = this.state.myinfo;
-        newState['technologies'] = this.state.project.technologies.join(', ');
+        newState['technologies'] = this.state.project.technologies;
         this.setState({
           myinfo: newState
         });
