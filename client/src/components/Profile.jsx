@@ -8,19 +8,26 @@ class Profile extends React.Component {
         name: '',
         bio: '',
         email: '',
+        linkedinUrl: '',
         githubUrl: '',
         image: ''
       },
-
       edit: {
         information: false,
         email: false,
         school: false,
         bio: false,
-        linkedin: false,
+        linkedinUrl: false,
         githubUrl: false
       },
-
+      project: {
+        title: '',
+        description: '',
+        engineers: [],
+        school: '',
+        image: '',
+        technologies: []
+      },
       currentFocus: null
     };
 
@@ -30,11 +37,24 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    // let context = this;
+    //load profile and retrieve associated project by id
     getMyProfile(myinfo => {
       this.setState({
-        myinfo: myinfo
+        myinfo: JSON.parse(myinfo)
       });
+      console.log(this.state.myinfo)
+      getProject(this.state.myinfo.project['project_id'], project => {
+        this.setState({
+          project: JSON.parse(project)[0]
+        })
+
+        // set project technologies to engineer's as well
+        let newState = this.state.myinfo;
+        newState['technologies'] = this.state.project.technologies.join(', ');
+        this.setState({
+          myinfo: newState
+        });
+      })
     });
   }
 
@@ -67,21 +87,32 @@ class Profile extends React.Component {
     let field = $(e.target.classList)[0];
     let newState = this.state.edit;
     newState[field] = !newState[field];
-    //if saving
+    //if saving, remove current focus
     if (!newState[field]) {
       this.setState({ currentFocus: null})
       this.submitEdit(field);
     } else {
-    //if editing
+    //if editing, change focus to the current field input box
       this.setState({ currentFocus: field})
     }
 
+    //set the new state for fields being edited
     this.setState({ edit: newState} );
   }
 
   submitEdit(field) {
-    let edit = ($('#'+field).val());
-    console.log(field + ": " + edit);
+    //post the edit to the database
+    let edit = { field: field, newValue: $('#'+field).val() };
+    editMyProfile(edit, () => {
+      //update the state and re-render
+      let newState = this.state.myinfo;
+      newState[field] = edit.newValue;
+      this.setState({
+        myinfo: newState
+      });
+      this.renderField(field);
+    });
+
   }
 
   componentDidUpdate() {
@@ -100,23 +131,37 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <div className='actual-content profile-container'>
-        <div className="screenshot">
-          <img src={this.state.myinfo['image']} />
-        </div>
+      <div>
+        <div className='actual-content profile-container'>
+          <div id="profilePhoto">
+            <img src={this.state.myinfo['image']} />
+          </div>
 
-        <div className='information'>
-          <h2 id='name'>{this.state.myinfo['name']}</h2>
-            {this.renderField('gitHandle')}
+          <div className='information'>
+            <h2 id='name'>{this.state.myinfo['name']}</h2>
 
-            {this.renderField('school')}
+            <h4 id='gitHandle'>{"Github handle: "+(this.state.myinfo['gitHandle'])}</h4>
 
-            {this.renderField('technologies')}
+              {this.renderField('school')}
 
-            {this.renderField('bio')}
+              {this.renderField('technologies')}
 
-            {this.renderField('githubUrl')}
-        </div>
+              {this.renderField('bio')}
+
+              {this.renderField('githubUrl')}
+
+              {this.renderField('linkedinUrl')}
+
+          </div>
+
+      </div>
+        <ProjectEntry project={this.state.project} />
+        }
+      }
+
+      <div>
+        <NewProject />
+      </div>
     </div>
     )
   }
