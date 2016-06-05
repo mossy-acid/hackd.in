@@ -45,10 +45,6 @@ class Navigation extends React.Component {
     this.props.changeCurrentPage(e.target.id.slice(4));
   }
 
-  handleSearchInputChange(input) {
-  }
-  // handleSearchInputChange={_.debounce((input) => this.getYouTubeVideos(input), 500)}
-
   render() {
     return (
       <header>
