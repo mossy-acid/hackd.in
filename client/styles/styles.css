@@ -261,6 +261,7 @@ a:hover {
   border-radius: 5px;
   overflow: auto;
   box-shadow: 6px 6px 15px grey;
+  padding: 0px;
 }
 
 .screenshot {
@@ -314,7 +315,7 @@ a:hover {
   height: 380px;
   width: 350px;
   margin: 30px;
-  border-radius: 5px 0px 0px 5px;
+  border-radius: 5px;
 }
 
 .information button {
