@@ -1,5 +1,5 @@
 const ProjectList = ({projects}) => (
-  <div className="actual-content" class="row">
+  <div className="actual-content row">
     { projects.map( (project, index) =>
       <ProjectEntry key={index} project={project}/>
     )}
