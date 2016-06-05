@@ -45,7 +45,7 @@ class Profile extends React.Component {
       getProject(this.state.myinfo.project['project_id'], project => {
         this.setState({
           project: JSON.parse(project)[0]
-        })
+        });
 
         // set project technologies to engineer's as well
         let newState = this.state.myinfo;
@@ -53,7 +53,7 @@ class Profile extends React.Component {
         this.setState({
           myinfo: newState
         });
-      })
+      });
     });
   }
 
@@ -130,42 +130,41 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className='actual-content profile-container'>
-          <div id="profilePhoto">
+      <div className="container">
+
+        {/*<div className="row actual-content profile-container">*/}
+        <div className="row profile-container">
+          <div className="col-xs-5" id="profilePhoto">
             <img src={this.state.myinfo['image']} />
           </div>
 
-          <div className='information'>
-            <h2 id='name'>{this.state.myinfo['name']}</h2>
+          {/*<div className="col-xs-6 information">*/}
+          <div className="col-xs-7 profile-content">
+            <h2 id="name">{this.state.myinfo['name']}</h2>
+            <h4 id="gitHandle">{'Github handle: '+(this.state.myinfo['gitHandle'])}</h4>
+            {this.renderField('school')}
+            {this.renderField('technologies')}
+            {this.renderField('bio')}
+            {this.renderField('githubUrl')}
+            {this.renderField('linkedinUrl')}
+          </div>
+        </div>
 
-            <h4 id='gitHandle'>{"Github handle: "+(this.state.myinfo['gitHandle'])}</h4>
-
-              {this.renderField('school')}
-
-              {this.renderField('technologies')}
-
-              {this.renderField('bio')}
-
-              {this.renderField('githubUrl')}
-
-              {this.renderField('linkedinUrl')}
-
+        <div className="row">
+          {/*<div className="col-xs-4" id="profile-project-container">*/}
+          <div className="col-xs-4">
+            <ProjectEntry project={this.state.project} />
           </div>
 
+          {/*<div className="col-xs-6" id="newproject-form">*/}
+          <div className="col-xs-6">
+            <NewProject />
+          </div>
+        </div>
+
       </div>
-      
-      <div id='profile-project-container'>
-        <ProjectEntry project={this.state.project} />
-      </div>
-      
-      <div id='newproject-form'>
-        <NewProject />
-      </div>
-    </div>
     )
   }
 }
 
 window.Profile = Profile;
-

@@ -14,6 +14,8 @@ header {
   border-bottom: 1px solid #e3e3e8;
   background-color: white;
   z-index: 1000;
+  box-shadow: 0px 0px 15px grey;
+
 }
 #logo {
   float: left;
@@ -72,6 +74,20 @@ img {
 
 .actual-content {
   margin-top: 100px;
+}
+
+.profile-container {
+  height: 380px;
+  /*width: 350px;*/
+  margin-top: 100px;
+  /*border: 2px solid black;*/
+  border-radius: 5px;
+  box-shadow: 6px 6px 15px grey;
+}
+
+.profile-content {
+  height: 380px;
+  overflow: auto;
 }
 
 .container {
@@ -261,6 +277,7 @@ a:hover {
   border-radius: 5px;
   overflow: auto;
   box-shadow: 6px 6px 15px grey;
+  padding: 0px;
 }
 
 .screenshot {
@@ -295,7 +312,7 @@ a:hover {
 }
 
 /*-------Profile Page-----------*/
-.profile-container {
+/*.profile-container {
   display: block;
   top: 100px;
   width: 1000px;
@@ -304,16 +321,20 @@ a:hover {
   position: relative;
   background-color: gray;
   padding-top: 1px;
-  /*color: white;*/
-}
+  color: white;
+}*/
 
 #profilePhoto {
+  height: 380px;
+  width: 350px;
   float: left;
+  padding: 0px;
 }
 #profilePhoto img {
   height: 380px;
   width: 350px;
-  margin: 30px;
+  margin: 0px;
+  border-radius: 5px 0px 0px 5px;
 }
 
 .information button {

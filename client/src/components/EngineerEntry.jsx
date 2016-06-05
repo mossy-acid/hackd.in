@@ -11,15 +11,15 @@ class EngineerEntry extends React.Component {
   flipFunc() {
     if (this.state.flip === null) {
       this.setState({flip: "animated flipOutY"});
-      setTimeout(() => (
+      setTimeout( () => (
         this.setState({
           flip: "animated flipOutY",
           blurb: true
         })
       ), 950);
     } else {
-      this.setState({flip: null})
-      setTimeout(() => (
+      this.setState({flip: null});
+      setTimeout( () => (
         this.setState({
           flip: null,
           blurb: false
@@ -48,8 +48,8 @@ class EngineerEntry extends React.Component {
       )
     } else {
       return (
-        <div className="col-xs-1 engineer-entry blurbinfo">
-          <div className={!!this.state.flip ? null : "animated flipOutY"} onClick={this.flipFunc.bind(this)} blurb={this.state.blurb}>
+        <div className="col-xs-1 engineer-entry blurbinfo" onClick={this.flipFunc.bind(this)}>
+          <div className={!!this.state.flip ? null : "animated flipOutY"} blurb={this.state.blurb}>
             <p><b>Engineer:</b> {this.props.engineer.name}</p>
             <p><b>Email:</b> {this.props.engineer.email}</p>
             <p><b>Github Handle:</b> {this.props.engineer.gitHandle}</p>
