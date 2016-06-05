@@ -1,9 +1,9 @@
-
 const getMyProfile = cb => {
   $.get('/profile', () => {
     console.log('GET request made for Profile');
   })
   .done( data => {
+
     cb(data);
   })
   .fail( err => {

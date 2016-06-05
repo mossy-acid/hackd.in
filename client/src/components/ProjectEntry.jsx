@@ -48,8 +48,8 @@ class ProjectEntry extends React.Component {
       )
     } else {
       return (
-        <div className="col-xs-1 project-entry blurbinfo">
-          <div className={!!this.state.flip ? null : "animated flipOutY"} onClick={this.flipFunc.bind(this)} blurb={this.state.blurb}>
+        <div className="col-xs-1 project-entry blurbinfo" onClick={this.flipFunc.bind(this)} >
+          <div className={!!this.state.flip ? null : "animated flipOutY"} blurb={this.state.blurb}>
             <p><b>Title:</b> {this.props.project.title}</p>
             <p><b>Engineers:</b> {this.props.project.engineers}</p>
             <p><b>School:</b> {this.props.project.school}</p>
@@ -62,7 +62,8 @@ class ProjectEntry extends React.Component {
   }
 }
 
-// ========== What purpose does the following serve? ============
+// ========== What purpose does the following serve? ============> mostly for devs to know what props are required when passing them between components - it gives a warning if the prop is missing
+// 
 // ProjectEntry.propTypes = {
 //   project: React.PropTypes.object.isRequired
 // };
