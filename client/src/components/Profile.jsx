@@ -155,11 +155,12 @@ class Profile extends React.Component {
           </div>
 
       </div>
+      
+      <div id='profile-project-container'>
         <ProjectEntry project={this.state.project} />
-        }
-      }
-
-      <div>
+      </div>
+      
+      <div id='newproject-form'>
         <NewProject />
       </div>
     </div>

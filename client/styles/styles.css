@@ -278,6 +278,12 @@ a:hover {
   right: 50px;
 }
 
+.blurbinfo {
+  text-align: left;
+  padding: 10px;
+  /*height: 380px;*/
+  /*width: 250px;*/
+}
 
 /*-------Profile Page-----------*/
 .profile-container {
@@ -370,9 +376,17 @@ a:hover {
    color: white;
 }
 
-.blurbinfo {
-  text-align: left;
-  padding: 10px;
-  /*height: 380px;*/
-  /*width: 250px;*/
+#profile-project-container {
+  width: 700px;
+  height: 400px;
+  position: relative;
+  top: 100px;
+  display: block;
+  margin: auto;
+  background-color: gray;
+}
+
+#newproject-form {
+  position: relative;
+  top: 200px;
 }
