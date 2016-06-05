@@ -2,25 +2,52 @@
 // import ProjectList from './ProjectList'
 
 class Projects extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      projects: []
+      projects: [],
+      filteredProjects: []
     };
   }
 
   componentDidMount() {
     this.getProjectsFromDatabase();
+    console.log(this.props)
   }
 
   getProjectsFromDatabase() {
     getProject( 'all', projects => {
       this.setState({
-        projects: JSON.parse(projects)
+        projects: JSON.parse(projects),
+        filteredProjects: JSON.parse(projects)
       });
     });
   }
+
+  componentWillReceiveProps(nextProps) {
+    //filter projects by filter prop
+    let filter = nextProps.filter;
+    let filteredProjects = this.state.projects.filter( project => {
+      //.includes better than .indexOf? neither is case-insensitive
+      return Object.keys(project).some( key => {
+        return (typeof project[key] === 'string') && (project[key].includes(filter));
+      })
+
+      // -----above is equivalent to...
+      // for (var key in project) {
+      //   if (project[key].includes(filter)) {
+      //     return true;
+      //   }
+      // }
+      // return false
+    })
+
+    this.setState({
+      filteredProjects: filteredProjects
+    })
+  }
+
 
   viewBlurb(project) {
     if (this.state.blurb === null) {
@@ -37,7 +64,7 @@ class Projects extends React.Component {
   render() {
     return (
       <div className="container">
-        <ProjectList projects={this.state.projects} />
+        <ProjectList projects={this.state.filteredProjects} />
       </div>
     );
   }
