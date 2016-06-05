@@ -1,6 +1,6 @@
 # hackd.in
 
-> A presentation platform for bootcmap graduates.
+> A presentation platform for bootcamp graduates.
 
 ## Team
 
@@ -27,8 +27,10 @@
 - body-parser ^1.15.1
 - bookshelf ^0.9.5
 - cloudinary ^1.3.1
+- connect-session-knex ^1.0.23
 - express ^4.13.4
 - express-session ^1.13.0
+- helmet ^2.1.0
 - knex ^0.11.5
 - lodash ^4.6.1
 - Node 6.2.0
@@ -37,6 +39,7 @@
 - passport-github ^1.1.0
 - pg ^4.5.5
 - Postgresql 9.5.3
+- react-redux ^4.4.5
 - redux ^3.5.2
 - request ^2.72.0
 
@@ -59,6 +62,7 @@ npm install babel-cli
 npm install
 install and run postgres.app
 createdb hackdin
+psql -U postgres hackdin < hackdindb.pgsql
 nodemon server/server.js
 babel . --out-dir compiled --presets=es2015,react --ignore=node_modules,compiled,db,server --source-maps inline --watch
 ```

@@ -288,9 +288,9 @@ SELECT pg_catalog.setval('engineers_id_seq', 1, true);
 --
 
 COPY projects (id, title, description, image, "projectUrl", school_id, created_at, updated_at) FROM stdin;
-2	Big Dogs	Exhaustive list of large dogs	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/jjnyycfjhy0e16nio9bq.jpg	\N	4	\N	\N
-3	Food	This is food	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/mwtl0gemwps3zuwgzxmr.jpg	\N	1	\N	\N
-1	hackd.in	Centralized database of bootcamp graduate projects	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/cbdeov4kafwfiuznnnal.png	\N	2	\N	\N
+1	hackd.in	Centralized database of bootcamp graduate projects	https://res.cloudinary.com/hackdin/image/upload/c_fit,h_250,r_5,w_250/v1465009032/cbdeov4kafwfiuznnnal.png	\N	2	\N	\N
+2	Big Dogs	Exhaustive list of large dogs	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/v1465008901/jjnyycfjhy0e16nio9bq.jpg	\N	4	\N	\N
+3	Food	This is food	https://res.cloudinary.com/hackdin/image/upload/c_fit,h_250,r_5,w_250/v1465009156/mwtl0gemwps3zuwgzxmr.jpg	\N	1	\N	\N
 \.
 
 
@@ -357,6 +357,7 @@ SELECT pg_catalog.setval('schools_id_seq', 1, false);
 --
 
 COPY sessions (sid, sess, expired) FROM stdin;
+C5SSTofc5ImyButMyx5v4Ao2wFzJABoW	{"cookie":{"originalMaxAge":null,"expires":null,"secure":false,"httpOnly":true,"path":"/"},"passport":{}}	2016-06-04 23:11:40.033-07
 \.
 
 
