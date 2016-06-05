@@ -9,14 +9,14 @@ class NewProject extends React.Component {
 
   clickHandler(e) {
     var data = {
-      title: $('#projectTitle').val(),
-      engineers: $('#contributors').val(),
-      technologies: $('#technologies').val(),
-      description: $('#projectDescription').val(),
-      image: $('#image').val()
+      title: $('#projectTitle-form').val(),
+      engineers: $('#contributors-form').val(),
+      technologies: $('#technologies-form').val(),
+      description: $('#projectDescription-form').val(),
+      image: $('#image-form').val()
     };
-    console.log('image: ', data.image);
-    // postProject(data);
+    console.log('from newProject component: ', data)
+    postProject(data);
   }
 
   render() {
