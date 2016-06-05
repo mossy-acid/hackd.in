@@ -1,9 +1,9 @@
 const getEngineers = cb => {
   $.get('/engineers/data', () => {
-    console.log('GET request made to Engineers');
+    // console.log('GET request made to Engineers');
   })
   .done( data => {
-    console.log(data);
+    // console.log(data);
     cb(data);
   })
   .fail( err => {
@@ -12,12 +12,12 @@ const getEngineers = cb => {
 };
 
 const getEngineer = (query, cb) => {
-  console.log('getEngineer query:', query);
+  // console.log('getEngineer query:', query);
   $.get('/engineer?gitHandle='+ query, () => {
-    console.log('GET request made for Engineer');
+    // console.log('GET request made for Engineer');
   })
   .done( data => {
-    console.log(data);
+    // console.log(data);
     cb(data);
   })
   .fail( err => {
@@ -27,10 +27,10 @@ const getEngineer = (query, cb) => {
 
 const getMyProfile = cb => {
   $.get('/profile', () => {
-    console.log('GET request made for profile');
+    // console.log('GET request made for profile');
   })
   .done( data => {
-    console.log(data);
+    // console.log(data);
     cb(data);
   })
   .fail( err => {
@@ -40,10 +40,10 @@ const getMyProfile = cb => {
 
 const postEngineer = data => {
   $.post('/engineers/data', data, () => {
-    console.log('POST request made to Engineers');
+    // console.log('POST request made to Engineers');
   })
   .done( data => {
-    console.log(data);
+    // console.log(data);
   })
   .fail( err => {
     console.log(err);

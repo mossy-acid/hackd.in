@@ -37,8 +37,10 @@ class EngineerEntry extends React.Component {
           </div>
 
           <div className="information">
-            <p blurb={this.state.blurb} className={this.state.flip}>Engineer: {this.props.engineer.name}</p>
-            <p blurb={this.state.blurb} className={this.state.flip}>School: {this.props.engineer.school}</p>
+            <div className={this.state.flip}>
+              <p blurb={this.state.blurb}><b>Engineer:</b> {this.props.engineer.name}</p>
+              <p blurb={this.state.blurb}><b>School:</b> {this.props.engineer.school}</p>
+            </div>
           </div>
 
         </div>
@@ -47,14 +49,14 @@ class EngineerEntry extends React.Component {
       return (
         <div className="engineer-entry blurb blurbinfo">
           <div className={!!this.state.flip ? null : "animated flipOutY"} onClick={this.flipFunc.bind(this)} blurb={this.state.blurb}>
-            <p className="blurb">Engineer: {this.props.engineer.name}</p>
-            <p className="blurb">Email: {this.props.engineer.email}</p>
-            <p className="blurb">Github Handle: {this.props.engineer.gitHandle}</p>
-            <p className="blurb">Projects: {this.props.engineer.project}</p>
-            <p className="blurb">School: {this.props.engineer.school}</p>
+            <p><b>Engineer:</b> {this.props.engineer.name}</p>
+            <p><b>Email:</b> {this.props.engineer.email}</p>
+            <p><b>Github Handle:</b> {this.props.engineer.gitHandle}</p>
+            <p><b>Projects:</b> {this.props.engineer.project}</p>
+            <p><b>School:</b> {this.props.engineer.school}</p>
           </div>
         </div>
-      ) 
+      )
     }
   }
 }
