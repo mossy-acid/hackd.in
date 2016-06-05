@@ -3,7 +3,8 @@
 html {
   font-family: "Oswald";
   /*margin: 1em 10%;*/
-  background-color: #ffffff;
+  /*background-color: #ffffff;*/
+  background-color: #f5f8fa;
 }
 header {
   position: fixed;
@@ -71,6 +72,14 @@ img {
 
 .actual-content {
   margin-top: 100px;
+}
+
+.container {
+  background-color: #f5f8fa;
+}
+
+#app {
+  background-color: #f5f8fa;
 }
 
 /*-------Search Bar---------*/

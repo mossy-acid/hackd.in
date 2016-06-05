@@ -166,10 +166,8 @@ module.exports = (server, express) => {
                     },
                     school: data[0].schoolName
                   });
+                  res.send(JSON.stringify(results[0]));
                 }
-              if (results.length === 1) {
-                res.send(JSON.stringify(results[0]));
-              }
             });
           });
         });
