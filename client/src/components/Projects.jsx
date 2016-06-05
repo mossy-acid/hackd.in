@@ -36,7 +36,7 @@ class Projects extends React.Component {
 
   render() {
     return (
-      <div>
+      <div class="container">
         <ProjectList projects={this.state.projects} />
       </div>
     );

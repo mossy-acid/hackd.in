@@ -2,7 +2,7 @@
 
 html {
   font-family: "Oswald";
-  margin: 1em 10%;
+  /*margin: 1em 10%;*/
   background-color: #ffffff;
 }
 header {
@@ -375,5 +375,4 @@ a:hover {
   padding: 10px;
   /*height: 380px;*/
   /*width: 250px;*/
-  /*padding: 10px;*/
 }

@@ -31,7 +31,7 @@ class ProjectEntry extends React.Component {
   render() {
     if (this.state.blurb === false) {
       return (
-        <div className="project-entry" onClick={this.flipFunc.bind(this)}>
+        <div class="col-xs-1" className="project-entry" onClick={this.flipFunc.bind(this)}>
 
           <div className="screenshot">
             {<img src={this.props.project.image} blurb={this.state.blurb} className={this.state.flip}/>}
@@ -48,7 +48,7 @@ class ProjectEntry extends React.Component {
       )
     } else {
       return (
-        <div className="project-entry blurbinfo">
+        <div class="col-xs-1" className="project-entry blurbinfo">
           <div className={!!this.state.flip ? null : "animated flipOutY"} onClick={this.flipFunc.bind(this)} blurb={this.state.blurb}>
             <p><b>Title:</b> {this.props.project.title}</p>
             <p><b>Engineers:</b> {this.props.project.engineers}</p>
