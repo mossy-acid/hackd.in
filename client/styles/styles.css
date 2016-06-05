@@ -2,7 +2,7 @@
 
 html {
   font-family: "Oswald";
-  margin: 1em 10%;
+  /*margin: 1em 10%;*/
   background-color: #ffffff;
 }
 header {
@@ -57,16 +57,16 @@ nav ul li a:hover {
   color: #ff4629;
   border-bottom: 3px solid #333;
 }
-#fb:hover {
+/*#fb:hover {
   color: #3b5998;
 }
 #twitter:hover {
   color: #00acee;
-}
+}*/
 img {
   width: auto;
   height: auto;
-  border-radius: 5px;
+  border-radius: 5px 5px 0px 0px;
 }
 
 .actual-content {
@@ -243,31 +243,33 @@ a:hover {
   /*display: inline-block;*/
   text-align: center;
   display: block;
-  margin-bottom: 50px;
+  margin: 12px;
   float: left;
   position: relative;
   background-color: white;
-  padding: 15px 15px 15px 15px;
-  width: 50%;
-  height: 50%;
+  width: 250px;
+  height: 354px;
+  border-radius: 5px;
+  overflow: auto;
+  box-shadow: 6px 6px 15px grey;
 }
 
 .screenshot {
   float: left;
 }
 .screenshot img {
-  height: 300px;
-  width: 300px;
-  margin: 20px;
+  height: 250px;
+  width: 250px;
+  margin: 0px 0px 12px 0px;
 }
 
 .information{
-  margin: 30px;
+  /*margin: 30px;*/
 }
 
-img {
+/*img {
   box-shadow: 6px 6px 15px grey;
-}
+}*/
 
 .navFloat {
   display: inline;
@@ -289,6 +291,16 @@ img {
   padding-top: 1px;
   /*color: white;*/
 }
+
+#profilePhoto {
+  float: left;
+}
+#profilePhoto img {
+  height: 380px;
+  width: 350px;
+  margin: 30px;
+}
+
 .information button {
   display: inline;
   margin-top: 10px;
@@ -359,7 +371,8 @@ img {
 }
 
 .blurbinfo {
-  height: 550px;
-  width: 50%;
-  padding-top: 195px;
+  text-align: left;
+  padding: 10px;
+  /*height: 380px;*/
+  /*width: 250px;*/
 }

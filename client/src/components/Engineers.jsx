@@ -16,7 +16,7 @@ class Engineers extends React.Component {
 
   getEngineersFromDatabase() {
     console.log('getEngineers function called');
-    getEngineers( engineers => {
+    getEngineer( 'all', engineers => {
       this.setState({
         engineers: JSON.parse(engineers)
       });
@@ -25,7 +25,7 @@ class Engineers extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <EngineerList engineers={this.state.engineers} />
       </div>
     );

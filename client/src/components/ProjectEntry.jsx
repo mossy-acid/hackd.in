@@ -31,27 +31,30 @@ class ProjectEntry extends React.Component {
   render() {
     if (this.state.blurb === false) {
       return (
-        <div className="project-entry" onClick={this.flipFunc.bind(this)}>
+        <div className="col-xs-1 project-entry" onClick={this.flipFunc.bind(this)}>
+
           <div className="screenshot">
             {<img src={this.props.project.image} blurb={this.state.blurb} className={this.state.flip}/>}
           </div>
 
           <div className="information">
-            <p blurb={this.state.blurb} className={this.state.flip}>Title: {this.props.project.title}</p>
-            <p blurb={this.state.blurb} className={this.state.flip}>Engineers: {this.props.project.engineers}</p>
+            <div className={this.state.flip}>
+              <p blurb={this.state.blurb}><b>Title:</b> {this.props.project.title}</p>
+              <p blurb={this.state.blurb}><b>Engineers:</b> {this.props.project.engineers}</p>
+            </div>
           </div>
 
         </div>
       )
     } else {
       return (
-        <div className="project-entry blurb blurbinfo">
+        <div className="col-xs-1 project-entry blurbinfo">
           <div className={!!this.state.flip ? null : "animated flipOutY"} onClick={this.flipFunc.bind(this)} blurb={this.state.blurb}>
-            <p className="blurb">Title: {this.props.project.title}</p>
-            <p className="blurb">Engineers: {this.props.project.engineers}</p>
-            <p className="blurb">School: {this.props.project.school}</p>
-            <p className="blurb">Description: {this.props.project.description}</p>
-            <p className="blurb">Technologies: {this.props.project.technologies}</p>
+            <p><b>Title:</b> {this.props.project.title}</p>
+            <p><b>Engineers:</b> {this.props.project.engineers}</p>
+            <p><b>School:</b> {this.props.project.school}</p>
+            <p><b>Description:</b> {this.props.project.description}</p>
+            <p><b>Technologies:</b> {this.props.project.technologies}</p>
           </div>
         </div>
       )
@@ -59,9 +62,9 @@ class ProjectEntry extends React.Component {
   }
 }
 
-
-ProjectEntry.propTypes = {
-  project: React.PropTypes.object.isRequired
-};
+// ========== What purpose does the following serve? ============
+// ProjectEntry.propTypes = {
+//   project: React.PropTypes.object.isRequired
+// };
 
 window.ProjectEntry = ProjectEntry;

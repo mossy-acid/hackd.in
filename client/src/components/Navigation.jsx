@@ -18,6 +18,7 @@ class Navigation extends React.Component {
   componentDidUpdate() {
     $('#'+this.state.currentPage).addClass('current');
     console.log('Authenticated:', this.state.authenticated);
+    console.log('current page =========>', this.state.currentPage);
   }
 
   checkAuth() {
@@ -40,6 +41,7 @@ class Navigation extends React.Component {
     this.setState({
       currentPage: e.target.id
     });
+    console.log('link clicked =========>', e.target.id);
     this.props.changeCurrentPage(e.target.id.slice(4));
   }
 
@@ -70,7 +72,7 @@ class Navigation extends React.Component {
                 if (this.state.authenticated) {
                   return (<li className="navFloat"><a className="cd-signout" href="signout">Sign out</a></li>)
                 } else {
-                  return (<li className="navFloat"><a className="cd-signin" href="/signin">Sign in</a></li>)
+                  return (<li className="navFloat"><a className="cd-signin" href="signin">Sign in</a></li>)
                 }
               })()
             }
