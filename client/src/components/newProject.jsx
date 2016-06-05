@@ -1,12 +1,3 @@
-// import React, { PropTypes } from 'react'
-// import ProjectList from './ProjectList'
-
-// const NewProject = () => (
-//   <div className="actual-content">
-//     <p>Hello</p>
-//   </div>
-// );
-
 class NewProject extends React.Component {
   constructor() {
     super();
@@ -17,7 +8,7 @@ class NewProject extends React.Component {
   }
 
   clickHandler(e) {
-    var data = { 
+    var data = {
       title: $('#projectTitle').val(),
       engineers: $('#contributors').val(),
       technologies: $('#technologies').val(),

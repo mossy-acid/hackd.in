@@ -2,8 +2,8 @@
 // import ProjectList from './ProjectList'
 
 class Projects extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       projects: []
@@ -15,13 +15,23 @@ class Projects extends React.Component {
   }
 
   getProjectsFromDatabase() {
-    var context = this;
-    console.log('getProjects function called');
-    this.props.getProjects( function(projects) {
-      context.setState({
+    getProject( 'all', projects => {
+      this.setState({
         projects: JSON.parse(projects)
       });
     });
+  }
+
+  viewBlurb(project) {
+    if (this.state.blurb === null) {
+      this.setState({
+        blurb: project
+      });
+    } else {
+      this.setState({
+        blurb: null
+      });
+    }
   }
 
   render() {
