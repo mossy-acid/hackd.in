@@ -12,7 +12,6 @@ class Profile extends React.Component {
         githubUrl: '',
         image: ''
       },
-
       edit: {
         information: false,
         email: false,
@@ -21,7 +20,14 @@ class Profile extends React.Component {
         linkedinUrl: false,
         githubUrl: false
       },
-
+      project: {
+        title: '',
+        description: '',
+        engineers: [],
+        school: '',
+        image: '',
+        technologies: []
+      },
       currentFocus: null
     };
 
@@ -31,11 +37,24 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    //load profile and retrieve associated project by id
     getMyProfile(myinfo => {
       this.setState({
         myinfo: JSON.parse(myinfo)
       });
-      console.log(myinfo);
+      console.log(this.state.myinfo)
+      getProject(this.state.myinfo.project['project_id'], project => {
+        this.setState({
+          project: JSON.parse(project)[0]
+        })
+
+        // set project technologies to engineer's as well
+        let newState = this.state.myinfo;
+        newState['technologies'] = this.state.project.technologies.join(', ');
+        this.setState({
+          myinfo: newState
+        });
+      })
     });
   }
 
@@ -68,15 +87,16 @@ class Profile extends React.Component {
     let field = $(e.target.classList)[0];
     let newState = this.state.edit;
     newState[field] = !newState[field];
-    //if saving
+    //if saving, remove current focus
     if (!newState[field]) {
       this.setState({ currentFocus: null})
       this.submitEdit(field);
     } else {
-    //if editing
+    //if editing, change focus to the current field input box
       this.setState({ currentFocus: field})
     }
 
+    //set the new state for fields being edited
     this.setState({ edit: newState} );
   }
 
@@ -135,6 +155,9 @@ class Profile extends React.Component {
           </div>
 
       </div>
+        <ProjectEntry project={this.state.project} />
+        }
+      }
 
       <div>
         <NewProject />
