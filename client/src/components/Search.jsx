@@ -26,3 +26,4 @@ class Search extends React.Component {
 }
 
 window.Search = Search;
+

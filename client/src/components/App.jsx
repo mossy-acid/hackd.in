@@ -28,6 +28,7 @@ class App extends React.Component {
   }
 
   handleSearchInputChange(filter) {
+    console.log('filter: ', filter);
     this.setState({
       filter: filter
     })
@@ -37,7 +38,7 @@ class App extends React.Component {
     return (
       <div>
         <Navigation changeCurrentPage={this.changeCurrentPage} 
-          handleSearchInputChange={this.handleSearchInputChange}/>
+          handleSearchInputChange={_.debounce(filter => {this.handleSearchInputChange(filter)}, 500) }/>
 
         {this.renderPage(this.state.currentPage)}
       </div>
