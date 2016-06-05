@@ -31,7 +31,8 @@ class EngineerEntry extends React.Component {
   render() {
     if (this.state.blurb === false) {
       return (
-        <div className="engineer-entry" onClick={this.flipFunc.bind(this)}>
+        <div class="col-xs-1" className="engineer-entry" onClick={this.flipFunc.bind(this)}>
+
           <div className="screenshot">
             {<img src={this.props.engineer.image} blurb={this.state.blurb} className={this.state.flip}/>}
           </div>
@@ -47,7 +48,7 @@ class EngineerEntry extends React.Component {
       )
     } else {
       return (
-        <div className="engineer-entry blurb blurbinfo">
+        <div class="col-xs-1" className="engineer-entry blurbinfo">
           <div className={!!this.state.flip ? null : "animated flipOutY"} onClick={this.flipFunc.bind(this)} blurb={this.state.blurb}>
             <p><b>Engineer:</b> {this.props.engineer.name}</p>
             <p><b>Email:</b> {this.props.engineer.email}</p>
@@ -61,9 +62,9 @@ class EngineerEntry extends React.Component {
   }
 }
 
-
-EngineerEntry.propTypes = {
-  engineer: React.PropTypes.object.isRequired
-};
+// ========== What purpose does the following serve? ============
+// EngineerEntry.propTypes = {
+//   engineer: React.PropTypes.object.isRequired
+// };
 
 window.EngineerEntry = EngineerEntry;
