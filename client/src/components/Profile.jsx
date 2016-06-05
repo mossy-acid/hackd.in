@@ -133,13 +133,13 @@ class Profile extends React.Component {
       <div className="container">
 
         {/*<div className="row actual-content profile-container">*/}
-        <div className="row">
-          <div className="col-xs-6" id="profilePhoto">
+        <div className="row profile-container">
+          <div className="col-xs-5" id="profilePhoto">
             <img src={this.state.myinfo['image']} />
           </div>
 
           {/*<div className="col-xs-6 information">*/}
-          <div className="col-xs-6">
+          <div className="col-xs-7 profile-content">
             <h2 id="name">{this.state.myinfo['name']}</h2>
             <h4 id="gitHandle">{'Github handle: '+(this.state.myinfo['gitHandle'])}</h4>
             {this.renderField('school')}
