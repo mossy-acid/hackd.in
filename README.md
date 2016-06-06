@@ -33,6 +33,7 @@
 - helmet ^2.1.0
 - knex ^0.11.5
 - lodash ^4.6.1
+- node-cmd ^1.1.1
 - Node 6.2.0
 - nodemon ^1.9.2
 - passport ^0.3.2
