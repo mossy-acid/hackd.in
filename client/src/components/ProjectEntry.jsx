@@ -28,6 +28,27 @@ class ProjectEntry extends React.Component {
     }
   }
 
+  renderProjectUrl() {
+    if (this.props.project.projectUrl) {
+      return (
+        <p><b>Project URL:</b>
+          <a href={this.props.project.projectUrl} target="_blank"> {this.props.project.projectUrl}</a>
+        </p>
+      )
+    }
+  }
+
+  renderDeployedUrl() {
+    if (this.props.project.deployedUrl) {
+      return (
+        <p><b>Deployed URL:</b>
+          <a href={this.props.project.deployedUrl} target="_blank"> {this.props.project.deployedUrl}</a>
+        </p>
+      )
+    }
+  }  
+
+
   render() {
     if (this.state.blurb === false) {
       return (
@@ -55,6 +76,8 @@ class ProjectEntry extends React.Component {
             <p><b>School:</b> {this.props.project.school}</p>
             <p><b>Description:</b> {this.props.project.description}</p>
             <p><b>Technologies:</b> {this.props.project.technologies}</p>
+            {this.renderProjectUrl()}
+            {this.renderDeployedUrl()}
           </div>
         </div>
       )

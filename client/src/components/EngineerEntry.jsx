@@ -8,6 +8,10 @@ class EngineerEntry extends React.Component {
     };
   }
 
+  componentDidMount() {
+    console.log(this.props.engineer)
+  }
+
   flipFunc() {
     if (this.state.flip === null) {
       this.setState({flip: "animated flipOutY"});
@@ -26,6 +30,24 @@ class EngineerEntry extends React.Component {
         })
       ), 950);
     }
+  }
+
+  renderBio() {
+    if (this.props.engineer.bio) {
+      return (<p><b>Bio:</b> {this.props.engineer.bio}</p>)
+    }
+  }
+
+  renderGithubUrl() {
+    if (this.props.engineer.githubUrl) {
+      return (<p><b>Github:</b> {this.props.engineer.githubUrl}</p>)
+    } 
+  }
+
+  renderLinkedInUrl() {
+    if (this.props.engineer.linkedinUrl) {
+      return (<p><b>LinkedIn:</b> {this.props.engineer.linkedinUrl}</p>)
+    } 
   }
 
   render() {
@@ -51,10 +73,13 @@ class EngineerEntry extends React.Component {
         <div className="col-xs-1 engineer-entry blurbinfo" onClick={this.flipFunc.bind(this)}>
           <div className={!!this.state.flip ? null : "animated flipOutY"} blurb={this.state.blurb}>
             <p><b>Engineer:</b> {this.props.engineer.name}</p>
-            <p><b>Email:</b> {this.props.engineer.email}</p>
-            <p><b>Github Handle:</b> {this.props.engineer.gitHandle}</p>
-            <p><b>Projects:</b> {this.props.engineer.project}</p>
             <p><b>School:</b> {this.props.engineer.school}</p>
+            <p><b>Email:</b> {this.props.engineer.email}</p>
+            <p><b>Projects:</b> {this.props.engineer.project}</p>
+            <p><b>Git Handle:</b> {this.props.engineer.gitHandle}</p>
+            {this.renderGithubUrl()}
+            {this.renderLinkedInUrl()}
+            {this.renderBio()}
           </div>
         </div>
       )
