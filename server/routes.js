@@ -3,6 +3,12 @@ const Projects   = require('./collections/projects');
 const Project    = require('./models/project');
 const Engineers  = require('./collections/engineers');
 const Engineer   = require('./models/engineer');
+const Projects_Engineers  = require('./collections/projects_engineers');
+const Project_Engineer   = require('./models/project_engineer');
+const Projects_Technologies  = require('./collections/projects_technologies');
+const Project_Technology   = require('./models/project_technology');
+const Schools  = require('./collections/schools');
+const School   = require('./models/school');
 const path       = require('path');
 const cloudinary = require('./api/cloudinary.js');
 const passport   = require('./api/github.js');
@@ -228,6 +234,7 @@ module.exports = (server, express) => {
     let engineers = req.body.engineers;
     let technologies = req.body.technologies;
     let imageUrl = req.body.image;
+    let school = req.body.school;
 
     console.log(req.body)
 
@@ -240,21 +247,49 @@ module.exports = (server, express) => {
             let url = result.secure_url.split('/');
             url[6] = 'c_fill,h_250,r_5,w_250';
             url = url.join('/');
-            Projects.create({
-              title: title,
-              description: description,
-              image: url,
-              // technologies: technologies
-              // engineers: engineers
+            new School({schoolName: school}).fetch().then(found => {
+              Projects.create({
+                title: title,
+                description: description,
+                image: url,
+                school_id: found.attributes.id 
+                // technologies: technologies
+                // engineers: engineers
+              })
+              .then(newProject => {
+                new Project({title: title}).fetch()
+                .then(foundProject => {
+                  Projects_Technologies.create({
+                    project_id: foundProject.attributes.id,
+                    technology_id: 1
+                  })
+                  engineers.forEach( (gitHandle, index) => {
+                    new Engineer({gitHandle: gitHandle}).fetch()
+                    .then(foundEngineer => {
+                      Projects_Engineers.create({
+                        project_id: foundProject.attributes.id,
+                        engineer_id: foundEngineer.attributes.id
+                      })
+                      .then( () => { 
+                        //naive async handler...only send status once on last index
+                        if (index === engineers.length - 1) {
+                          res.sendStatus(201) 
+                        }
+                      })
+                  
+                    })
+                  })
+                })
+              })
             })
-            .then(newProject => {
-              res.status(201).send(newProject);
-            });
           }
         });
       }
     );
   });
+
+
+ 
 
   server.post('/profile', (req,res) => {
     if (req.isAuthenticated()) {

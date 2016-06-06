@@ -11,7 +11,6 @@ class Profile extends React.Component {
         linkedinUrl: '',
         githubUrl: '',
         image: '',
-        projects: []
       },
       edit: {
         information: false,
@@ -21,6 +20,7 @@ class Profile extends React.Component {
         linkedinUrl: false,
         githubUrl: false
       },
+      projects: [],
       currentFocus: null,
       showForm: false
     };
@@ -32,11 +32,26 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    this.loadInfo();
+  }
+
+  loadInfo() {
     //load profile and retrieve associated project by id
     getMyProfile(myinfo => {
       this.setState({
         myinfo: JSON.parse(myinfo)
       });
+      getProject('all', projects => {
+        let myProjects = [];
+        this.state.myinfo.projects.forEach(project => {
+          getProject(project.project_id, data => {
+            myProjects.push(JSON.parse(data)[0])
+            this.setState({
+              projects: myProjects
+            })
+          })
+        })
+      })
     });
   }
 
@@ -72,7 +87,7 @@ class Profile extends React.Component {
       )
     } else if (this.state.showForm === true) {
       return (
-        <NewProject className="popup" buttonClick={this.buttonClick} />
+        <NewProject className="popup" buttonClick={this.buttonClick} school={this.state.myinfo.school}/>
       )
     }
   }
@@ -155,7 +170,7 @@ class Profile extends React.Component {
           {/*<div className="col-xs-4" id="profile-project-container">*/}
           <div className="col-xs-12">
             {
-              this.state.myinfo.projects.map( project => {
+              this.state.projects.map( project => {
                 return <ProjectEntry project={project} />
               })
             }
