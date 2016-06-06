@@ -4,14 +4,14 @@ class Profile extends React.Component {
 
     this.state = {
       myinfo: {
-        gitHandle: '',
+        // gitHandle: '',
         name: '',
         bio: '',
-        email: '',
+        // email: '',
         linkedinUrl: '',
         githubUrl: '',
         image: '',
-        project: []
+        projects: []
       },
       edit: {
         information: false,
@@ -20,14 +20,6 @@ class Profile extends React.Component {
         bio: false,
         linkedinUrl: false,
         githubUrl: false
-      },
-      project: {
-        title: '',
-        description: '',
-        engineers: [],
-        school: '',
-        image: '',
-        technologies: []
       },
       currentFocus: null,
       showForm: false
@@ -44,18 +36,6 @@ class Profile extends React.Component {
     getMyProfile(myinfo => {
       this.setState({
         myinfo: JSON.parse(myinfo)
-      });
-      getProject(this.state.myinfo.project['project_id'], project => {
-        this.setState({
-          project: JSON.parse(project)[0]
-        });
-
-        // set project technologies to engineer's as well
-        let newState = this.state.myinfo;
-        newState['technologies'] = this.state.project.technologies;
-        this.setState({
-          myinfo: newState
-        });
       });
     });
   }
@@ -164,7 +144,6 @@ class Profile extends React.Component {
             <h2 id="name">{this.state.myinfo['name']}</h2>
             {/*<p id="gitHandle"><b>{'GitHub Handle: '}</b>{(this.state.myinfo['gitHandle'])}</p>*/}
             {this.renderField('school')}
-            {this.renderField('technologies')}
             {this.renderField('bio')}
             {this.renderField('githubUrl')}
             {this.renderField('linkedinUrl')}
@@ -175,7 +154,7 @@ class Profile extends React.Component {
           {/*<div className="col-xs-4" id="profile-project-container">*/}
           <div className="col-xs-12">
             {
-              this.state.myinfo.project.map( project => {
+              this.state.myinfo.projects.map( project => {
                 return <ProjectEntry project={project} />
               })
             }
