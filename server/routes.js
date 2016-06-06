@@ -246,7 +246,7 @@ module.exports = (server, express) => {
             res.status(200).send(found.attributes);
           } else {
             let url = result.secure_url.split('/');
-            url[6] = 'c_fill,h_250,r_5,w_250';
+            url[6] = 'c_fill,h_250,w_250';
             url = url.join('/');
             new School({schoolName: school}).fetch().then(found => {
               Projects.create({
@@ -330,7 +330,7 @@ module.exports = (server, express) => {
   //   }
   //   res.sendFile(path.resolve('client/newEngineer.html'));
   // });
-  // 
+  //
   // server.get('/engineer', (req, res) => {
   //   let gitHandle = req.query.gitHandle;
   //   new Engineer({ gitHandle: gitHandle }).fetch().then(found => {

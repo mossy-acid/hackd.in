@@ -4,6 +4,7 @@ const db         = require('../db/db-config.js');
 const bodyParser = require('body-parser');
 const helmet     = require('helmet');
 const Knex       = require('knex');
+const terminal   = require('node-cmd');
 
 const KnexSessionStore = require('connect-session-knex')(session);
 
@@ -12,6 +13,10 @@ const server = express();
 server.use(helmet());
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
+
+// terminal.run('psql -U postgres hackdin < hackdindb.pgsql');
+// Seed schools and tech tables into postgres db
+terminal.run('psql -U postgres hackdin < hackdinseed.pgsql');
 
 const knex = Knex({
   client: 'pg',
