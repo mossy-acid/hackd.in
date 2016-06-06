@@ -5,109 +5,79 @@ class NewProject extends React.Component {
     this.state = {
       engineers: []
     };
+
+    this.submitForm = this.submitForm.bind(this)
   }
 
   componentDidMount() {
     this.getEngineersFromDatabase();
-
   }
 
   componentDidUpdate() {
-    let contributors = $('input[name=contributors]');
     let options = this.state.engineers.map( engineer => {
-       return {gitHandle: engineer.gitHandle, name: engineer.name}
+      return {gitHandle: engineer.gitHandle, name: engineer.name}
     })
-    $.each(contributors, function(i, contributor) {  //i=index, item=element in array
-      console.log('options: ', options)
-      $(contributor).selectize({
-          persist: false,
-          maxItems: null,
-          valueField: 'gitHandle',
-          labelField: 'name',
-          searchField: ['gitHandle', 'name'],
-          options: options
+    $('input[name=contributors]').selectize({
+        persist: false,
+        maxItems: null,
+        valueField: 'gitHandle',
+        labelField: 'name',
+        searchField: ['gitHandle', 'name'],
+        options: options
+      });
+  }
           // options: [
               // {email: 'brian@thirdroute.com', name: 'Brian Reavis'},
               // {email: 'nikola@tesla.com', name: 'Nikola Tesla'},
-          // ],
+          // // ],
           // render: {
-          //     item: function(item, escape) {
-          //         return '<div>' +
-          //             (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
-          //             (item.email ? '<span class="email">' + escape(item.email) + '</span>' : '') +
-          //         '</div>';
-          //     },
-          //     option: function(item, escape) {
-          //         var label = item.name || item.email;
-          //         var caption = item.name ? item.email : null;
-          //         return '<div>' +
-          //             '<span class="label">' + escape(label) + '</span>' +
-          //             (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
-          //         '</div>';
-          //     }
-          // },
-          // createFilter: function(input) {
-          //     var match, regex;
-
-          //     // email@address.com
-          //     regex = new RegExp('^' + REGEX_EMAIL + '$', 'i');
-          //     match = input.match(regex);
-          //     if (match) return !this.options.hasOwnProperty(match[0]);
-
-          //     // name <email@address.com>
-          //     regex = new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i');
-          //     match = input.match(regex);
-          //     if (match) return !this.options.hasOwnProperty(match[2]);
-
-          //     return false;
-          // },
-          // create: function(input) {
-          //     if ((new RegExp('^' + REGEX_EMAIL + '$', 'i')).test(input)) {
-          //         return {email: input};
-          //     }
-          //     var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i'));
-          //     if (match) {
-          //         return {
-          //             email : match[2],
-          //             name  : $.trim(match[1])
-          //         };
-          //     }
-          //     alert('Invalid email address.');
-          //     return false;
-          // }
-      });    
-    });
-    // var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
-                      // '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
-  }
+          //   item: function(item, escape) {
+          //       return '<div>' +
+          //           (item.gitHandle ? '<span class="gitHandle">' + escape(item.name) + '</span>' : '') +
+          //           (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
+          //       '</div>';
+          //   },
+          //   option: function(item, escape) {
+          //       var label = item.gitHandle || item.name;
+          //       var caption = item.gitHandle ? item.name : null;
+          //       return '<div>' +
+          //           '<span class="label">' + escape(label) + '</span>' +
+          //           (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
+          //       '</div>';
+          //   }
+        // },
+    // });
+  // }
 
   getEngineersFromDatabase() {
     console.log('getEngineers function called');
     getEngineer( 'all', engineers => {
       this.setState({
         engineers: JSON.parse(engineers),
-        filteredEngineers: JSON.parse(engineers)
       });
+      console.log(this.state.engineers)
     });
   }
 
   submitForm(e) {
+    console.log('ajdslfjalkd')
     let data = {
       title: $('#projectTitle-form').val(),
-      engineers: [],
+      engineers: $('#contributors-form').val().split(','),
       technologies: $('#technologies-form').val(),
       description: $('#projectDescription-form').val(),
       image: $('#image-form').val()
     };
 
-    //retrieve all contributors if multiple fields
-    let contributors = $('input[name=contributors]');
-    $.each(contributors, function(i, contributor) {  //i=index, item=element in array
-      data.engineers.push($(contributor).val());
-    });
+
+    // //retrieve all contributors if multiple fields
+    // let contributors = $('input[name=contributors]');
+    // $.each(contributors, function(i, contributor) {  //i=index, item=element in array
+    //   data.engineers.push($(contributor).val());
+    // });
 
     console.log('from newProject component: ', data)
-
+    this.props.buttonClick();
     // postProject(data);
   }
 
@@ -124,6 +94,17 @@ class NewProject extends React.Component {
   }
 
  
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -157,7 +138,7 @@ class NewProject extends React.Component {
             </p>
           </form>
           <div className="submit">
-            <input type="button" value="SUBMIT" onClick={this.clickHandler} onClick={this.props.buttonClick} id="button-blue"/>
+            <input type="button" value="SUBMIT" onClick={this.submitForm.bind(this)}  id="button-blue"/>
           </div>
         </div>
       </div>
