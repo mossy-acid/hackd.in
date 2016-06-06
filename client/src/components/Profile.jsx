@@ -4,23 +4,22 @@ class Profile extends React.Component {
 
     this.state = {
       myinfo: {
-        // gitHandle: '',
         name: '',
         bio: '',
-        // email: '',
-        linkedinUrl: '',
         githubUrl: '',
         image: '',
         projects: []
+        linkedinUrl: '',
+        image: ''
       },
       edit: {
-        information: false,
-        email: false,
         school: false,
         bio: false,
-        linkedinUrl: false,
-        githubUrl: false
+        githubUrl: false,
+        linkedinUrl: false
       },
+      projects: [],
+      schools: [],
       currentFocus: null,
       showForm: false
     };
@@ -32,12 +31,50 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    this.loadInfo();
+  }
+
+  componentDidUpdate() {
+    if (this.state.edit['school']) {
+      console.log('editing school');
+      let options = this.state.schools.map( school => {
+        return {school: schoolName}
+      })
+      $('#school').selectize({
+        persist: false,
+        maxItems: null,
+        valueField: 'school',
+        labelField: 'school',
+        searchField: ['school'],
+        options: options
+      })
+    }
+  }
+
+  loadInfo() {
     //load profile and retrieve associated project by id
     getMyProfile(myinfo => {
       this.setState({
         myinfo: JSON.parse(myinfo)
       });
+      getProject(projects => {
+        let myProjects = [];
+        this.state.myinfo.projects.forEach(project => {
+          getProject(project.project_id, data => {
+            myProjects.push(JSON.parse(data)[0])
+            this.setState({
+              projects: myProjects
+            })
+          })
+        })
+      })
     });
+
+    getSchool(schools => {
+      this.setState({
+        schools: schools
+      })
+    })
   }
 
   renderField(field) {
@@ -46,6 +83,20 @@ class Profile extends React.Component {
         <div className="row edit-bottom">
           <textarea id={field} className="inputField col-xs-9" placeholder={this.state.myinfo[field]}></textarea>
           <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
+        </div>
+      )
+    } else if (this.state.edit[field] && field === 'school') {
+      return (
+        <div>
+          <input id={field} className="inputField" placeholder={this.state.myinfo[field]} list="allSchools"/>
+          <datalist id="allSchools">
+          {
+            this.state.schools.map( school => {
+              return (<option value={school.schoolName}/>)
+            })
+          }  
+          </datalist>
+          <button type="button" id="saveButton" className={field+" btn btn-default btn-sm pull-right glyphicon glyphicon-edit"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
         </div>
       )
     } else if (this.state.edit[field]) {

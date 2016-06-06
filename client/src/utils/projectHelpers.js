@@ -1,5 +1,5 @@
-const getProject = (query, cb) => {
-  $.get('/projects?id='+query, () => {
+const getProject = cb => {
+  $.get('/projects', () => {
     console.log('GET request made to Projects');
   })
   .done( data => {

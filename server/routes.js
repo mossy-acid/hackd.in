@@ -42,6 +42,8 @@ module.exports = (server, express) => {
     // });
   });
 
+/*-----------------GET HANDLERS----------------*/
+
   server.get('/', (req, res) => {
     res.sendFile(path.resolve('client/index.html'));
   });
@@ -94,13 +96,11 @@ module.exports = (server, express) => {
     res.sendFile(path.resolve('client/newProject.html'));
   });
 
-
   server.get('/signout', (req, res) => {
     console.log('Logging out:', req.user);
     req.logout();
     res.redirect('/');
   });
-
 
   server.get('/projects', (req, res) => {
     let projectId = req.query.id;
@@ -241,6 +241,15 @@ module.exports = (server, express) => {
         res.send(technologies);
       });
   });
+
+  server.get('/schools', (req, res) => {
+    knex.from('schools')
+      .then( schools => {
+        res.send(schools);
+      });
+  })
+
+/*-----------------POST HANDLERS----------------*/
 
   server.post('/projects', (req, res) => {
     let title = req.body.title;
