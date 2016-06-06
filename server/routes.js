@@ -259,6 +259,10 @@ module.exports = (server, express) => {
               .then(newProject => {
                 new Project({title: title}).fetch()
                 .then(foundProject => {
+                  Projects_Technologies.create({
+                    project_id: foundProject.attributes.id,
+                    technology_id: 1
+                  })
                   engineers.forEach( (gitHandle, index) => {
                     new Engineer({gitHandle: gitHandle}).fetch()
                     .then(foundEngineer => {
@@ -269,20 +273,12 @@ module.exports = (server, express) => {
                       .then( () => { 
                         //naive async handler...only send status once on last index
                         if (index === engineers.length - 1) {
-                          res.sendStatus(201);  
+                          res.sendStatus(201) 
                         }
                       })
+                  
                     })
                   })
-
-
-                  // Projects_Technologies.create({
-                  //   project_id: foundProject.attributes.id,
-                  //   technology_id: 1
-                  // })
-                  // .then( () => {
-                  //   res.sendStatus(201) 
-                  // })
                 })
               })
             })
@@ -291,6 +287,9 @@ module.exports = (server, express) => {
       }
     );
   });
+
+
+ 
 
   server.post('/profile', (req,res) => {
     if (req.isAuthenticated()) {
