@@ -16,6 +16,19 @@ class NewProject extends React.Component {
   }
 
   componentDidUpdate() {
+    this.selectizeContributors();
+  }
+  getEngineersFromDatabase() {
+    console.log('getEngineers function called');
+    getEngineer( 'all', engineers => {
+      this.setState({
+        engineers: JSON.parse(engineers),
+      });
+      console.log(this.state.engineers)
+    });
+  }
+
+  selectizeContributors() {
     let options = this.state.engineers.map( engineer => {
       return {gitHandle: engineer.gitHandle, name: engineer.name}
     })
@@ -42,17 +55,11 @@ class NewProject extends React.Component {
             '</div>';
         }
       }
-
     });
   }
-  getEngineersFromDatabase() {
-    console.log('getEngineers function called');
-    getEngineer( 'all', engineers => {
-      this.setState({
-        engineers: JSON.parse(engineers),
-      });
-      console.log(this.state.engineers)
-    });
+
+  selectizeTechnologies() {
+    
   }
 
   submitForm(e) {

@@ -3,8 +3,10 @@ const Projects   = require('./collections/projects');
 const Project    = require('./models/project');
 const Engineers  = require('./collections/engineers');
 const Engineer   = require('./models/engineer');
-const Project_Engineers  = require('./collections/projects_engineers');
+const Projects_Engineers  = require('./collections/projects_engineers');
 const Project_Engineer   = require('./models/project_engineer');
+const Projects_Technologies  = require('./collections/projects_technologies');
+const Project_Technology   = require('./models/project_technology');
 const Schools  = require('./collections/schools');
 const School   = require('./models/school');
 const path       = require('path');
@@ -260,18 +262,27 @@ module.exports = (server, express) => {
                   engineers.forEach( (gitHandle, index) => {
                     new Engineer({gitHandle: gitHandle}).fetch()
                     .then(foundEngineer => {
-                      Project_Engineers.create({
+                      Projects_Engineers.create({
                         project_id: foundProject.attributes.id,
                         engineer_id: foundEngineer.attributes.id
                       })
                       .then( () => { 
                         //naive async handler...only send status once on last index
                         if (index === engineers.length - 1) {
-                          res.sendStatus(201) 
+                          res.sendStatus(201);  
                         }
                       })
                     })
                   })
+
+
+                  // Projects_Technologies.create({
+                  //   project_id: foundProject.attributes.id,
+                  //   technology_id: 1
+                  // })
+                  // .then( () => {
+                  //   res.sendStatus(201) 
+                  // })
                 })
               })
             })

@@ -32,6 +32,10 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    this.loadInfo();
+  }
+
+  loadInfo() {
     //load profile and retrieve associated project by id
     getMyProfile(myinfo => {
       this.setState({
