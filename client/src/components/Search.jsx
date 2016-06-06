@@ -20,7 +20,7 @@ class Search extends React.Component {
         <input id="search-box" type="text" className="search-box" name="q" value={this.state.value} onChange={this.handleInputChange.bind(this)}/>
         <label for="search-box"><span className="glyphicon glyphicon-search search-icon"></span></label>
         <input type="submit" id="search-submit" />
-      </form> 
+      </form>
     );
   }
 }

@@ -31,7 +31,7 @@ class App extends React.Component {
     console.log('filter: ', filter);
     this.setState({
       filter: filter
-    })
+    });
   }
 
   render() {
