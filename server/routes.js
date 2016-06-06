@@ -212,8 +212,10 @@ module.exports = (server, express) => {
     let title = req.body.title;
     let description = req.body.description;
     let engineers = req.body.engineers;
-    // let technologies = req.body.technologies;
+    let technologies = req.body.technologies;
     let imageUrl = req.body.image;
+
+    console.log(req.body)
 
     cloudinary.uploader.upload(imageUrl,
       result => {

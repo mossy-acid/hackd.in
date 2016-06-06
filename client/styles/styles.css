@@ -410,18 +410,18 @@ h2 {
   padding-right: 0.4em;
 }
 
-::-webkit-input-placeholder {
+/*::-webkit-input-placeholder {
    color: white;
 }
-:-moz-placeholder { /* Firefox 18- */
+:-moz-placeholder {  Firefox 18- 
    color: white;
 }
 ::-moz-placeholder {  /* Firefox 19+ */
-   color: white;
-}
-:-ms-input-placeholder {
-   color: white;
-}
+   /*color: white;*/
+/*}*/
+/*:-ms-input-placeholder {*/
+   /*color: white;*/
+/*}*/
 
 /*#profile-project-container {
   width: 700px;

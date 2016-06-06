@@ -12,6 +12,7 @@ const getProject = (query, cb) => {
 };
 
 const postProject = data => {
+  console.log('from projectHelpers: ',data)
   $.post('/projects', data, () => {
     console.log('POST request made to Projects');
   })

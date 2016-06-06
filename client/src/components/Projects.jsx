@@ -13,7 +13,6 @@ class Projects extends React.Component {
 
   componentDidMount() {
     this.getProjectsFromDatabase();
-    console.log(this.props)
   }
 
   getProjectsFromDatabase() {
