@@ -10,7 +10,8 @@ class Profile extends React.Component {
         email: '',
         linkedinUrl: '',
         githubUrl: '',
-        image: ''
+        image: '',
+        project: []
       },
       edit: {
         information: false,
@@ -173,7 +174,11 @@ class Profile extends React.Component {
         <div className="row">
           {/*<div className="col-xs-4" id="profile-project-container">*/}
           <div className="col-xs-12">
-            <ProjectEntry project={this.state.project} />
+            {
+              this.state.myinfo.project.map( project => {
+                return <ProjectEntry project={project} />
+              })
+            }
           </div>
         </div>
 
