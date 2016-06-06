@@ -102,7 +102,8 @@ module.exports = (server, express) => {
           let contributors = [];
           let technologies = [];
           knex.from('projects')
-            .innerJoin('engineers', 'projects.id', 'engineers.project_id')
+            .innerJoin('projects_engineers', 'projects.id', 'projects_engineers.project_id')
+            .innerJoin('engineers', 'engineers.id', 'projects_engineers.engineer_id')
             .where('projects.id', '=', project.id)
             .innerJoin('schools', 'schools.id', 'projects.school_id')
             .innerJoin('projects_technologies', 'projects.id', 'projects_technologies.project_id')
@@ -144,11 +145,24 @@ module.exports = (server, express) => {
           let results = [];
           engineers.forEach( engineer => {
             knex.from('engineers')
-              .innerJoin('projects', 'projects.id', 'engineers.project_id')
-              .where('engineers.project_id', '=', engineer.project_id)
+              .innerJoin('projects_engineers', 'engineers.id', 'projects_engineers.engineer_id')
+              .innerJoin('projects', 'projects.id', 'projects_engineers.project_id')
               .innerJoin('schools', 'schools.id', 'engineers.school_id')
               .then( data => {
                 if (data.length && engineer.gitHandle === req.user) {
+                  let projects = [];
+                  data.forEach( dataPoint => {
+                    if (dataPoint.name === engineer.name) {
+                      projects.push({
+                        title: dataPoint.title,
+                        project_id: dataPoint.project_id,
+                        description: dataPoint.description,
+                        image: dataPoint.image,
+                        projectUrl: dataPoint.projectUrl
+                      });
+                    }
+                  });
+
                   results.push({
                     name: engineer.name,
                     email: engineer.email,
@@ -157,14 +171,8 @@ module.exports = (server, express) => {
                     githubUrl: engineer.githubUrl,
                     linkedinUrl: engineer.linkedinUrl,
                     bio: engineer.bio,
-                    project: {
-                      title: data[0].title,
-                      project_id: data[0].project_id,
-                      description: data[0].description,
-                      image: data[0].image,
-                      projectUrl: data[0].projectUrl
-                    },
-                    school: data[0].schoolName
+                    school: data[0].schoolName,
+                    project : projects
                   });
                   res.send(JSON.stringify(results[0]));
                 }
@@ -185,22 +193,28 @@ module.exports = (server, express) => {
         let results = [];
         engineers.forEach( engineer => {
           knex.from('engineers')
-            .innerJoin('projects', 'projects.id', 'engineers.project_id')
-            .where('engineers.project_id', '=', engineer.project_id)
+            .innerJoin('projects_engineers', 'engineers.id', 'projects_engineers.engineer_id')
+            .innerJoin('projects', 'projects.id', 'projects_engineers.project_id')
             .innerJoin('schools', 'schools.id', 'engineers.school_id')
             .then( data => {
-              if (data.length && (engineer.name === engineerName || engineerName === 'all')) {
-                results.push({
-                  name: engineer.name,
-                  email: engineer.email,
-                  image: engineer.image,
-                  gitHandle: engineer.gitHandle,
-                  bio: engineer.bio,
-                  project: data[0].title,
-                  school: data[0].schoolName
-                });
-              }
-            if (results.length === engineers.length) {
+              let projects = [];
+              data.forEach(dataPoint => {
+                if (dataPoint.name === engineer.name) {
+                  projects.push(dataPoint.title);
+                }
+              });
+
+              results.push({
+                name: engineer.name,
+                email: engineer.email,
+                image: engineer.image,
+                gitHandle: engineer.gitHandle,
+                bio: engineer.bio,
+                project: projects.join(', '),
+                school: data[0].schoolName
+              });
+
+            if (results.length  === engineers.length) {
               res.send(JSON.stringify(results));
             }
           });
