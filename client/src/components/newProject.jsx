@@ -5,7 +5,8 @@ class NewProject extends React.Component {
     this.submitForm = this.submitForm.bind(this);
 
     this.state = {
-      engineers: []
+      engineers: [],
+      technologies: []
     };
 
     this.submitForm = this.submitForm.bind(this)
@@ -13,19 +14,29 @@ class NewProject extends React.Component {
 
   componentDidMount() {
     this.getEngineersFromDatabase();
+    this.getTechnologiesFromDatabase();
   }
 
   componentDidUpdate() {
-    this.selectizeContributors();
   }
+
   getEngineersFromDatabase() {
-    console.log('getEngineers function called');
     getEngineer( 'all', engineers => {
       this.setState({
-        engineers: JSON.parse(engineers),
+        engineers: JSON.parse(engineers)
       });
-      console.log(this.state.engineers)
+      console.log(this.state.engineers);
+      this.selectizeContributors();
     });
+  }
+
+  getTechnologiesFromDatabase() {
+    getTechnology( technologies => {
+      this.setState({
+        technologies: technologies
+      })
+      this.selectizeTechnologies();
+    })    
   }
 
   selectizeContributors() {
@@ -59,7 +70,17 @@ class NewProject extends React.Component {
   }
 
   selectizeTechnologies() {
-    
+    let options = this.state.technologies.map( technology => {
+      return {name: technology.techName}
+    })
+    $('#technologies-form').selectize({
+      persist: false,
+      maxItems: null,
+      valueField: 'name',
+      labelField: 'name',
+      searchField: ['name'],
+      options: options
+    });
   }
 
   submitForm(e) {
@@ -85,8 +106,7 @@ class NewProject extends React.Component {
               <input name="projectTitle" type="text" className="formInput" placeholder="Project Title" id="projectTitle-form" />
             </p>
             <p className="contributors">
-              <select name="contributors" className="formInput" id="contributors-form" placeholder="Contributors">
-              </select>
+              <input name="contributors" className="formInput" id="contributors-form" placeholder="Contributors" />
             </p>
 
             <p className="technologies">

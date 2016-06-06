@@ -9,6 +9,8 @@ const Projects_Technologies  = require('./collections/projects_technologies');
 const Project_Technology   = require('./models/project_technology');
 const Schools  = require('./collections/schools');
 const School   = require('./models/school');
+const Technologies  = require('./collections/technologies');
+const Technology   = require('./models/technology');
 const path       = require('path');
 const cloudinary = require('./api/cloudinary.js');
 const passport   = require('./api/github.js');
@@ -229,15 +231,34 @@ module.exports = (server, express) => {
       });
   });
 
+  server.get('/technologies', (req, res) => {
+    knex.from('technologies')
+      .then( technologies => {
+        console.log(technologies);
+        res.send(technologies);
+      });
+  })
+
+
+
+
+
+
+
+
+
+
+
   server.post('/projects', (req, res) => {
     let title = req.body.title;
     let description = req.body.description;
-    let engineers = req.body.engineers;
-    let technologies = req.body.technologies;
+    let engineers = req.body.engineers.split(',');
+    let technologies = req.body.technologies.split(',');
     let imageUrl = req.body.image;
     let school = req.body.school;
 
     console.log(req.body)
+    console.log(typeof engineers);
 
     cloudinary.uploader.upload(imageUrl,
       result => {
@@ -261,25 +282,33 @@ module.exports = (server, express) => {
                 new Project({title: title}).fetch()
                 .then(foundProject => {
                   console.log('found project: ', foundProject)
-                  Projects_Technologies.create({
-                    project_id: foundProject.attributes.id,
-                    technology_id: 1
-                  })
-                  engineers.forEach( (gitHandle, index) => {
-                    new Engineer({gitHandle: gitHandle}).fetch()
-                    .then(foundEngineer => {
-                      Projects_Engineers.create({
+                  technologies.forEach( (technology, index) => {
+                    new Technology({techName: technology}).fetch()
+                    .then( foundTechnology => {
+                      Projects_Technologies.create({
                         project_id: foundProject.attributes.id,
-                        engineer_id: foundEngineer.attributes.id
+                        technology_id: foundTechnology.id
                       })
-                      .then( () => { 
-                        //naive async handler...only send status once on last index
-                        if (index === engineers.length - 1) {
-                          res.sendStatus(201) 
-                        }
-                      })
-                  
                     })
+
+                    if (index === technologies.length - 1) {
+                      engineers.forEach( (gitHandle, index) => {
+                        new Engineer({gitHandle: gitHandle}).fetch()
+                        .then(foundEngineer => {
+                          Projects_Engineers.create({
+                            project_id: foundProject.attributes.id,
+                            engineer_id: foundEngineer.attributes.id
+                          })
+                          .then( () => { 
+                            //naive async handler...only send status once on last index
+                            if (index === engineers.length - 1) {
+                              res.sendStatus(201) 
+                            }
+                          })
+                      
+                        })
+                      })
+                    }
                   })
                 })
               })
