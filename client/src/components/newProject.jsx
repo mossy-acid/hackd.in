@@ -2,6 +2,8 @@ class NewProject extends React.Component {
   constructor(props) {
     super(props);
 
+    this.submitForm = this.submitForm.bind(this);
+
     this.state = {
       engineers: []
     };
@@ -78,9 +80,9 @@ class NewProject extends React.Component {
     //   data.engineers.push($(contributor).val());
     // });
 
-    console.log('from newProject component: ', data)
-    this.props.buttonClick();
     // postProject(data);
+    postProject(data);
+    this.props.buttonClick();
   }
 
   renderSuggestions() {
@@ -96,27 +98,9 @@ class NewProject extends React.Component {
   }
 
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   render() {
     return (
-      <div className="actual-content">
+      <div className="form-container w3-container w3-center w3-animate-opacity">
         <div id="form-input">
           <form className="form" id="form1">
             <p className="projectTitle">
@@ -140,10 +124,10 @@ class NewProject extends React.Component {
             </p>
           </form>
           <div className="submit">
-            <input type="button" value="SUBMIT" onClick={this.submitForm.bind(this)}  id="button-blue"/>
+            <input type="button" value="SUBMIT" onClick={this.submitForm} id="button-blue"/>
           </div>
         </div>
-      </div>
+        </div>
     );
   }
 }

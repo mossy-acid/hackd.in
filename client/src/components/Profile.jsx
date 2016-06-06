@@ -68,11 +68,11 @@ class Profile extends React.Component {
   renderFormOrButton() {
     if (this.state.showForm === false) {
       return (
-        <button type='button' onClick={this.buttonClick}>Add New Project</button>
+        <button type='button' className='project_button btn btn-default' onClick={this.buttonClick}>Add New Project</button>
       )
     } else if (this.state.showForm === true) {
       return (
-        <NewProject buttonClick={this.buttonClick} />
+        <NewProject className="popup" buttonClick={this.buttonClick} />
       )
     }
   }
@@ -131,7 +131,7 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container-fluid">
 
         {/*<div className="row actual-content profile-container">*/}
         <div className="row-fluid profile-container">
@@ -149,8 +149,9 @@ class Profile extends React.Component {
             {this.renderField('linkedinUrl')}
           </div>
         </div>
+      
 
-        <div className="row">
+        <div className="row r1">
           {/*<div className="col-xs-4" id="profile-project-container">*/}
           <div className="col-xs-12">
             {
@@ -161,7 +162,7 @@ class Profile extends React.Component {
           </div>
         </div>
 
-        <div className="row">
+        <div>
           {/*<div className="col-xs-6" id="newproject-form">*/}
           <div className="col-xs-12">
             {this.renderFormOrButton()}
