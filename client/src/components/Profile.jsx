@@ -57,7 +57,7 @@ class Profile extends React.Component {
       this.setState({
         myinfo: JSON.parse(myinfo)
       });
-      getProject(projects => {
+      getProject( 'all', projects => {
         let myProjects = [];
         this.state.myinfo.projects.forEach(project => {
           getProject(project.project_id, data => {

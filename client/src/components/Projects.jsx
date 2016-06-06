@@ -16,11 +16,13 @@ class Projects extends React.Component {
   }
 
   getProjectsFromDatabase() {
+    console.log('get projects invoked');
     getProject( 'all', projects => {
       this.setState({
         projects: JSON.parse(projects),
         filteredProjects: JSON.parse(projects)
       });
+      console.log(projects);
     });
   }
 
