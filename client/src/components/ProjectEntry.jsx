@@ -63,7 +63,7 @@ class ProjectEntry extends React.Component {
 }
 
 // ========== What purpose does the following serve? ============> mostly for devs to know what props are required when passing them between components - it gives a warning if the prop is missing
-// 
+//
 // ProjectEntry.propTypes = {
 //   project: React.PropTypes.object.isRequired
 // };
