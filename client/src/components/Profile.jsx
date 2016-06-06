@@ -28,11 +28,13 @@ class Profile extends React.Component {
         image: '',
         technologies: []
       },
-      currentFocus: null
+      currentFocus: null,
+      showForm: false
     };
 
     this.clickEdit = this.clickEdit.bind(this);
     this.submitEdit = this.submitEdit.bind(this);
+    this.buttonClick = this.buttonClick.bind(this);
 
   }
 
@@ -82,6 +84,18 @@ class Profile extends React.Component {
     }
   }
 
+  renderFormOrButton() {
+    if (this.state.showForm === false) {
+      return (
+        <button type='button' onClick={this.buttonClick}>Add New Project</button>
+      )
+    } else if (this.state.showForm === true) {
+      return (
+        <NewProject buttonClick={this.buttonClick} />
+      )
+    }
+  }
+
   clickEdit(e) {
     let field = $(e.target.classList)[0];
     let newState = this.state.edit;
@@ -125,7 +139,13 @@ class Profile extends React.Component {
         let field = e.target.id;
         $('button.'+field).click()
       }
-    })
+    });
+  }
+
+  buttonClick() {
+    this.setState({
+      showForm: !this.state.showForm
+    });
   }
 
   render() {
@@ -158,7 +178,7 @@ class Profile extends React.Component {
 
           {/*<div className="col-xs-6" id="newproject-form">*/}
           <div className="col-xs-6">
-            <NewProject />
+            {this.renderFormOrButton()}
           </div>
         </div>
 

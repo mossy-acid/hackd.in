@@ -1,6 +1,6 @@
 class NewProject extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
 
@@ -16,7 +16,7 @@ class NewProject extends React.Component {
       image: $('#image').val()
     };
     console.log('image: ', data.image);
-    postProject(data);
+    // postProject(data);
   }
 
   render() {
@@ -43,7 +43,7 @@ class NewProject extends React.Component {
             </p>
           </form>
           <div className="submit">
-            <input type="button" value="SUBMIT" onClick={this.clickHandler} id="button-blue"/>
+            <input type="button" value="SUBMIT" onClick={this.clickHandler} onClick={this.props.buttonClick} id="button-blue"/>
           </div>
         </div>
       </div>
