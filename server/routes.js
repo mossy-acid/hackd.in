@@ -172,7 +172,7 @@ module.exports = (server, express) => {
                     linkedinUrl: engineer.linkedinUrl,
                     bio: engineer.bio,
                     school: data[0].schoolName,
-                    project : projects
+                    projects : projects
                   });
                   res.send(JSON.stringify(results[0]));
                 }

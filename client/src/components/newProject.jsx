@@ -23,29 +23,31 @@ class NewProject extends React.Component {
         valueField: 'gitHandle',
         labelField: 'name',
         searchField: ['gitHandle', 'name'],
-        options: options
+        options: options,
+        render: {
+          item: function(item, escape) {
+              return '<div>' +
+                  (item.gitHandle ? '<span class="gitHandle">' + escape(item.name) + '</span>' : '') +
+                  (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
+              '</div>';
+          },
+          option: function(item, escape) {
+              var label = item.gitHandle || item.name;
+              var caption = item.gitHandle ? item.name : null;
+              return '<div>' +
+                  '<span class="label">' + escape(label) + '</span>' +
+                  (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
+              '</div>';
+          }
+        }
+
       });
   }
           // options: [
               // {email: 'brian@thirdroute.com', name: 'Brian Reavis'},
               // {email: 'nikola@tesla.com', name: 'Nikola Tesla'},
           // // ],
-          // render: {
-          //   item: function(item, escape) {
-          //       return '<div>' +
-          //           (item.gitHandle ? '<span class="gitHandle">' + escape(item.name) + '</span>' : '') +
-          //           (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
-          //       '</div>';
-          //   },
-          //   option: function(item, escape) {
-          //       var label = item.gitHandle || item.name;
-          //       var caption = item.gitHandle ? item.name : null;
-          //       return '<div>' +
-          //           '<span class="label">' + escape(label) + '</span>' +
-          //           (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
-          //       '</div>';
-          //   }
-        // },
+          
     // });
   // }
 
