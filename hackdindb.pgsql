@@ -46,7 +46,6 @@ CREATE TABLE engineers (
     "githubUrl" character varying(255),
     "linkedinUrl" character varying(255),
     image character varying(255),
-    project_id integer,
     school_id integer,
     created_at timestamp with time zone,
     updated_at timestamp with time zone
@@ -93,6 +92,40 @@ CREATE TABLE projects (
 
 
 ALTER TABLE projects OWNER TO "Richard";
+
+--
+-- Name: projects_engineers; Type: TABLE; Schema: public; Owner: Richard
+--
+
+CREATE TABLE projects_engineers (
+    id integer NOT NULL,
+    project_id integer,
+    engineer_id integer
+);
+
+
+ALTER TABLE projects_engineers OWNER TO "Richard";
+
+--
+-- Name: projects_engineers_id_seq; Type: SEQUENCE; Schema: public; Owner: Richard
+--
+
+CREATE SEQUENCE projects_engineers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE projects_engineers_id_seq OWNER TO "Richard";
+
+--
+-- Name: projects_engineers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Richard
+--
+
+ALTER SEQUENCE projects_engineers_id_seq OWNED BY projects_engineers.id;
+
 
 --
 -- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: Richard
@@ -247,6 +280,13 @@ ALTER TABLE ONLY projects ALTER COLUMN id SET DEFAULT nextval('projects_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: Richard
 --
 
+ALTER TABLE ONLY projects_engineers ALTER COLUMN id SET DEFAULT nextval('projects_engineers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Richard
+--
+
 ALTER TABLE ONLY projects_technologies ALTER COLUMN id SET DEFAULT nextval('projects_technologies_id_seq'::regclass);
 
 
@@ -268,11 +308,11 @@ ALTER TABLE ONLY technologies ALTER COLUMN id SET DEFAULT nextval('technologies_
 -- Data for Name: engineers; Type: TABLE DATA; Schema: public; Owner: Richard
 --
 
-COPY engineers (id, "gitHandle", name, email, bio, "githubUrl", "linkedinUrl", image, project_id, school_id, created_at, updated_at) FROM stdin;
-1	mybrainishuge	Richard May	richardamay@gmail.com	\N	https://github.com/mybrainishuge	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012928/10822210_kki4kg.jpg	1	2	\N	\N
-3	vickeetran	Victoria Tran	ptran.vicki@gmail.com	\N	https://github.com/vickeetran	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012954/10315399_jws0en.jpg	2	4	\N	\N
-4	kamalmango	Kamal Mango	kamal.mango7@gmail.com	\N	https://github.com/kamalmango	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012962/11984827_e6f8ve.jpg	1	2	\N	\N
-2	justin-lai	Justin Lai	justin.th.lai@gmail.com	\N	https://github.com/justin-lai	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012945/16922334_xehnlh.jpg	3	1	\N	\N
+COPY engineers (id, "gitHandle", name, email, bio, "githubUrl", "linkedinUrl", image, school_id, created_at, updated_at) FROM stdin;
+3	vickeetran	Victoria Tran	ptran.vicki@gmail.com	Array, u-ray, we all ray.	https://github.com/vickeetran	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012954/10315399_jws0en.jpg	4	\N	\N
+2	justin-lai	Justin Lai	justin.th.lai@gmail.com	I like ducks.	https://github.com/justin-lai	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012945/16922334_xehnlh.jpg	1	\N	\N
+4	kamalmango	Kamal Mango	kamal.mango7@gmail.com	There is nothing to do in Kuwait.	https://github.com/kamalmango	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012962/11984827_e6f8ve.jpg	2	\N	\N
+1	mybrainishuge	Richard May	richardamay@gmail.com	Plop.	https://github.com/mybrainishuge	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012928/10822210_kki4kg.jpg	2	\N	\N
 \.
 
 
@@ -280,7 +320,7 @@ COPY engineers (id, "gitHandle", name, email, bio, "githubUrl", "linkedinUrl", i
 -- Name: engineers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Richard
 --
 
-SELECT pg_catalog.setval('engineers_id_seq', 1, true);
+SELECT pg_catalog.setval('engineers_id_seq', 2, true);
 
 
 --
@@ -288,10 +328,29 @@ SELECT pg_catalog.setval('engineers_id_seq', 1, true);
 --
 
 COPY projects (id, title, description, image, "projectUrl", school_id, created_at, updated_at) FROM stdin;
-2	Big Dogs	Exhaustive list of large dogs	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465008901/jjnyycfjhy0e16nio9bq.jpg	\N	4	\N	\N
-3	Food	This is food	https://res.cloudinary.com/hackdin/image/upload/c_fit,h_250,w_250/v1465009156/mwtl0gemwps3zuwgzxmr.jpg	\N	1	\N	\N
-1	hackd.in	Centralized database of bootcamp graduate projects	https://res.cloudinary.com/hackdin/image/upload/c_fit,h_250,w_250/v1465009032/cbdeov4kafwfiuznnnal.png	\N	2	\N	\N
+2	Big Dogs	Exhaustive list of large dogs	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465008901/jjnyycfjhy0e16nio9bq.jpg	https://github.com/hackd-in/hackd.in	4	\N	\N
+3	Food	This is food	https://res.cloudinary.com/hackdin/image/upload/c_fit,h_250,w_250/v1465009156/mwtl0gemwps3zuwgzxmr.jpg	https://github.com/hackd-in/hackd.in	1	\N	\N
+1	hackd.in	Centralized database of bootcamp graduate projects	https://res.cloudinary.com/hackdin/image/upload/c_fit,h_250,w_250/v1465009032/cbdeov4kafwfiuznnnal.png	https://github.com/hackd-in/hackd.in	2	\N	\N
 \.
+
+
+--
+-- Data for Name: projects_engineers; Type: TABLE DATA; Schema: public; Owner: Richard
+--
+
+COPY projects_engineers (id, project_id, engineer_id) FROM stdin;
+1	1	1
+2	1	4
+3	2	3
+4	3	2
+\.
+
+
+--
+-- Name: projects_engineers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Richard
+--
+
+SELECT pg_catalog.setval('projects_engineers_id_seq', 1, false);
 
 
 --
@@ -357,7 +416,6 @@ SELECT pg_catalog.setval('schools_id_seq', 1, false);
 --
 
 COPY sessions (sid, sess, expired) FROM stdin;
-C5SSTofc5ImyButMyx5v4Ao2wFzJABoW	{"cookie":{"originalMaxAge":null,"expires":null,"secure":false,"httpOnly":true,"path":"/"},"passport":{"user":"mybrainishuge"}}	2016-06-05 09:11:48.519-07
 \.
 
 
@@ -411,6 +469,14 @@ ALTER TABLE ONLY engineers
 
 ALTER TABLE ONLY engineers
     ADD CONSTRAINT engineers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: projects_engineers_pkey; Type: CONSTRAINT; Schema: public; Owner: Richard
+--
+
+ALTER TABLE ONLY projects_engineers
+    ADD CONSTRAINT projects_engineers_pkey PRIMARY KEY (id);
 
 
 --
@@ -478,19 +544,27 @@ ALTER TABLE ONLY technologies
 
 
 --
--- Name: engineers_project_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: Richard
---
-
-ALTER TABLE ONLY engineers
-    ADD CONSTRAINT engineers_project_id_foreign FOREIGN KEY (project_id) REFERENCES projects(id);
-
-
---
 -- Name: engineers_school_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: Richard
 --
 
 ALTER TABLE ONLY engineers
     ADD CONSTRAINT engineers_school_id_foreign FOREIGN KEY (school_id) REFERENCES schools(id);
+
+
+--
+-- Name: projects_engineers_engineer_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: Richard
+--
+
+ALTER TABLE ONLY projects_engineers
+    ADD CONSTRAINT projects_engineers_engineer_id_foreign FOREIGN KEY (engineer_id) REFERENCES engineers(id);
+
+
+--
+-- Name: projects_engineers_project_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: Richard
+--
+
+ALTER TABLE ONLY projects_engineers
+    ADD CONSTRAINT projects_engineers_project_id_foreign FOREIGN KEY (project_id) REFERENCES projects(id);
 
 
 --

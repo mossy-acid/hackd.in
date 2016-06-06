@@ -269,10 +269,10 @@ ALTER TABLE ONLY technologies ALTER COLUMN id SET DEFAULT nextval('technologies_
 --
 
 COPY engineers (id, "gitHandle", name, email, bio, "githubUrl", "linkedinUrl", image, project_id, school_id, created_at, updated_at) FROM stdin;
-4	kamalmango	Kamal Mango	kamal.mango7@gmail.com	\N	https://github.com/kamalmango	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,r_5,w_250/v1465012962/11984827_e6f8ve.jpg	1	2	\N	\N
-3	vickeetran	Victoria Tran	ptran.vicki@gmail.com	\N	https://github.com/vickeetran	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/v1465012954/10315399_jws0en.jpg	2	4	\N	\N
-1	mybrainishuge	Richard May	richardamay@gmail.com	\N	https://github.com/mybrainishuge	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/v1465012928/10822210_kki4kg.jpg	1	2	\N	\N
-2	justin-lai	Justin Lai	justin.th.lai@gmail.com	\N	https://github.com/justin-lai	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,r_5,w_250/v1465012945/16922334_xehnlh.jpg	3	1	\N	\N
+1	mybrainishuge	Richard May	richardamay@gmail.com	\N	https://github.com/mybrainishuge	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012928/10822210_kki4kg.jpg	1	2	\N	\N
+3	vickeetran	Victoria Tran	ptran.vicki@gmail.com	\N	https://github.com/vickeetran	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012954/10315399_jws0en.jpg	2	4	\N	\N
+4	kamalmango	Kamal Mango	kamal.mango7@gmail.com	\N	https://github.com/kamalmango	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012962/11984827_e6f8ve.jpg	1	2	\N	\N
+2	justin-lai	Justin Lai	justin.th.lai@gmail.com	\N	https://github.com/justin-lai	\N	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465012945/16922334_xehnlh.jpg	3	1	\N	\N
 \.
 
 
@@ -288,9 +288,9 @@ SELECT pg_catalog.setval('engineers_id_seq', 1, true);
 --
 
 COPY projects (id, title, description, image, "projectUrl", school_id, created_at, updated_at) FROM stdin;
-1	hackd.in	Centralized database of bootcamp graduate projects	https://res.cloudinary.com/hackdin/image/upload/c_fit,h_250,r_5,w_250/v1465009032/cbdeov4kafwfiuznnnal.png	\N	2	\N	\N
-2	Big Dogs	Exhaustive list of large dogs	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,r_5,w_250/v1465008901/jjnyycfjhy0e16nio9bq.jpg	\N	4	\N	\N
-3	Food	This is food	https://res.cloudinary.com/hackdin/image/upload/c_fit,h_250,r_5,w_250/v1465009156/mwtl0gemwps3zuwgzxmr.jpg	\N	1	\N	\N
+2	Big Dogs	Exhaustive list of large dogs	https://res.cloudinary.com/hackdin/image/upload/c_fill,h_250,w_250/v1465008901/jjnyycfjhy0e16nio9bq.jpg	\N	4	\N	\N
+3	Food	This is food	https://res.cloudinary.com/hackdin/image/upload/c_fit,h_250,w_250/v1465009156/mwtl0gemwps3zuwgzxmr.jpg	\N	1	\N	\N
+1	hackd.in	Centralized database of bootcamp graduate projects	https://res.cloudinary.com/hackdin/image/upload/c_fit,h_250,w_250/v1465009032/cbdeov4kafwfiuznnnal.png	\N	2	\N	\N
 \.
 
 
@@ -357,7 +357,7 @@ SELECT pg_catalog.setval('schools_id_seq', 1, false);
 --
 
 COPY sessions (sid, sess, expired) FROM stdin;
-C5SSTofc5ImyButMyx5v4Ao2wFzJABoW	{"cookie":{"originalMaxAge":null,"expires":null,"secure":false,"httpOnly":true,"path":"/"},"passport":{}}	2016-06-04 23:11:40.033-07
+C5SSTofc5ImyButMyx5v4Ao2wFzJABoW	{"cookie":{"originalMaxAge":null,"expires":null,"secure":false,"httpOnly":true,"path":"/"},"passport":{"user":"mybrainishuge"}}	2016-06-05 09:11:48.519-07
 \.
 
 
