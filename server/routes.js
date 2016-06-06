@@ -133,6 +133,8 @@ module.exports = (server, express) => {
                   engineers: contributors.join(', '),
                   school: schoolName,
                   image: project.image,
+                  projectUrl: project.projectUrl,
+                  deployedUrl: project.deployedUrl,
                   technologies: technologies.join(', ')
                 });
               }
@@ -220,7 +222,9 @@ module.exports = (server, express) => {
                 gitHandle: engineer.gitHandle,
                 bio: engineer.bio,
                 project: projects.join(', '),
-                school: data[0].schoolName
+                school: data[0].schoolName,
+                githubUrl: engineer.githubUrl,
+                linkedinUrl: engineer.linkedinUrl
               });
 
             if (results.length  === engineers.length) {
@@ -244,10 +248,9 @@ module.exports = (server, express) => {
     let engineers = req.body.engineers.split(',');
     let technologies = req.body.technologies.split(',');
     let imageUrl = req.body.image;
+    let projectUrl = req.body.projectUrl;
+    let deployedUrl = req.body.deployedUrl;
     let school = req.body.school;
-
-    console.log(req.body)
-    console.log(typeof engineers);
 
     cloudinary.uploader.upload(imageUrl,
       result => {
@@ -263,7 +266,9 @@ module.exports = (server, express) => {
                 title: title,
                 description: description,
                 image: url,
-                school_id: found.attributes.id 
+                school_id: found.attributes.id,
+                projectUrl: projectUrl,
+                deployedUrl: deployedUrl
               })
               .then(newProject => {
                 new Project({title: title}).fetch()

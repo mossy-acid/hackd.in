@@ -411,16 +411,16 @@ h2 {
 }
 
 ::-webkit-input-placeholder {
-   color: white;
+   color: gray;
 }
 :-moz-placeholder { /* Firefox 18- */
-   color: white;
+   color: gray;
 }
 ::-moz-placeholder {  /* Firefox 19+ */
-   color: white;
+   color: gray;
 }
 :-ms-input-placeholder {
-   color: white;
+   color: gray;
 }
 
 /*#profile-project-container {

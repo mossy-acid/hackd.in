@@ -90,6 +90,8 @@ class NewProject extends React.Component {
       technologies: $('#technologies-form').val(),
       description: $('#projectDescription-form').val(),
       image: $('#image-form').val(),
+      projectUrl: $('#projectUrl-form').val(),
+      deployedUrl: $('#deployedUrl-form').val(),
       school: this.props.school
     };
 
@@ -120,6 +122,15 @@ class NewProject extends React.Component {
             <p className="projectDescription">
               <textarea name="projectDescription" className="formInput" id="projectDescription-form" placeholder="Project Description"></textarea>
             </p>
+
+            <p className="projectUrl">
+              <input name="projectUrl" type="text" className="formInput" id="projectUrl-form" placeholder="Github Repo URL" />
+            </p>
+
+            <p className="deployedUrl">
+              <input name="deployedUrl" type="text" className="formInput" id="deployedUrl-form" placeholder="Deployed URL" />
+            </p>
+
           </form>
           <div className="submit">
             <input type="button" value="SUBMIT" onClick={this.submitForm} id="button-blue"/>

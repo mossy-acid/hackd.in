@@ -16,6 +16,7 @@ db.knex.schema.hasTable('projects').then(exists => {
       project.string('description');
       project.string('image');
       project.string('projectUrl');
+      project.string('deployedUrl');
       project.integer('school_id').unsigned().references('id').inTable('schools');
       // project.integer('visits');
       project.timestamps();
@@ -32,7 +33,7 @@ db.knex.schema.hasTable('engineers').then(exists => {
       engineer.string('gitHandle').unique();
       engineer.string('name');
       engineer.string('email');
-      engineer.string('bio');
+      engineer.text('bio');
       engineer.string('githubUrl');
       engineer.string('linkedinUrl');
       engineer.string('image');
