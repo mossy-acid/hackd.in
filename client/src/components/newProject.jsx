@@ -91,14 +91,6 @@ class NewProject extends React.Component {
     });
   }
 
-  addContributorField() {
-    console.log('add contributor clicked')
-    let newField = `<p class="contributors">
-              <input name="contributors" type="text" class="formInput" id="contributors-form" placeholder="Contributors" list="suggestions"/>
-            </p>`
-    $('.contributors').last().after(newField);
-  }
-
   submitForm(e) {
     let data = {
       title: $('#projectTitle-form').val(),
@@ -151,8 +143,6 @@ class NewProject extends React.Component {
               <input name="contributors" type="list" className="formInput" id="contributors-form" placeholder="Contributors" list="suggestions"/>
               {this.renderSuggestions()}
             </p>
-
-            <input name="addContributor" type="button" value="Add Contributor" onClick={this.addContributorField} />
 
             <p className="technologies">
               <input name="technologies" type="text" className="formInput" id="technologies-form" placeholder="Technologies" />
