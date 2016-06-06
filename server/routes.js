@@ -234,20 +234,9 @@ module.exports = (server, express) => {
   server.get('/technologies', (req, res) => {
     knex.from('technologies')
       .then( technologies => {
-        console.log(technologies);
         res.send(technologies);
       });
   })
-
-
-
-
-
-
-
-
-
-
 
   server.post('/projects', (req, res) => {
     let title = req.body.title;
@@ -275,8 +264,6 @@ module.exports = (server, express) => {
                 description: description,
                 image: url,
                 school_id: found.attributes.id 
-                // technologies: technologies
-                // engineers: engineers
               })
               .then(newProject => {
                 new Project({title: title}).fetch()
@@ -319,8 +306,6 @@ module.exports = (server, express) => {
     );
   });
 
-
- 
 
   server.post('/profile', (req,res) => {
     if (req.isAuthenticated()) {
