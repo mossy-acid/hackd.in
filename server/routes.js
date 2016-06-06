@@ -67,7 +67,8 @@ module.exports = (server, express) => {
             name: name,
             gitHandle: gitHandle,
             email: email,
-            image: image
+            image: image,
+            school_id: 1
           })
           .then(newEngineer => {
             res.status(201).redirect('/');
@@ -108,12 +109,12 @@ module.exports = (server, express) => {
           let contributors = [];
           let technologies = [];
           knex.from('projects')
-            .innerJoin('projects_engineers', 'projects.id', 'projects_engineers.project_id')
-            .innerJoin('engineers', 'engineers.id', 'projects_engineers.engineer_id')
+            .leftJoin('projects_engineers', 'projects.id', 'projects_engineers.project_id')
+            .leftJoin('engineers', 'engineers.id', 'projects_engineers.engineer_id')
             .where('projects.id', '=', project.id)
-            .innerJoin('schools', 'schools.id', 'projects.school_id')
-            .innerJoin('projects_technologies', 'projects.id', 'projects_technologies.project_id')
-            .innerJoin('technologies', 'technologies.id', 'projects_technologies.technology_id')
+            .leftJoin('schools', 'schools.id', 'projects.school_id')
+            .leftJoin('projects_technologies', 'projects.id', 'projects_technologies.project_id')
+            .leftJoin('technologies', 'technologies.id', 'projects_technologies.technology_id')
             .then( engineers => {
               let schoolName;
 
@@ -151,9 +152,9 @@ module.exports = (server, express) => {
           let results = [];
           engineers.forEach( engineer => {
             knex.from('engineers')
-              .innerJoin('projects_engineers', 'engineers.id', 'projects_engineers.engineer_id')
-              .innerJoin('projects', 'projects.id', 'projects_engineers.project_id')
-              .innerJoin('schools', 'schools.id', 'engineers.school_id')
+              .leftJoin('projects_engineers', 'engineers.id', 'projects_engineers.engineer_id')
+              .leftJoin('projects', 'projects.id', 'projects_engineers.project_id')
+              .leftJoin('schools', 'schools.id', 'engineers.school_id')
               .then( data => {
                 if (data.length && engineer.gitHandle === req.user) {
                   let projects = [];
@@ -199,9 +200,9 @@ module.exports = (server, express) => {
         let results = [];
         engineers.forEach( engineer => {
           knex.from('engineers')
-            .innerJoin('projects_engineers', 'engineers.id', 'projects_engineers.engineer_id')
-            .innerJoin('projects', 'projects.id', 'projects_engineers.project_id')
-            .innerJoin('schools', 'schools.id', 'engineers.school_id')
+            .leftJoin('projects_engineers', 'engineers.id', 'projects_engineers.engineer_id')
+            .leftJoin('projects', 'projects.id', 'projects_engineers.project_id')
+            .leftJoin('schools', 'schools.id', 'engineers.school_id')
             .then( data => {
               let projects = [];
               data.forEach(dataPoint => {
@@ -259,6 +260,7 @@ module.exports = (server, express) => {
               .then(newProject => {
                 new Project({title: title}).fetch()
                 .then(foundProject => {
+                  console.log('found project: ', foundProject)
                   Projects_Technologies.create({
                     project_id: foundProject.attributes.id,
                     technology_id: 1
@@ -297,12 +299,19 @@ module.exports = (server, express) => {
       // knex('engineers')
       //   .where('gitHandle', '=', req.user)
       //   .update(req.body.field, req.body.newValue);
-      new Engineer({ gitHandle: req.user }).fetch().then( found => {
-        if (found) {
-          console.log(req.body.field);
-          console.log(req.body.newValue);
-          found.save(req.body.field, req.body.newValue)
-          res.status(201).send(found.attributes);
+      new Engineer({ gitHandle: req.user }).fetch().then( foundEngineer => {
+        if (foundEngineer) {
+          if (req.body.field === 'school') {
+            let schoolName = req.body.newValue;
+            console.log(schoolName);
+            new School({schoolName: schoolName}).fetch().then( foundSchool => {
+              foundEngineer.save('school_id', foundSchool.attributes.id);
+            }) 
+          } else {
+            foundEngineer.save(req.body.field, req.body.newValue)
+          }
+
+          res.status(201).send(foundEngineer.attributes);
         } else {
           res.sendStatus(404);
         }
