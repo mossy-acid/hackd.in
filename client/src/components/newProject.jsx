@@ -17,17 +17,14 @@ class NewProject extends React.Component {
     this.getTechnologiesFromDatabase();
   }
 
-  componentDidUpdate() {
-  }
-
   getEngineersFromDatabase() {
     getEngineer( 'all', engineers => {
       this.setState({
         engineers: JSON.parse(engineers)
       });
-      console.log(this.state.engineers);
       this.selectizeContributors();
     });
+    console.log('happening?');
   }
 
   getTechnologiesFromDatabase() {
@@ -40,6 +37,7 @@ class NewProject extends React.Component {
   }
 
   selectizeContributors() {
+    console.log('selecting contributors');
     let options = this.state.engineers.map( engineer => {
       return {gitHandle: engineer.gitHandle, name: engineer.name}
     })
@@ -54,7 +52,6 @@ class NewProject extends React.Component {
         item: function(item, escape) {
             return '<div>' +
                 (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
-                // (item.gitHandle ? '<span class="name">' + escape(item.gitHandle) + '</span>' : '') +
             '</div>';
         },
         option: function(item, escape) {

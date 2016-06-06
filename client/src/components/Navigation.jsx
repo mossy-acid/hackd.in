@@ -8,6 +8,7 @@ class Navigation extends React.Component {
     };
 
     this.clickHandler = this.clickHandler.bind(this);
+    this.checkAuthState = this.checkAuthState.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +36,12 @@ class Navigation extends React.Component {
     });
   }
 
+  checkAuthState() {
+    if (this.state.authenticated !== false) {
+      return (<li><a id="nav-profile" onClick={this.clickHandler}>My Profile</a></li>)
+    }
+  }
+
   clickHandler(e) {
     //remove previous current class and update currentPage
     $('.current').removeClass('current');
@@ -53,14 +60,7 @@ class Navigation extends React.Component {
           <ul>
             <li><a id="nav-engineers" onClick={this.clickHandler}>Engineers</a></li>
             <li><a id="nav-projects" onClick={this.clickHandler}>Projects</a></li>
-            {
-              (() => {
-                //renders the profile link in nav only if user is signed in
-                if (this.state.authenticated) {
-                  return (<li><a id="nav-profile" onClick={this.clickHandler}>My Profile</a></li>)
-                }
-              })()
-            }
+            {this.checkAuthState()}
             <Search handleSearchInputChange={this.props.handleSearchInputChange}/>
             {
               (() => {

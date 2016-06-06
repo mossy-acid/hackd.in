@@ -11,6 +11,7 @@ class Profile extends React.Component {
         linkedinUrl: '',
         githubUrl: '',
         image: '',
+        projects: []
       },
       edit: {
         information: false,
@@ -20,7 +21,6 @@ class Profile extends React.Component {
         linkedinUrl: false,
         githubUrl: false
       },
-      projects: [],
       currentFocus: null,
       showForm: false
     };
@@ -32,49 +32,34 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    this.loadInfo();
-  }
-
-  loadInfo() {
     //load profile and retrieve associated project by id
     getMyProfile(myinfo => {
       this.setState({
         myinfo: JSON.parse(myinfo)
       });
-      getProject('all', projects => {
-        let myProjects = [];
-        this.state.myinfo.projects.forEach(project => {
-          getProject(project.project_id, data => {
-            myProjects.push(JSON.parse(data)[0])
-            this.setState({
-              projects: myProjects
-            })
-          })
-        })
-      })
     });
   }
 
   renderField(field) {
     if (this.state.edit[field] && field === 'bio') {
       return (
-        <div>
-          <textarea id={field} className="inputField" placeholder={this.state.myinfo[field]}></textarea>
-          <button type="button" id="saveButton" className={field+" btn btn-default btn-sm pull-right glyphicon glyphicon-edit"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
+        <div className="row edit-bottom">
+          <textarea id={field} className="inputField col-xs-9" placeholder={this.state.myinfo[field]}></textarea>
+          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
         </div>
       )
     } else if (this.state.edit[field]) {
       return (
-        <div>
-          <input id={field} className="inputField" placeholder={this.state.myinfo[field]}></input>
-          <button type="button" id="saveButton" className={field+" btn btn-default btn-sm pull-right glyphicon glyphicon-edit"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
+        <div className="row edit-bottom">
+          <input id={field} className="inputField col-xs-9" placeholder={this.state.myinfo[field]}></input>
+          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
         </div>
       )
     } else {
       return (
-        <div>
-          <p id={field}><b>{field+': '}</b>{(this.state.myinfo[field] || '')}</p>
-          <button type="button" id="editButton" className={field+" btn btn-default btn-sm pull-right glyphicon glyphicon-edit"} onClick={this.clickEdit}>Edit</button>
+        <div className="row edit-bottom">
+          <p className="col-xs-9" id={field}><b>{field+': '}</b>{(this.state.myinfo[field] || '')}</p>
+          <button type="button" id="editButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit}>Edit</button>
         </div>
       )
     }
@@ -87,7 +72,7 @@ class Profile extends React.Component {
       )
     } else if (this.state.showForm === true) {
       return (
-        <NewProject className="popup" buttonClick={this.buttonClick} school={this.state.myinfo.school}/>
+        <NewProject className="popup form-container" buttonClick={this.buttonClick} />
       )
     }
   }
@@ -146,42 +131,42 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <div className="container-fluid">
+      <div className="container con">
 
-        {/*<div className="row actual-content profile-container">*/}
-        <div className="row-fluid profile-container">
-          <div className="col-xs-5" id="profilePhoto">
-            <img src={this.state.myinfo['image']} />
-          </div>
+        <div className="full-width-div1">
+        <div id="user-info">
+          {/*<div className="row actual-content profile-container">*/}
+          <div className="row profile-container">
+            <div className="col-xs-5" id="profilePhoto">
+              <img className="profile-pic" src={this.state.myinfo['image']} />
+            </div>
 
-          {/*<div className="col-xs-6 information">*/}
-          <div className="col-xs-7 profile-content">
-            <h2 id="name">{this.state.myinfo['name']}</h2>
-            {/*<p id="gitHandle"><b>{'GitHub Handle: '}</b>{(this.state.myinfo['gitHandle'])}</p>*/}
-            {this.renderField('school')}
-            {this.renderField('bio')}
-            {this.renderField('githubUrl')}
-            {this.renderField('linkedinUrl')}
+            {/*<div className="col-xs-6 information">*/}
+            <div className="col-xs-7-offset-2 profile-content border">
+              <h2 id="name">{this.state.myinfo['name']}</h2>
+              {/*<p id="gitHandle"><b>{'GitHub Handle: '}</b>{(this.state.myinfo['gitHandle'])}</p>*/}
+              {this.renderField('school')}
+              {this.renderField('bio')}
+              {this.renderField('githubUrl')}
+              {this.renderField('linkedinUrl')}
+            </div>
           </div>
+        </div>
         </div>
       
-
-        <div className="row r1">
-          {/*<div className="col-xs-4" id="profile-project-container">*/}
-          <div className="col-xs-12">
-            {
-              this.state.projects.map( project => {
-                return <ProjectEntry project={project} />
-              })
-            }
+          <div className="row r1 profile-container">
+            {/*<div className="col-xs-4" id="profile-project-container">*/}
+            <div className="col-xs-12 no-gutter">
+              {
+                this.state.myinfo.projects.map( project => {
+                  return <ProjectEntry project={project} />
+                })
+              }
+            </div>
           </div>
-        </div>
-
         <div>
           {/*<div className="col-xs-6" id="newproject-form">*/}
-          <div className="col-xs-12">
             {this.renderFormOrButton()}
-          </div>
         </div>
 
       </div>

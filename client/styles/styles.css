@@ -2,11 +2,11 @@
 
 html {
   font-family: "Oswald";
-  /*margin: 1em 10%;*/
-  /*background-color: #ffffff;*/
   background-color: #f5f8fa;
   width: 100%;
-  transform: scale(0.85);
+}
+.profile-container, .container-fluid {
+  transform: scale(0.8);
 }
 header {
   position: fixed;
@@ -17,7 +17,7 @@ header {
   background-color: white;
   z-index: 1000;
   box-shadow: 0px 0px 15px grey;
-
+  height: 90px;
 }
 #logo {
   float: left;
@@ -28,31 +28,32 @@ header {
   color: #333;
   border-right: 1px solid #e3e3e8;
   transition: .5s all;
+  height: 90px;
+  padding-top: 10px;
 }
 #logo:hover {
   color: #fafafa;
   background-color: #333;
 }
 nav {
-  /*float: center;*/
   margin: auto;
 }
 nav ul {
   list-style-type: none;
-  margin: 0;
-  padding: 1.9em 2em;
-  /*display:;*/
+  padding: 1.2em 2em;
+  padding-top: 1.75em;
 }
 nav ul li {
   display: inline;
-  padding: 0 .4em;
+  padding: 0 0.4em;
 }
+
 nav ul li a {
   color: #333;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 1.6em;
-  padding-bottom: 1.3em;
+  padding-bottom: 0.3em;
   transition: .5s color;
 }
 nav ul li a:hover {
@@ -63,12 +64,9 @@ nav ul li a:hover {
   color: #ff4629;
   border-bottom: 3px solid #333;
 }
-/*#fb:hover {
-  color: #3b5998;
+a#nav-engineers {
+  padding-left: 0.6em;
 }
-#twitter:hover {
-  color: #00acee;
-}*/
 img {
   width: auto;
   height: auto;
@@ -76,7 +74,10 @@ img {
 }
 
 .actual-content {
-  margin-top: 100px;
+  margin-top: 30px;
+}
+.actual-content1 {
+  margin-top: 75px;
 }
 
 .container {
@@ -224,10 +225,10 @@ form {
 }
 
 textarea {
-    width: 100%;
-    height: 150px;
-    line-height: 150%;
-    resize:vertical;
+  width: 100%;
+  height: 150px;
+  line-height: 150%;
+  resize:vertical;
 }
 
 #button-blue{
@@ -255,7 +256,6 @@ a:hover {
 
 /*------Projects Page------------*/
 .project-entry, .engineer-entry {
-  /*display: inline-block;*/
   text-align: center;
   display: block;
   margin: 12px;
@@ -279,14 +279,6 @@ a:hover {
   margin: 0px 0px 12px 0px;
 }
 
-.information{
-  /*margin: 30px;*/
-}
-
-/*img {
-  box-shadow: 6px 6px 15px grey;
-}*/
-
 .navFloat {
   display: inline;
   position: fixed;
@@ -297,8 +289,6 @@ a:hover {
 .blurbinfo {
   text-align: left;
   padding: 10px;
-  /*height: 380px;*/
-  /*width: 250px;*/
 }
 
 /*-------Profile Page-----------*/
@@ -315,7 +305,6 @@ a:hover {
 }*/
 
 .profile-container {
-  background-color: #222;
   display: block;
   height: 380px;
   width: 100%;
@@ -323,7 +312,8 @@ a:hover {
   margin-top: 120px;
   /*border: 2px solid black;*/
   border-radius: 8px 5px 5px 8px;
-  box-shadow: 6px 6px 15px grey;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .profile-content {
@@ -331,6 +321,7 @@ a:hover {
   height: 380px;
   padding: 15px;
   overflow: auto;
+  color: black;
 }
 
 .btn-default {
@@ -347,18 +338,17 @@ h2 {
   float: left;
   padding: 0px;
 }
-#profilePhoto img {
+.profile-pic {
   height: 380px;
   width: 350px;
   margin: 0px;
-  border-radius: 5px 0px 0px 5px;
+  border-radius: 15px;
 }
 
 .information button {
   display: inline;
   margin-top: 10px;
   border-style: none;
-  /*background-color: black;*/
   color: white;
   border-radius: 5px;
   position: relative;
@@ -377,8 +367,6 @@ h2 {
   color: white;
 }
 .information #name {
-  /*position: relative;*/
-  /*text-align: center;*/
   color: white;
 }
 .information h4,
@@ -390,12 +378,10 @@ h2 {
   font-size: 20px;
 }
 .information input {
-  /*position: absolute;*/
   height: 35px;
   margin-top: 5px;
   background: transparent;
   border: none;
-  /*background-color: black;*/
 }
 .information #bio {
   height: 100px;
@@ -403,7 +389,6 @@ h2 {
 .information #bioEdit {
   height: 115px;
   word-wrap: break-word;
-  /*vertical-align: text-top;*/
   padding-left:0;
   padding-top:0;
   padding-bottom:0.4em;
@@ -422,34 +407,16 @@ h2 {
 :-ms-input-placeholder {
    color: gray;
 }
-
-/*#profile-project-container {
-  width: 700px;
-  height: 400px;
-  position: relative;
-  top: 100px;
-  display: block;
-  margin: auto;
-  background-color: gray;
-}
-
-#newproject-form {
-  position: relative;
-  top: 200px;
-}*/
-
 .project-collection {
-  overflow-x: auto;
+  overflow-x: scroll;
   white-space: nowrap;
 }
 
 .project_button {
   background-color: #ff4629;
   color: white;
-  padding: 15px 32px;
   font-size: 14px;
-  margin: 0 43%;
-  width: 200px;
+  width: 100%;
 }
 
 .profile_bar {
@@ -469,53 +436,36 @@ div#form-input {
 
 .container-fluid {
   margin: auto;
-  padding-left: 90px;
+  padding-left: 7em;
+}
+.container-fluid.con {
+  padding-left: 10px;
 }
 .r1 {
-  background-color: #1dabb8;
+  margin-top: 0px;
+  overflow-x: auto;
 }
-
-span.label {
-  opacity: 0.5;
+.inputField {
+  margin-left: 10px;
+  margin-right: 10px;
 }
-
-span.label,
-span.gitHandle {
-  color: black;
-  margin-left: 5px;
+.row.edit-bottom {
+  padding-bottom: 10px;
 }
-span.caption:before,
-span.gitHandle:before {
-  content: '<';
+#user-info {
+  min-width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 15px grey;
 }
-span.caption:after,
-span.gitHandle:after {
-  content: '>';
+.edit-buttons {
+  float: right;
 }
-span.caption,
-span.name {
-  color: black;
-  font-size: 12px;
-  display: block;
-  opacity: 0.5;
-}
-/*.selectize-control {
-  position: relative;
-  width: 100%;
-}
-.selectize-input {
-  border: none;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 0;
-  margin: 0;
-}
-
-.selectize-input {
+/*.selectize-input {
   width: 380px!important;
   height: 72.67px!important;
-
 }*/
+.profile-content.border {
+  padding-left: 30px;
+}
+
