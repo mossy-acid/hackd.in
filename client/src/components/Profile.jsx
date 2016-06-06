@@ -179,7 +179,7 @@ class Profile extends React.Component {
 
         <div className="row">
           {/*<div className="col-xs-6" id="newproject-form">*/}
-          <div className="col-xs-6">
+          <div className="col-xs-12">
             {this.renderFormOrButton()}
           </div>
         </div>

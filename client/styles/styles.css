@@ -72,13 +72,22 @@ img {
   border-radius: 5px 5px 0px 0px;
 }
 
-.row {
-  margin-left: 0px;
-  margin-right: 0px;
-}
-
 .actual-content {
   margin-top: 100px;
+}
+
+.profile-container {
+  height: 380px;
+  /*width: 350px;*/
+  margin-top: 100px;
+  /*border: 2px solid black;*/
+  border-radius: 5px;
+  box-shadow: 6px 6px 15px grey;
+}
+
+.profile-content {
+  height: 380px;
+  overflow: auto;
 }
 
 .container {
@@ -315,32 +324,6 @@ a:hover {
   color: white;
 }*/
 
-.profile-container {
-  background-color: #222;
-  display: block;
-  height: 380px;
-  /*width: 350px;*/
-  margin-top: 100px;
-  /*border: 2px solid black;*/
-  border-radius: 8px 5px 5px 8px;
-  box-shadow: 6px 6px 15px grey;
-}
-
-.profile-content {
-  color: #999;
-  height: 380px;
-  padding: 15px;
-  overflow: auto;
-}
-
-.btn-default {
-  color: white;
-}
-
-h2 {
-  margin-top: 0px;
-}
-
 #profilePhoto {
   height: 380px;
   width: 350px;
@@ -369,7 +352,7 @@ h2 {
   background-color: red;
 }
 #editButton {
-  background-color: #333;
+  background-color: black;
 }
 
 #editButton:hover {
@@ -410,18 +393,18 @@ h2 {
   padding-right: 0.4em;
 }
 
-/*::-webkit-input-placeholder {
+::-webkit-input-placeholder {
    color: white;
 }
-:-moz-placeholder {  Firefox 18- 
+:-moz-placeholder { /* Firefox 18- */
    color: white;
 }
 ::-moz-placeholder {  /* Firefox 19+ */
-   /*color: white;*/
-/*}*/
-/*:-ms-input-placeholder {*/
-   /*color: white;*/
-/*}*/
+   color: white;
+}
+:-ms-input-placeholder {
+   color: white;
+}
 
 /*#profile-project-container {
   width: 700px;
@@ -437,8 +420,3 @@ h2 {
   position: relative;
   top: 200px;
 }*/
-
-.project-collection {
-  overflow-x: auto;
-  white-space: nowrap;
-}
