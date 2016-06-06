@@ -19,40 +19,32 @@ class NewProject extends React.Component {
     let options = this.state.engineers.map( engineer => {
       return {gitHandle: engineer.gitHandle, name: engineer.name}
     })
-    $('input[name=contributors]').selectize({
-        persist: false,
-        maxItems: null,
-        valueField: 'gitHandle',
-        labelField: 'name',
-        searchField: ['gitHandle', 'name'],
-        options: options,
-        render: {
-          item: function(item, escape) {
-              return '<div>' +
-                  (item.gitHandle ? '<span class="gitHandle">' + escape(item.name) + '</span>' : '') +
-                  (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
-              '</div>';
-          },
-          option: function(item, escape) {
-              var label = item.gitHandle || item.name;
-              var caption = item.gitHandle ? item.name : null;
-              return '<div>' +
-                  '<span class="label">' + escape(label) + '</span>' +
-                  (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
-              '</div>';
-          }
+    $('#contributors-form').selectize({
+      persist: false,
+      maxItems: null,
+      valueField: 'gitHandle',
+      labelField: 'name',
+      searchField: ['gitHandle', 'name'],
+      options: options,
+      render: {
+        item: function(item, escape) {
+            return '<div>' +
+                (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
+                // (item.gitHandle ? '<span class="name">' + escape(item.gitHandle) + '</span>' : '') +
+            '</div>';
+        },
+        option: function(item, escape) {
+            var label = item.name || item.gitHandle;
+            var caption = item.name ? item.gitHandle : null;
+            return '<div>' +
+                '<span class="label">' + escape(label) + '</span>' +
+                (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
+            '</div>';
         }
+      }
 
-      });
+    });
   }
-          // options: [
-              // {email: 'brian@thirdroute.com', name: 'Brian Reavis'},
-              // {email: 'nikola@tesla.com', name: 'Nikola Tesla'},
-          // // ],
-          
-    // });
-  // }
-
   getEngineersFromDatabase() {
     console.log('getEngineers function called');
     getEngineer( 'all', engineers => {
@@ -64,40 +56,19 @@ class NewProject extends React.Component {
   }
 
   submitForm(e) {
-    console.log('ajdslfjalkd')
     let data = {
       title: $('#projectTitle-form').val(),
-      engineers: $('#contributors-form').val().split(','),
+      engineers: $('#contributors-form').val(),
       technologies: $('#technologies-form').val(),
       description: $('#projectDescription-form').val(),
-      image: $('#image-form').val()
+      image: $('#image-form').val(),
+      school: this.props.school
     };
 
-
-    // //retrieve all contributors if multiple fields
-    // let contributors = $('input[name=contributors]');
-    // $.each(contributors, function(i, contributor) {  //i=index, item=element in array
-    //   data.engineers.push($(contributor).val());
-    // });
-
-    // postProject(data);
     postProject(data);
     this.props.buttonClick();
   }
 
-  renderSuggestions() {
-    return (
-      <datalist id="suggestions">
-        {
-          this.state.engineers.map( engineer =>
-            <option value={engineer.name} />
-          )
-        }
-      </datalist>
-    )
-  }
-
- 
   render() {
     return (
       <div className="form-container w3-container w3-center w3-animate-opacity">
@@ -107,8 +78,8 @@ class NewProject extends React.Component {
               <input name="projectTitle" type="text" className="formInput" placeholder="Project Title" id="projectTitle-form" />
             </p>
             <p className="contributors">
-              <input name="contributors" type="list" className="formInput" id="contributors-form" placeholder="Contributors" list="suggestions"/>
-              {this.renderSuggestions()}
+              <select name="contributors" className="formInput" id="contributors-form" placeholder="Contributors">
+              </select>
             </p>
 
             <p className="technologies">
