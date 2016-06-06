@@ -36,7 +36,6 @@ db.knex.schema.hasTable('engineers').then(exists => {
       engineer.string('githubUrl');
       engineer.string('linkedinUrl');
       engineer.string('image');
-      engineer.integer('project_id').unsigned().references('id').inTable('projects');
       engineer.integer('school_id').unsigned().references('id').inTable('schools');
       // engineer.integer('visits');
       engineer.timestamps();
@@ -71,6 +70,18 @@ db.knex.schema.hasTable('technologies').then(exists => {
 });
 
 // Join table
+db.knex.schema.hasTable('projects_engineers').then(exists => {
+  if (!exists) {
+    db.knex.schema.createTable('projects_engineers', projEng => {
+      projEng.increments('id').primary();
+      projEng.integer('project_id').unsigned().references('id').inTable('projects');
+      projEng.integer('engineer_id').unsigned().references('id').inTable('engineers');
+    }).then(table => {
+      console.log('Created Table', table);
+    });
+  }
+});
+
 db.knex.schema.hasTable('projects_technologies').then(exists => {
   if (!exists) {
     db.knex.schema.createTable('projects_technologies', projTech => {
