@@ -63,22 +63,22 @@ class Profile extends React.Component {
     if (this.state.edit[field] && field === 'bio') {
       return (
         <div>
-          <textarea id={field} className='inputField' placeholder={this.state.myinfo[field]}></textarea>
-          <button type='button' id='saveButton' className={field+' glyphicon glyphicon-edit'} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
+          <textarea id={field} className="inputField" placeholder={this.state.myinfo[field]}></textarea>
+          <button type="button" id="saveButton" className={field+" btn btn-default btn-sm pull-right glyphicon glyphicon-edit"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
         </div>
       )
     } else if (this.state.edit[field]) {
       return (
         <div>
-          <input id={field} className='inputField' placeholder={this.state.myinfo[field]}></input>
-          <button type='button' id='saveButton' className={field+' glyphicon glyphicon-edit'} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
+          <input id={field} className="inputField" placeholder={this.state.myinfo[field]}></input>
+          <button type="button" id="saveButton" className={field+" btn btn-default btn-sm pull-right glyphicon glyphicon-edit"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
         </div>
       )
     } else {
       return (
         <div>
-          <h4 id={field}>{field+": "+(this.state.myinfo[field] || '')}</h4>
-          <button type='button' id='editButton' className={field+' glyphicon glyphicon-edit'} onClick={this.clickEdit}>Edit</button>
+          <p id={field}><b>{field+': '}</b>{(this.state.myinfo[field] || '')}</p>
+          <button type="button" id="editButton" className={field+" btn btn-default btn-sm pull-right glyphicon glyphicon-edit"} onClick={this.clickEdit}>Edit</button>
         </div>
       )
     }
@@ -153,7 +153,7 @@ class Profile extends React.Component {
       <div className="container">
 
         {/*<div className="row actual-content profile-container">*/}
-        <div className="row profile-container">
+        <div className="row-fluid profile-container">
           <div className="col-xs-5" id="profilePhoto">
             <img src={this.state.myinfo['image']} />
           </div>
@@ -161,7 +161,7 @@ class Profile extends React.Component {
           {/*<div className="col-xs-6 information">*/}
           <div className="col-xs-7 profile-content">
             <h2 id="name">{this.state.myinfo['name']}</h2>
-            <h4 id="gitHandle">{'Github handle: '+(this.state.myinfo['gitHandle'])}</h4>
+            {/*<p id="gitHandle"><b>{'GitHub Handle: '}</b>{(this.state.myinfo['gitHandle'])}</p>*/}
             {this.renderField('school')}
             {this.renderField('technologies')}
             {this.renderField('bio')}
@@ -172,10 +172,12 @@ class Profile extends React.Component {
 
         <div className="row">
           {/*<div className="col-xs-4" id="profile-project-container">*/}
-          <div className="col-xs-4">
+          <div className="col-xs-12">
             <ProjectEntry project={this.state.project} />
           </div>
+        </div>
 
+        <div className="row">
           {/*<div className="col-xs-6" id="newproject-form">*/}
           <div className="col-xs-6">
             {this.renderFormOrButton()}
