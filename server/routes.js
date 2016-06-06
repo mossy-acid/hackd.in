@@ -240,7 +240,7 @@ module.exports = (server, express) => {
       .then( technologies => {
         res.send(technologies);
       });
-  })
+  });
 
   server.post('/projects', (req, res) => {
     let title = req.body.title;
@@ -296,21 +296,23 @@ module.exports = (server, express) => {
                             if (index === engineers.length - 1) {
                               res.sendStatus(201) 
                             }
-                          })
+                          });
                       
-                        })
-                      })
+                        });
+                      });
                     }
-                  })
-                })
-              })
+                  });
+                });
+              });
             })
+            .then(newProject => {
+              res.status(201).send(newProject);
+            });
           }
         });
       }
     );
   });
-
 
   server.post('/profile', (req,res) => {
     if (req.isAuthenticated()) {
@@ -325,7 +327,7 @@ module.exports = (server, express) => {
             console.log(schoolName);
             new School({schoolName: schoolName}).fetch().then( foundSchool => {
               foundEngineer.save('school_id', foundSchool.attributes.id);
-            }) 
+            });
           } else {
             foundEngineer.save(req.body.field, req.body.newValue)
           }
@@ -336,39 +338,5 @@ module.exports = (server, express) => {
         }
       });
     }
-  })
+  });
 };
-
-  // server.get('/newEngineer', (req, res) => {
-  //   if (req.isAuthenticated()) {
-  //     console.log('User is authenticated: ', req.user);
-  //     // display 'my profile' and sign out instead of sign in/up
-  //   } else {
-  //     console.log('User is not authenticated');
-  //     // hide 'my profile' and sign out and display sign in/up
-  //   }
-  //   res.sendFile(path.resolve('client/newEngineer.html'));
-  // });
-  //
-  // server.get('/engineer', (req, res) => {
-  //   let gitHandle = req.query.gitHandle;
-  //   new Engineer({ gitHandle: gitHandle }).fetch().then(found => {
-  //     if (found) {
-  //       res.status(200).send(found.attributes);
-  //     } else {
-  //       res.sendStatus(404);
-  //     }
-  //   });
-  // });
-
-  // server.get('/projects', (req, res) => {
-  //   let id = req.query.id;
-  //   new Project({ id: id }).fetch().then(found => {
-  //     if (found) {
-  //       res.status(200).send(found.attributes);
-  //     } else {
-  //       res.sendStatus(404);
-  //     }
-  //   });
-  // });
-
