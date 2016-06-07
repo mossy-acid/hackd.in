@@ -8,7 +8,7 @@ class Profile extends React.Component {
         bio: '',
         githubUrl: '',
         image: '',
-        projects: []
+        projects: [],
         linkedinUrl: '',
         image: ''
       },
@@ -78,17 +78,19 @@ class Profile extends React.Component {
   }
 
   renderField(field) {
+    console.log(this.state.myinfo);
+
     if (this.state.edit[field] && field === 'bio') {
       return (
         <div className="row edit-bottom">
           <textarea id={field} className="inputField col-xs-9" placeholder={this.state.myinfo[field]}></textarea>
-          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
+          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit}>Save</button>
         </div>
       )
     } else if (this.state.edit[field] && field === 'school') {
       return (
         <div>
-          <input id={field} className="inputField" placeholder={this.state.myinfo[field]} list="allSchools"/>
+          <input id={field} className="inputField col-xs-9" placeholder={this.state.myinfo[field]} list="allSchools"/>
           <datalist id="allSchools">
           {
             this.state.schools.map( school => {
@@ -96,14 +98,23 @@ class Profile extends React.Component {
             })
           }  
           </datalist>
-          <button type="button" id="saveButton" className={field+" btn btn-default btn-sm pull-right glyphicon glyphicon-edit"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
+          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2 school-save-button"} onClick={this.clickEdit}>Save</button>
         </div>
       )
     } else if (this.state.edit[field]) {
       return (
         <div className="row edit-bottom">
           <input id={field} className="inputField col-xs-9" placeholder={this.state.myinfo[field]}></input>
-          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
+          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit}>Save</button>
+        </div>
+      )
+    } else if (field === 'githubUrl' || field === 'linkedinUrl') { 
+      return (
+        <div className="row edit-bottom">
+          <p className="col-xs-9" id={field}><b>{field+': '}</b>
+            <a href={this.state.myinfo[field]} target="_blank">{(this.state.myinfo[field] || '')}</a>
+          </p>
+          <button type="button" id="editButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit}>Edit</button>
         </div>
       )
     } else {
@@ -123,7 +134,7 @@ class Profile extends React.Component {
       )
     } else if (this.state.showForm === true) {
       return (
-        <NewProject className="popup form-container" buttonClick={this.buttonClick} />
+        <NewProject className="popup form-container" buttonClick={this.buttonClick} school={this.state.myinfo.school}/>
       )
     }
   }
@@ -208,9 +219,11 @@ class Profile extends React.Component {
           <div className="row r1 profile-container">
             {/*<div className="col-xs-4" id="profile-project-container">*/}
             <div className="col-xs-12 no-gutter">
-              {
+              { 
                 this.state.myinfo.projects.map( project => {
-                  return <ProjectEntry project={project} />
+                  if (this.state.myinfo.projects.length >= 1) {
+                    return <ProjectEntry project={project} />
+                  }
                 })
               }
             </div>

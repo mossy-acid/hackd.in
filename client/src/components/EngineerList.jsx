@@ -1,5 +1,5 @@
 const EngineerList = ({engineers}) => (
-  <div className="actual-content1 row">
+  <div className="actual-content row">
     { engineers.map( (engineer, index) =>
       <EngineerEntry key={index} engineer={engineer} />
     )}

@@ -92,6 +92,7 @@ class NewProject extends React.Component {
       school: this.props.school
     };
 
+    console.log('from newProject: ', data);
     postProject(data);
     this.props.buttonClick();
   }

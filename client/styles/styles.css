@@ -74,9 +74,6 @@ img {
 }
 
 .actual-content {
-  margin-top: 30px;
-}
-.actual-content1 {
   margin-top: 75px;
 }
 
@@ -217,12 +214,35 @@ form {
   background-repeat: no-repeat;
 }
 
+#image-form{
+  background-image: url(https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-128.png);
+  background-size: 25px 25px;
+  background-position: 11px 8px;
+  background-repeat: no-repeat;
+}
+
 #projectDescription-form{
   background-image: url(http://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/512/edit-icon.png);
   background-size: 25px 25px;
   background-position: 11px 8px;
   background-repeat: no-repeat;
 }
+
+#projectUrl-form {
+  background-image: url(http://image005.flaticon.com/25/svg/25/25231.svg);
+  background-size: 25px 25px;
+  background-position: 11px 8px;
+  background-repeat: no-repeat;
+}
+
+#deployedUrl-form {
+  background-image: url(https://cdn0.iconfinder.com/data/icons/seo-and-internet-marketing-set-1/100/Global_Search-128.png);
+  background-size: 25px 25px;
+  background-position: 11px 8px;
+  background-repeat: no-repeat;
+}
+
+
 
 textarea {
   width: 100%;
@@ -461,11 +481,98 @@ div#form-input {
 .edit-buttons {
   float: right;
 }
-/*.selectize-input {
-  width: 380px!important;
-  height: 72.67px!important;
+
+span.label {
+  opacity: 0.5;
+}
+
+span.label,
+span.gitHandle {
+  color: black;
+  margin-left: 5px;
+}
+span.caption:before,
+span.gitHandle:before {
+  content: '<';
+}
+span.caption:after,
+span.gitHandle:after {
+  content: '>';
+}
+span.caption,
+span.name {
+  color: black;
+  font-size: 12px;
+  display: block;
+  opacity: 0.5;
+}
+
+div[data-value] {
+  background-color: #1dabb8;
+}
+/*.selectize-control {
+  position: relative;
+  width: 100%;
+}
+.selectize-input {
+  border: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0;
+  margin: 0;
 }*/
+
 .profile-content.border {
   padding-left: 30px;
+}
+
+.school-save-button {
+  left: 15px;
+  width: 130px;
+  margin-bottom: 10px;
+}
+
+input#school {
+  width: 570px;
+  margin-bottom: 16px;
+  left: -14px;
+}
+
+textarea#bio {
+  left: 15px;
+  margin: 5px 0;
+}
+
+.engineer-entry a, 
+.project-entry a,
+#githubUrl a,
+#linkedinUrl a {
+  color: blue;
+  text-decoration: underline;
+}
+
+.logo {
+  margin: auto;
+  text-align: center;
+  margin-right: 10px;
+  margin-left: 10px;
+  display: inline;
+  height: 50px;
+  width: auto;
+}
+.footer {
+  margin-top: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  /*height: 100%;*/
+  /*margin-top: 50px;*/
+  bottom: 0px;
+  text-align: center;
 }
 

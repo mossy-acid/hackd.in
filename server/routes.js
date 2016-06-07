@@ -261,6 +261,8 @@ module.exports = (server, express) => {
     let deployedUrl = req.body.deployedUrl;
     let school = req.body.school;
 
+    console.log(req.body);
+
     cloudinary.uploader.upload(imageUrl,
       result => {
         new Project({ title: title }).fetch().then(found => {
