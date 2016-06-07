@@ -1,6 +1,6 @@
 const getTechnology = cb => {
   $.get('/technologies', () => {
-    console.log('GET request made to Technologys');
+    console.log('GET request made to /technologies');
   })
   .done( data => {
     console.log('technology: ', data);
@@ -12,9 +12,8 @@ const getTechnology = cb => {
 };
 
 const postTechnology = data => {
-  console.log('from projectHelpers: ',data)
   $.post('/technologies', data, () => {
-    console.log('POST request made to Technologys');
+    console.log('POST request made to /technologies');
   })
   .done( data => {
     console.log(data);

@@ -40,13 +40,21 @@ class EngineerEntry extends React.Component {
 
   renderGithubUrl() {
     if (this.props.engineer.githubUrl) {
-      return (<p><b>Github:</b> {this.props.engineer.githubUrl}</p>)
+      return (
+        <p><b>Github:</b> 
+          <a href={this.props.engineer.githubUrl} target="_blank"> {this.props.engineer.githubUrl}</a>
+        </p>
+      )
     } 
   }
 
   renderLinkedInUrl() {
     if (this.props.engineer.linkedinUrl) {
-      return (<p><b>LinkedIn:</b> {this.props.engineer.linkedinUrl}</p>)
+      return (
+        <p><b>LinkedIn:</b> 
+        <a href={this.props.engineer.linkedinUrl} target="_blank"> {this.props.engineer.linkedinUrl}</a>
+        </p>
+      )
     } 
   }
 

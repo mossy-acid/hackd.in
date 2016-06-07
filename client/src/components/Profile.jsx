@@ -4,23 +4,22 @@ class Profile extends React.Component {
 
     this.state = {
       myinfo: {
-        // gitHandle: '',
         name: '',
         bio: '',
-        // email: '',
-        linkedinUrl: '',
         githubUrl: '',
         image: '',
-        projects: []
+        projects: [],
+        linkedinUrl: '',
+        image: ''
       },
       edit: {
-        information: false,
-        email: false,
         school: false,
         bio: false,
-        linkedinUrl: false,
-        githubUrl: false
+        githubUrl: false,
+        linkedinUrl: false
       },
+      projects: [],
+      schools: [],
       currentFocus: null,
       showForm: false
     };
@@ -32,27 +31,90 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    this.loadInfo();
+  }
+
+  componentDidUpdate() {
+    if (this.state.edit['school']) {
+      console.log('editing school');
+      let options = this.state.schools.map( school => {
+        return {school: schoolName}
+      })
+      $('#school').selectize({
+        persist: false,
+        maxItems: null,
+        valueField: 'school',
+        labelField: 'school',
+        searchField: ['school'],
+        options: options
+      })
+    }
+  }
+
+  loadInfo() {
     //load profile and retrieve associated project by id
     getMyProfile(myinfo => {
       this.setState({
         myinfo: JSON.parse(myinfo)
       });
+      getProject( 'all', projects => {
+        let myProjects = [];
+        this.state.myinfo.projects.forEach(project => {
+          getProject(project.project_id, data => {
+            myProjects.push(JSON.parse(data)[0])
+            this.setState({
+              projects: myProjects
+            })
+          })
+        })
+      })
     });
+
+    getSchool(schools => {
+      this.setState({
+        schools: schools
+      })
+    })
   }
 
   renderField(field) {
+    console.log(this.state.myinfo);
+
     if (this.state.edit[field] && field === 'bio') {
       return (
         <div className="row edit-bottom">
           <textarea id={field} className="inputField col-xs-9" placeholder={this.state.myinfo[field]}></textarea>
-          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
+          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit}>Save</button>
+        </div>
+      )
+    } else if (this.state.edit[field] && field === 'school') {
+      return (
+        <div>
+          <input id={field} className="inputField col-xs-9" placeholder={this.state.myinfo[field]} list="allSchools"/>
+          <datalist id="allSchools">
+          {
+            this.state.schools.map( school => {
+              return (<option value={school.schoolName}/>)
+            })
+          }  
+          </datalist>
+          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2 school-save-button"} onClick={this.clickEdit}>Save</button>
         </div>
       )
     } else if (this.state.edit[field]) {
       return (
         <div className="row edit-bottom">
           <input id={field} className="inputField col-xs-9" placeholder={this.state.myinfo[field]}></input>
-          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit} onSubmit={this.submitForm}>Save</button>
+          <button type="button" id="saveButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit}>Save</button>
+        </div>
+      )
+    } else if (field === 'githubUrl' || field === 'linkedinUrl') { 
+      return (
+        <div className="row edit-bottom">
+          <p className="col-xs-9" id={field}><b>{field+': '}</b>
+            <a href={this.state.myinfo[field]} target="_blank">{(this.state.myinfo[field] || '')}</a>
+          </p>
+          <button type="button" id="editButton" className={field+" btn btn-primary btn-md pull-right glyphicon glyphicon-edit col-xs-2"} onClick={this.clickEdit}>Edit</button>
         </div>
       )
     } else {
@@ -72,7 +134,7 @@ class Profile extends React.Component {
       )
     } else if (this.state.showForm === true) {
       return (
-        <NewProject className="popup form-container" buttonClick={this.buttonClick} />
+        <NewProject className="popup form-container" buttonClick={this.buttonClick} school={this.state.myinfo.school}/>
       )
     }
   }
@@ -157,9 +219,11 @@ class Profile extends React.Component {
           <div className="row r1 profile-container">
             {/*<div className="col-xs-4" id="profile-project-container">*/}
             <div className="col-xs-12 no-gutter">
-              {
+              { 
                 this.state.myinfo.projects.map( project => {
-                  return <ProjectEntry project={project} />
+                  if (this.state.myinfo.projects.length >= 1) {
+                    return <ProjectEntry project={project} />
+                  }
                 })
               }
             </div>

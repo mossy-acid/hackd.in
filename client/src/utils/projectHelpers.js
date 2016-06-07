@@ -4,6 +4,7 @@ const getProject = (query, cb) => {
   })
   .done( data => {
     console.log('project:', data);
+    console.log(cb);
     cb(data);
   })
   .fail( err => {
